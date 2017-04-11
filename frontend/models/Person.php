@@ -28,7 +28,7 @@ class Person extends User
 {
 
     private static $quest_id = 5;
-    private static $avatar_path = '@web/img/avatars/';
+    private static $avatar_path = '@web/img/avatars/person/';
 
     /**
      * @inheritdoc
