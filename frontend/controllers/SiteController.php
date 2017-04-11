@@ -1,8 +1,11 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\User;
+use frontend\models\Person;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -43,7 +46,7 @@ class SiteController extends Controller
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
-                    'logout' => ['post'],
+                    'logout' => ['post', 'get'],
                 ],
             ],
         ];
@@ -72,7 +75,21 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $user = Yii::$app->user;
+
+        if ($user->isGuest) {
+
+
+
+        } else {
+
+            $person = Person::getPerson($user);
+
+            return $this->render('profile', ['person' => $person]);
+
+        }
+
+
     }
 
     /**
