@@ -33,6 +33,27 @@ return [
                 ],
             ],
         ],
+        'assetManager' => [
+            'class' => 'yii\web\AssetManager',
+            'bundles' => [
+                'yii\bootstrap\BootstrapAsset' => [
+                    'js' => [
+                        '/vendor/tether/tether.min.js',
+                        '/vendor/bootstrap/bootstrap.min.js',
+
+                    ],
+                    'css' => [
+                        '/css/bootstrap.min.css',
+                        '/css/bootstrap-extend.min.css',
+                    ]
+                ],
+                'yii\web\JqueryAsset' => [
+                    'js' => [
+                        '/vendor/jquery/jquery.min.js',
+                    ]
+                ],
+            ],
+        ],
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
@@ -47,6 +68,7 @@ return [
                     'suffix' => '',
                 ],
                 'company' => '/company/index',
+                'signup' => '/site/signup',
             ],
         ],
 

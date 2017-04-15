@@ -11,9 +11,10 @@ class AppAsset extends AssetBundle
 {
     public $basePath = '@webroot';
     public $baseUrl = '@web';
+
     public $css = [
-        'css/bootstrap.min.css',
-        'css/bootstrap-extend.min.css',
+//        'css/bootstrap.min.css',
+//        'css/bootstrap-extend.min.css',
         'css/site.min.css',
         // plugins
         'vendor/animsition/animsition.min.css',
@@ -37,9 +38,9 @@ class AppAsset extends AssetBundle
     public $js = [
         // Core
         'vendor/babel-external-helpers/babel-external-helpers.js',
-        'vendor/jquery/jquery.min.js',
-        'vendor/tether/tether.min.js',
-        'vendor/bootstrap/bootstrap.min.js',
+//        'vendor/jquery/jquery.min.js',
+//        'vendor/tether/tether.min.js',
+//        'vendor/bootstrap/bootstrap.min.js',
         'vendor/animsition/animsition.min.js',
         'vendor/mousewheel/jquery.mousewheel.min.js',
         'vendor/asscrollbar/jquery-asScrollbar.min.js',
@@ -55,6 +56,7 @@ class AppAsset extends AssetBundle
         'vendor/matchheight/jquery.matchHeight-min.js',
         'vendor/jquery-selective/jquery-selective.min.js',
         'vendor/bootstrap-datepicker/bootstrap-datepicker.min.js',
+        'vendor/jquery-placeholder/jquery.placeholder.min.js',
         // Scripts
         'js/State.min.js',
         'js/Component.min.js',
@@ -69,6 +71,7 @@ class AppAsset extends AssetBundle
         'js/config/colors.min.js',
         'js/config/tour.min.js',
         // Page
+        '/vendor/breakpoints/breakpoints.min.js',
         'js/assets/Site.min.js',
         'js/Plugin/asscrollable.min.js',
         'js/Plugin/slidepanel.min.js',
@@ -76,12 +79,11 @@ class AppAsset extends AssetBundle
         'js/Plugin/matchheight.min.js',
         'js/Plugin/aspieprogress.min.js',
         'js/Plugin/bootstrap-datepicker.min.js',
-
-
     ];
     public $depends = [
         'yii\web\YiiAsset',
-//        'yii\bootstrap\BootstrapAsset',
-        'rmrevin\yii\fontawesome\AssetBundle'
+        'yii\bootstrap\BootstrapAsset',
+        'rmrevin\yii\fontawesome\AssetBundle',
+        'yii\web\JqueryAsset'
     ];
 }

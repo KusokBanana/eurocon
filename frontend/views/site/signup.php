@@ -9,27 +9,37 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['body-class'] = 'page-register';
+$this->registerCssFile('@web/css/register.min.css')
 ?>
-<div class="site-signup">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to signup:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'form-signup']); ?>
-
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'email') ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Signup', ['class' => 'btn btn-primary', 'name' => 'signup-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
-        </div>
-    </div>
+<div class="brand">
+    <?= Html::img('@web/img/layer_images/logo.png', [
+        'style' => 'width: 15%; height: 15%;',
+        'alt' => '...',
+        'class' => 'brand-img'
+    ]) ?>
 </div>
+<p>Sign up to build interesting thing</p>
+
+<?php $form = ActiveForm::begin(); ?>
+    <?= $form->field($model, 'username')
+        ->textInput(['autofocus' => true, 'placeholder' => 'Name'])->label(null, [
+            'class' => 'sr-only'
+        ]) ?>
+    <?= $form->field($model, 'email')
+    ->textInput(['autofocus' => true, 'placeholder' => 'Email'])->label(null, [
+        'class' => 'sr-only'
+    ]) ?>
+    <?= $form->field($model, 'password')
+    ->textInput(['autofocus' => true, 'placeholder' => 'Password'])->label(null, [
+        'class' => 'sr-only'
+    ]) ?>
+    <?= $form->field($model, 'confirm_password')
+    ->textInput(['autofocus' => true, 'placeholder' => 'Confirm Password'])->label(null, [
+        'class' => 'sr-only'
+    ]) ?>
+    <?= Html::submitButton('Register', ['class' => 'btn btn-primary btn-block']) ?>
+<?php ActiveForm::end(); ?>
+
+<p>Have account already? Please go to <?= Html::a('Sign In', ['login']) ?></p>
