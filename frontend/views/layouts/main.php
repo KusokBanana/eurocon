@@ -36,12 +36,17 @@ $user = Person::getPerson(Yii::$app->user);
     <script src="../../web/vendor/media-match/media.match.min.js"></script>
     <script src="../../web/vendor/respond/respond.min.js"></script>
     <![endif]-->
-<!--    --><?php //$this->registerJsFile('../../web/vendor/breakpoints/breakpoints.min.js', ['position' => yii\web\View::POS_HEAD]); ?>
-<!--    --><?php //$this->registerJs('Breakpoints();', yii\web\View::POS_HEAD);; ?>
-
+    <?php $this->registerJs('Breakpoints();');; ?>
+    <?php $this->registerJs('(function(document, window, $) {
+            \'use strict\';
+            var Site = window.Site;
+            $(document).ready(function() {
+                Site.run();
+            });
+        })(document, window, jQuery);') ?>
     <?php $this->head() ?>
 </head>
-<body class="site-navbar-small dashboard"><!--animsition -->
+<body class="animsition site-navbar-small dashboard">
 <?php $this->beginBody() ?>
 
 <!--[if lt IE 8]>
@@ -320,13 +325,7 @@ $user = Person::getPerson(Yii::$app->user);
                 <li class="nav-item dropdown">
                     <?= Html::a(FA::icon('sign-out', ['class' => 'icon', 'aria-hidden' => 'true']),
                         ['/site/logout'], [
-                            'data-toggle' => 'dropdown', 'class' => 'nav-link',
-                            'data-animation' => 'scale-up', 'aria-expanded' => 'false', 'role' => 'button']) ?>
-<!--                    <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"-->
-<!--                       aria-expanded="false" role="button">-->
-<!--                        <i class="icon fa-sign-out" aria-hidden="true"></i>-->
-<!--                    </a>-->
-
+                            'class' => 'nav-link', 'role' => 'button']) ?>
                 </li>
 
             </ul>

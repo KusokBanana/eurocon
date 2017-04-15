@@ -32,8 +32,8 @@ $this->registerCssFile('@web/css/login.min.css')
         <div class="checkbox-custom checkbox-inline checkbox-primary pull-xs-left">
             <?= $form->field($model, 'rememberMe', ['template' => '{input}{label}'])->checkbox([], null) ?>
         </div>
-        <a class="pull-xs-right" href="forgot-password.html">Forgot password?</a>
+        <a class="pull-xs-right" href="forgot-password.html">Forgot password?</a> <!-- TODO add here -->
     </div>
-<?= Html::submitButton('Sign in', ['class' => 'btn btn-primary btn-block']) ?>
+    <?= Html::submitButton('Sign in', ['class' => 'btn btn-primary btn-block']) ?>
 <?php ActiveForm::end(); ?>
 <p>Still no account? Please go to <?= Html::a('Register', ['signup']) ?></p>

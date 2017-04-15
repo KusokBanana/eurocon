@@ -43,12 +43,12 @@ class SiteController extends Controller
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post', 'get'],
-                ],
-            ],
+//            'verbs' => [
+//                'class' => VerbFilter::className(),
+//                'actions' => [
+//                    'logout' => ['post', 'get'],
+//                ],
+//            ],
         ];
     }
 
@@ -79,7 +79,7 @@ class SiteController extends Controller
 
         if ($user->isGuest) {
 
-
+            return $this->actionLogin();
 
         } else {
 

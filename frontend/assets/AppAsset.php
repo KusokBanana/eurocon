@@ -13,8 +13,6 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
-//        'css/bootstrap.min.css',
-//        'css/bootstrap-extend.min.css',
         'css/site.min.css',
         // plugins
         'vendor/animsition/animsition.min.css',
@@ -38,9 +36,6 @@ class AppAsset extends AssetBundle
     public $js = [
         // Core
         'vendor/babel-external-helpers/babel-external-helpers.js',
-//        'vendor/jquery/jquery.min.js',
-//        'vendor/tether/tether.min.js',
-//        'vendor/bootstrap/bootstrap.min.js',
         'vendor/animsition/animsition.min.js',
         'vendor/mousewheel/jquery.mousewheel.min.js',
         'vendor/asscrollbar/jquery-asScrollbar.min.js',
