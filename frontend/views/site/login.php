@@ -9,31 +9,31 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
+$this->params['body-class'] = 'page-login';
+$this->registerCssFile('@web/css/login.min.css')
 ?>
-<div class="site-login">
-    <h1><?= Html::encode($this->title) ?></h1>
 
-    <p>Please fill out the following fields to login:</p>
-
-    <div class="row">
-        <div class="col-lg-5">
-            <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
-
-                <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
-
-                <?= $form->field($model, 'password')->passwordInput() ?>
-
-                <?= $form->field($model, 'rememberMe')->checkbox() ?>
-
-                <div style="color:#999;margin:1em 0">
-                    If you forgot your password you can <?= Html::a('reset it', ['site/request-password-reset']) ?>.
-                </div>
-
-                <div class="form-group">
-                    <?= Html::submitButton('Login', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                </div>
-
-            <?php ActiveForm::end(); ?>
-        </div>
-    </div>
+<div class="brand">
+    <h2 class="brand-text">Eurocon</h2>
 </div>
+<p>Sign into your pages account</p>
+<?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
+
+    <?= $form->field($model, 'email')
+        ->textInput(['autofocus' => true, 'placeholder' => 'Email'])->label(null, [
+            'class' => 'sr-only'
+        ]) ?>
+    <?= $form->field($model, 'password')
+        ->passwordInput(['autofocus' => true, 'placeholder' => 'Password'])->label(null, [
+            'class' => 'sr-only'
+        ]) ?>
+
+    <div class="form-group clearfix">
+        <div class="checkbox-custom checkbox-inline checkbox-primary pull-xs-left">
+            <?= $form->field($model, 'rememberMe', ['template' => '{input}{label}'])->checkbox([], null) ?>
+        </div>
+        <a class="pull-xs-right" href="forgot-password.html">Forgot password?</a>
+    </div>
+<?= Html::submitButton('Sign in', ['class' => 'btn btn-primary btn-block']) ?>
+<?php ActiveForm::end(); ?>
+<p>Still no account? Please go to <?= Html::a('Register', ['signup']) ?></p>

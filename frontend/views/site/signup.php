@@ -23,20 +23,16 @@ $this->registerCssFile('@web/css/register.min.css')
 <p>Sign up to build interesting thing</p>
 
 <?php $form = ActiveForm::begin(); ?>
-    <?= $form->field($model, 'username')
-        ->textInput(['autofocus' => true, 'placeholder' => 'Name'])->label(null, [
-            'class' => 'sr-only'
-        ]) ?>
     <?= $form->field($model, 'email')
     ->textInput(['autofocus' => true, 'placeholder' => 'Email'])->label(null, [
         'class' => 'sr-only'
     ]) ?>
     <?= $form->field($model, 'password')
-    ->textInput(['autofocus' => true, 'placeholder' => 'Password'])->label(null, [
+    ->passwordInput(['autofocus' => true, 'placeholder' => 'Password'])->label(null, [
         'class' => 'sr-only'
     ]) ?>
     <?= $form->field($model, 'confirm_password')
-    ->textInput(['autofocus' => true, 'placeholder' => 'Confirm Password'])->label(null, [
+    ->passwordInput(['autofocus' => true, 'placeholder' => 'Confirm Password'])->label(null, [
         'class' => 'sr-only'
     ]) ?>
     <?= Html::submitButton('Register', ['class' => 'btn btn-primary btn-block']) ?>

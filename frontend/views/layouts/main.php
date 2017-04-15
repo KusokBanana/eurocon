@@ -4,6 +4,7 @@
 /* @var $content string */
 
 use frontend\models\Person;
+use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -317,10 +318,14 @@ $user = Person::getPerson(Yii::$app->user);
                     </div>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
-                       aria-expanded="false" role="button">
-                        <i class="icon fa-sign-out" aria-hidden="true"></i>
-                    </a>
+                    <?= Html::a(FA::icon('sign-out', ['class' => 'icon', 'aria-hidden' => 'true']),
+                        ['/site/logout'], [
+                            'data-toggle' => 'dropdown', 'class' => 'nav-link',
+                            'data-animation' => 'scale-up', 'aria-expanded' => 'false', 'role' => 'button']) ?>
+<!--                    <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"-->
+<!--                       aria-expanded="false" role="button">-->
+<!--                        <i class="icon fa-sign-out" aria-hidden="true"></i>-->
+<!--                    </a>-->
 
                 </li>
 

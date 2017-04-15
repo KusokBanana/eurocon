@@ -79,6 +79,7 @@ class AppAsset extends AssetBundle
         'js/Plugin/matchheight.min.js',
         'js/Plugin/aspieprogress.min.js',
         'js/Plugin/bootstrap-datepicker.min.js',
+        'js/Plugin/animate-list.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

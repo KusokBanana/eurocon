@@ -52,6 +52,11 @@ return [
                         '/vendor/jquery/jquery.min.js',
                     ]
                 ],
+                'rmrevin\yii\fontawesome\AssetBundle' => [
+                    'css' => [
+                        '/fonts/font-awesome/font-awesome.min.css',
+                    ]
+                ],
             ],
         ],
         'errorHandler' => [
