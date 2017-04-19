@@ -9,8 +9,8 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['body-class'] = 'page-register';
-$this->registerCssFile('@web/css/register.min.css')
+$this->params['body-class'] = 'page-register page-dark';
+$this->registerCssFile('@web/css/forgot-password.min.css')
 ?>
 
 <div class="brand">

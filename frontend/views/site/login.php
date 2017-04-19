@@ -9,7 +9,7 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = 'Login';
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['body-class'] = 'page-login';
+$this->params['body-class'] = 'page-login page-dark';
 $this->registerCssFile('@web/css/login.min.css')
 ?>
 
@@ -32,7 +32,8 @@ $this->registerCssFile('@web/css/login.min.css')
         <div class="checkbox-custom checkbox-inline checkbox-primary pull-xs-left">
             <?= $form->field($model, 'rememberMe', ['template' => '{input}{label}'])->checkbox([], null) ?>
         </div>
-        <a class="pull-xs-right" href="forgot-password.html">Forgot password?</a> <!-- TODO add here -->
+        <?= Html::a('Forgot password?', ['/site/request-password-reset'],
+            ['class' => 'pull-xs-right']) ?>
     </div>
     <?= Html::submitButton('Sign in', ['class' => 'btn btn-primary btn-block']) ?>
 <?php ActiveForm::end(); ?>

@@ -45,7 +45,7 @@ $user = Person::getPerson(Yii::$app->user);
         })(document, window, jQuery);') ?>
     <?php $this->head() ?>
 </head>
-<body class="animsition <?= $this->params['body-class'] ?> layout-full page-dark">
+<body class="animsition <?= $this->params['body-class'] ?> layout-full">
 <?php $this->beginBody() ?>
 <!--[if lt IE 8]>
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
