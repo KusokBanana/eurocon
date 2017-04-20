@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b65efb192bdd59d430c8b7219905d5f7",
+    "content-hash": "4a99138f41d3b917973bedfba03b1745",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -56,6 +56,55 @@
             ]
         },
         {
+            "name": "bower-asset/fancybox",
+            "version": "V2.1.7",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/fancyapps/fancybox.git",
+                "reference": "b708e8060cefd45c97981143f85d4094e3d6e18c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/fancyapps/fancybox/zipball/b708e8060cefd45c97981143f85d4094e3d6e18c",
+                "reference": "b708e8060cefd45c97981143f85d4094e3d6e18c",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.10",
+                "bower-asset/jquery-mousewheel": "~3.1.3"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": [
+                    "source/jquery.fancybox.css",
+                    "source/jquery.fancybox.pack.js",
+                    "source/blank.gif",
+                    "source/fancybox_loading.gif",
+                    "source/fancybox_loading@2x.gif",
+                    "source/fancybox_overlay.png",
+                    "source/fancybox_sprite.png",
+                    "source/fancybox_sprite@2x.png"
+                ],
+                "bower-asset-ignore": [
+                    "**/.*",
+                    "fancybox.jquery.json",
+                    "demo"
+                ]
+            },
+            "license": [
+                "GPLv3"
+            ],
+            "description": "fancyBox offers an elegant way to present images, html content and multimedia for webpages",
+            "keywords": [
+                "effect",
+                "lightbox",
+                "modal",
+                "responsive",
+                "ui",
+                "window"
+            ]
+        },
+        {
             "name": "bower-asset/jquery",
             "version": "2.2.4",
             "source": {
@@ -85,6 +134,37 @@
                 "jquery",
                 "library"
             ]
+        },
+        {
+            "name": "bower-asset/jquery-mousewheel",
+            "version": "3.1.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jquery/jquery-mousewheel.git",
+                "reference": "67289b6b2aa0066d7d78a5807f520387135ffb22"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jquery/jquery-mousewheel/zipball/67289b6b2aa0066d7d78a5807f520387135ffb22",
+                "reference": "67289b6b2aa0066d7d78a5807f520387135ffb22",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/jquery": ">=1.2.2"
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "./jquery.mousewheel.js",
+                "bower-asset-ignore": [
+                    "*.json",
+                    "*.markdown",
+                    "*.txt",
+                    ".*",
+                    "!LICENSE.txt",
+                    "Gruntfile.js",
+                    "test"
+                ]
+            }
         },
         {
             "name": "bower-asset/jquery.inputmask",
@@ -175,6 +255,46 @@
             }
         },
         {
+            "name": "bower-asset/twig.js",
+            "version": "0.8.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigjs/twig.js.git",
+                "reference": "ed85c3f8bfeff9ed3b2eb97a481e08decd364826"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigjs/twig.js/zipball/ed85c3f8bfeff9ed3b2eb97a481e08decd364826",
+                "reference": "ed85c3f8bfeff9ed3b2eb97a481e08decd364826",
+                "shasum": ""
+            },
+            "type": "bower-asset-library",
+            "extra": {
+                "bower-asset-main": "twig.min.js",
+                "bower-asset-ignore": [
+                    "Makefile",
+                    "src",
+                    "demos",
+                    "bin",
+                    "lib",
+                    "**/.*",
+                    "node_modules",
+                    "bower_components",
+                    "test",
+                    "test-ext"
+                ]
+            },
+            "license": [
+                "BSD 2-Clause"
+            ],
+            "description": "JS implementation of the Twig templating language.",
+            "keywords": [
+                "engine",
+                "template",
+                "twig"
+            ]
+        },
+        {
             "name": "bower-asset/yii2-pjax",
             "version": "v2.0.6",
             "source": {
@@ -207,6 +327,55 @@
             "license": [
                 "MIT"
             ]
+        },
+        {
+            "name": "bubasuma/yii2-simplechat",
+            "version": "v2.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/bubasuma/yii2-simplechat.git",
+                "reference": "1d3c2c30df72d29ff1a0bf62832275f14893a1de"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/bubasuma/yii2-simplechat/zipball/1d3c2c30df72d29ff1a0bf62832275f14893a1de",
+                "reference": "1d3c2c30df72d29ff1a0bf62832275f14893a1de",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "~2.0.0"
+            },
+            "require-dev": {
+                "bower-asset/twig.js": "0.8.4@stable",
+                "yiisoft/yii2-bootstrap": "~2.0.0",
+                "yiisoft/yii2-faker": "*",
+                "yiisoft/yii2-twig": "dev-master"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "bubasuma\\simplechat\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Buba Suma",
+                    "email": "bubasuma@gmail.com"
+                }
+            ],
+            "description": "A simple chat for your yii2 application",
+            "keywords": [
+                "chat",
+                "conversation",
+                "extension",
+                "message",
+                "yii2"
+            ],
+            "time": "2016-06-19T07:00:25+00:00"
         },
         {
             "name": "cebe/markdown",
@@ -364,6 +533,95 @@
             "time": "2016-10-24T15:52:54+00:00"
         },
         {
+            "name": "newerton/yii2-fancybox",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/newerton/yii2-fancybox.git",
+                "reference": "46893e3c2d3ae5917c80cfd556e29bc9528c4497"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/newerton/yii2-fancybox/zipball/46893e3c2d3ae5917c80cfd556e29bc9528c4497",
+                "reference": "46893e3c2d3ae5917c80cfd556e29bc9528c4497",
+                "shasum": ""
+            },
+            "require": {
+                "bower-asset/fancybox": "~2.1.5",
+                "bower-asset/jquery-mousewheel": ">=3.1.13",
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "newerton\\fancybox\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Newerton Vargas de Araujo",
+                    "email": "newerton.araujo@gmail.com"
+                }
+            ],
+            "description": "fancyBox is a tool that offers a nice and elegant way to add zooming functionality for images, html content and multi-media on your webpages.",
+            "keywords": [
+                "extension",
+                "fancyapps",
+                "fancybox",
+                "yii2"
+            ],
+            "time": "2017-03-29T03:56:27+00:00"
+        },
+        {
+            "name": "pusher/pusher-php-server",
+            "version": "2.6.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pusher/pusher-http-php.git",
+                "reference": "7101edc482d1b1de027abadd7a80a0d00222ef08"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pusher/pusher-http-php/zipball/7101edc482d1b1de027abadd7a80a0d00222ef08",
+                "reference": "7101edc482d1b1de027abadd7a80a0d00222ef08",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "lib/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Library for interacting with the Pusher REST API",
+            "homepage": "https://github.com/pusher/pusher-php-server",
+            "keywords": [
+                "events",
+                "php-pusher-server",
+                "publish",
+                "pusher",
+                "realtime",
+                "rest",
+                "trigger"
+            ],
+            "time": "2016-12-22T10:46:28+00:00"
+        },
+        {
             "name": "rmrevin/yii2-fontawesome",
             "version": "2.17.1",
             "source": {
@@ -468,6 +726,118 @@
                 "mailer"
             ],
             "time": "2017-02-13T07:52:53+00:00"
+        },
+        {
+            "name": "twig/twig",
+            "version": "v1.33.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/twigphp/Twig.git",
+                "reference": "a87f959f4b691da66aada267a2dfdb260d0bb58a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/a87f959f4b691da66aada267a2dfdb260d0bb58a",
+                "reference": "a87f959f4b691da66aada267a2dfdb260d0bb58a",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2.7"
+            },
+            "require-dev": {
+                "psr/container": "^1.0",
+                "symfony/debug": "~2.7",
+                "symfony/phpunit-bridge": "~3.3@dev"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.33-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Twig_": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com",
+                    "homepage": "http://fabien.potencier.org",
+                    "role": "Lead Developer"
+                },
+                {
+                    "name": "Armin Ronacher",
+                    "email": "armin.ronacher@active-4.com",
+                    "role": "Project Founder"
+                },
+                {
+                    "name": "Twig Team",
+                    "homepage": "http://twig.sensiolabs.org/contributors",
+                    "role": "Contributors"
+                }
+            ],
+            "description": "Twig, the flexible, fast, and secure template language for PHP",
+            "homepage": "http://twig.sensiolabs.org",
+            "keywords": [
+                "templating"
+            ],
+            "time": "2017-04-18T21:43:11+00:00"
+        },
+        {
+            "name": "venkatesanchinna/yii2-livechat",
+            "version": "v1.0.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/venkatesanchinna/yii2-livechat.git",
+                "reference": "e4ca69c6c5a67b386bb9db558ea204588eec9b8f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/venkatesanchinna/yii2-livechat/zipball/e4ca69c6c5a67b386bb9db558ea204588eec9b8f",
+                "reference": "e4ca69c6c5a67b386bb9db558ea204588eec9b8f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0",
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "venkatesanchinna\\yii2livechat\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Venkatesan C",
+                    "email": "venkatesangee@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Online chat in the system",
+            "homepage": "https://github.com/venkatesanchinna/yii2-livechat/",
+            "keywords": [
+                "Live Chat",
+                "chat",
+                "live-chat",
+                "livechat",
+                "online chat",
+                "online-chat",
+                "yii chat",
+                "yii2",
+                "yii2 chat"
+            ],
+            "time": "2016-08-11T08:27:49+00:00"
         },
         {
             "name": "yiisoft/yii2",
@@ -718,6 +1088,57 @@
                 "yii2"
             ],
             "time": "2016-09-09T11:48:11+00:00"
+        },
+        {
+            "name": "yiisoft/yii2-twig",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/yiisoft/yii2-twig.git",
+                "reference": "788e0039ce5da9853353dc43357cf174e7032b0d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/yiisoft/yii2-twig/zipball/788e0039ce5da9853353dc43357cf174e7032b0d",
+                "reference": "788e0039ce5da9853353dc43357cf174e7032b0d",
+                "shasum": ""
+            },
+            "require": {
+                "twig/twig": "~1.0",
+                "yiisoft/yii2": "~2.0.4"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0.x-dev"
+                },
+                "asset-installer-paths": {
+                    "npm-asset-library": "vendor/npm",
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "yii\\twig\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Alexander Makarov",
+                    "email": "sam@rmcreative.ru"
+                }
+            ],
+            "description": "The Twig integration for the Yii framework",
+            "keywords": [
+                "renderer",
+                "twig",
+                "yii2"
+            ],
+            "time": "2017-03-25T16:01:44+00:00"
         }
     ],
     "packages-dev": [
@@ -1103,16 +1524,16 @@
         },
         {
             "name": "myclabs/deep-copy",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/myclabs/DeepCopy.git",
-                "reference": "5a5a9fc8025a08d8919be87d6884d5a92520cefe"
+                "reference": "8e6e04167378abf1ddb4d3522d8755c5fd90d102"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/5a5a9fc8025a08d8919be87d6884d5a92520cefe",
-                "reference": "5a5a9fc8025a08d8919be87d6884d5a92520cefe",
+                "url": "https://api.github.com/repos/myclabs/DeepCopy/zipball/8e6e04167378abf1ddb4d3522d8755c5fd90d102",
+                "reference": "8e6e04167378abf1ddb4d3522d8755c5fd90d102",
                 "shasum": ""
             },
             "require": {
@@ -1141,7 +1562,7 @@
                 "object",
                 "object graph"
             ],
-            "time": "2017-01-26T22:05:40+00:00"
+            "time": "2017-04-12T18:52:22+00:00"
         },
         {
             "name": "phpdocumentor/reflection-common",
@@ -3144,7 +3565,10 @@
     ],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "newerton/yii2-fancybox": 20,
+        "bower-asset/twig.js": 0
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": {

@@ -51,6 +51,7 @@ $user = Person::getPerson(Yii::$app->user);
 <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 <!-- Page -->
+
 <div class="page vertical-align text-xs-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
     <div class="page-content vertical-align-middle">
 

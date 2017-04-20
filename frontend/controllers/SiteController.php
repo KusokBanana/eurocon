@@ -15,6 +15,7 @@ use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
 use frontend\models\SignupForm;
 use frontend\models\ContactForm;
+use yii\web\NotFoundHttpException;
 
 /**
  * Site controller
@@ -71,9 +72,11 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
+     * @param int $id
      * @return mixed
+     * @throws NotFoundHttpException
      */
-    public function actionIndex()
+    public function actionIndex($id = 0)
     {
         $user = Yii::$app->user;
 
@@ -82,10 +85,28 @@ class SiteController extends Controller
             return $this->actionLogin();
 
         } else {
+            $isUserPage = false;
 
-            $person = Person::getPerson($user);
+            if ($id) {
 
-            return $this->render('profile', ['person' => $person]);
+                $pageUser = User::findOne($id);
+                if ($pageUser) {
+                    $person = Person::getPerson($pageUser);
+                    if ($user->id === $id)
+                        $isUserPage = true;
+                } else {
+                    throw new NotFoundHttpException();
+                }
+
+            } else {
+                $person = Person::getPerson($user);
+                $isUserPage = true;
+            }
+
+            $projects = $person->projects;
+
+            return $this->render('profile',
+                compact('person', 'projects', 'isUserPage'));
 
         }
 
@@ -191,7 +212,7 @@ class SiteController extends Controller
     public function actionRequestPasswordReset()
     {
         $this->layout='login_page';
-        
+
         $model = new PasswordResetRequestForm();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if ($model->sendEmail()) {

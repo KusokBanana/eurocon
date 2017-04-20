@@ -2,6 +2,8 @@
 
 /* @var $this yii\web\View */
 /* @var $person \frontend\models\Person */
+/* @var $projects \frontend\models\Project array */
+/* @var $isUserPage bool */
 
 use yii\helpers\Html;
 
@@ -26,13 +28,16 @@ $this->title = 'Eurocon / profile';
                         <?= $person->name . ' ' . $person->surname ?>
                     </div>
                     <ul class="list-inline font-size-14">
-                        <li class="list-inline-item">
-                            <i class="icon wb-map m-r-5" aria-hidden="true"></i> <b>Saltsburg, Austria</b>
-                        </li>
-                        <li class="list-inline-item m-l-20">
-                            <i class="icon wb-heart m-r-5" aria-hidden="true"></i> <b>10, 512</b>
-                        </li>
+
                     </ul>
+
+                    <?php
+                    if ($isUserPage) {
+                        echo Html::a('<span><i class="icon wb-hammer " aria-hidden="true"></i>Create a project</span>', ['/'],
+                            ['class' => 'btn btn-dark btn-animate btn-animate-side']);
+                    }
+                    ?>
+
                 </div>
             </div>
             <!-- End Team Total Completed -->
@@ -53,19 +58,37 @@ $this->title = 'Eurocon / profile';
                                 ]), ["javascript:void(0)"], ['class' => 'avatar']); ?>
                                 <div class="font-size-20 m-t-10"><?= $person->name . ' ' . $person->surname ?></div>
                                 <div class="font-size-14">parquet producer</div>
+				  <div class="font-size-14 m-t-"><i class="icon wb-map" aria-hidden="true"></i>Saltsburg, Austria</div>
+
                             </div>
                         </div>
                     </div>
 
                     <div class="card-block">
-                        <div class="row text-xs-center m-b-20">
-                            <div class="col-xs-6">
-                                <button type="button" class="btn btn-block btn-primary"><i class="icon wb-chat-group" aria-hidden="true"></i>Message</button>
+
+                        <!-- TODO here begin -->
+                        <?php if ($isUserPage): ?>
+                            <div class="row text-xs-center">
+                                <div class="col-xs-12 ">
+<!--                                    <button type="button" class="btn btn-block btn-primary btn-outline " >edit</button>-->
+                                    <?= Html::a('edit', ['/'], ['class' => 'btn btn-block btn-primary btn-outline']) ?>
+                                </div>
                             </div>
-                            <div class="col-xs-6">
-                                <button type="button" class="btn btn-block btn-primary"><i class="icon wb-users" aria-hidden="true"></i>Friends</button>
+                        <?php else: ?>
+                            <div class="row text-xs-center m-b-20">
+                                <div class="col-xs-6">
+<!--                                    <button type="button" class="btn btn-block btn-primary"><i class="icon wb-chat-group" aria-hidden="true"></i>Message</button>-->
+                                    <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Message',
+                                        ['/'], ['class' => 'btn btn-block btn-primary']) ?>
+                                </div>
+                                <div class="col-xs-6">
+<!--                                    <button type="button" class="btn btn-block btn-primary"><i class="icon wb-users" aria-hidden="true"></i>Friends</button>-->
+                                    <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Friends',
+                                        ['/'], ['class' => 'btn btn-block btn-primary']) ?>
+                                </div>
                             </div>
-                        </div>
+                        <?php endif; ?>
+
                         <div class="table-reponsive">
                             <div  class="card card-shadow p-b-20">
 
@@ -174,178 +197,7 @@ $this->title = 'Eurocon / profile';
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane animation-fade" id="all_contacts" role="tabpanel" aria-expanded="false">
-                                    <ul class="list-group blocks blocks-100 blocks-xxl-4 blocks-lg-3 blocks-md-2">
-                                        <li class="list-group-item">
-                                            <div class="card card-shadow">
-                                                <figure class="card-img-top overlay-hover overlay">
-                                                    <img class="overlay-figure overlay-scale" src="https://s-media-cache-ak0.pinimg.com/originals/05/12/21/05122101571dd2b6a0134aba4bdb3713.jpg" alt="...">
-                                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                        <a class="icon wb-search" href="https://s-media-cache-ak0.pinimg.com/originals/05/12/21/05122101571dd2b6a0134aba4bdb3713.jpg"></a>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="card-block">
-                                                    <h4 class="card-title">Project №1</h4>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="card card-shadow">
-                                                <figure class="card-img-top overlay-hover overlay">
-                                                    <img class="overlay-figure overlay-scale" src="http://mydecorative.com/wp-content/uploads/2014/06/Catedral-Modern-Architecture.jpg" alt="...">
-                                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                        <a class="icon wb-search" href="http://mydecorative.com/wp-content/uploads/2014/06/Catedral-Modern-Architecture.jpg"></a>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="card-block">
-                                                    <h4 class="card-title">Project №2</h4>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="card card-shadow">
-                                                <figure class="card-img-top overlay-hover overlay">
-                                                    <img class="overlay-figure overlay-scale" src="http://www.linkcrafter.com/wp-content/uploads/2016/06/inspiration-ideas-modern-architecture-house-plans-and-design-cool-modern-house-designs-minecraft-best-modern-home-designs-1024x768.jpg" alt="...">
-                                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                        <a class="icon wb-search" href="http://www.linkcrafter.com/wp-content/uploads/2016/06/inspiration-ideas-modern-architecture-house-plans-and-design-cool-modern-house-designs-minecraft-best-modern-home-designs-1024x768.jpg"></a>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="card-block">
-                                                    <h4 class="card-title">Project №3</h4>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="card card-shadow">
-                                                <figure class="card-img-top overlay-hover overlay">
-                                                    <img class="overlay-figure overlay-scale" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR-zGmtX8gxBPIEgxXk0ULt-R8wx-2fh6HdSgFdT6GUbWgOzgCd" alt="...">
-                                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                        <a class="icon wb-search" href="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcR-zGmtX8gxBPIEgxXk0ULt-R8wx-2fh6HdSgFdT6GUbWgOzgCd"></a>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="card-block">
-                                                    <h4 class="card-title">Project №4</h4>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="card card-shadow">
-                                                <figure class="card-img-top overlay-hover overlay">
-                                                    <img class="overlay-figure overlay-scale" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQeqoQl5BnUYAJx4bOeMk3f_xinXu_nWMGvFYP2bhUCVSDliwG5" alt="...">
-                                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                        <a class="icon wb-search" href="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcQeqoQl5BnUYAJx4bOeMk3f_xinXu_nWMGvFYP2bhUCVSDliwG5"></a>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="card-block">
-                                                    <h4 class="card-title">Project №5</h4>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="card card-shadow">
-                                                <figure class="card-img-top overlay-hover overlay">
-                                                    <img class="overlay-figure overlay-scale" src="http://hdwallpaperset.com/wp-content/uploads/Modern-Architecture-Desktop-Background-Wallpaper-1024x768.jpg" alt="...">
-                                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                        <a class="icon wb-search" href="http://hdwallpaperset.com/wp-content/uploads/Modern-Architecture-Desktop-Background-Wallpaper-1024x768.jpg"></a>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="card-block">
-                                                    <h4 class="card-title">Project №6</h4>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="card card-shadow">
-                                                <figure class="card-img-top overlay-hover overlay">
-                                                    <img class="overlay-figure overlay-scale" src="http://www.linkcrafter.com/wp-content/uploads/2016/05/inspiring-contemporary-rustic-design-the-s-house-by-ko-ko-architect-home-design-architect-home-design-in-india-1024x768.jpg" alt="...">
-                                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                        <a class="icon wb-search" href="http://www.linkcrafter.com/wp-content/uploads/2016/05/inspiring-contemporary-rustic-design-the-s-house-by-ko-ko-architect-home-design-architect-home-design-in-india-1024x768.jpg"></a>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="card-block">
-                                                    <h4 class="card-title">Project №7</h4>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                        <li class="list-group-item">
-                                            <div class="card card-shadow">
-                                                <figure class="card-img-top overlay-hover overlay">
-                                                    <img class="overlay-figure overlay-scale" src="http://www.windowsandsiding.net/wp-content/uploads/2015/08/zaha-hadid-female-architect-1024x768.jpg" alt="...">
-                                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                        <a class="icon wb-search" href="http://www.windowsandsiding.net/wp-content/uploads/2015/08/zaha-hadid-female-architect-1024x768.jpg"></a>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="card-block">
-                                                    <h4 class="card-title">Project №8</h4>
-                                                </div>
-                                            </div>
-                                        </li>
-
-
-                                        <li class="list-group-item">
-                                            <div class="card card-shadow">
-                                                <figure class="card-img-top overlay-hover overlay">
-                                                    <img class="overlay-figure overlay-scale" src="https://i.ytimg.com/vi/QKKSYlD9Oi0/maxresdefault.jpg" alt="...">
-                                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                        <a class="icon wb-search" href="https://i.ytimg.com/vi/QKKSYlD9Oi0/maxresdefault.jpg"></a>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="card-block">
-                                                    <h4 class="card-title">Project №9</h4>
-                                                </div>
-                                            </div>
-                                        </li>
-
-
-
-                                        <li class="list-group-item">
-                                            <div class="card card-shadow">
-                                                <figure class="card-img-top overlay-hover overlay">
-                                                    <img class="overlay-figure overlay-scale" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTb9hAoyl3XOh5uu9pOcpPNxis8lWCLD_bgwUfKxiQSVnSi13bo_g" alt="...">
-                                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                        <a class="icon wb-search" href="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTb9hAoyl3XOh5uu9pOcpPNxis8lWCLD_bgwUfKxiQSVnSi13bo_g"></a>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="card-block">
-                                                    <h4 class="card-title">Project №10</h4>
-                                                </div>
-                                            </div>
-                                        </li>
-
-
-                                        <li class="list-group-item">
-                                            <div class="card card-shadow">
-                                                <figure class="card-img-top overlay-hover overlay">
-                                                    <img class="overlay-figure overlay-scale" src="http://www.pphomes.net/wp-content/uploads/2015/02/modern-house-architecture-and-design.jpg" alt="...">
-                                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                        <a class="icon wb-search" href="http://www.pphomes.net/wp-content/uploads/2015/02/modern-house-architecture-and-design.jpg"></a>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="card-block">
-                                                    <h4 class="card-title">Project №11</h4>
-                                                </div>
-                                            </div>
-                                        </li>
-
-
-                                        <li class="list-group-item">
-                                            <div class="card card-shadow">
-                                                <figure class="card-img-top overlay-hover overlay">
-                                                    <img class="overlay-figure overlay-scale" src="https://s-media-cache-ak0.pinimg.com/originals/3f/f1/4c/3ff14cfd6969ab40d8956eb3c3b07e34.jpg" alt="...">
-                                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                        <a class="icon wb-search" href="https://s-media-cache-ak0.pinimg.com/originals/3f/f1/4c/3ff14cfd6969ab40d8956eb3c3b07e34.jpg"></a>
-                                                    </figcaption>
-                                                </figure>
-                                                <div class="card-block">
-                                                    <h4 class="card-title">Project №12</h4>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                    </ul>
-                                    <nav>
-                                        <ul data-plugin="paginator" data-total="50" data-skin="pagination-no-border" class="pagination pagination-no-border"><li class="pagination-prev page-item disabled"><a class="page-link" href="javascript:void(0)" aria-label="Prev"><span class="icon wb-chevron-left-mini"></span></a></li><li class="pagination-items page-item active" data-value="1"><a class="page-link" href="javascript:void(0)">1</a></li><li class="pagination-items page-item" data-value="2"><a class="page-link" href="javascript:void(0)">2</a></li><li class="pagination-items page-item" data-value="3"><a class="page-link" href="javascript:void(0)">3</a></li><li class="pagination-items page-item" data-value="4"><a class="page-link" href="javascript:void(0)">4</a></li><li class="pagination-items page-item" data-value="5"><a class="page-link" href="javascript:void(0)">5</a></li><li class="pagination-next page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next"><span class="icon wb-chevron-right-mini"></span></a></li></ul>
-                                    </nav>
+                                    <?= $this->render('_projects', compact('projects')) ?>
                                 </div>
                                 <div class="tab-pane animation-fade active" id="my_contacts" role="tabpanel" aria-expanded="true">
                                     <ul class="list-group">

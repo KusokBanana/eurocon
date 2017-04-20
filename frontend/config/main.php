@@ -9,7 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log'],
+    'bootstrap' => ['log', 'simplechat'],
     'controllerNamespace' => 'frontend\controllers',
     'components' => [
         'request' => [
@@ -20,9 +20,14 @@ return [
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-frontend', 'httpOnly' => true],
         ],
+//        'session' => [
+////             this is the name of the session cookie used for login on the frontend
+//            'name' => 'advanced-frontend',
+//        ],
         'session' => [
-            // this is the name of the session cookie used for login on the frontend
-            'name' => 'advanced-frontend',
+            'class' => '\frontend\components\CustomDbSession',
+             'db' => 'db',  // the application component ID of the DB connection.
+            'sessionTable' => \frontend\models\SessionFrontendUser::tableName(), // session table name.
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -79,5 +84,20 @@ return [
         ],
 
     ],
+    'modules' => [
+        'simplechat' => [
+            'class' => 'bubasuma\simplechat\Module',
+        ],
+        'chat' => [
+            'class' => 'venkatesanchinna\yii2livechat\Module'
+        ]
+        // ...
+    ],
+//    'modules' => [
+//        'messenger' => [
+//            'class' => \nanson\messenger\Messenger::className(),
+//        ],
+//    ],
+
     'params' => $params,
 ];

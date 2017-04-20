@@ -18,7 +18,13 @@
         "yiisoft/yii2": "~2.0.6",
         "yiisoft/yii2-bootstrap": "~2.0.0",
         "yiisoft/yii2-swiftmailer": "~2.0.0",
-        "rmrevin/yii2-fontawesome": "~2.17"
+        "rmrevin/yii2-fontawesome": "~2.17",
+        "newerton/yii2-fancybox": "dev-master",
+        "bubasuma/yii2-simplechat": "^2.0",
+        "yiisoft/yii2-twig": "^2.1",
+        "bower-asset/twig.js" : "0.8.4@stable",
+        "pusher/pusher-php-server": "^2.6",
+        "venkatesanchinna/yii2-livechat": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
