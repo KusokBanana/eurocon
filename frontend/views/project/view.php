@@ -125,7 +125,7 @@ use yii\helpers\Html;
                                     </nav>
                                 </div>
                                 <div class="tab-pane animation-fade active" id="my_contacts" role="tabpanel" aria-expanded="true">
-                                    <?= $this->render('_participants', compact('participants')) ?>
+                                    <?= $this->render('/tabs/_participants', compact('participants')) ?>
                                 </div>
                                 <div class="tab-pane animation-fade" id="google_contacts" role="tabpanel" aria-expanded="false">
 

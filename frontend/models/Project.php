@@ -22,6 +22,8 @@ class Project extends ActiveRecord
     private static $image_path = '/upload/project/';
     private static $default_image_path = 'https://s-media-cache-ak0.pinimg.com/originals/05/12/21/05122101571dd2b6a0134aba4bdb3713.jpg';
 
+    public static $limit = 12;
+
 
     /**
      * @inheritdoc

@@ -35,6 +35,8 @@ class Person extends User
     public $last_access = 'never';
     public $is_online = false;
 
+    public static $limit = 12;
+
     /**
      * @inheritdoc
      */
@@ -86,15 +88,40 @@ class Person extends User
             ->via('usersForProjects');
     }
 
+    public function getUsersForCompanies()
+    {
+        return $this->hasMany(BookUserCompany::className(), ['user_id' => 'id']);
+    }
+
+    public function getCompanies()
+    {
+        return $this->hasMany(Company::className(), ['id' => 'company_id'])
+            ->via('usersForCompanies');
+    }
+
     public static function getPerson($user)
     {
 
-        if ($user->isGuest) {
-            return self::findOne(self::$quest_id);
-        } else {
+//        if ($user->isGuest) {
+//            return self::findOne(self::$quest_id);
+//        } else {
             return self::findOne($user->id);
-        }
+//        }
 
+    }
+
+    public function getProjectsData($page = 1)
+    {
+
+        $query = $this->getProjects();
+        return Pagination::getData($query, $page, Project::$limit, 'projects');
+
+    }
+
+    public function getCompaniesData($page = 1)
+    {
+        $query = $this->getCompanies();
+        return Pagination::getData($query, $page, Company::$limit, 'companies');
     }
 
     public function afterFind()
@@ -156,11 +183,11 @@ class Person extends User
             }
 
         } else {
-
             return "at" . date("x-y-z", $timestamp);
+        }
 
-}
     }
+
 
 
 }

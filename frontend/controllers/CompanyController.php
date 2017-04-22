@@ -6,7 +6,7 @@ use frontend\models\Company;
 
 class CompanyController extends \yii\web\Controller
 {
-    public function actionIndex($id)
+    public function actionView($id)
     {
 
         $company = Company::findOne($id);

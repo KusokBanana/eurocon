@@ -2,9 +2,11 @@
 namespace frontend\controllers;
 
 use common\models\User;
+use frontend\models\Friends;
 use frontend\models\Person;
 use Yii;
 use yii\base\InvalidParamException;
+use yii\helpers\Json;
 use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
@@ -92,7 +94,7 @@ class SiteController extends Controller
                 $pageUser = User::findOne($id);
                 if ($pageUser) {
                     $person = Person::getPerson($pageUser);
-                    if ($user->id === $id)
+                    if ($user->id == $id)
                         $isUserPage = true;
                 } else {
                     throw new NotFoundHttpException();
@@ -103,14 +105,44 @@ class SiteController extends Controller
                 $isUserPage = true;
             }
 
-            $projects = $person->projects;
+            $projects = $person->getProjectsData();
+            $friends = Friends::getFriends($person->id);
+            $communities = $person->getCompaniesData();
 
             return $this->render('profile',
-                compact('person', 'projects', 'isUserPage'));
+                compact('person', 'projects', 'isUserPage', 'friends', 'communities'));
 
         }
 
+    }
 
+    public function actionPage()
+    {
+        if (Yii::$app->request->isAjax) {
+            $page = Yii::$app->request->get('page');
+            $type = Yii::$app->request->get('type');
+            $data = Yii::$app->request->post('data');
+            $data = Json::decode($data, true);
+
+            switch ($type) {
+                case 'friends':
+                    $friends = Friends::getFriends($data['id'], $page);
+                    return $this->renderAjax('/tabs/_participants',
+                        [
+                            'participants' => $friends,
+                            'additionData' => $data
+                        ]);
+                case 'projects':
+                    $person = Person::findOne($data['id']);
+                    $projects = $person->getProjectsData($page);
+                    return $this->renderAjax('/tabs/_projects',
+                        [
+                            'projects' => $projects,
+                            'additionData' => $data
+                        ]);
+            }
+
+        }
     }
 
     /**

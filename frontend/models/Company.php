@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "company".
@@ -17,8 +18,10 @@ use Yii;
  * @property BookCompanyProject[] $bookCompanyProjects
  * @property BookUserCompany[] $bookUserCompanies
  */
-class Company extends \yii\db\ActiveRecord
+class Company extends ActiveRecord
 {
+
+    public static $limit = 1;
 
     private static $avatar_path = '@web/img/avatars/company/';
 
