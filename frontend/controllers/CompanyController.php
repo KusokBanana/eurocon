@@ -14,7 +14,9 @@ class CompanyController extends \yii\web\Controller
             throw new \yii\web\NotFoundHttpException();
         }
 
-        return $this->render('index', ['company' => $company]);
+        $participants = $company->getPersonsData();
+
+        return $this->render('index', compact('company', 'participants'));
     }
 
 }

@@ -68,12 +68,21 @@ class Company extends ActiveRecord
         return $this->hasMany(BookCompanyProject::className(), ['company_id' => 'id']);
     }
 
-    /**
-     * @return \yii\db\ActiveQuery
-     */
-    public function getBookUserCompanies()
+    public function getUsersForCompanies()
     {
         return $this->hasMany(BookUserCompany::className(), ['company_id' => 'id']);
+    }
+
+    public function getPersons()
+    {
+        return $this->hasMany(Person::className(), ['id' => 'user_id'])
+            ->via('usersForCompanies');
+    }
+
+    public function getPersonsData($page = 1)
+    {
+        $query = $this->getPersons();
+        return Pagination::getData($query, $page, Person::$limit, 'persons');
     }
 
     public function afterFind()
