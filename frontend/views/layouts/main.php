@@ -36,7 +36,7 @@ $user = Person::getPerson(Yii::$app->user);
     <script src="../../web/vendor/media-match/media.match.min.js"></script>
     <script src="../../web/vendor/respond/respond.min.js"></script>
     <![endif]-->
-    <?php $this->registerJs('Breakpoints();');; ?>
+<!--    --><?php //$this->registerJs('Breakpoints();', yii\web\View::POS_READY);; ?>
     <?php $this->registerJs('(function(document, window, $) {
             \'use strict\';
             var Site = window.Site;
@@ -45,7 +45,7 @@ $user = Person::getPerson(Yii::$app->user);
             });
         })(document, window, jQuery);') ?>
     <?php $this->head() ?>
-    <script src="//js.pusher.com/3.1/pusher.min.js"></script>
+<!--    <script src="//js.pusher.com/3.1/pusher.min.js"></script>-->
 </head>
 <body class="animsition site-navbar-small dashboard">
 <?php $this->beginBody() ?>
@@ -266,10 +266,9 @@ $user = Person::getPerson(Yii::$app->user);
                     </li>
 
                     <li class="dropdown site-menu-item has-sub">
-                        <a data-toggle="dropdown" href="javascript:void(0)" data-dropdown-toggle="false">
-                            <i class="icon wb-hammer" aria-hidden="true"></i>
-                            <span class="site-menu-title">Projects</span>
-                        </a>
+                        <?= Html::a('<i class="icon wb-hammer" aria-hidden="true"></i>
+                            <span class="site-menu-title">Projects</span>', ['/project'],
+                            ['data-toggle' => 'dropdown', 'data-dropdown-toggle' => 'false']) ?>
                     </li>
 
                     <li class="ropdown site-menu-item has-sub">

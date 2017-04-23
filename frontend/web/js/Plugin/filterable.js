@@ -65,7 +65,11 @@
 
           var filter = $this.attr('data-filter');
           if (filter !== '*') {
-            filter = '[data-type="' + filter + '"]';
+            // var filterArr = filter.split(';');
+            // $.each(filterArr, function() {
+            //   filter += '[data-type'
+            // });
+            // filter = '[data-type="' + filter + '"]';
           }
           self.$el.isotope({
             filter: filter

@@ -61,12 +61,14 @@ class AppAsset extends AssetBundle
         'js/assets/Menubar.min.js',
         'js/assets/Sidebar.min.js',
         'js/assets/PageAside.min.js',
-        'js/assets/menu.min.js',
+        'js/assets/Section/GridMenu.js',
+        '/vendor/breakpoints/breakpoints.min.js',
+        'js/breakpoints.run.js',
+        'js/assets/menu.js',
         // Config
         'js/config/colors.min.js',
         'js/config/tour.min.js',
         // Page
-        '/vendor/breakpoints/breakpoints.min.js',
         'js/assets/Site.min.js',
         'js/Plugin/asscrollable.min.js',
         'js/Plugin/slidepanel.min.js',
@@ -76,6 +78,10 @@ class AppAsset extends AssetBundle
         'js/Plugin/bootstrap-datepicker.min.js',
         'js/Plugin/animate-list.min.js',
         'js/pagination.js',
+        '/js/Plugin/filterable.js',
+        '/js/Plugin/gallery.min.js',
+        '/vendor/isotope/isotope.pkgd.min.js',
+        '/vendor/magnific-popup/jquery.magnific-popup.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

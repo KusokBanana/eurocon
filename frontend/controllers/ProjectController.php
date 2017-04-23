@@ -3,9 +3,12 @@
 namespace frontend\controllers;
 
 
+use frontend\models\Person;
 use frontend\models\Project;
+use frontend\models\Tag;
 use Yii;
 use yii\helpers\Json;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 
 class ProjectController extends Controller
@@ -13,8 +16,20 @@ class ProjectController extends Controller
 
     public function actionIndex()
     {
+        $user = Yii::$app->user;
+        if (!$user->isGuest) {
 
-        return $this->render('index');
+            $person = Person::getPerson(Yii::$app->user);
+            $projects = $person->projects;
+            $tags = Tag::returnAllTags($projects);
+            VarDumper::dump($tags,10,true);
+            return $this->render('index', compact('projects', 'tags'));
+
+        } else {
+
+        }
+
+
 
     }
 

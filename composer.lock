@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4a99138f41d3b917973bedfba03b1745",
+    "content-hash": "580d5261dd81456fa4175fc73479e899",
     "packages": [
         {
             "name": "bower-asset/bootstrap",
@@ -531,6 +531,46 @@
                 "icon"
             ],
             "time": "2016-10-24T15:52:54+00:00"
+        },
+        {
+            "name": "justinvoelker/yii2-tagging",
+            "version": "1.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/justinvoelker/yii2-tagging.git",
+                "reference": "1e8a93e3a1e34e386bd0c48631fd06d54bb9e0c2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/justinvoelker/yii2-tagging/zipball/1e8a93e3a1e34e386bd0c48631fd06d54bb9e0c2",
+                "reference": "1e8a93e3a1e34e386bd0c48631fd06d54bb9e0c2",
+                "shasum": ""
+            },
+            "require": {
+                "yiisoft/yii2": "*"
+            },
+            "type": "yii2-extension",
+            "autoload": {
+                "psr-4": {
+                    "justinvoelker\\tagging\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Justin Voelker",
+                    "email": "justin@justinvoelker.com"
+                }
+            ],
+            "description": "Turn delimited data into tags",
+            "keywords": [
+                "tag",
+                "yii2"
+            ],
+            "time": "2015-08-03T16:26:25+00:00"
         },
         {
             "name": "newerton/yii2-fancybox",

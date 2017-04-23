@@ -77,6 +77,11 @@ class Person extends User
         ];
     }
 
+    public function getTags()
+    {
+        return $this->hasMany(Tag::className(), ['field_id' => 'id', 'type_id' => ':type']);
+    }
+
     public function getUsersForProjects()
     {
         return $this->hasMany(BookUserProject::className(), ['user_id' => 'id']);
@@ -85,7 +90,7 @@ class Person extends User
     public function getProjects()
     {
         return $this->hasMany(Project::className(), ['id' => 'project_id'])
-            ->via('usersForProjects');
+            ->via('usersForProjects')->joinWith('tags')->andOnCondition(['type_id' => Tag::PROJECT_TYPE]);
     }
 
     public function getUsersForCompanies()

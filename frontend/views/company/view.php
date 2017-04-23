@@ -238,6 +238,20 @@ use yii\helpers\Html;
 
                 <div class="card-block">
 
+                    <div class="row text-xs-center m-b-20">
+
+                        <div class="col-xs-6">
+                            <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Message', ['/'],
+                                ['class' => 'btn btn-block btn-primary']);
+                            ?>
+                        </div>
+                        <div class="col-xs-6">
+                            <?= Html::a('<i class="icon wb-user-add" aria-hidden="true"></i>Join', ['/'],
+                                ['class' => 'btn btn-block btn-primary']);
+                            ?>
+                        </div>
+                    </div>
+
                     <div class="table-reponsive">
 
                         <div  class="card card-shadow p-b-20">

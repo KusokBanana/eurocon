@@ -79,6 +79,11 @@ class Project extends ActiveRecord
             ->via('projects');
     }
 
+    public function getTags()
+    {
+        return $this->hasMany(Tag::className(), ['field_id' => 'id']);
+    }
+
     public function getParticipantsData($page = 1)
     {
 
