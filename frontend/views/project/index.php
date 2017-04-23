@@ -1,6 +1,7 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $projects \frontend\models\Project */
+/* @var $person \frontend\models\Person */
 /* @var $tags array */
 use yii\helpers\Html;
 
@@ -18,8 +19,9 @@ use yii\helpers\Html;
             <div class="page-header h-250 m-b-30"
                  style="background-image: url(<?= \yii\helpers\Url::to('@web/img/layer_images/project-background.png') ?>);  background-size: cover;">
                 <div class="text-xs-center blue-grey-800 m-t-0 m-xs-0">
-                    <div class="font-size-70 m-b-30 blue-grey-800">Josef Schwaiger's Projects</div>
-                    <a class="btn btn-dark btn-animate btn-animate-side" href="#"><span><i class="icon wb-hammer" aria-hidden="true"></i>Create a project</span></a>
+                    <div class="font-size-70 m-b-30 blue-grey-800"><?= $person->name ?>'s Projects</div>
+                    <?= Html::a('<span><i class="icon wb-hammer" aria-hidden="true"></i>Create a project</span>',
+                        ['create'], ['class' => 'btn btn-dark btn-animate btn-animate-side']) ?>
                 </div>
             </div>
             <!-- End Team Total Completed -->
@@ -34,8 +36,10 @@ use yii\helpers\Html;
 
                 <div class="form-group">
                     <div class="input-search">
-                        <button type="submit" class="input-search-btn"><i class="icon wb-search" aria-hidden="true"></i></button>
-                        <input type="text" class="form-control" name="" placeholder="Search...">
+                        <button class="input-search-btn" id="filter-search-btn">
+                            <i class="icon wb-search" aria-hidden="true"></i>
+                        </button>
+                        <input type="text" class="form-control" id="projects-search-filter" name="" placeholder="Search...">
                     </div>
                 </div>
                 <div class="page-header-actions"></div>
@@ -60,7 +64,7 @@ use yii\helpers\Html;
                 <ul class="blocks blocks-100 blocks-xxl-10 blocks-lg-3 blocks-md-2" data-plugin="filterable"
                     data-filters="#projectsFilter">
                     <?php foreach ($projects as $project): ?>
-                        <li class="<?= $tags['classes'][$project->id] ?>">
+                        <li class="<?= $tags['classes'][$project->id] ?>" data-search="<?= $project->name ?>">
                             <div class="card card-shadow">
                                 <figure class="card-img-top overlay-hover overlay">
                                     <?= Html::img($project->image, [

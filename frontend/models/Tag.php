@@ -63,6 +63,12 @@ class Tag extends \yii\db\ActiveRecord
         $tagsReturn = [];
         $itemsClasses = [];
         foreach ($array as $item) {
+
+            if (!isset($item->tags) || empty($item->tags)) {
+                $itemsClasses[$item->id] = '';
+                continue;
+            }
+
             $tags = $item->tags;
             if (!empty($tags)) {
                 $class = [];

@@ -4,6 +4,7 @@ namespace frontend\models;
 
 use common\models\User;
 use Yii;
+use yii\db\Query;
 use yii\helpers\VarDumper;
 
 /**
@@ -90,7 +91,9 @@ class Person extends User
     public function getProjects()
     {
         return $this->hasMany(Project::className(), ['id' => 'project_id'])
-            ->via('usersForProjects')->joinWith('tags')->andOnCondition(['type_id' => Tag::PROJECT_TYPE]);
+            ->via('usersForProjects')->joinWith(['tags' => function($query) {
+                $query->andOnCondition(['type_id' => Tag::PROJECT_TYPE]);
+            }], true, 'LEFT OUTER JOIN');
     }
 
     public function getUsersForCompanies()

@@ -7,9 +7,12 @@ $(document).ready(function() {
 
         var btn = $(this);
         var additionData = $(this).closest('.pagination').attr('data-addition');
+        var href = btn.attr('href');
+        if (!href || href === undefined)
+            return false;
 
         $.ajax({
-            url: btn.attr('href'),
+            url: href,
             type: 'POST',
             data: {
                 'data': additionData

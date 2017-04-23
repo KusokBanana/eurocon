@@ -22,8 +22,7 @@ class ProjectController extends Controller
             $person = Person::getPerson(Yii::$app->user);
             $projects = $person->projects;
             $tags = Tag::returnAllTags($projects);
-            VarDumper::dump($tags,10,true);
-            return $this->render('index', compact('projects', 'tags'));
+            return $this->render('index', compact('projects', 'tags', 'person'));
 
         } else {
 
