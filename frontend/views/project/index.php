@@ -76,7 +76,8 @@ use yii\helpers\Html;
                                     </figcaption>
                                 </figure>
                                 <div class="card-block">
-                                    <h4 class="card-title"><?= $project->name ?></h4>
+                                    <?= Html::a('<h4 class="card-title">' . $project->name . '</h4>',
+                                        ['/project/view', 'id' => $project->id]) ?>
                                 </div>
                             </div>
                         </li>

@@ -20,7 +20,7 @@ class Project extends ActiveRecord
 {
 
     private static $image_path = '/upload/project/';
-    private static $default_image_path = 'https://s-media-cache-ak0.pinimg.com/originals/05/12/21/05122101571dd2b6a0134aba4bdb3713.jpg';
+    private static $default_image_path = 'http://cdn.homedsgn.com/wp-content/uploads/2014/01/A-Country-Home-in-Brazil-17.jpg';
 
     public static $limit = 12;
 
@@ -86,10 +86,11 @@ class Project extends ActiveRecord
 
     public function getParticipantsData($page = 1)
     {
+        $query = $this->getParticipants()->joinWith(['tags' => function($query) {
+            $query->andOnCondition(['type_id' => Tag::PROJECT_TYPE]);
+        }], true, 'LEFT OUTER JOIN');;
 
-        $query = $this->getParticipants();
         return Pagination::getData($query, $page, Person::$limit, 'participants');
-
     }
 
     public function afterFind()

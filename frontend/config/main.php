@@ -80,6 +80,7 @@ return [
                 'company' => '/company/index',
                 'signup' => '/site/signup',
                 'login' => '/site/login',
+                'projects' => '/project',
             ],
         ],
 

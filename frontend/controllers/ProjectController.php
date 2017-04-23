@@ -27,9 +27,6 @@ class ProjectController extends Controller
         } else {
 
         }
-
-
-
     }
 
     public function actionView($id)

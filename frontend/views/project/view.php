@@ -340,7 +340,6 @@ use yii\helpers\Html;
                                 </td>
                                 <td>
                                     Josef Schwaiger
-
                                 </td>
                             </tr>
                             <tr>
@@ -355,10 +354,14 @@ use yii\helpers\Html;
                                 <td>Tags:
                                 </td>
                                 <td>
-                                    <span class="tag tag-round tag-primary">Wood</span>
-                                    <span class="tag tag-round tag-primary">House</span>
-                                    <span class="tag tag-round tag-primary">Parquet</span>
-                                    <span class="tag tag-round tag-primary">high quality</span>
+                                    <?php
+                                    if (!empty($project->tags)) {
+                                        foreach ($project->tags as $tag) {
+                                            echo '<span class="tag tag-round tag-primary">'.
+                                                $tag->tag . '</span> ';
+                                        }
+                                    }
+                                    ?>
                                 </td>
                             </tr>
                             <tr>
