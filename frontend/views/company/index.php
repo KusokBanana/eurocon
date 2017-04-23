@@ -1,0 +1,75 @@
+<?php
+/* @var $this yii\web\View */
+/* @var $communities \frontend\models\Company array */
+/* @var $person \frontend\models\Person */
+use yii\helpers\Html;
+use yii\helpers\Url;
+
+//$this->registerJsFile('@web/js/Plugin/filterable.min.js', ['position' => yii\web\View::POS_READY]);
+?>
+
+<div class="page">
+    <div class="page-content container-fluid">
+        <div class="row" data-plugin="matchHeight" data-by-row="true">
+            <!-- First Row -->
+            <!-- Completed Options Pie Widgets -->
+
+            <!-- End Completed Options Pie Widgets -->
+            <!-- Team Total Completed -->
+            <div class="page-header h-270 m-b-30"
+                 style="background-image:
+                         url(<?= Url::to(['@web/img/layer_images/communities-background.png']) ?>);
+                         background-size: cover;">
+                <div class="text-xs-center blue-grey-800 m-t-50 m-xs-0">
+                    <div class="font-size-70 m-b-30 blue-grey-800" style="background-color: rgba(232, 241, 248, 0.7);">Communities</div>
+                    <?= Html::a('<span><i class="icon fa-group " aria-hidden="true"></i>Create a community</span>',
+                        ['create'], ['class' => 'btn btn-dark btn-animate btn-animate-side']); ?>
+                </div>
+
+            </div>
+
+            <!-- End Team Total Completed -->
+            <!-- End First Row -->
+            <!-- Second Row -->
+            <!-- Personal -->
+
+        </div>
+
+        <!-- To Do List -->
+        <div class="col-xs-12 col-xxl-12  col-xl-12 col-lg-12">
+
+            <!-- Panel -->
+            <div class="panel">
+                <div class="panel-body">
+                    <form class="page-search-form" role="search">
+                        <div class="input-search input-search-dark">
+                            <i class="input-search-icon wb-search" aria-hidden="true"></i>
+                            <input type="text" class="form-control" id="inputSearch" name="search" placeholder="Search">
+                            <button type="button" class="input-search-close icon wb-close" aria-label="Close"></button>
+                        </div>
+                    </form>
+                    <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
+
+                        <div class="tab-content">
+                            <div class="tab-pane animation-fade active" id="my_contacts"
+                                 role="tabpanel" aria-expanded="true">
+                                    <?= $this->render('/tabs/_communities', [
+                                            'communities' => $communities,
+                                            'additionData' => ['id' => $person->id]
+                                    ]) ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- End Panel -->
+            </div>
+        </div>
+        <!-- End To Do List -->
+
+        <!-- Recent Activity -->
+
+        <!-- End Recent Activity -->
+        <!-- End Second Row -->
+    </div>
+</div>
+

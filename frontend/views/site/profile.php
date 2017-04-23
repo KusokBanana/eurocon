@@ -194,14 +194,6 @@ $this->title = 'Eurocon / profile';
                                     <a class="nav-link" data-toggle="tab" href="#google_contacts"
                                        aria-controls="google_contacts" role="tab" aria-expanded="false">Communities</a>
                                 </li>
-                                <!--<li class="dropdown nav-item" role="presentation" style="display: none;">
-                                    <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#" aria-expanded="false">Contacts </a>
-                                    <div class="dropdown-menu" role="menu">
-                                        <a class="dropdown-item" data-toggle="tab" href="#all_contacts" aria-controls="all_contacts" role="tab">All Contacts</a>
-                                        <a class="dropdown-item" data-toggle="tab" href="#my_contacts" aria-controls="my_contacts" role="tab">My Contacts</a>
-                                        <a class="dropdown-item" data-toggle="tab" href="#google_contacts" aria-controls="google_contacts" role="tab">Google Contacts</a>
-                                    </div>
-                                </li>-->
                             </ul>
 
                             <div class="tab-content">

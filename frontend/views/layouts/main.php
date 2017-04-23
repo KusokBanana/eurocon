@@ -259,55 +259,51 @@ $user = Person::getPerson(Yii::$app->user);
             <div>
                 <ul class="site-menu" data-plugin="menu">
 
-                    <li class="dropdown site-menu-item has-sub">
+                    <li class="site-menu-item">
                         <?= Html::a('<i class="icon wb-user" aria-hidden="true"></i>
-                            <span class="site-menu-title">Me</span>', ['/'],
-                            ['data-toggle' => 'dropdown', 'data-dropdown-toggle' => 'false']) ?>
+                            <span class="site-menu-title">Me</span>', ['/']) ?>
                     </li>
 
-                    <li class="dropdown site-menu-item has-sub">
+                    <li class="site-menu-item">
                         <?= Html::a('<i class="icon wb-hammer" aria-hidden="true"></i>
-                            <span class="site-menu-title">Projects</span>', ['/project'],
-                            ['data-toggle' => 'dropdown', 'data-dropdown-toggle' => 'false']) ?>
+                            <span class="site-menu-title">Projects</span>', ['/project/index']) ?>
                     </li>
 
-                    <li class="ropdown site-menu-item has-sub">
-                        <a data-toggle="dropdown" href="javascript:void(0)" data-dropdown-toggle="false">
+                    <li class="site-menu-item">
+                        <a href="javascript:void;">
                             <i class="icon wb-users" aria-hidden="true"></i>
                             <span class="site-menu-title">Friends</span>
                         </a>
                     </li>
 
-                    <li class="ropdown site-menu-item has-sub">
-                        <a data-toggle="dropdown" href="javascript:void(0)" data-dropdown-toggle="false">
+                    <li class="site-menu-item">
+                        <a href="javascript:void;">
                             <i class="icon wb-zoom-in" aria-hidden="true"></i>
                             <span class="site-menu-title">Analysis</span>
                         </a>
                     </li>
 
-                    <li class="ropdown site-menu-item has-section has-sub">
-                        <a data-toggle="dropdown" href="javascript:void(0)" data-dropdown-toggle="false">
+                    <li class="site-menu-item has-sub">
+                        <a href="javascript:void;">
                             <i class="icon wb-map" aria-hidden="true"></i>
                             <span class="site-menu-title">Locations</span>
                         </a>
                     </li>
 
-                    <li class="ropdown site-menu-item has-section has-sub">
-                        <a data-toggle="dropdown" href="javascript:void(0)" data-dropdown-toggle="false">
-                            <i class="icon fa-group" aria-hidden="true"></i>
-                            <span class="site-menu-title">Communities</span>
-                        </a>
+                    <li class="site-menu-item has-sub">
+                        <?= Html::a('<i class="icon fa-group" aria-hidden="true"></i>
+                            <span class="site-menu-title">Communities</span>', ['/company/index']) ?>
                     </li>
 
-                    <li class="ropdown site-menu-item has-sub">
-                        <a data-toggle="dropdown" href="javascript:void(0)" data-dropdown-toggle="false">
+                    <li class="site-menu-item">
+                        <a href="javascript:void;">
                             <i class="icon fa-newspaper-o" aria-hidden="true"></i>
                             <span class="site-menu-title">Projects news</span>
                         </a>
                     </li>
 
-                    <li class="ropdown site-menu-item has-sub">
-                        <a data-toggle="dropdown" href="javascript:void(0)" data-dropdown-toggle="false">
+                    <li class="site-menu-item">
+                        <a href="javascript:void;">
                             <i class="icon wb-shopping-cart" aria-hidden="true"></i>
                             <span class="site-menu-title">Marketplace</span>
                         </a>
