@@ -1,8 +1,11 @@
 <?php
 /* @var $this yii\web\View */
+use frontend\models\Company;
 use yii\helpers\Html;
 
-/* @var $company \frontend\models\Company */
+/* @var $company Company */
+/* @var $cooperation array \frontend\models\Person */
+/* @var $admins array \frontend\models\Person */
 
 // TODO добавить сюда новые скрипты
 ?>
@@ -53,191 +56,18 @@ use yii\helpers\Html;
 
                         <div class="page-content tab-content page-content-table nav-tabs-animate">
                             <div class="tab-pane animation-fade active" id="team" role="tabpanel" aria-expanded="true">
-                                <table class="table is-indent">
-                                    <tbody>
-
-                                    <div class="card user-following">
-
-                                        <div class="card-block">
-                                            <div class="row">
-                                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2 m-b-20">
-                                                    <?= Html::img('@web/img/portraits/2.jpg', [
-                                                        'alt' => '...',
-                                                    ]) ?>
-                                                    <h4 class="font-size-16 m-b-5">Corrina Aishwarya</h4>
-                                                    <span>
-
-                    <span>architecture</span>
-                  </span>
-                                                </div>
-                                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2 m-b-20">
-                                                    <?= Html::img('@web/img/portraits/1.jpg', [
-                                                        'alt' => '...',
-                                                    ]) ?>
-                                                    <h4 class="font-size-16 m-b-5">Amalric Aleks</h4>
-                                                    <span>
-
-                    <span>builder</span>
-                  </span>
-                                                </div>
-                                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2 m-b-20">
-                                                    <?= Html::img('@web/img/portraits/3.jpg', [
-                                                        'alt' => '...',
-                                                    ]) ?>
-                                                    <h4 class="font-size-16 m-b-5">Bonifacio Mattaniah</h4>
-                                                    <span>
-
-                    <span>designer</span>
-                  </span>
-                                                </div>
-                                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-26 m-b-20">
-                                                    <?= Html::img('@web/img/portraits/4.jpg', [
-                                                        'alt' => '...',
-                                                    ]) ?>
-                                                    <h4 class="font-size-16 m-b-5">Glenda Eufrozina</h4>
-                                                    <span>
-
-                    <span>сarpenter</span>
-                  </span>
-                                                </div>
-                                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2 m-b-20">
-                                                    <?= Html::img('@web/img/portraits/5.jpg', [
-                                                        'alt' => '...',
-                                                    ]) ?>
-                                                    <h4 class="font-size-16 m-b-5">Vasanta Abel</h4>
-                                                    <span>
-
-                    <span>builder</span>
-                  </span>
-                                                </div>
-                                                <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2 m-b-20">
-                                                    <?= Html::img('@web/img/portraits/6.jpg', [
-                                                        'alt' => '...',
-                                                    ]) ?>
-                                                    <h4 class="font-size-16 m-b-5">Primitiva Brunhilda</h4>
-                                                    <span>
-
-                    <span>Concrete mixer driver</span>
-                  </span>
-                                                </div>
-                                            </div>
-                                            <div class="text-xs-center ">
-                                                <ul data-plugin="paginator" data-total="50" data-skin="pagination-no-border" class="pagination pagination-no-border">
-                                                  <li class="pagination-prev page-item">
-                                                      <a class="page-link" href="javascript:void(0)" aria-label="Prev">
-                                                          <span class="icon wb-chevron-left-mini"></span></a></li>
-                                                  <li class="pagination-items page-item active" data-value="1">
-                                                      <a class="page-link" href="javascript:void(0)">1</a>
-                                                      </li><li class="pagination-items page-item " data-value="2">
-                                                      <a class="page-link" href="javascript:void(0)">2</a></li>
-                                                  <li class="pagination-items page-item" data-value="3">
-                                                      <a class="page-link" href="javascript:void(0)">3</a>
-                                                      </li><li class="pagination-items page-item" data-value="4">
-                                                      <a class="page-link" href="javascript:void(0)">4</a></li>
-                                                  <li class="pagination-items page-item" data-value="5">
-                                                      <a class="page-link" href="javascript:void(0)">5</a></li>
-                                                  <li class="pagination-next page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">
-                                                          <span class="icon wb-chevron-right-mini"></span></a></li>
-                                                  </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    </tbody>
-                                </table>
+                                <?= $this->render('_persons', [
+                                    'persons' => $admins,
+                                    'additionData' => ['id' => $company->id],
+                                ]) ?>
                             </div>
 
                             <div class="tab-pane animation-fade" id="cooperation" role="tabpanel" aria-expanded="false">
-                                <table class="table is-indent">
-                                    <tbody>
-                                    <div class="card-block">
-                                        <div class="row">
-                                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2 m-b-20">
-                                                <?= Html::img('@web/img/portraits/8.jpg', [
-                                                    'alt' => '...',
-                                                ]) ?>
-                                                <h4 class="font-size-16 m-b-5">Corrina Aishwarya</h4>
-                                                <span>
-
-                    <span>architecture</span>
-                  </span>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2 m-b-20">
-                                                <?= Html::img('@web/img/portraits/9.jpg', [
-                                                    'alt' => '...',
-                                                ]) ?>
-                                                <h4 class="font-size-16 m-b-5">Amalric Aleks</h4>
-                                                <span>
-
-                    <span>builder</span>
-                  </span>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2 m-b-20">
-                                                <?= Html::img('@web/img/portraits/10.jpg', [
-                                                    'alt' => '...',
-                                                ]) ?>
-                                                <h4 class="font-size-16 m-b-5">Bonifacio Mattaniah</h4>
-                                                <span>
-
-                    <span>designer</span>
-                  </span>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-26 m-b-20">
-                                                <?= Html::img('@web/img/portraits/11.jpg', [
-                                                    'alt' => '...',
-                                                ]) ?>
-                                                <h4 class="font-size-16 m-b-5">Glenda Eufrozina</h4>
-                                                <span>
-
-                    <span>сarpenter</span>
-                  </span>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2 m-b-20">
-                                                <?= Html::img('@web/img/portraits/12.jpg', [
-                                                    'alt' => '...',
-                                                ]) ?>
-                                                <h4 class="font-size-16 m-b-5">Vasanta Abel</h4>
-                                                <span>
-
-                    <span>builder</span>
-                  </span>
-                                            </div>
-                                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2 m-b-20">
-                                                <?= Html::img('@web/img/portraits/13.jpg', [
-                                                    'alt' => '...',
-                                                ]) ?>
-                                                <h4 class="font-size-16 m-b-5">Primitiva Brunhilda</h4>
-                                                <span>
-
-                    <span>Concrete mixer driver</span>
-                  </span>
-                                            </div>
-                                        </div>
-                                        <div class="text-xs-center ">
-                                            <ul data-plugin="paginator" data-total="50" data-skin="pagination-no-border" class="pagination pagination-no-border">
-                                                <li class="pagination-prev page-item">
-                                                    <a class="page-link" href="javascript:void(0)" aria-label="Prev">
-                                                        <span class="icon wb-chevron-left-mini"></span></a></li>
-                                                <li class="pagination-items page-item active" data-value="1">
-                                                    <a class="page-link" href="javascript:void(0)">1</a>
-                                                </li><li class="pagination-items page-item " data-value="2">
-                                                    <a class="page-link" href="javascript:void(0)">2</a></li>
-                                                <li class="pagination-items page-item" data-value="3">
-                                                    <a class="page-link" href="javascript:void(0)">3</a>
-                                                </li><li class="pagination-items page-item" data-value="4">
-                                                    <a class="page-link" href="javascript:void(0)">4</a></li>
-                                                <li class="pagination-items page-item" data-value="5">
-                                                    <a class="page-link" href="javascript:void(0)">5</a></li>
-                                                <li class="pagination-next page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">
-                                                        <span class="icon wb-chevron-right-mini"></span></a></li>
-                                            </ul>
-                                        </div>
-                                    </div>
+                                <?= $this->render('_persons', [
+                                    'persons' => $cooperation,
+                                    'additionData' => ['id' => $company->id],
+                                ]) ?>
                             </div>
-
-                            </tbody>
-                            </table>
-
-                        </div>
                     </div>
 
                 </div>
@@ -270,23 +100,31 @@ use yii\helpers\Html;
 
                 <div class="card-block">
 
-                    <div class="row text-xs-center m-b-20">
-
-                        <div class="col-xs-6">
-                            <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Message', ['/'],
-                                ['class' => 'btn btn-block btn-primary']);
-                            ?>
+                    <?php if ($company->isPerson(Company::COMMUNITY_ADMIN_TYPE, $admins['data'])): ?>
+                        <div class="row text-xs-center">
+                            <div class="col-xs-12 ">
+                                <?= Html::a('edit', ['/'], ['class' => 'btn btn-block btn-primary btn-outline']) ?>
+                            </div>
                         </div>
-                        <div class="col-xs-6">
-                            <?php
-                            
-                            Html::a('<i class="icon wb-user-add" aria-hidden="true"></i>Join', ['/'],
-                                ['class' => 'btn btn-block btn-primary']);
-                            ?>
+                    <?php else: ?>
+                        <div class="row text-xs-center m-b-20">
 
-                            <button type="button" class="btn btn-block btn-primary"><i class="icon fa-times" aria-hidden="true"></i>Leave</button>
+                            <div class="col-xs-6">
+                                <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Message', ['/'],
+                                    ['class' => 'btn btn-block btn-primary']);
+                                ?>
+                            </div>
+                            <div class="col-xs-6">
+                                <?php if ($company->isPerson(Company::COMMUNITY_PARTICIPANT_TYPE, $cooperation['data'])): ?>
+                                    <?= Html::a('<i class="icon wb-user-add" aria-hidden="true"></i>Join', ['/'],
+                                        ['class' => 'btn btn-block btn-primary']); ?>
+                                <?php else: ?>
+                                    <?= Html::a('<i class="icon fa-times" aria-hidden="true"></i>Leave', ['/'],
+                                        ['class' => 'btn btn-block btn-primary']); ?>
+                                <?php endif; ?>
+                            </div>
                         </div>
-                    </div>
+                    <?php endif; ?>
 
                     <div class="table-reponsive">
 

@@ -4,6 +4,8 @@ namespace frontend\models;
 
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
+use yii\helpers\VarDumper;
 
 /**
  * This is the model class for table "company".
@@ -24,6 +26,9 @@ class Company extends ActiveRecord
     public static $limit = 1;
 
     private static $avatar_path = '@web/img/avatars/company/';
+
+    const COMMUNITY_ADMIN_TYPE = 1;
+    const COMMUNITY_PARTICIPANT_TYPE = 2;
 
     /**
      * @inheritdoc
@@ -68,21 +73,66 @@ class Company extends ActiveRecord
         return $this->hasMany(BookCompanyProject::className(), ['company_id' => 'id']);
     }
 
-    public function getUsersForCompanies()
+    public function getParticipants()
     {
         return $this->hasMany(BookUserCompany::className(), ['company_id' => 'id']);
     }
 
-    public function getPersons()
+    public function getAdmins()
     {
-        return $this->hasMany(Person::className(), ['id' => 'user_id'])
-            ->via('usersForCompanies');
+        return $this->hasMany(BookAdminsCommunity::className(), ['community_id' => 'id']);
     }
 
-    public function getPersonsData($page = 1)
+    public function getAdminsOfCommunity()
     {
-        $query = $this->getPersons();
-        return Pagination::getData($query, $page, Person::$limit, 'persons');
+        return $this->hasMany(Person::className(), ['id' => 'admin_id'])
+            ->via('admins');
+    }
+
+    public function getParticipantsOfCommunity()
+    {
+        return $this->hasMany(Person::className(), ['id' => 'user_id'])
+            ->via('participants');
+    }
+
+    public function getPersonsData($type, $page = 1)
+    {
+
+        switch ($type) {
+            case self::COMMUNITY_ADMIN_TYPE:
+                $query = $this->getAdminsOfCommunity();
+                break;
+            case self::COMMUNITY_PARTICIPANT_TYPE:
+                $query = $this->getParticipantsOfCommunity();
+                break;
+            default:
+                return false;
+        }
+
+        return Pagination::getData($query, $page, 6, $type);
+    }
+
+    public function isPerson($type, $dataArray = [])
+    {
+        if (empty($dataArray)) {
+            switch ($type) {
+                case Company::COMMUNITY_ADMIN_TYPE:
+                    $dataArray = $this->admins;
+                    break;
+                case Company::COMMUNITY_PARTICIPANT_TYPE:
+                    $dataArray = $this->participants;
+                    break;
+                default:
+                    return null;
+            }
+        }
+
+        $ids = ArrayHelper::getColumn($dataArray, function ($element) {
+            return $element->id;
+        });
+
+        $personId = Yii::$app->user->id;
+        return in_array($personId, $ids);
     }
 
     public function afterFind()

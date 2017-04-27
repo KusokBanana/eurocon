@@ -28,7 +28,7 @@ class CompanyController extends Controller
     }
 
 
-    public function actionPage()
+    public function actionAjaxReload()
     {
         if (Yii::$app->request->isAjax) {
             $page = Yii::$app->request->get('page');
@@ -45,6 +45,22 @@ class CompanyController extends Controller
                             'communities' => $communities,
                             'additionData' => $data
                         ]);
+                case Company::COMMUNITY_ADMIN_TYPE:
+                    $community = Company::findOne($data['id']);
+                    $admins = $community->getPersonsData(Company::COMMUNITY_ADMIN_TYPE, $page);
+                    return $this->renderAjax('_persons',
+                        [
+                            'persons' => $admins,
+                            'additionData' => $data
+                        ]);
+                case Company::COMMUNITY_PARTICIPANT_TYPE:
+                    $community = Company::findOne($data['id']);
+                    $participants = $community->getPersonsData(Company::COMMUNITY_PARTICIPANT_TYPE, $page);
+                    return $this->renderAjax('_persons',
+                        [
+                            'persons' => $participants,
+                            'additionData' => $data
+                        ]);
             }
 
         }
@@ -59,9 +75,10 @@ class CompanyController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $participants = $company->getPersonsData();
+        $cooperation = $company->getPersonsData(Company::COMMUNITY_PARTICIPANT_TYPE);
+        $admins = $company->getPersonsData(Company::COMMUNITY_ADMIN_TYPE);
 
-        return $this->render('view', compact('company', 'participants'));
+        return $this->render('view', compact('company', 'cooperation', 'admins'));
     }
 
 }
