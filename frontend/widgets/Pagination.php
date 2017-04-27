@@ -13,6 +13,7 @@ class Pagination extends Widget
     public $pageCount;
     public $type;
     public $data;
+    public $search = '';
 
     private $pageNumbers;
 
@@ -31,6 +32,7 @@ class Pagination extends Widget
             'page' => $this->page,
             'type' => $this->type,
             'data' => $this->data,
+            'search' => $this->search,
         ]);
     }
 

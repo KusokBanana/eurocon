@@ -35,6 +35,7 @@ class Person extends User
 
     public $last_access = 'never';
     public $is_online = false;
+    public $full_name;
 
     public static $limit = 12;
 
@@ -119,18 +120,20 @@ class Person extends User
 
     }
 
-    public function getProjectsData($page = 1)
+    public function getProjectsData($page = 1, $search = '')
     {
 
         $query = $this->getProjects();
+        $query->andFilterWhere(['LIKE', Project::tableName() . '.name', $search]);
         return Pagination::getData($query, $page, Project::$limit, 'projects');
 
     }
 
-    public function getCompaniesData($page = 1)
+    public function getCompaniesData($page = 1, $search = '')
     {
         $query = $this->getCompanies();
-        return Pagination::getData($query, $page, Company::$limit, 'companies');
+        $query->andFilterWhere(['LIKE', Company::tableName() . '.name', $search]);
+        return Pagination::getData($query, $page, Company::$limit, 'communities');
     }
 
     public function afterFind()
@@ -143,6 +146,8 @@ class Person extends User
             $this->is_online = (self::$minutes_ago_online - (time() - $lastAccess->expire + 3600)  > 0) ? true : false;
             // TODO remove 3600 cause of local server time +3
         }
+
+        $this->full_name = $this->surname . ($this->surname ? ' ' : '') . $this->name;
 
         $this->setImage();
 

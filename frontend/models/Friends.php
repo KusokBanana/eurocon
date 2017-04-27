@@ -74,7 +74,7 @@ class Friends extends ActiveRecord
 
     }
 
-    public static function getFriends($user_id, $page = 1)
+    public static function getFriends($user_id, $page = 1, $search = '')
     {
 
         if ($user_id) {
@@ -92,6 +92,9 @@ class Friends extends ActiveRecord
                     });
 
                 $friendsQuery = Person::find()->where(['id' => $friendsIds]);
+
+                $friendsQuery->andFilterWhere(['LIKE', 'CONCAT(IFNULL(surname, ""), " ", IFNULL(name, ""))', $search]);
+
                 $friends = Pagination::getData($friendsQuery, $page, static::$limit, 'friends');
             }
 

@@ -3,6 +3,7 @@
 /* @var $page int */
 /* @var $type string */
 /* @var $data string */
+/* @var $search string */
 
 use yii\helpers\Html;
 
@@ -24,7 +25,7 @@ if (count($pageNumbers) > 1):
 
         <li class="pagination-prev page-item <?= $prevDisabled ?>">
             <?= Html::a('<span class="icon wb-chevron-left-mini"></span>',
-                ['page', 'page' => $prevPage, 'type' => $type],
+                ['ajax-reload', 'page' => $prevPage, 'type' => $type, 'search' => $search],
                 [
                     'class' => 'page-link',
                     'aria-label' => 'Prev',
@@ -39,7 +40,7 @@ if (count($pageNumbers) > 1):
                 $active = 'active'
             ?>
             <li class="pagination-items page-item <?= $active ?>" data-value="">
-                <?= Html::a($pageNumber, ['page', 'page' => $pageNumber, 'type' => $type],
+                <?= Html::a($pageNumber, ['ajax-reload', 'page' => $pageNumber, 'type' => $type, 'search' => $search],
                     ['class' => 'page-link']) ?>
             </li>
 
@@ -56,7 +57,7 @@ if (count($pageNumbers) > 1):
 
         <li class="pagination-next page-item <?= $nextDisabled ?>">
             <?= Html::a('<span class="icon wb-chevron-right-mini"></span>',
-                ['page', 'page' => $nextPage, 'type' => $type],
+                ['ajax-reload', 'page' => $nextPage, 'type' => $type, 'search' => $search],
                 [
                     'class' => 'page-link',
                     'aria-label' => 'Next',

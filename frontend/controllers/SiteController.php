@@ -116,17 +116,23 @@ class SiteController extends Controller
 
     }
 
-    public function actionPage()
+    public function actionAjaxReload()
     {
         if (Yii::$app->request->isAjax) {
             $page = Yii::$app->request->get('page');
             $type = Yii::$app->request->get('type');
             $data = Yii::$app->request->post('data');
             $data = Json::decode($data, true);
+            $action = isset($data['action']) ? $data['action'] : false;
+            $search = isset($data['search']) ? trim($data['search']) : '';
+
+            if ($action == 'search') {
+                $page = $data['page'] = 1;
+            }
 
             switch ($type) {
                 case 'friends':
-                    $friends = Friends::getFriends($data['id'], $page);
+                    $friends = Friends::getFriends($data['id'], $page, $search);
                     return $this->renderAjax('/tabs/_participants',
                         [
                             'participants' => $friends,
@@ -134,10 +140,18 @@ class SiteController extends Controller
                         ]);
                 case 'projects':
                     $person = Person::findOne($data['id']);
-                    $projects = $person->getProjectsData($page);
+                    $projects = $person->getProjectsData($page, $search);
                     return $this->renderAjax('/tabs/_projects',
                         [
                             'projects' => $projects,
+                            'additionData' => $data
+                        ]);
+                case 'communities':
+                    $person = Person::findOne($data['id']);
+                    $communities = $person->getCompaniesData($page, $search);
+                    return $this->renderAjax('/tabs/_communities',
+                        [
+                            'communities' => $communities,
                             'additionData' => $data
                         ]);
             }

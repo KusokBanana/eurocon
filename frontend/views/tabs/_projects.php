@@ -5,9 +5,19 @@
 /* @var $additionData array*/
 
 use frontend\widgets\Pagination;
+use frontend\widgets\Search;
 use yii\helpers\Html;
 
+$additionData['search'] = isset($additionData['search']) ? $additionData['search'] : null;
 ?>
+
+<br>
+<?= Search::widget([
+    'additionData' => $additionData,
+    'query' => $additionData['search'],
+    'data' => $projects['data'],
+    'type' => $projects['type']
+]) ?>
 
 <?php if (!empty($projects)): ?>
     <ul class="list-group blocks blocks-100 blocks-xxl-4 blocks-lg-3 blocks-md-2">

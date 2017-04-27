@@ -29,13 +29,6 @@ use yii\helpers\Html;
                 <!-- Panel -->
                 <div class="panel">
                     <div class="panel-body">
-                        <form class="page-search-form" role="search">
-                            <div class="input-search input-search-dark">
-                                <i class="input-search-icon wb-search" aria-hidden="true"></i>
-                                <input type="text" class="form-control" id="inputSearch" name="search" placeholder="Search">
-                                <button type="button" class="input-search-close icon wb-close" aria-label="Close"></button>
-                            </div>
-                        </form>
                         <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
 
                             <ul class="nav nav-tabs nav-tabs-line" role="tablist">
@@ -55,6 +48,15 @@ use yii\helpers\Html;
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane animation-fade" id="all_contacts" role="tabpanel" aria-expanded="false">
+                                    <form class="page-search-form m-t-15" role="search">
+                                        <div class="input-search input-search-dark">
+                                            <i class="input-search-icon wb-search" aria-hidden="true"></i>
+                                            <input type="text" class="form-control" id="inputSearch"
+                                                   name="search" placeholder="Search">
+                                            <button type="button"
+                                                    class="input-search-close icon wb-close" aria-label="Close"></button>
+                                        </div>
+                                    </form>
                                     <ul class="list-group">
                                         <li class="list-group-item">
 
@@ -125,6 +127,15 @@ use yii\helpers\Html;
                                     </nav>
                                 </div>
                                 <div class="tab-pane animation-fade active" id="my_contacts" role="tabpanel" aria-expanded="true">
+                                    <form class="page-search-form m-t-15" role="search">
+                                        <div class="input-search input-search-dark">
+                                            <i class="input-search-icon wb-search" aria-hidden="true"></i>
+                                            <input type="text" class="form-control" id="inputSearch"
+                                                   name="search" placeholder="Search">
+                                            <button type="button"
+                                                    class="input-search-close icon wb-close" aria-label="Close"></button>
+                                        </div>
+                                    </form>
                                     <?= $this->render('/tabs/_participants', [
                                         'participants' => $participants,
                                         'additionData' => ['id' => $project->id]
@@ -132,7 +143,15 @@ use yii\helpers\Html;
 
                                 </div>
                                 <div class="tab-pane animation-fade" id="google_contacts" role="tabpanel" aria-expanded="false">
-
+                                    <form class="page-search-form m-t-15" role="search">
+                                        <div class="input-search input-search-dark">
+                                            <i class="input-search-icon wb-search" aria-hidden="true"></i>
+                                            <input type="text" class="form-control" id="inputSearch"
+                                                   name="search" placeholder="Search">
+                                            <button type="button"
+                                                    class="input-search-close icon wb-close" aria-label="Close"></button>
+                                        </div>
+                                    </form>
                                     <ul class="list-group">
 
                                         <li class="list-group-item">
@@ -380,8 +399,12 @@ use yii\helpers\Html;
                                 </td>
                             </tr>
 
-
                         </table>
+                        <div class="row text-xs-center">
+                            <div class="col-xs-12 ">
+                                <button type="button" class="btn btn-block btn-primary btn-outline " >edit</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

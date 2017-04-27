@@ -82,7 +82,7 @@ $this->title = 'Eurocon / profile';
                                         ['/'], ['class' => 'btn btn-block btn-primary']) ?>
                                 </div>
                                 <div class="col-xs-6">
-                                    <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Friends',
+                                    <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Add to friends',
                                         ['/'], ['class' => 'btn btn-block btn-primary']) ?>
                                 </div>
                             </div>
@@ -172,13 +172,6 @@ $this->title = 'Eurocon / profile';
                 <!-- Panel -->
                 <div class="panel">
                     <div class="panel-body">
-                        <form class="page-search-form" role="search">
-                            <div class="input-search input-search-dark">
-                                <i class="input-search-icon wb-search" aria-hidden="true"></i>
-                                <input type="text" class="form-control" id="inputSearch" name="search" placeholder="Search">
-                                <button type="button" class="input-search-close icon wb-close" aria-label="Close"></button>
-                            </div>
-                        </form>
                         <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
 
                             <ul class="nav nav-tabs nav-tabs-line" role="tablist">

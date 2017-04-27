@@ -41,18 +41,18 @@ use yii\helpers\Html;
                         <div class="page-nav-tabs">
                             <ul class="nav nav-tabs nav-tabs-line" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" data-toggle="tab" href="#forum-newest" aria-controls="forum-newest" aria-expanded="true" role="tab">Newest</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#team" aria-controls="team" aria-expanded="true" role="tab">Team</a>
                                 </li>
 
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" data-toggle="tab" href="#forum-answer" aria-controls="forum-answer" aria-expanded="false" role="tab">Answer</a>
+                                    <a class="nav-link" data-toggle="tab" href="#cooperation" aria-controls="cooperation" aria-expanded="false" role="tab">Cooperation</a>
                                 </li>
                             </ul>
                         </div>
 
 
                         <div class="page-content tab-content page-content-table nav-tabs-animate">
-                            <div class="tab-pane animation-fade active" id="forum-newest" role="tabpanel" aria-expanded="true">
+                            <div class="tab-pane animation-fade active" id="team" role="tabpanel" aria-expanded="true">
                                 <table class="table is-indent">
                                     <tbody>
 
@@ -122,7 +122,23 @@ use yii\helpers\Html;
                                                 </div>
                                             </div>
                                             <div class="text-xs-center ">
-                                                <button class="btn btn-round btn-outline btn-primary" type="button" name="button">See all (19)</button>
+                                                <ul data-plugin="paginator" data-total="50" data-skin="pagination-no-border" class="pagination pagination-no-border">
+                                                  <li class="pagination-prev page-item">
+                                                      <a class="page-link" href="javascript:void(0)" aria-label="Prev">
+                                                          <span class="icon wb-chevron-left-mini"></span></a></li>
+                                                  <li class="pagination-items page-item active" data-value="1">
+                                                      <a class="page-link" href="javascript:void(0)">1</a>
+                                                      </li><li class="pagination-items page-item " data-value="2">
+                                                      <a class="page-link" href="javascript:void(0)">2</a></li>
+                                                  <li class="pagination-items page-item" data-value="3">
+                                                      <a class="page-link" href="javascript:void(0)">3</a>
+                                                      </li><li class="pagination-items page-item" data-value="4">
+                                                      <a class="page-link" href="javascript:void(0)">4</a></li>
+                                                  <li class="pagination-items page-item" data-value="5">
+                                                      <a class="page-link" href="javascript:void(0)">5</a></li>
+                                                  <li class="pagination-next page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">
+                                                          <span class="icon wb-chevron-right-mini"></span></a></li>
+                                                  </ul>
                                             </div>
                                         </div>
                                     </div>
@@ -130,7 +146,7 @@ use yii\helpers\Html;
                                 </table>
                             </div>
 
-                            <div class="tab-pane animation-fade" id="forum-answer" role="tabpanel" aria-expanded="false">
+                            <div class="tab-pane animation-fade" id="cooperation" role="tabpanel" aria-expanded="false">
                                 <table class="table is-indent">
                                     <tbody>
                                     <div class="card-block">
@@ -197,7 +213,23 @@ use yii\helpers\Html;
                                             </div>
                                         </div>
                                         <div class="text-xs-center ">
-                                            <button class="btn btn-round btn-outline btn-primary" type="button" name="button">See all (39)</button>
+                                            <ul data-plugin="paginator" data-total="50" data-skin="pagination-no-border" class="pagination pagination-no-border">
+                                                <li class="pagination-prev page-item">
+                                                    <a class="page-link" href="javascript:void(0)" aria-label="Prev">
+                                                        <span class="icon wb-chevron-left-mini"></span></a></li>
+                                                <li class="pagination-items page-item active" data-value="1">
+                                                    <a class="page-link" href="javascript:void(0)">1</a>
+                                                </li><li class="pagination-items page-item " data-value="2">
+                                                    <a class="page-link" href="javascript:void(0)">2</a></li>
+                                                <li class="pagination-items page-item" data-value="3">
+                                                    <a class="page-link" href="javascript:void(0)">3</a>
+                                                </li><li class="pagination-items page-item" data-value="4">
+                                                    <a class="page-link" href="javascript:void(0)">4</a></li>
+                                                <li class="pagination-items page-item" data-value="5">
+                                                    <a class="page-link" href="javascript:void(0)">5</a></li>
+                                                <li class="pagination-next page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next">
+                                                        <span class="icon wb-chevron-right-mini"></span></a></li>
+                                            </ul>
                                         </div>
                                     </div>
                             </div>
@@ -246,9 +278,13 @@ use yii\helpers\Html;
                             ?>
                         </div>
                         <div class="col-xs-6">
-                            <?= Html::a('<i class="icon wb-user-add" aria-hidden="true"></i>Join', ['/'],
+                            <?php
+                            
+                            Html::a('<i class="icon wb-user-add" aria-hidden="true"></i>Join', ['/'],
                                 ['class' => 'btn btn-block btn-primary']);
                             ?>
+
+                            <button type="button" class="btn btn-block btn-primary"><i class="icon fa-times" aria-hidden="true"></i>Leave</button>
                         </div>
                     </div>
 
@@ -337,15 +373,6 @@ use yii\helpers\Html;
                         <ul class="nav nav-tabs nav-tabs-line" role="tablist">
                             <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#all_contacts" aria-controls="all_contacts" role="tab" aria-expanded="false">Projects</a></li>
                             <li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="#my_contacts" aria-controls="my_contacts" role="tab" aria-expanded="true">Marketplace</a></li>
-
-                            <li class="dropdown nav-item" role="presentation" style="display: none;">
-                                <a class="dropdown-toggle nav-link" data-toggle="dropdown" href="#" aria-expanded="false">Contacts </a>
-                                <div class="dropdown-menu" role="menu">
-                                    <a class="dropdown-item" data-toggle="tab" href="#all_contacts" aria-controls="all_contacts" role="tab">All Contacts</a>
-                                    <a class="dropdown-item" data-toggle="tab" href="#my_contacts" aria-controls="my_contacts" role="tab">My Contacts</a>
-                                    <a class="dropdown-item" data-toggle="tab" href="#google_contacts" aria-controls="google_contacts" role="tab">Google Contacts</a>
-                                </div>
-                            </li>
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane animation-fade" id="all_contacts" role="tabpanel" aria-expanded="false">

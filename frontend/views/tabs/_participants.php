@@ -4,9 +4,21 @@
 /* @var $additionData array*/
 
 use frontend\widgets\Pagination;
+use frontend\widgets\Search;
 use yii\helpers\Html;
+use yii\helpers\Json;
+use yii\helpers\Url;
 
+$additionData['search'] = isset($additionData['search']) ? $additionData['search'] : null;
 ?>
+
+<br>
+<?= Search::widget([
+    'additionData' => $additionData,
+    'query' => $additionData['search'],
+    'data' => $participants['data'],
+    'type' => $participants['type']
+]) ?>
 
 <?php if (!empty($participants['data'])): ?>
     <ul class="list-group">
@@ -25,7 +37,7 @@ use yii\helpers\Html;
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading">
-                            <?= $participant->name ?>
+                            <?= $participant->full_name ?>
                             <small>Last Access: <?= $participant->last_access ?></small>
                         </h4>
                         <p>
