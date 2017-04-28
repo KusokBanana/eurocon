@@ -116,10 +116,10 @@ use yii\helpers\Html;
                             </div>
                             <div class="col-xs-6">
                                 <?php if ($company->isPerson(Community::COMMUNITY_PARTICIPANT_TYPE, $cooperation['data'])): ?>
-                                    <?= Html::a('<i class="icon wb-user-add" aria-hidden="true"></i>Join', ['/'],
+                                    <?= Html::a('<i class="icon fa-times" aria-hidden="true"></i>Leave', ['/'],
                                         ['class' => 'btn btn-block btn-primary']); ?>
                                 <?php else: ?>
-                                    <?= Html::a('<i class="icon fa-times" aria-hidden="true"></i>Leave', ['/'],
+                                    <?= Html::a('<i class="icon wb-user-add" aria-hidden="true"></i>Join', ['/'],
                                         ['class' => 'btn btn-block btn-primary']); ?>
                                 <?php endif; ?>
                             </div>

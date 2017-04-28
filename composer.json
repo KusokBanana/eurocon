@@ -25,7 +25,8 @@
         "bower-asset/twig.js" : "0.8.4@stable",
         "pusher/pusher-php-server": "^2.6",
         "venkatesanchinna/yii2-livechat": "*",
-        "justinvoelker/yii2-tagging": "*"
+        "justinvoelker/yii2-tagging": "*",
+        "yiisoft/yii2-imagine": "^2.1"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

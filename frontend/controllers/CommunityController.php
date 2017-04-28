@@ -81,4 +81,17 @@ class CommunityController extends Controller
         return $this->render('view', compact('company', 'cooperation', 'admins'));
     }
 
+    public function actionCreate()
+    {
+
+        $community = new Community();
+
+        if ($community->load(Yii::$app->request->post())) {
+            $communityId = $community->createNew();
+            return $this->redirect(['view', 'id' => $communityId]);
+        }
+
+        return $this->render('create', compact('community'));
+    }
+
 }
