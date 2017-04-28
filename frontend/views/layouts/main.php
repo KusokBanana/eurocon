@@ -292,7 +292,7 @@ $user = Person::getPerson(Yii::$app->user);
 
                     <li class="site-menu-item has-sub">
                         <?= Html::a('<i class="icon fa-group" aria-hidden="true"></i>
-                            <span class="site-menu-title">Communities</span>', ['/company/index']) ?>
+                            <span class="site-menu-title">Communities</span>', ['/community/index']) ?>
                     </li>
 
                     <li class="site-menu-item">
@@ -333,7 +333,7 @@ $user = Person::getPerson(Yii::$app->user);
 <!--<div class="wrap">-->
 <!--    --><?php
 //    NavBar::begin([
-//        'brandLabel' => 'My Company',
+//        'brandLabel' => 'My Community',
 //        'brandUrl' => Yii::$app->homeUrl,
 //        'options' => [
 //            'class' => 'navbar-inverse navbar-fixed-top',

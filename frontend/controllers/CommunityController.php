@@ -2,7 +2,7 @@
 
 namespace frontend\controllers;
 
-use frontend\models\Company;
+use frontend\models\Community;
 use frontend\models\Person;
 use frontend\models\Tag;
 use Yii;
@@ -10,7 +10,7 @@ use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class CompanyController extends Controller
+class CommunityController extends Controller
 {
 
     public function actionIndex()
@@ -45,17 +45,17 @@ class CompanyController extends Controller
                             'communities' => $communities,
                             'additionData' => $data
                         ]);
-                case Company::COMMUNITY_ADMIN_TYPE:
-                    $community = Company::findOne($data['id']);
-                    $admins = $community->getPersonsData(Company::COMMUNITY_ADMIN_TYPE, $page);
+                case Community::COMMUNITY_ADMIN_TYPE:
+                    $community = Community::findOne($data['id']);
+                    $admins = $community->getPersonsData(Community::COMMUNITY_ADMIN_TYPE, $page);
                     return $this->renderAjax('_persons',
                         [
                             'persons' => $admins,
                             'additionData' => $data
                         ]);
-                case Company::COMMUNITY_PARTICIPANT_TYPE:
-                    $community = Company::findOne($data['id']);
-                    $participants = $community->getPersonsData(Company::COMMUNITY_PARTICIPANT_TYPE, $page);
+                case Community::COMMUNITY_PARTICIPANT_TYPE:
+                    $community = Community::findOne($data['id']);
+                    $participants = $community->getPersonsData(Community::COMMUNITY_PARTICIPANT_TYPE, $page);
                     return $this->renderAjax('_persons',
                         [
                             'persons' => $participants,
@@ -70,13 +70,13 @@ class CompanyController extends Controller
     public function actionView($id)
     {
 
-        $company = Company::findOne($id);
+        $company = Community::findOne($id);
         if (!$company) {
             throw new NotFoundHttpException();
         }
 
-        $cooperation = $company->getPersonsData(Company::COMMUNITY_PARTICIPANT_TYPE);
-        $admins = $company->getPersonsData(Company::COMMUNITY_ADMIN_TYPE);
+        $cooperation = $company->getPersonsData(Community::COMMUNITY_PARTICIPANT_TYPE);
+        $admins = $company->getPersonsData(Community::COMMUNITY_ADMIN_TYPE);
 
         return $this->render('view', compact('company', 'cooperation', 'admins'));
     }

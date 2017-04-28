@@ -105,7 +105,7 @@ class Person extends User
 
     public function getCompanies()
     {
-        return $this->hasMany(Company::className(), ['id' => 'company_id'])
+        return $this->hasMany(Community::className(), ['id' => 'company_id'])
             ->via('usersForCompanies');
     }
 
@@ -132,8 +132,8 @@ class Person extends User
     public function getCompaniesData($page = 1, $search = '')
     {
         $query = $this->getCompanies();
-        $query->andFilterWhere(['LIKE', Company::tableName() . '.name', $search]);
-        return Pagination::getData($query, $page, Company::$limit, 'communities');
+        $query->andFilterWhere(['LIKE', Community::tableName() . '.name', $search]);
+        return Pagination::getData($query, $page, Community::$limit, 'communities');
     }
 
     public function afterFind()

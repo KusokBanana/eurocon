@@ -12,7 +12,7 @@ use Yii;
  * @property integer $company_id
  *
  * @property User $user
- * @property Company $company
+ * @property Community $company
  */
 class BookUserCompany extends \yii\db\ActiveRecord
 {
@@ -33,7 +33,7 @@ class BookUserCompany extends \yii\db\ActiveRecord
             [['user_id', 'company_id'], 'required'],
             [['user_id', 'company_id'], 'integer'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['company_id' => 'id']],
+            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Community::className(), 'targetAttribute' => ['company_id' => 'id']],
         ];
     }
 
@@ -45,7 +45,7 @@ class BookUserCompany extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'company_id' => 'Company ID',
+            'company_id' => 'Community ID',
         ];
     }
 
@@ -62,6 +62,6 @@ class BookUserCompany extends \yii\db\ActiveRecord
      */
     public function getCompany()
     {
-        return $this->hasOne(Company::className(), ['id' => 'company_id']);
+        return $this->hasOne(Community::className(), ['id' => 'company_id']);
     }
 }

@@ -11,7 +11,7 @@ use Yii;
  * @property integer $company_id
  * @property integer $project_id
  *
- * @property Company $company
+ * @property Community $company
  * @property Project $project
  */
 class BookCompanyProject extends \yii\db\ActiveRecord
@@ -32,7 +32,7 @@ class BookCompanyProject extends \yii\db\ActiveRecord
         return [
             [['company_id', 'project_id'], 'required'],
             [['company_id', 'project_id'], 'integer'],
-            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['company_id' => 'id']],
+            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Community::className(), 'targetAttribute' => ['company_id' => 'id']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
         ];
     }
@@ -44,7 +44,7 @@ class BookCompanyProject extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'company_id' => 'Company ID',
+            'company_id' => 'Community ID',
             'project_id' => 'Project ID',
         ];
     }
@@ -54,7 +54,7 @@ class BookCompanyProject extends \yii\db\ActiveRecord
      */
     public function getCompany()
     {
-        return $this->hasOne(Company::className(), ['id' => 'company_id']);
+        return $this->hasOne(Community::className(), ['id' => 'company_id']);
     }
 
     /**

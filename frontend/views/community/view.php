@@ -1,9 +1,9 @@
 <?php
 /* @var $this yii\web\View */
-use frontend\models\Company;
+use frontend\models\Community;
 use yii\helpers\Html;
 
-/* @var $company Company */
+/* @var $company Community */
 /* @var $cooperation array \frontend\models\Person */
 /* @var $admins array \frontend\models\Person */
 
@@ -100,7 +100,7 @@ use yii\helpers\Html;
 
                 <div class="card-block">
 
-                    <?php if ($company->isPerson(Company::COMMUNITY_ADMIN_TYPE, $admins['data'])): ?>
+                    <?php if ($company->isPerson(Community::COMMUNITY_ADMIN_TYPE, $admins['data'])): ?>
                         <div class="row text-xs-center">
                             <div class="col-xs-12 ">
                                 <?= Html::a('edit', ['/'], ['class' => 'btn btn-block btn-primary btn-outline']) ?>
@@ -115,7 +115,7 @@ use yii\helpers\Html;
                                 ?>
                             </div>
                             <div class="col-xs-6">
-                                <?php if ($company->isPerson(Company::COMMUNITY_PARTICIPANT_TYPE, $cooperation['data'])): ?>
+                                <?php if ($company->isPerson(Community::COMMUNITY_PARTICIPANT_TYPE, $cooperation['data'])): ?>
                                     <?= Html::a('<i class="icon wb-user-add" aria-hidden="true"></i>Join', ['/'],
                                         ['class' => 'btn btn-block btn-primary']); ?>
                                 <?php else: ?>

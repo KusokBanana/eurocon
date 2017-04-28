@@ -12,7 +12,7 @@ use Yii;
  * @property integer $community_id
  *
  * @property Person $admin
- * @property Company $community
+ * @property Community $community
  */
 class BookAdminsCommunity extends \yii\db\ActiveRecord
 {
@@ -34,7 +34,7 @@ class BookAdminsCommunity extends \yii\db\ActiveRecord
             [['admin_id', 'community_id'], 'integer'],
             [['admin_id', 'community_id'], 'unique', 'targetAttribute' => ['admin_id', 'community_id'], 'message' => 'The combination of Admin ID and Community ID has already been taken.'],
             [['admin_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['admin_id' => 'id']],
-            [['community_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['community_id' => 'id']],
+            [['community_id'], 'exist', 'skipOnError' => true, 'targetClass' => Community::className(), 'targetAttribute' => ['community_id' => 'id']],
         ];
     }
 
@@ -63,6 +63,6 @@ class BookAdminsCommunity extends \yii\db\ActiveRecord
      */
     public function getCommunity()
     {
-        return $this->hasOne(Company::className(), ['id' => 'community_id']);
+        return $this->hasOne(Community::className(), ['id' => 'community_id']);
     }
 }

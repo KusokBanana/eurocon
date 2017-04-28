@@ -5,7 +5,7 @@
 /* @var $projects \frontend\models\Project array */
 /* @var $isUserPage bool */
 /* @var $friends \frontend\models\Person array */
-/* @var $communities \frontend\models\Company array */
+/* @var $communities \frontend\models\Community array */
 
 use yii\helpers\Html;
 
@@ -60,7 +60,9 @@ $this->title = 'Eurocon / profile';
                                 ]), ["javascript:void(0)"], ['class' => 'avatar']); ?>
                                 <div class="font-size-20 m-t-10"><?= $person->name . ' ' . $person->surname ?></div>
                                 <div class="font-size-14">parquet producer</div>
-				  <div class="font-size-14 m-t-"><i class="icon wb-map" aria-hidden="true"></i>Saltsburg, Austria</div>
+                                <div class="font-size-14 m-t-">
+                                    <i class="icon wb-map" aria-hidden="true"></i>Saltsburg, Austria
+                                </div>
 
                             </div>
                         </div>

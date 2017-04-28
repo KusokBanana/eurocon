@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $communities \frontend\models\Company array */
+/* @var $communities \frontend\models\Community array */
 /* @var $person \frontend\models\Person */
 use yii\helpers\Html;
 use yii\helpers\Url;

@@ -1,7 +1,7 @@
 <?php
 
 /* @var $communities array */
-/* @var $communities['data'] \frontend\models\Company array */
+/* @var $communities['data'] \frontend\models\Community array */
 /* @var $additionData array*/
 
 use frontend\widgets\Pagination;
@@ -28,7 +28,7 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
                         <div class="avatar avatar-online">
                             <?= Html::a(Html::img($community->image, [
                                     'alt' => '...'
-                            ]), ['/company/view', 'id' => $community->id]) ?>
+                            ]), ['/community/view', 'id' => $community->id]) ?>
                         </div>
                     </div>
                     <div class="media-body">

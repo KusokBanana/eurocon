@@ -77,7 +77,7 @@ return [
                     'route' => '<controller>/<action>',
                     'suffix' => '',
                 ],
-                'company' => '/company/index',
+                'communities' => '/community/index',
                 'signup' => '/site/signup',
                 'login' => '/site/login',
                 'projects' => '/project',
