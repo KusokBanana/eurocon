@@ -3,6 +3,8 @@
 namespace frontend\models;
 
 use common\models\OrlandoBanana;
+use Imagine\Image\BoxInterface;
+use Imagine\Image\ImageInterface;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
@@ -185,11 +187,17 @@ class Community extends ActiveRecord
             $dir = Yii::getAlias(self::$absolute_avatar_path);
             $fileName = OrlandoBanana::getRandomFileName($dir, $file->extension);
 
-            $width = self::FILE_WIDTH; // TODO check if it more than const
-            $height = self::FILE_HEIGHT;
+            $image = Image::frame($file->tempName);
+            $sizes = $image->getSize();
+
+            $width = ($sizes->getWidth() > self::FILE_WIDTH) ? self::FILE_WIDTH : $sizes->getWidth();
+            $height = ($sizes->getHeight() > self::FILE_HEIGHT) ? self::FILE_HEIGHT : $sizes->getHeight();
+
+            $sizes->widen($width);
+            $sizes->heighten($height);
+            $image->resize($sizes)->save($dir . $fileName);
 
             $this->image_src = $fileName;
-            Image::thumbnail($file->tempName, $width, $height)->save($dir . $fileName);
             $this->save();
         }
 
