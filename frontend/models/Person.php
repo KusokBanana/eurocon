@@ -33,9 +33,15 @@ class Person extends User
     private static $default_avatar = '@web/img/portraits/5.jpg';
     private static $minutes_ago_online = 5;
 
+    const RELATION_SELF = 1;
+    const RELATION_FRIEND = 2;
+    const RELATION_REQUEST_FROM = 3;
+    const RELATION_REQUEST_TO = 4;
+
     public $last_access = 'never';
     public $is_online = false;
     public $full_name;
+    public $relation = false;
 
     public static $limit = 12;
 
@@ -98,15 +104,20 @@ class Person extends User
             }], true, 'LEFT OUTER JOIN');
     }
 
-    public function getUsersForCompanies()
+    public function getParticipants()
     {
-        return $this->hasMany(BookUserCompany::className(), ['user_id' => 'id']);
+        return $this->hasMany(BookUserCommunity::className(), ['user_id' => 'id']);
+    }
+
+    public function getAdmins()
+    {
+        return $this->hasMany(BookAdminsCommunity::className(), ['admin_id' => 'id']);
     }
 
     public function getCompanies()
     {
-        return $this->hasMany(Community::className(), ['id' => 'company_id'])
-            ->via('usersForCompanies');
+        return $this->hasMany(Community::className(), ['id' => 'community_id'])
+            ->via('participants')->via('admins');
     }
 
     public static function getPerson($user)
@@ -129,7 +140,7 @@ class Person extends User
 
     }
 
-    public function getCompaniesData($page = 1, $search = '')
+    public function getCommunitiesData($page = 1, $search = '')
     {
         $query = $this->getCompanies();
         $query->andFilterWhere(['LIKE', Community::tableName() . '.name', $search]);
@@ -150,7 +161,37 @@ class Person extends User
         $this->full_name = $this->surname . ($this->surname ? ' ' : '') . $this->name;
 
         $this->setImage();
+    }
 
+    public function addToFriends($user_id)
+    {
+        return Friends::add($user_id, $this->id);
+    }
+
+    public function removeFromFriends($user_id)
+    {
+        return Friends::remove($user_id, $this->id);
+    }
+
+    public function setRelation($user)
+    {
+
+        if ($this->id === $user->id) {
+            $this->relation = self::RELATION_SELF;
+        } else {
+            $isHasRequest = RequestsToFriends::isHasRequest($this->id, $user->id, true);
+            if ($isHasRequest) {
+                if ($isHasRequest == RequestsToFriends::REQUEST_TYPE_FROM)
+                    $this->relation = self::RELATION_REQUEST_FROM;
+                elseif ($isHasRequest == RequestsToFriends::REQUEST_TYPE_TO)
+                    $this->relation = self::RELATION_REQUEST_TO;
+            } else {
+                $isFriend = Friends::isFriends($user->id, $this->id);
+                if ($isFriend) {
+                    $this->relation = self::RELATION_FRIEND;
+                }
+            }
+        }
 
     }
 

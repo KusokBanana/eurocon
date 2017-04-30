@@ -24,8 +24,8 @@ use yii\imagine\Image;
  * @property integer $type
  * @property string $description
  *
- * @property BookCompanyProject[] $bookCompanyProjects
- * @property BookUserCompany[] $bookUserCompanies
+ * @property BookCommunityProject[] $bookCompanyProjects
+ * @property BookUserCommunity[] $bookUserCompanies
  */
 class Community extends ActiveRecord
 {
@@ -94,12 +94,12 @@ class Community extends ActiveRecord
      */
     public function getBookCompanyProjects()
     {
-        return $this->hasMany(BookCompanyProject::className(), ['company_id' => 'id']);
+        return $this->hasMany(BookCommunityProject::className(), ['community_id' => 'id']);
     }
 
     public function getParticipants()
     {
-        return $this->hasMany(BookUserCompany::className(), ['company_id' => 'id']);
+        return $this->hasMany(BookUserCommunity::className(), ['community_id' => 'id']);
     }
 
     public function getAdmins()
@@ -173,6 +173,40 @@ class Community extends ActiveRecord
                 return $this->id;
             }
         }
+
+    }
+
+    public function join($user_id)
+    {
+
+        if ($user_id) {
+            $isAdmin = BookAdminsCommunity::find()->where(['admin_id' => $user_id, 'community_id' => $this->id])->one();
+            if ($isAdmin)
+                return false;
+
+            $newParticipant = new BookUserCommunity();
+            $newParticipant->user_id = $user_id;
+            $newParticipant->community_id = $this->id;
+            if ($newParticipant->save())
+                return true;
+        }
+
+        return false;
+
+    }
+
+    public function leave($user_id)
+    {
+
+        if ($user_id) {
+            $participant = BookUserCommunity::find()->where(['user_id' => $user_id, 'community_id' => $this->id])->one();
+            if ($participant) {
+                $participant->delete();
+                return true;
+            }
+        }
+
+        return false;
 
     }
 

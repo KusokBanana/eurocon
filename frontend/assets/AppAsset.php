@@ -82,6 +82,12 @@ class AppAsset extends AssetBundle
         '/js/Plugin/gallery.min.js',
         '/vendor/isotope/isotope.pkgd.min.js',
         '/vendor/magnific-popup/jquery.magnific-popup.min.js',
+//        '/vendor/raty/jquery.raty.js',
+//        '/vendor/mapbox-js/mapbox.js',
+//        '/vendor/mapbox-js/leaflet.markercluster.js',
+//        '/js/Plugin/raty.min.js',
+//        '/js/assets/Travel.js',
+//        '/js/Plugin/travel.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

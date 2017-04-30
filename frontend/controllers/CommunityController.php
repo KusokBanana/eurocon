@@ -19,7 +19,7 @@ class CommunityController extends Controller
         if (!$user->isGuest) {
 
             $person = Person::getPerson(Yii::$app->user);
-            $communities = $person->getCompaniesData();
+            $communities = $person->getCommunitiesData();
             return $this->render('index', compact('communities', 'person'));
 
         } else {
@@ -35,11 +35,17 @@ class CommunityController extends Controller
             $type = Yii::$app->request->get('type');
             $data = Yii::$app->request->post('data');
             $data = Json::decode($data, true);
+            $action = isset($data['action']) ? $data['action'] : false;
+            $search = isset($data['search']) ? trim($data['search']) : '';
+
+            if ($action == 'search') {
+                $page = $data['page'] = 1;
+            }
 
             switch ($type) {
                 case 'communities':
-                    $person = Person::findOne($data['id']); // TODO maybe change it to global user Yii::@app->user...
-                    $communities = $person->getCompaniesData($page);
+                    $person = Person::findOne($data['id']);
+                    $communities = $person->getCommunitiesData($page, $search);
                     return $this->renderAjax('/tabs/_communities',
                         [
                             'communities' => $communities,
@@ -92,6 +98,34 @@ class CommunityController extends Controller
         }
 
         return $this->render('create', compact('community'));
+    }
+
+    public function actionJoin($id)
+    {
+
+        $community = Community::findOne($id);
+        if ($community) {
+            $user = Yii::$app->user;
+            $person = Person::getPerson($user);
+            $result = $community->join($person->id);
+            if ($result)
+                return $this->redirect(['view', 'id' => $community->id]);
+        }
+
+    }
+
+    public function actionLeave($id)
+    {
+
+        $community = Community::findOne($id);
+        if ($community) {
+            $user = Yii::$app->user;
+            $person = Person::getPerson($user);
+            $result = $community->leave($person->id);
+            if ($result)
+                return $this->redirect(['view', 'id' => $community->id]);
+        }
+
     }
 
 }

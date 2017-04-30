@@ -17,6 +17,10 @@ use yii\db\ActiveRecord;
  */
 class RequestsToFriends extends ActiveRecord
 {
+
+    const REQUEST_TYPE_FROM = 1;
+    const REQUEST_TYPE_TO = 2;
+
     /**
      * @inheritdoc
      */
@@ -71,17 +75,17 @@ class RequestsToFriends extends ActiveRecord
 
         if ($from_user && $to_user) {
 
-            $isExist = static::find()->where(['or',
-                ['from_user_id' => $from_user, 'to_user_id' => $to_user],
-                ['to_user_id' => $from_user, 'from_user_id' => $to_user]])->one();
+            $isExist = static::isHasRequest($from_user, $to_user);
 
             if (!$isExist) {
                 $newRequest = new RequestsToFriends();
                 $newRequest->from_user_id = $from_user;
                 $newRequest->to_user_id = $to_user;
-                $newRequest->save();
+                if ($newRequest->save())
+                    return true;
             }
 
+            return false;
         }
 
     }
@@ -93,6 +97,29 @@ class RequestsToFriends extends ActiveRecord
             $outcome = static::find()->where(['from_user_id' => $user_id])->joinWith('toUser')->all();
             return compact('income', 'outcome');
         }
+    }
+
+    public static function isHasRequest($user_id_from, $user_id_to, $isWithDescribe = false)
+    {
+        $request = static::find()->where(['or',
+            ['from_user_id' => $user_id_from, 'to_user_id' => $user_id_to],
+            ['to_user_id' => $user_id_from, 'from_user_id' => $user_id_to]])->one();
+        if ($request) {
+            if ($isWithDescribe) {
+                return ($request->from_user_id == $user_id_from) ? self::REQUEST_TYPE_FROM : self::REQUEST_TYPE_TO;
+            }
+            return true;
+        }
+        return false;
+    }
+
+    public static function hasFromTo($user_id_from, $user_id_to, $isGetObj = false)
+    {
+        $request = static::find()->where(['from_user_id' => $user_id_from, 'to_user_id' => $user_id_to])->one();
+        if ($isGetObj) {
+            return $request;
+        }
+        return ($request) ? true : false;
     }
 
 }

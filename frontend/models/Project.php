@@ -13,7 +13,7 @@ use yii\db\ActiveRecord;
  * @property string $date
  * @property string $image
  *
- * @property BookCompanyProject[] $bookCompanyProjects
+ * @property BookCommunityProject[] $bookCompanyProjects
  * @property BookUserProject[] $participants
  */
 class Project extends ActiveRecord
@@ -62,7 +62,7 @@ class Project extends ActiveRecord
      */
     public function getCompanyProjects()
     {
-        return $this->hasMany(BookCompanyProject::className(), ['project_id' => 'id']);
+        return $this->hasMany(BookCommunityProject::className(), ['project_id' => 'id']);
     }
 
     public function getProjects()

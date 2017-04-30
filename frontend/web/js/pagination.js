@@ -18,6 +18,7 @@ $(document).ready(function() {
             additionData = JSON.parse(additionData);
             additionData.action = 'search';
             additionData.search = $(this).val();
+            console.log(additionData);
             additionData = JSON.stringify(additionData);
 
             ajaxReload(additionData, $(this), $(this).attr('data-href'));

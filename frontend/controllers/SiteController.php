@@ -87,33 +87,65 @@ class SiteController extends Controller
             return $this->actionLogin();
 
         } else {
-            $isUserPage = false;
 
             if ($id) {
 
                 $pageUser = User::findOne($id);
                 if ($pageUser) {
                     $person = Person::getPerson($pageUser);
-                    if ($user->id == $id)
-                        $isUserPage = true;
                 } else {
                     throw new NotFoundHttpException();
                 }
 
             } else {
                 $person = Person::getPerson($user);
-                $isUserPage = true;
             }
 
+            $person->setRelation($user);
             $projects = $person->getProjectsData();
             $friends = Friends::getFriends($person->id);
-            $communities = $person->getCompaniesData();
+            $communities = $person->getCommunitiesData();
 
             return $this->render('profile',
-                compact('person', 'projects', 'isUserPage', 'friends', 'communities'));
+                compact('person', 'projects', 'friends', 'communities'));
 
         }
 
+    }
+
+    public function actionProfile($id)
+    {
+        $person = Person::findOne($id);
+        if ($person) {
+            $this->redirect(['index', 'id' => $id]);
+        }
+    }
+
+    public function actionToFriends($id)
+    {
+        $person = Person::findOne($id);
+        if ($person) {
+            $requestPerson = Person::getPerson(Yii::$app->user);
+            if ($requestPerson) {
+                $result = $person->addToFriends($requestPerson->id);
+                if ($result)
+                    $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+    }
+
+
+    public function actionFromFriends($id)
+    {
+        $person = Person::findOne($id);
+        if ($person) {
+            $requestPerson = Person::getPerson(Yii::$app->user);
+            if ($requestPerson) {
+                $result = $person->removeFromFriends($requestPerson);
+                if ($result)
+                    return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
     }
 
     public function actionAjaxReload()
@@ -148,7 +180,7 @@ class SiteController extends Controller
                         ]);
                 case 'communities':
                     $person = Person::findOne($data['id']);
-                    $communities = $person->getCompaniesData($page, $search);
+                    $communities = $person->getCommunitiesData($page, $search);
                     return $this->renderAjax('/tabs/_communities',
                         [
                             'communities' => $communities,
@@ -300,4 +332,18 @@ class SiteController extends Controller
             'model' => $model,
         ]);
     }
+
+
+    public function actionLocations()
+    {
+
+        $user = Yii::$app->user;
+        $user = Person::getPerson($user);
+        $person = Person::getPerson($user->id);
+
+
+        return $this->render('locations');
+
+    }
+
 }

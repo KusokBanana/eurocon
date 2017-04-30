@@ -54,21 +54,57 @@ class Friends extends ActiveRecord
         ];
     }
 
-    public static function addToFriends($user_id_1, $user_id_2)
+    public static function add($user_id_from, $user_id_to)
     {
 
-        if ($user_id_1 && $user_id_2) {
+        if ($user_id_from && $user_id_to) {
 
-            $isExist = static::find()->where(['or',
-                ['user_id_1' => $user_id_1, 'user_id_2' => $user_id_2],
-                ['user_id_2' => $user_id_1, 'user_id_1' => $user_id_2]])->one();
+            $isExist = static::isFriends($user_id_from, $user_id_to);
 
             if (!$isExist) {
-                $newRequest = new Friends();
-                $newRequest->user_id_1 = $user_id_1;
-                $newRequest->user_id_2 = $user_id_2;
-                $newRequest->save();
+
+                $hasRequest = RequestsToFriends::hasFromTo($user_id_to, $user_id_from, true);
+                if ($hasRequest) {
+                    $newFriends = new self();
+                    $newFriends->user_id_1 = $user_id_from;
+                    $newFriends->user_id_2 = $user_id_to;
+                    if ($newFriends->save()) {
+                        $hasRequest->delete();
+                        return true;
+                    }
+                } else {
+                    $hasRequest = RequestsToFriends::hasFromTo($user_id_to, $user_id_from);
+                    if (!$hasRequest) {
+                        return RequestsToFriends::add($user_id_from, $user_id_to);
+                    }
+                }
             }
+
+            return false;
+
+        }
+
+    }
+
+    public static function remove($user_id_from, $user_id_to)
+    {
+
+        if ($user_id_from && $user_id_to) {
+
+            $isFriends = static::isFriends($user_id_from, $user_id_to, true);
+
+            if ($isFriends) {
+                $isFriends->delete();
+                return true;
+            } else {
+                $hasRequest = RequestsToFriends::hasFromTo($user_id_from, $user_id_to, true);
+                if ($hasRequest) {
+                    $hasRequest->delete();
+                    return true;
+                }
+            }
+
+            return false;
 
         }
 
@@ -83,20 +119,20 @@ class Friends extends ActiveRecord
                 ->orWhere(['user_id_2' => $user_id])
                 ->all();
 
-            $friends = [];
+            $friendsIds = [];
 
             if (!empty($friendsLinks)) {
                 $friendsIds = $result = ArrayHelper::getColumn($friendsLinks,
                     function ($element) use ($user_id) {
                         return ($element->user_id_1 == $user_id) ? $element->user_id_2 : $element->user_id_1;
                     });
-
-                $friendsQuery = Person::find()->where(['id' => $friendsIds]);
-
-                $friendsQuery->andFilterWhere(['LIKE', 'CONCAT(IFNULL(surname, ""), " ", IFNULL(name, ""))', $search]);
-
-                $friends = Pagination::getData($friendsQuery, $page, static::$limit, 'friends');
             }
+
+            $friendsQuery = Person::find()->where(['id' => $friendsIds]);
+
+            $friendsQuery->andFilterWhere(['LIKE', 'CONCAT(IFNULL(surname, ""), " ", IFNULL(name, ""))', $search]);
+
+            $friends = Pagination::getData($friendsQuery, $page, static::$limit, 'friends');
 
             return $friends;
         }
@@ -118,5 +154,19 @@ class Friends extends ActiveRecord
         return ($this->page - 1) * static::$limit;
     }
 
+    public static function isFriends($user_id_1, $user_id_2, $isGetObj = false)
+    {
+        if ($user_id_1 && $user_id_2) {
+            $friends = static::find()->where(['or',
+                ['user_id_1' => $user_id_1, 'user_id_2' => $user_id_2],
+                ['user_id_2' => $user_id_1, 'user_id_1' => $user_id_2]])->one();
+
+            if ($isGetObj) {
+                return $friends;
+            }
+
+            return ($friends) ? true : false;
+        }
+    }
 
 }

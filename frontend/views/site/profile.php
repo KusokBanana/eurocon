@@ -1,12 +1,12 @@
 <?php
 
 /* @var $this yii\web\View */
-/* @var $person \frontend\models\Person */
+/* @var $person Person */
 /* @var $projects \frontend\models\Project array */
-/* @var $isUserPage bool */
-/* @var $friends \frontend\models\Person array */
+/* @var $friends Person array */
 /* @var $communities \frontend\models\Community array */
 
+use frontend\models\Person;
 use yii\helpers\Html;
 
 $this->title = 'Eurocon / profile';
@@ -34,8 +34,9 @@ $this->title = 'Eurocon / profile';
                     </ul>
 
                     <?php
-                    if ($isUserPage) {
-                        echo Html::a('<span><i class="icon wb-hammer " aria-hidden="true"></i>Create a project</span>', ['/'],
+                    if ($person->relation === Person::RELATION_SELF) {
+                        echo Html::a('<span><i class="icon wb-hammer " aria-hidden="true"></i>Create a project</span>',
+                            ['/project/create'],
                             ['class' => 'btn btn-dark btn-animate btn-animate-side']);
                     }
                     ?>
@@ -71,7 +72,7 @@ $this->title = 'Eurocon / profile';
                     <div class="card-block">
 
                         <!-- TODO here begin -->
-                        <?php if ($isUserPage): ?>
+                        <?php if ($person->relation === Person::RELATION_SELF): ?>
                             <div class="row text-xs-center">
                                 <div class="col-xs-12 ">
                                     <?= Html::a('edit', ['/'], ['class' => 'btn btn-block btn-primary btn-outline']) ?>
@@ -84,8 +85,19 @@ $this->title = 'Eurocon / profile';
                                         ['/'], ['class' => 'btn btn-block btn-primary']) ?>
                                 </div>
                                 <div class="col-xs-6">
-                                    <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Add to friends',
-                                        ['/'], ['class' => 'btn btn-block btn-primary']) ?>
+                                    <?php if ($person->relation === Person::RELATION_REQUEST_FROM): ?>
+                                        <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Accept Friendship',
+                                            ['/site/to-friends', 'id' => $person->id], ['class' => 'btn btn-block btn-primary']) ?>
+                                    <?php elseif ($person->relation == Person::RELATION_REQUEST_TO): ?>
+                                        <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Cancel Invitation',
+                                            ['/site/from-friends', 'id' => $person->id], ['class' => 'btn btn-block btn-primary']) ?>
+                                    <?php elseif ($person->relation == Person::RELATION_FRIEND): ?>
+                                        <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Remove from Friends',
+                                            ['/site/from-friends', 'id' => $person->id], ['class' => 'btn btn-block btn-primary']) ?>
+                                    <?php else: ?>
+                                        <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Add to Friends',
+                                            ['/site/to-friends', 'id' => $person->id], ['class' => 'btn btn-block btn-primary']) ?>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         <?php endif; ?>
