@@ -1,17 +1,16 @@
 <?php
 
-/* @var $this \yii\web\View */
-
-//$this->registerJsFile('@web/vendor/jquery.raty.js', ['position' => yii\web\View::POS_END]);
-//$this->registerJsFile('@web/js/Plugin/raty.min.js', ['position' => yii\web\View::POS_END]);
-//$this->registerJsFile('@web/js/assets/Travel.min.js', ['position' => yii\web\View::POS_END]);
-//$this->registerJsFile('@web/js/Plugin/travel.min.js', ['position' => yii\web\View::POS_END]);
-
+use frontend\assets\AppAsset;
+use frontend\assets\LocationsAsset;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
-$this->registerCssFile('@web/vendor/mapbox-js/mapbox.min.css');
-$this->registerCssFile('@web/css/travel.min.css');
+/* @var $this \yii\web\View */
+/* @var $projects \frontend\models\Project */
 
+LocationsAsset::register($this);
+
+$this->params['body-class'] = 'app-travel'
 ?>
 
 <div class="page-header h-300 m-b-30"
@@ -36,7 +35,6 @@ $this->registerCssFile('@web/css/travel.min.css');
             </div>
         </div>
 
-
         <div class="page-aside-switch">
             <i class="icon wb-chevron-left" aria-hidden="true"></i>
             <i class="icon wb-chevron-right" aria-hidden="true"></i>
@@ -56,74 +54,50 @@ $this->registerCssFile('@web/css/travel.min.css');
                         <div class="tab-content">
                             <div class="tab-pane animation-fade active" id="spots" role="tabpanel" aria-expanded="ture">
                                 <div class="spots-list row">
-                                    <div class="col-xs-12 col-xxl-6 col-lg-12 spot-info" data-spot-id="s_1">
-                                        <div class="card card-shadow">
-                                            <div class="card-header cover overlay">
-                                                <img class="cover-image" src="https://s-media-cache-ak0.pinimg.com/originals/f2/6e/58/f26e5892246118a65bc91782e4c3b40a.jpg" alt="spot_photo"
-                                                />
-                                                <div class="overlay-panel">
-                                                    <div class="card-actions pull-xs-right">
-                                                        <a href="javascript:void(0)">
-                                                            <i class="icon wb-heart-outline text" aria-hidden="true"></i>
-                                                            <i class="icon wb-heart text-active" aria-hidden="true"></i>
-                                                        </a>
+                                    <?php foreach ($projects as $key => $project): ?>
+                                        <div class="col-xs-12 col-xxl-6 col-lg-12 spot-info" data-spot-id="<?= 's_'.$key ?>">
+                                            <div class="card card-shadow">
+                                                <div class="card-header cover overlay">
+<!--                                                    <img class="cover-image" src="https://s-media-cache-ak0.pinimg.com/originals/f2/6e/58/f26e5892246118a65bc91782e4c3b40a.jpg" alt="spot_photo"-->
+<!--                                                    />-->
+                                                    <?= Html::img($project->image,
+                                                        [
+                                                            'class' => 'cover-image',
+                                                            'alt' => 'spot_photo',
+                                                        ]) ?>
+                                                    <div class="overlay-panel">
+                                                        <div class="card-actions pull-xs-right">
+                                                            <a href="javascript:void(0)">
+                                                                <i class="icon wb-heart-outline text" aria-hidden="true"></i>
+                                                                <i class="icon wb-heart text-active" aria-hidden="true"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="card-block">
+                                                    <h3 class="card-title item-title">
+                                                        <?= $project->name ?>
+                                                    </h3>
+                                                    <span class="item-name">exercitation</span>
+                                                    <p class="card-text type-link">
+                                                        <small>
+                                                            Posted in
+                                                            <a href="javascript:void(0)">
+                                                                qui
+                                                            </a>
+                                                        </small>
+                                                    </p>
+                                                    <p class="card-text">
+                                                        <?= $project->description ?>
+                                                    </p>
+                                                </div>
+                                                <div class="card-block">
+                                                    <div class="rating" data-score="4" data-nummber="5" data-plugin="rating">
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="card-block">
-                                                <h3 class="card-title item-title">
-                                                    Project №1
-                                                </h3>
-                                                <span class="item-name">
-                            exercitation
-                          </span>
-                                                <p class="card-text type-link">
-                                                    <small>
-                                                        Posted in
-                                                        <a href="javascript:void(0)">
-                                                            qui
-                                                        </a>
-                                                    </small>
-                                                </p>
-                                                <p class="card-text">
-                                                    Officia et adipisicing esse enim aliqua. Ut irure non pariatur reprehenderit cupidatat
-                                                    tempor. Cillum dolor elit aliquip est aute qui est.
-                                                    Consectetur irure consequat sunt et est nostrud laborum
-                                                    proident eu. Ipsum est laborum adipisicing pariatur
-                                                    ut sit do consectetur. Deserunt aliqua est magna duis
-                                                    enim qui et ea. Aliqua consequat consequat officia
-                                                    proident in. Occaecat tempor dolore nulla consequat
-                                                    id.
-                                                </p>
-                                            </div>
-                                            <div class="card-block">
-                                                <div class="rating" data-score="4" data-nummber="5" data-plugin="rating">
-                                                </div>
-                                            </div>
                                         </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane animation-fade" id="hotels" role="tabpanel" aria-expanded="false">
-                                <div class="hotels-list row">
-                                    <div class="col-xs-12 col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12 hotel-info"
-                                         data-hotel-id="h_1">
-                                        <div class="card card-block card-inverse card-primary">
-                                            <div class="hotel-img">
-                                                <img src= "../../global/photos/city-4-720x480.jpg">
-<!--                                                --><?//= \yii\helpers\Html::img('@web/') ?>
-                                            </div>
-                                            <h4 class="card-title item-name">
-                                                sint consequat
-                                            </h4>
-                                            <p class="card-text item-title">
-                                                Amet ex velit elit consequat cillum. Proident ex ipsum ipsum et esse sint. Exercitation
-                                                nostrud incididunt non dolore fugiat ea.
-                                            </p>
-                                            <div class="rating" data-plugin="rating" data-score="4" data-nummber="5" data-read-only="true">
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <?php endforeach; ?>
                                 </div>
                             </div>
                         </div>
@@ -134,7 +108,6 @@ $this->registerCssFile('@web/css/travel.min.css');
     </div>
     <!-- End Travel Options Siderbar -->
     <div class="page-main">
-        <div id="map">
-        </div>
+        <div id="map"></div>
     </div>
 </div>

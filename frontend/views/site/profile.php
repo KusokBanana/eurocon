@@ -190,33 +190,33 @@ $this->title = 'Eurocon / profile';
 
                             <ul class="nav nav-tabs nav-tabs-line" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" data-toggle="tab" href="#all_contacts"
+                                    <a class="nav-link" data-toggle="tab" href="#tab_projects"
                                        aria-controls="all_contacts" role="tab" aria-expanded="false">Projects</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" data-toggle="tab" href="#my_contacts"
+                                    <a class="nav-link active" data-toggle="tab" href="#tab_participants"
                                        aria-controls="my_contacts" role="tab" aria-expanded="true">Friends</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" data-toggle="tab" href="#google_contacts"
+                                    <a class="nav-link" data-toggle="tab" href="#tab_communities"
                                        aria-controls="google_contacts" role="tab" aria-expanded="false">Communities</a>
                                 </li>
                             </ul>
 
                             <div class="tab-content">
-                                <div class="tab-pane animation-fade" id="all_contacts" role="tabpanel" aria-expanded="false">
+                                <div class="tab-pane animation-fade" id="tab_projects" role="tabpanel" aria-expanded="false">
                                     <?= $this->render('/tabs/_projects', [
                                         'projects' => $projects,
                                         'additionData' => ['id' => $person->id]
                                     ]) ?>
                                 </div>
-                                <div class="tab-pane animation-fade active" id="my_contacts" role="tabpanel" aria-expanded="true">
+                                <div class="tab-pane animation-fade active" id="tab_participants" role="tabpanel" aria-expanded="true">
                                     <?= $this->render('/tabs/_participants', [
                                         'participants' => $friends,
                                         'additionData' => ['id' => $person->id]
                                     ]) ?>
                                 </div>
-                                <div class="tab-pane animation-fade" id="google_contacts" role="tabpanel" aria-expanded="false">
+                                <div class="tab-pane animation-fade" id="tab_communities" role="tabpanel" aria-expanded="false">
                                     <?= $this->render('/tabs/_communities', [
                                         'communities' => $communities,
                                         'additionData' => ['id' => $person->id]

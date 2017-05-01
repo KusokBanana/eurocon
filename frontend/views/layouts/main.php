@@ -47,7 +47,7 @@ $user = Person::getPerson(Yii::$app->user);
     <?php $this->head() ?>
 <!--    <script src="//js.pusher.com/3.1/pusher.min.js"></script>-->
 </head>
-<body class="animsition site-navbar-small dashboard">
+<body class="animsition site-navbar-small <?= isset($this->params['body-class']) ? $this->params['body-class'] : 'dashboard' ?>">
 <?php $this->beginBody() ?>
 
 <!--[if lt IE 8]>
@@ -284,10 +284,8 @@ $user = Person::getPerson(Yii::$app->user);
                     </li>
 
                     <li class="site-menu-item has-sub">
-                        <a href="javascript:void;">
-                            <i class="icon wb-map" aria-hidden="true"></i>
-                            <span class="site-menu-title">Locations</span>
-                        </a>
+                        <?= Html::a('<i class="icon wb-map" aria-hidden="true"></i>
+                            <span class="site-menu-title">Locations</span>', ['/site/locations']) ?>
                     </li>
 
                     <li class="site-menu-item has-sub">

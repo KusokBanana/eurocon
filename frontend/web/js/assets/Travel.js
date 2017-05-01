@@ -103,6 +103,7 @@
             x = -1 * Math.random();
           }
 
+          // TODO change this when know how to calc coordinates
           var markerLatlng = L.latLng(37.769 + Math.random() / 170 * x, -122.446 + Math.random() / 150 * x);
 
           path = $(items[i]).find('img').attr('src');

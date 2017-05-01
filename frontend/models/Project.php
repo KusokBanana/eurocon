@@ -12,6 +12,7 @@ use yii\db\ActiveRecord;
  * @property string $name
  * @property string $date
  * @property string $image
+ * @property string $description
  *
  * @property BookCommunityProject[] $bookCompanyProjects
  * @property BookUserProject[] $participants

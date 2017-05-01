@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use common\models\User;
 use frontend\models\Friends;
 use frontend\models\Person;
+use frontend\models\Project;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\helpers\Json;
@@ -338,11 +339,11 @@ class SiteController extends Controller
     {
 
         $user = Yii::$app->user;
-        $user = Person::getPerson($user);
-        $person = Person::getPerson($user->id);
+//        $person = Person::getPerson($user);
+        $projects = Project::find()->all();
 
 
-        return $this->render('locations');
+        return $this->render('locations', compact('projects'));
 
     }
 
