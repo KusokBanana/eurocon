@@ -53,7 +53,7 @@ class Project extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
+            'name' => 'Project\'s name',
             'date' => 'Date',
         ];
     }

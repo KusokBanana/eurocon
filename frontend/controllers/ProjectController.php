@@ -67,4 +67,18 @@ class ProjectController extends Controller
         }
     }
 
+    public function actionCreate()
+    {
+
+        $newProject = new Project();
+
+        if ($newProject->load(Yii::$app->request->post())) {
+//            $communityId = $community->createNew();
+//            return $this->redirect(['view', 'id' => $communityId]);
+        }
+
+        return $this->render('create', compact('newProject'));
+
+    }
+
 }
