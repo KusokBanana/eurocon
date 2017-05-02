@@ -270,10 +270,8 @@ $user = Person::getPerson(Yii::$app->user);
                     </li>
 
                     <li class="site-menu-item">
-                        <a href="javascript:void;">
-                            <i class="icon wb-users" aria-hidden="true"></i>
-                            <span class="site-menu-title">Friends</span>
-                        </a>
+                        <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>
+                            <span class="site-menu-title">Friends</span>', ['/site/friends']) ?>
                     </li>
 
                     <li class="site-menu-item">
@@ -294,17 +292,13 @@ $user = Person::getPerson(Yii::$app->user);
                     </li>
 
                     <li class="site-menu-item">
-                        <a href="javascript:void;">
-                            <i class="icon fa-newspaper-o" aria-hidden="true"></i>
-                            <span class="site-menu-title">Projects news</span>
-                        </a>
+                        <?= Html::a('<i class="icon fa-newspaper-o" aria-hidden="true"></i>
+                            <span class="site-menu-title">Projects news</span>', ['/project/news']) ?>
                     </li>
 
                     <li class="site-menu-item">
-                        <a href="javascript:void;">
-                            <i class="icon wb-shopping-cart" aria-hidden="true"></i>
-                            <span class="site-menu-title">Marketplace</span>
-                        </a>
+                        <?= Html::a('<i class="icon wb-shopping-cart" aria-hidden="true"></i>
+                            <span class="site-menu-title">Marketplace</span>', ['/site/marketplace']) ?>
                     </li>
 
 

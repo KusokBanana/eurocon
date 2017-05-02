@@ -21,9 +21,6 @@ $this->registerCssFile('@web/css/forgot-password.css')
             ->input('email', ['placeholder' => 'Your Email'])->label(null, [
                 'class' => 'sr-only'
             ]) ?>
-<!--    <div class="form-group">-->
-<!--        <input type="email" class="form-control" id="inputEmail" name="email" placeholder="Your Email">-->
-<!--    </div>-->
     <div class="form-group">
         <?= Html::submitButton('Reset Your Password', ['class' => 'btn btn-primary btn-block']) ?>
     </div>

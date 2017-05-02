@@ -347,4 +347,19 @@ class SiteController extends Controller
 
     }
 
+    public function actionFriends()
+    {
+
+        return $this->render('friends');
+
+    }
+
+    public function actionMarketplace()
+    {
+
+        return $this->render('marketplace');
+
+    }
+
+
 }

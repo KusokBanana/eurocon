@@ -81,4 +81,16 @@ class ProjectController extends Controller
 
     }
 
+    public function actionNews()
+    {
+
+        $user = Yii::$app->user;
+//        $person = Person::getPerson($user);
+        $projects = Project::find()->all();
+
+
+        return $this->render('news', compact('projects'));
+
+    }
+
 }

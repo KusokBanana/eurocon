@@ -27,6 +27,7 @@ class AppAsset extends AssetBundle
         'vendor/jquery-selective/jquery-selective.min.css',
         'vendor/bootstrap-datepicker/bootstrap-datepicker.min.css',
         'css/team.min.css',
+        '/css/media.min.css',
         // fonts
         'fonts/web-icons/web-icons.min.css',
         'fonts/brand-icons/brand-icons.min.css',
@@ -82,6 +83,13 @@ class AppAsset extends AssetBundle
         '/js/Plugin/gallery.min.js',
         '/vendor/isotope/isotope.pkgd.min.js',
         '/vendor/magnific-popup/jquery.magnific-popup.min.js',
+        '/js/Plugin/sticky-header.min.js',
+        '/js/Plugin/action-btn.min.js',
+        '/js/Plugin/asselectable.min.js',
+        '/js/Plugin/selectable.min.js',
+        '/js/BaseApp.min.js',
+        '/js/Media.js',
+        '/js/assets/media.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',
