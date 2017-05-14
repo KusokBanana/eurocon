@@ -28,7 +28,7 @@ use yii\helpers\VarDumper;
 class Person extends User
 {
 
-    private static $quest_id = 5;
+    public static $quest_id = 5;
     private static $avatar_path = '/upload/avatars/person/';
     private static $default_avatar = '@web/img/portraits/5.jpg';
     private static $minutes_ago_online = 5;
@@ -123,11 +123,13 @@ class Person extends User
     public static function getPerson($user)
     {
 
-//        if ($user->isGuest) {
-//            return self::findOne(self::$quest_id);
-//        } else {
-            return self::findOne($user->id);
-//        }
+        if ($user) {
+            if (isset($user->isGuest) && $user->isGuest) {
+                return self::findOne(self::$quest_id);
+            } else {
+                return self::findOne($user->id);
+            }
+        }
 
     }
 

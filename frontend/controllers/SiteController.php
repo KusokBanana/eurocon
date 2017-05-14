@@ -75,51 +75,18 @@ class SiteController extends Controller
     /**
      * Displays homepage.
      *
-     * @param int $id
      * @return mixed
-     * @throws NotFoundHttpException
      */
-    public function actionIndex($id = 0)
+    public function actionIndex()
     {
         $user = Yii::$app->user;
 
         if ($user->isGuest) {
-
-            return $this->actionLogin();
-
+            return $this->redirect(['marketplace']);
         } else {
-
-            if ($id) {
-
-                $pageUser = User::findOne($id);
-                if ($pageUser) {
-                    $person = Person::getPerson($pageUser);
-                } else {
-                    throw new NotFoundHttpException();
-                }
-
-            } else {
-                $person = Person::getPerson($user);
-            }
-
-            $person->setRelation($user);
-            $projects = $person->getProjectsData();
-            $friends = Friends::getFriends($person->id);
-            $communities = $person->getCommunitiesData();
-
-            return $this->render('profile',
-                compact('person', 'projects', 'friends', 'communities'));
-
+            return $this->redirect(['/person/profile', 'id' => $user->id]);
         }
 
-    }
-
-    public function actionProfile($id)
-    {
-        $person = Person::findOne($id);
-        if ($person) {
-            $this->redirect(['index', 'id' => $id]);
-        }
     }
 
     public function actionToFriends($id)
@@ -207,7 +174,8 @@ class SiteController extends Controller
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect(['index']);
+//            return $this->goBack();
         } else {
             return $this->render('login', [
                 'model' => $model,

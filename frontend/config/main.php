@@ -11,9 +11,11 @@ return [
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log', 'simplechat'],
     'controllerNamespace' => 'frontend\controllers',
+    'homeUrl' => '/',
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'baseUrl' => ''
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -81,6 +83,7 @@ return [
                 'signup' => '/site/signup',
                 'login' => '/site/login',
                 'projects' => '/project',
+                'profile' => '/person/profile',
             ],
         ],
 

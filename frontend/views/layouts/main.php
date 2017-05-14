@@ -8,6 +8,7 @@ use rmrevin\yii\fontawesome\FA;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use frontend\assets\AppAsset;
 use common\widgets\Alert;
@@ -221,7 +222,7 @@ $user = Person::getPerson(Yii::$app->user);
                 </li>
                 <li class="nav-item" id="toggleChat">
                     <a class="nav-link" data-toggle="site-sidebar" href="javascript:void(0)" title="Chat"
-                       data-url="<?= \yii\helpers\Url::to(['/messages']) ?>">
+                       data-url="<?= Url::to(['/message/get-chat']) ?>">
                         <i class="icon wb-chat" aria-hidden="true"></i>
                         <span class="tag tag-pill tag-info up">3</span>
                     </a>
@@ -231,7 +232,6 @@ $user = Person::getPerson(Yii::$app->user);
                         ['/site/logout'], [
                             'class' => 'nav-link', 'role' => 'button']) ?>
                 </li>
-
             </ul>
             <!-- End Navbar Toolbar Right -->
         </div>
