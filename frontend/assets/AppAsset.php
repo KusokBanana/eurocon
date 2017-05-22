@@ -90,6 +90,15 @@ class AppAsset extends AssetBundle
         '/js/BaseApp.min.js',
         '/js/Media.js',
         '/js/assets/media.js',
+        '/vendor/formvalidation/formValidation.js',
+        '/vendor/formvalidation/framework/bootstrap.js',
+        '/vendor/jquery-match-height/jquery.matchHeight-min.js',
+        '/vendor/jquery-wizard/jquery-wizard.min.js',
+        '/js/assets/matchheight.min.js',
+        '/js/Plugin/jquery-wizard.min.js',
+        '/vendor/forms/wizard.js',
+        '/vendor/bootstrap-tokenfield/bootstrap-tokenfield.min.js',
+        '/js/Plugin/bootstrap-tokenfield.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

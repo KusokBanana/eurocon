@@ -88,4 +88,17 @@ class Tag extends \yii\db\ActiveRecord
         ];
     }
 
+    public static function addNew($tag, $field_id, $type)
+    {
+
+        if ($type) {
+            $newTag = new self();
+            $newTag->tag = $tag;
+            $newTag->field_id = $field_id;
+            $newTag->type_id = $type;
+            $newTag->save();
+        }
+
+    }
+
 }

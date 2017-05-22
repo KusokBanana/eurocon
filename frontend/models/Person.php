@@ -100,7 +100,7 @@ class Person extends User
         return $this->hasMany(Project::className(), ['id' => 'project_id'])
             ->via('usersForProjects')
             ->joinWith(['tags' => function($query) {
-                $query->andOnCondition(['type_id' => Tag::PROJECT_TYPE]);
+                $query->andOnCondition([Tag::tableName().'.type_id' => Tag::PROJECT_TYPE]);
             }], true, 'LEFT OUTER JOIN');
     }
 

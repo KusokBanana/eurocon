@@ -6,7 +6,7 @@ use yii\helpers\Url;
 
 /* @var $community Community */
 
-$template = '{label}<div class="col-xl-12 col-md-9 col-xs-12">{input}<small class="text-help">{error}</small></div>';
+$template = '{label}<div class="col-md-9 col-xs-12">{input}<small class="text-help">{error}</small></div>';
 ?>
 <div class="page">
     <div class="page-content container-fluid">

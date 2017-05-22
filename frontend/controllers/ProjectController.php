@@ -3,10 +3,12 @@
 namespace frontend\controllers;
 
 
+use frontend\models\Friends;
 use frontend\models\Person;
 use frontend\models\Project;
 use frontend\models\Tag;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
@@ -71,15 +73,32 @@ class ProjectController extends Controller
     {
 
         $newProject = new Project();
-
+        $person = Person::getPerson(Yii::$app->user);
+        $friends = Friends::getFriends($person->id, 1, '', true)['data'];
+        $friends = ArrayHelper::map($friends, 'id', 'full_name');
         if ($newProject->load(Yii::$app->request->post())) {
+            $projectId = $newProject->createNew();
+            if ($projectId) {
+                return $this->redirect(['view', 'id' => $projectId]);
+            }
 //            $communityId = $community->createNew();
-//            return $this->redirect(['view', 'id' => $communityId]);
         }
 
-        return $this->render('create', compact('newProject'));
+        return $this->render('create', compact('newProject', 'friends'));
 
     }
+
+//    /**
+//     * @inheritdoc
+//     */
+//    public function beforeAction($action)
+//    {
+//        if ($action->id == 'create') {
+//            $this->enableCsrfValidation = false;
+//        }
+//
+//        return parent::beforeAction($action);
+//    }
 
     public function actionNews()
     {

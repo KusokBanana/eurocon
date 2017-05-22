@@ -28,12 +28,15 @@ class Pagination
         $offset = ($page - 1) * $limit;
         $count = $query->count();
 
+        if (!is_null($limit))
+            $query->limit($limit)->offset($offset);
+
         return [
             'count' => $count,
             'page' => $page,
             'pageCount' => $limit,
             'type' => $type,
-            'data' => $query->limit($limit)->offset($offset)->all()
+            'data' => $query->all()
         ];
 
     }

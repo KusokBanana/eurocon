@@ -13,6 +13,11 @@ use yii\db\ActiveRecord;
  * @property string $date
  * @property string $image
  * @property string $description
+ * @property integer $type_id
+ * @property integer $status_id
+ * @property integer $budget_id
+ * @property integer $category_id
+ * @property integer $visibility_id
  *
  * @property BookCommunityProject[] $bookCompanyProjects
  * @property BookUserProject[] $participants
@@ -23,8 +28,61 @@ class Project extends ActiveRecord
     private static $image_path = '/upload/project/';
     private static $default_image_path = 'http://cdn.homedsgn.com/wp-content/uploads/2014/01/A-Country-Home-in-Brazil-17.jpg';
 
+    public $participants;
+    public $tagValues;
+    public $owners;
+
     public static $limit = 12;
 
+    public static $types = [
+        1 => 'New building',
+        2 => 'Renovation',
+        3 => 'Extension',
+    ];
+
+    public static $statuses = [
+        1 => 'Planning',
+        2 => 'Confirmed',
+        3 => 'Under Constructin',
+        4 => 'Ready',
+    ];
+
+    public static $budgets = [
+        1 => '[ 0; 1 mln $ ]',
+        2 => '[ 1 mln $; 3 mln $ ]',
+        3 => '[ 3 mln $; 5 mln $ ]',
+        4 => '[ 5 mln $; 10 mln $ ]',
+        5 => ' >10 mln $ ',
+    ];
+
+    public static $categories = [
+        1 => 'Private / Farms',
+        2 => 'Residential',
+        3 => 'Hotel',
+        4 => 'Restaurant',
+        5 => 'Shop',
+        6 => 'Office',
+        7 => 'Logistic',
+        8 => 'Industry',
+        9 => 'Health and Medicine',
+        10 => 'Retirement residentials',
+        11 => 'Schools and Universities',
+        12 => 'Culture',
+        13 => 'Sport',
+        14 => 'Sacral',
+        15 => 'Goverment',
+        16 => 'rports and Railway stations',
+        17 => 'Energetics',
+        18 => 'Infrastructure',
+        19 => 'Landscape',
+        20 => 'Other',
+    ];
+
+    public static $visibility = [
+        1 => 'Everyone',
+        2 => 'Only your friends',
+        3 => 'Only you',
+    ];
 
     /**
      * @inheritdoc
@@ -40,9 +98,14 @@ class Project extends ActiveRecord
     public function rules()
     {
         return [
-            [['name', 'date'], 'required'],
-            [['date'], 'safe'],
+            [['name', 'status_id', 'visibility_id'], 'required'],
+            ['date', 'date', 'format' => 'yyyy-MM-dd'],
+            ['date', 'default', 'value' => date('Y-m-d')],
+            [['description'], 'string'],
+            [['type_id', 'status_id', 'budget_id', 'category_id', 'visibility_id'], 'integer'],
             [['name'], 'string', 'max' => 126],
+            [['image'], 'string', 'max' => 255],
+            [['participants', 'owners', 'tagValues'], 'safe']
         ];
     }
 
@@ -53,8 +116,18 @@ class Project extends ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Project\'s name',
+            'name' => 'Project Name',
             'date' => 'Date',
+            'participants' => 'Participants',
+            'description' => 'Description',
+            'image' => 'Image',
+            'type_id' => 'Project Type',
+            'status_id' => 'Project Status',
+            'budget_id' => 'Budget',
+            'category_id' => 'Project Category',
+            'visibility_id' => 'Who can see your project?',
+            'owners' => 'Project Owners',
+            'tagValues' => 'Add tags for your project',
         ];
     }
 
@@ -100,7 +173,6 @@ class Project extends ActiveRecord
 
         $this->setImage();
 
-
     }
 
     private function setImage()
@@ -112,6 +184,38 @@ class Project extends ActiveRecord
             $this->image = Yii::getAlias('@web') . self::$image_path . $image;
         } else {
             $this->image = static::$default_image_path;
+        }
+
+    }
+
+    public function createNew()
+    {
+
+        if ($this->validate() && $this->save()) {
+
+            if ($this->id) {
+                if ($this->tagValues) {
+                    $tags = explode(',', $this->tagValues);
+                    foreach ($tags as $tag) {
+                        Tag::addNew($tag, $this->id, Tag::PROJECT_TYPE);
+                    }
+                }
+
+                if ($this->participants && !empty($this->participants)) {
+                    foreach ($this->participants as $participant) {
+                        if ($participant)
+                            BookUserProject::addNew($participant, $this->id);
+                    }
+                }
+                if ($this->owners && !empty($this->owners)) {
+                    foreach ($this->owners as $owner) {
+                        if ($owner)
+                            BookOwnerProject::addNew($owner, $this->id);
+                    }
+                }
+                BookOwnerProject::addNew(Yii::$app->user->id, $this->id);
+            }
+
         }
 
     }
