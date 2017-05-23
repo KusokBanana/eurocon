@@ -25,12 +25,12 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
             <li class="list-group-item">
                 <div class="card card-shadow">
                     <figure class="card-img-top overlay-hover overlay">
-                        <?= Html::img($project->image, [
+                        <?= Html::img($project->image_show, [
                             'class' => 'overlay-figure overlay-scale',
                             'alt' => '...'
                         ]) ?>
                         <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                            <a class="icon wb-search" href="<?= $project->image ?>"></a>
+                            <a class="icon wb-search" href="<?= $project->image_show ?>"></a>
                         </figcaption>
                     </figure>
                     <div class="card-block">

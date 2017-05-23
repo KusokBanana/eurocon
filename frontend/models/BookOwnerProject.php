@@ -58,6 +58,11 @@ class BookOwnerProject extends ActiveRecord
         return $this->hasOne(Person::className(), ['id' => 'user_id']);
     }
 
+    public static function getAdmins($projectId)
+    {
+        return BookOwnerProject::find()->where(['project_id' => $projectId])->joinWith('user')->all();
+    }
+
     /**
      * @return \yii\db\ActiveQuery
      */

@@ -101,4 +101,9 @@ class Tag extends \yii\db\ActiveRecord
 
     }
 
+    public static function deleteSelected($field_id, $type)
+    {
+        static::deleteAll(['field_id' => $field_id, 'type_id' => $type]);
+    }
+
 }

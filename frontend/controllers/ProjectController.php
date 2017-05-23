@@ -12,6 +12,8 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\VarDumper;
 use yii\web\Controller;
+use yii\web\UploadedFile;
+use yii\imagine\Image;
 
 class ProjectController extends Controller
 {
@@ -37,10 +39,22 @@ class ProjectController extends Controller
         $project = Project::findOne($id);
         if ($project) {
 
+            $user = Yii::$app->user;
             $participants = $project->getParticipantsData();
+            $project->setRelation($user);
+
+            $friends = Friends::getFriends($user->id, 1, '', true)['data'];
+
+            $participantsArray = ArrayHelper::getColumn($participants['data'], 'id');
+            $adminsArray = ArrayHelper::getColumn($project->owners, 'user_id');
+            $potentialSubscribers = [];
+            foreach ($friends as $friend) {
+                if (!ArrayHelper::isIn($friend->id, ArrayHelper::merge($participantsArray, $adminsArray)))
+                    $potentialSubscribers[$friend->id] = $friend->full_name;
+            }
 
             return $this->render('view',
-                compact('project', 'participants'));
+                compact('project', 'participants', 'friends', 'potentialSubscribers'));
 
         }
 
@@ -77,14 +91,38 @@ class ProjectController extends Controller
         $friends = Friends::getFriends($person->id, 1, '', true)['data'];
         $friends = ArrayHelper::map($friends, 'id', 'full_name');
         if ($newProject->load(Yii::$app->request->post())) {
-            $projectId = $newProject->createNew();
-            if ($projectId) {
-                return $this->redirect(['view', 'id' => $projectId]);
+            $newProject->createNew();
+            if ($newProject->id) {
+                return $this->redirect(['view', 'id' => $newProject->id]);
             }
-//            $communityId = $community->createNew();
         }
 
         return $this->render('create', compact('newProject', 'friends'));
+
+    }
+
+    public function actionUpdate($project_id)
+    {
+
+        $project = Project::findOne($project_id);
+        if (!$project)
+            return false;
+
+        if ($project->load(Yii::$app->request->post())) {
+            $post = Yii::$app->request->post('Project');
+            if (isset($post['completion_date']))
+                $project->completion_date = date('Y-m-d', strtotime($post['completion_date']));
+
+            $file = UploadedFile::getInstance($project, 'imageFile');
+            $project->saveImage($file, 'image');
+            $file = UploadedFile::getInstance($project, 'background_imageFile');
+            $project->saveImage($file, 'background_image');
+
+            $project->updateProject();
+            if ($project->id) {
+                return $this->redirect(['view', 'id' => $project->id]);
+            }
+        }
 
     }
 

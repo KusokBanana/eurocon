@@ -131,8 +131,8 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-12">{input
 
                             <div class="wizard-pane" id="exampleGetting" role="tabpanel">
 
-                                <?= $form->field($newProject, 'visibility_id', ['template' => $templateInput])
-                                    ->dropDownList(Project::$visibility, ['class' => 'form-control'])
+                                <?= $form->field($newProject, 'editability_id', ['template' => $templateInput])
+                                    ->dropDownList(Project::$editability, ['class' => 'form-control'])
                                     ->label(null, ['class' => 'col-xs-12 col-md-3 form-control-label']) ?>
 
                                 <?= $form->field($newProject, 'tagValues', ['template' => $templateInput])
@@ -144,7 +144,6 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-12">{input
                                         'autocomplete' => 'off'
                                     ])
                                     ->label(null, ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
-<!--                                    <input type="text" tabindex="-1" style="position: absolute; left: -10000px;">-->
                             </div>
                         <?php ActiveForm::end(); ?>
                             <!-- End Wizard Content -->

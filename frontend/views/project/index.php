@@ -67,12 +67,12 @@ use yii\helpers\Html;
                         <li class="<?= $tags['classes'][$project->id] ?>" data-search="<?= $project->name ?>">
                             <div class="card card-shadow">
                                 <figure class="card-img-top overlay-hover overlay">
-                                    <?= Html::img($project->image, [
+                                    <?= Html::img($project->image_show, [
                                             'class' => 'overlay-figure overlay-scale',
                                             'alt' => '...'
                                     ]) ?>
                                     <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                        <a href="<?= $project->image ?>" class="icon wb-search"></a>
+                                        <a href="<?= $project->image_show ?>" class="icon wb-search"></a>
                                     </figcaption>
                                 </figure>
                                 <div class="card-block">
