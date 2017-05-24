@@ -140,7 +140,7 @@ class SiteController extends Controller
                         ]);
                 case 'projects':
                     $person = Person::findOne($data['id']);
-                    $projects = $person->getProjectsData($page, $search);
+                    $projects = $person->getProjectsData($page, $search, Project::RELATION_ADMIN);
                     return $this->renderAjax('/tabs/_projects',
                         [
                             'projects' => $projects,

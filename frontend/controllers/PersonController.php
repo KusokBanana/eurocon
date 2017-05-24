@@ -12,6 +12,7 @@ namespace frontend\controllers;
 use common\models\User;
 use frontend\models\Friends;
 use frontend\models\Person;
+use frontend\models\Project;
 use Yii;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -32,7 +33,7 @@ class PersonController extends Controller
         }
 
         $person->setRelation($user);
-        $projects = $person->getProjectsData();
+        $projects = $person->getProjectsData(1, '', Project::RELATION_ADMIN);
         $friends = Friends::getFriends($person->id);
         $communities = $person->getCommunitiesData();
 

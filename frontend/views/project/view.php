@@ -1017,9 +1017,20 @@ use yii\helpers\Html;
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td>Date:
-                                    </td>
+                                    <td>Date:</td>
                                     <td><?= $project->date ?></td>
+                                </tr>
+                                <tr>
+                                <tr>
+                                    <td>Project Links:</td>
+                                    <td>
+                                        <?php if ($project->project_links): ?>
+                                            <?php foreach (explode(',', $project->project_links) as $link): ?>
+                                                <a href="<?= 'http://www.' . $link ?>"><?= 'http://www.' . $link ?></a>
+                                                <br>
+                                            <?php endforeach; ?>
+                                        <?php endif; ?>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>Social share:

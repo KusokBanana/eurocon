@@ -103,7 +103,8 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                             'tabindex' => '1',
                                             'style' => 'position: absolute; left: -10000px;',
                                             'autocomplete' => 'off',
-                                            'inputType' => 'url',
+                                            'data-inputType' => 'url',
+                                            'data-delimiter' => [',', ' ']
                                         ])
                                         ->label(null, ['class' => 'col-xs-12 col-md-3 form-control-label']) ?>
 
@@ -229,7 +230,8 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                             'tabindex' => '1',
                                             'value' => join(',', ArrayHelper::getColumn($model->tags, 'tag')),
                                             'style' => 'position: absolute; left: -10000px;',
-                                            'autocomplete' => 'off'
+                                            'autocomplete' => 'off',
+                                            'data-delimiter' => [',', ' ']
                                         ])
                                         ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
 

@@ -95,10 +95,25 @@ class Person extends User
         return $this->hasMany(BookUserProject::className(), ['user_id' => 'id']);
     }
 
-    public function getProjects()
+    public function getAdminsForProjects()
     {
+        return $this->hasMany(BookOwnerProject::className(), ['user_id' => 'id']);
+    }
+
+    public function getProjects($type = Project::RELATION_PARTICIPANT)
+    {
+        $viaTable = '';
+        switch ($type) {
+            case Project::RELATION_PARTICIPANT:
+                $viaTable = 'usersForProjects';
+                break;
+            case Project::RELATION_ADMIN:
+                $viaTable = 'adminsForProjects';
+                break;
+        }
+
         return $this->hasMany(Project::className(), ['id' => 'project_id'])
-            ->via('usersForProjects')
+            ->via($viaTable)
             ->joinWith(['tags' => function($query) {
                 $query->andOnCondition([Tag::tableName().'.type_id' => Tag::PROJECT_TYPE]);
             }], true, 'LEFT OUTER JOIN');
@@ -133,10 +148,10 @@ class Person extends User
 
     }
 
-    public function getProjectsData($page = 1, $search = '')
+    public function getProjectsData($page = 1, $search = '', $type)
     {
 
-        $query = $this->getProjects();
+        $query = $this->getProjects($type);
         $query->andFilterWhere(['LIKE', Project::tableName() . '.name', $search]);
         return Pagination::getData($query, $page, Project::$limit, 'projects');
 
