@@ -100,7 +100,7 @@ use yii\helpers\Html;
 
                 <div class="card-block">
 
-                    <?php if ($company->isPerson(Company::COMMUNITY_ADMIN_TYPE, $admins['data'])): ?>
+                    <?php if ($company->isPerson(Company::ROLE_ADMIN_TYPE, $admins['data'])): ?>
                         <div class="row text-xs-center">
                             <div class="col-xs-12 ">
                                 <?= Html::a('edit', ['/'], ['class' => 'btn btn-block btn-primary btn-outline']) ?>
@@ -115,7 +115,7 @@ use yii\helpers\Html;
                                 ?>
                             </div>
                             <div class="col-xs-6">
-                                <?php if ($company->isPerson(Company::COMMUNITY_PARTICIPANT_TYPE, $cooperation['data'])): ?>
+                                <?php if ($company->isPerson(Company::ROLE_PARTICIPANT_TYPE, $cooperation['data'])): ?>
                                     <?= Html::a('<i class="icon fa-times" aria-hidden="true"></i>Leave',
                                         ['leave', 'id' => $company->id],
                                         ['class' => 'btn btn-block btn-primary']); ?>

@@ -1,7 +1,8 @@
 <?php
 
-namespace frontend\books\models;
+namespace frontend\models\books;
 
+use frontend\models\Community;
 use frontend\models\Company;
 use frontend\models\Person;
 use Yii;
@@ -35,9 +36,12 @@ class BookAdminCommunity extends ActiveRecord
         return [
             [['admin_id', 'community_id'], 'required'],
             [['admin_id', 'community_id'], 'integer'],
-            [['admin_id', 'community_id'], 'unique', 'targetAttribute' => ['admin_id', 'community_id'], 'message' => 'The combination of Admin ID and Company ID has already been taken.'],
-            [['admin_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['admin_id' => 'id']],
-            [['community_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['community_id' => 'id']],
+            [['admin_id', 'community_id'], 'unique', 'targetAttribute' => ['admin_id', 'community_id'],
+                'message' => 'The combination of Admin ID and Company ID has already been taken.'],
+            [['admin_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(),
+                'targetAttribute' => ['admin_id' => 'id']],
+            [['community_id'], 'exist', 'skipOnError' => true, 'targetClass' => Community::className(),
+                'targetAttribute' => ['community_id' => 'id']],
         ];
     }
 
@@ -49,7 +53,7 @@ class BookAdminCommunity extends ActiveRecord
         return [
             'id' => 'ID',
             'admin_id' => 'Admin ID',
-            'community_id' => 'Company ID',
+            'community_id' => 'Community ID',
         ];
     }
 

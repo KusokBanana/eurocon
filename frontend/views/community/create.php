@@ -1,4 +1,5 @@
 <?php
+use frontend\assets\AppAsset;
 use frontend\models\Community;
 use frontend\models\Company;
 use yii\bootstrap\ActiveForm;
@@ -7,7 +8,11 @@ use yii\helpers\Url;
 
 /* @var $community Community */
 
-$template = '{label}<div class="col-md-9 col-xs-12">{input}<small class="text-help">{error}</small></div>';
+$this->registerCssFile('@web/vendor/bootstrap-tokenfield/bootstrap-tokenfield.min.css');
+$this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [AppAsset::className()]]);
+
+$template = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">{input}'
+    .'<small class="text-help">{error}</small></div></div>';
 ?>
 
 <div class="page">
@@ -55,65 +60,61 @@ $template = '{label}<div class="col-md-9 col-xs-12">{input}<small class="text-he
                                 <button type="submit" class="fv-hidden-submit" style="display: none; width: 0px; height: 0px;"></button>
                                 <div class="row row-lg">
                                     <div class="col-xs-12 col-xl-12 form-horizontal">
-                                        <div class="form-group row">
-                                            <label class="col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label">Community Name: </label>
-                                            <div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">
-                                                <input type="text" class="form-control" name="name" placeholder="The best wood tables" autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label">Community section: </label>
-                                            <div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">
-                                                <input type="text" class="form-control" name="position" placeholder="wood tables" autocomplete="off">
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label">Community Photo: </label>
-                                            <div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">
-                                                <div class="input-group input-group-file" data-plugin="inputGroupFile">
-                                                    <input type="text" class="form-control" readonly="">
-                                                    <span class="input-group-btn">
-                                           <span class="btn btn-outline btn-file">
-                                             <i class="icon wb-upload" aria-hidden="true"></i>
-                                             <input type="file" name="" multiple="">
-                                                </div>
-                                                </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label">Background Image: </label>
-                                            <div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">
-                                                <div class="input-group input-group-file" data-plugin="inputGroupFile">
-                                                    <input type="text" class="form-control" readonly="">
-                                                    <span class="input-group-btn">
-                                        <span class="btn btn-outline btn-file">
-                                          <i class="icon wb-upload" aria-hidden="true"></i>
-                                          <input type="file" name="" multiple="">
-                                                </div>
-                                                </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label">Who can add post:</label>
-                                            <div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">
-                                                <select class="form-control" id="selectMulti">
-                                                    <option>only participants</option>
-                                                    <option>participants and friends of participants</option>
-                                                    <option>everyone</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                        <div class="form-group row">
-                                            <label class="col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label">How to join community:</label>
-                                            <div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">
-                                                <select class="form-control" id="selectMulti">
-                                                    <option>with agreement</option>
-                                                    <option>without agreement</option>
-                                                </select>
-                                            </div>
-                                        </div>
+
+                                        <?= $form->field($community, 'name', [
+                                            'template' => $template
+                                        ])->textInput(
+                                            [
+                                                'class' => 'form-control',
+                                                'placeholder' => 'The best wood tables',
+                                            ])->label(null, [
+                                            'class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label'
+                                        ]) ?>
+
+                                        <?= $form->field($community, 'tagValues', ['template' => $template])
+                                            ->textInput([
+                                                'class' => 'form-control',
+                                                'data-plugin' => 'tokenfield',
+                                                'style' => 'position: absolute; left: -10000px;',
+                                                'autocomplete' => 'off'
+                                            ])
+                                            ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+
+                                        <?php $templateFileInput =
+                                            '<div class="form-group row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">'.
+                                            '<div class="input-group input-group-file" data-plugin="inputGroupFile">'.
+                                            Html::textInput('', $community->image, ['class' => 'form-control', 'readonly' => '']).
+                                            '<span class="input-group-btn">'.
+                                            '<span class="btn btn-outline btn-file">'.
+                                            '<i class="icon wb-upload" aria-hidden="true"></i>{input}</span></span></div>'.
+                                            '<small class="text-danger">{error}</small></div></div>'; ?>
+
+                                        <?= $form->field($community, 'imageFile', ['template' => $templateFileInput])
+                                            ->fileInput()
+                                            ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+
+                                        <?php $templateFileInput =
+                                            '<div class="form-group row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">'.
+                                            '<div class="input-group input-group-file" data-plugin="inputGroupFile">'.
+                                            Html::textInput('', $community->background, ['class' => 'form-control', 'readonly' => '']).
+                                            '<span class="input-group-btn">'.
+                                            '<span class="btn btn-outline btn-file">'.
+                                            '<i class="icon wb-upload" aria-hidden="true"></i>{input}</span></span></div>'.
+                                            '<small class="text-danger">{error}</small></div></div>'; ?>
+
+                                        <?= $form->field($community, 'backgroundFile', ['template' => $templateFileInput])
+                                            ->fileInput()
+                                            ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+
+                                        <?= $form->field($community, 'post_ability_id', ['template' => $template])
+                                            ->dropDownList(Community::$post_abilities, ['class' => 'form-control'])
+                                            ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+
+                                        <?= $form->field($community, 'acceptance_id', ['template' => $template])
+                                            ->dropDownList(Community::$acceptance, ['class' => 'form-control'])
+                                            ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+
+
                                     </div>
                                     <div class="form-group col-xs-12 col-xl-12 text-xs-center padding-top-m">
                                         <button type="submit" class="btn btn-primary" id="validateButton1">Create</button>

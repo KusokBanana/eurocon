@@ -51,17 +51,17 @@ class CompanyController extends CommunityController
                             'companies' => $companies,
                             'additionData' => $data
                         ]);
-                case Company::COMMUNITY_ADMIN_TYPE:
+                case Company::ROLE_ADMIN_TYPE:
                     $company = Company::findOne($data['id']);
-                    $admins = $company->getPersonsData(Company::COMMUNITY_ADMIN_TYPE, $page);
+                    $admins = $company->getPersonsData(Company::ROLE_ADMIN_TYPE, $page);
                     return $this->renderAjax('_persons',
                         [
                             'persons' => $admins,
                             'additionData' => $data
                         ]);
-                case Company::COMMUNITY_PARTICIPANT_TYPE:
+                case Company::ROLE_PARTICIPANT_TYPE:
                     $company = Company::findOne($data['id']);
-                    $participants = $company->getPersonsData(Company::COMMUNITY_PARTICIPANT_TYPE, $page);
+                    $participants = $company->getPersonsData(Company::ROLE_PARTICIPANT_TYPE, $page);
                     return $this->renderAjax('_persons',
                         [
                             'persons' => $participants,
@@ -81,8 +81,8 @@ class CompanyController extends CommunityController
             throw new NotFoundHttpException();
         }
 
-        $cooperation = $company->getPersonsData(Company::COMMUNITY_PARTICIPANT_TYPE);
-        $admins = $company->getPersonsData(Company::COMMUNITY_ADMIN_TYPE);
+        $cooperation = $company->getPersonsData(Company::ROLE_PARTICIPANT_TYPE);
+        $admins = $company->getPersonsData(Company::ROLE_ADMIN_TYPE);
 
         return $this->render('view', compact('company', 'cooperation', 'admins'));
     }
