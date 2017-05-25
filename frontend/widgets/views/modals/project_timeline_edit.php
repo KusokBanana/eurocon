@@ -71,7 +71,7 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                 ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']); ?>
 
                             <div class="project-timeline-media-block"
-                                 style="<?= $model->media_type_id == ProjectTimeline::MEDIA_TYPE_IMAGE ||
+                                 style="<?= $model->media_type_id == ProjectTimeline::MEDIA_TYPE_VIDEO ||
                                     !$model->media_type_id ? 'display:none;' : ''?>"
                                  data-type="<?= ProjectTimeline::MEDIA_TYPE_IMAGE ?>">
                                 <?php $templateFileInput =
@@ -92,7 +92,7 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                             </div>
 
                             <div class="project-timeline-media-block"
-                                 style="<?= $model->media_type_id == ProjectTimeline::MEDIA_TYPE_VIDEO ||
+                                 style="<?= $model->media_type_id == ProjectTimeline::MEDIA_TYPE_IMAGE ||
                                     !$model->media_type_id ? 'display:none;' : ''?>"
                                  data-type="<?= ProjectTimeline::MEDIA_TYPE_VIDEO ?>">
                                 <?php $templateFileInput =
@@ -108,11 +108,9 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                     '<small class="text-danger">{error}</small></div></div>'; ?>
 
                                 <?= $form->field($model, 'video', ['template' => $templateFileInput])
-                                    ->fileInput()
+                                    ->fileInput(['accept' => 'video/*'])
                                     ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
                             </div>
-
-
 
                         </div>
                     </div>

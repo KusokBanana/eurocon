@@ -133,7 +133,7 @@ class ProjectController extends Controller
     public function actionTimeline($id = 0, $project_id)
     {
 
-        if (Yii::$app->request->isAjax) {
+//        if (Yii::$app->request->isAjax) {
             $type = Yii::$app->request->post('type');
 
             if ($id) {
@@ -164,15 +164,15 @@ class ProjectController extends Controller
                         $timeLine->saveFile($files);
                         break;
                     case ProjectTimeline::MEDIA_TYPE_VIDEO:
-//                    $files = UploadedFile::getInstances($timeLine, 'image_files');
-//                    $timeLine->saveFile($files);
-//                    break;
+                        $file = UploadedFile::getInstance($timeLine, 'video');
+                        $timeLine->saveFile($file);
+                        break;
                 }
-//            $file = UploadedFile::getInstance($timeLine, 'video');
-//            $project->saveImage($file, 'background_image');
+
                 if ($type == 'request') {
                     $timeLine->is_active = 0;
                 }
+
                 $timeLine->save();
 
                 if ($timeLine->id) {
@@ -181,7 +181,7 @@ class ProjectController extends Controller
             }
 
             return CustomModal::widget(['type' => 'project_timeline_edit', 'model' => $timeLine]);
-        }
+//        }
 
     }
 
