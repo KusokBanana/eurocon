@@ -147,12 +147,12 @@ class SiteController extends Controller
                             'projects' => $projects,
                             'additionData' => $data
                         ]);
-                case 'communities':
+                case 'companies':
                     $person = Person::findOne($data['id']);
-                    $communities = $person->getCommunitiesData($page, $search);
-                    return $this->renderAjax('/tabs/_communities',
+                    $companies = $person->getCompaniesData($page, $search);
+                    return $this->renderAjax('/tabs/_companies',
                         [
-                            'communities' => $communities,
+                            'companies' => $companies,
                             'additionData' => $data
                         ]);
             }

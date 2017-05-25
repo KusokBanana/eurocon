@@ -1,27 +1,30 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\models\books;
 
+use frontend\models\Company;
+use frontend\models\Project;
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
- * This is the model class for table "book_community_project".
+ * This is the model class for table "book_company_project".
  *
  * @property integer $id
- * @property integer $community_id
  * @property integer $project_id
- *
- * @property Community $company
+ * @property int $company_id [int(11)]
+
+ * @property Company $company
  * @property Project $project
  */
-class BookCommunityProject extends \yii\db\ActiveRecord
+class BookCompanyProject extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'book_community_project';
+        return 'book_company_project';
     }
 
     /**
@@ -30,9 +33,9 @@ class BookCommunityProject extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['community_id', 'project_id'], 'required'],
-            [['community_id', 'project_id'], 'integer'],
-            [['community_id'], 'exist', 'skipOnError' => true, 'targetClass' => Community::className(), 'targetAttribute' => ['community_id' => 'id']],
+            [['company_id', 'project_id'], 'required'],
+            [['company_id', 'project_id'], 'integer'],
+            [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['company_id' => 'id']],
             [['project_id'], 'exist', 'skipOnError' => true, 'targetClass' => Project::className(), 'targetAttribute' => ['project_id' => 'id']],
         ];
     }
@@ -44,7 +47,7 @@ class BookCommunityProject extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'community_id' => 'Community ID',
+            'company_id' => 'Company ID',
             'project_id' => 'Project ID',
         ];
     }
@@ -54,7 +57,7 @@ class BookCommunityProject extends \yii\db\ActiveRecord
      */
     public function getCompany()
     {
-        return $this->hasOne(Community::className(), ['id' => 'community_id']);
+        return $this->hasOne(Company::className(), ['id' => 'company_id']);
     }
 
     /**

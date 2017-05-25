@@ -1,7 +1,9 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\models\books;
 
+use frontend\models\Person;
+use frontend\models\Project;
 use Yii;
 use yii\db\ActiveRecord;
 

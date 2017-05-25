@@ -4,7 +4,7 @@
 /* @var $person Person */
 /* @var $projects \frontend\models\Project array */
 /* @var $friends Person array */
-/* @var $communities \frontend\models\Community array */
+/* @var $companies \frontend\models\Company array */
 
 use frontend\models\Person;
 use yii\helpers\Html;
@@ -198,8 +198,8 @@ $this->title = 'Eurocon / profile';
                                        aria-controls="my_contacts" role="tab" aria-expanded="true">Friends</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" data-toggle="tab" href="#tab_communities"
-                                       aria-controls="google_contacts" role="tab" aria-expanded="false">Communities</a>
+                                    <a class="nav-link" data-toggle="tab" href="#tab_companies"
+                                       aria-controls="google_contacts" role="tab" aria-expanded="false">Companies</a>
                                 </li>
                             </ul>
 
@@ -216,9 +216,9 @@ $this->title = 'Eurocon / profile';
                                         'additionData' => ['id' => $person->id]
                                     ]) ?>
                                 </div>
-                                <div class="tab-pane animation-fade" id="tab_communities" role="tabpanel" aria-expanded="false">
-                                    <?= $this->render('/tabs/_communities', [
-                                        'communities' => $communities,
+                                <div class="tab-pane animation-fade" id="tab_companies" role="tabpanel" aria-expanded="false">
+                                    <?= $this->render('/tabs/_companies', [
+                                        'companies' => $companies,
                                         'additionData' => ['id' => $person->id]
                                     ]) ?>
                                 </div>

@@ -325,7 +325,7 @@ $user = Person::getPerson(Yii::$app->user);
 <!--<div class="wrap">-->
 <!--    --><?php
 //    NavBar::begin([
-//        'brandLabel' => 'My Community',
+//        'brandLabel' => 'My Company',
 //        'brandUrl' => Yii::$app->homeUrl,
 //        'options' => [
 //            'class' => 'navbar-inverse navbar-fixed-top',

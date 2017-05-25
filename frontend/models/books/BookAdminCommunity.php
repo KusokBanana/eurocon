@@ -1,8 +1,11 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\books\models;
 
+use frontend\models\Company;
+use frontend\models\Person;
 use Yii;
+use yii\db\ActiveRecord;
 
 /**
  * This is the model class for table "book_admins_community".
@@ -12,16 +15,16 @@ use Yii;
  * @property integer $community_id
  *
  * @property Person $admin
- * @property Community $community
+ * @property Company $community
  */
-class BookAdminsCommunity extends \yii\db\ActiveRecord
+class BookAdminCommunity extends ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'book_admins_community';
+        return 'book_admin_community';
     }
 
     /**
@@ -32,9 +35,9 @@ class BookAdminsCommunity extends \yii\db\ActiveRecord
         return [
             [['admin_id', 'community_id'], 'required'],
             [['admin_id', 'community_id'], 'integer'],
-            [['admin_id', 'community_id'], 'unique', 'targetAttribute' => ['admin_id', 'community_id'], 'message' => 'The combination of Admin ID and Community ID has already been taken.'],
+            [['admin_id', 'community_id'], 'unique', 'targetAttribute' => ['admin_id', 'community_id'], 'message' => 'The combination of Admin ID and Company ID has already been taken.'],
             [['admin_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['admin_id' => 'id']],
-            [['community_id'], 'exist', 'skipOnError' => true, 'targetClass' => Community::className(), 'targetAttribute' => ['community_id' => 'id']],
+            [['community_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['community_id' => 'id']],
         ];
     }
 
@@ -46,7 +49,7 @@ class BookAdminsCommunity extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'admin_id' => 'Admin ID',
-            'community_id' => 'Community ID',
+            'community_id' => 'Company ID',
         ];
     }
 
@@ -63,6 +66,6 @@ class BookAdminsCommunity extends \yii\db\ActiveRecord
      */
     public function getCommunity()
     {
-        return $this->hasOne(Community::className(), ['id' => 'community_id']);
+        return $this->hasOne(Company::className(), ['id' => 'community_id']);
     }
 }

@@ -21,8 +21,8 @@ use yii\helpers\Url;
                          url(<?= Url::to(['@web/img/layer_images/communities-background.png']) ?>);
                          background-size: cover;">
                 <div class="text-xs-center blue-grey-800 m-t-50 m-xs-0">
-                    <div class="font-size-70 m-b-30 blue-grey-800" style="background-color: rgba(232, 241, 248, 0.7);">Communities</div>
-                    <?= Html::a('<span><i class="icon fa-group " aria-hidden="true"></i>Create a community</span>',
+                    <div class="font-size-70 m-b-30 blue-grey-800" style="background-color: rgba(232, 241, 248, 0.7);">Companies</div>
+                    <?= Html::a('<span><i class="icon fa-group " aria-hidden="true"></i>Create a company</span>',
                         ['create'], ['class' => 'btn btn-dark btn-animate btn-animate-side']); ?>
                 </div>
 

@@ -1,7 +1,9 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\models\books;
 
+use frontend\models\Company;
+use frontend\models\Person;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -13,7 +15,7 @@ use yii\db\ActiveRecord;
  * @property integer $community_id
  *
  * @property Person $user
- * @property Community $company
+ * @property Company $company
  */
 class BookUserCommunity extends ActiveRecord
 {
@@ -34,7 +36,7 @@ class BookUserCommunity extends ActiveRecord
             [['user_id', 'community_id'], 'required'],
             [['user_id', 'community_id'], 'integer'],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['user_id' => 'id']],
-            [['community_id'], 'exist', 'skipOnError' => true, 'targetClass' => Community::className(), 'targetAttribute' => ['community_id' => 'id']],
+            [['community_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['community_id' => 'id']],
         ];
     }
 
@@ -46,7 +48,7 @@ class BookUserCommunity extends ActiveRecord
         return [
             'id' => 'ID',
             'user_id' => 'User ID',
-            'community_id' => 'Community ID',
+            'community_id' => 'Company ID',
         ];
     }
 
@@ -63,6 +65,6 @@ class BookUserCommunity extends ActiveRecord
      */
     public function getCompany()
     {
-        return $this->hasOne(Community::className(), ['id' => 'community_id']);
+        return $this->hasOne(Company::className(), ['id' => 'community_id']);
     }
 }

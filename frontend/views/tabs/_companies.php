@@ -1,7 +1,7 @@
 <?php
 
-/* @var $communities array */
-/* @var $communities['data'] \frontend\models\Community array */
+/* @var $companies array */
+/* @var $companies['data'] \frontend\models\Company array */
 /* @var $additionData array*/
 
 use frontend\widgets\Pagination;
@@ -15,24 +15,24 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
 <?= Search::widget([
     'additionData' => $additionData,
     'query' => $additionData['search'],
-    'data' => $communities['data'],
-    'type' => $communities['type']
+    'data' => $companies['data'],
+    'type' => $companies['type']
 ]) ?>
 
-<?php if (!empty($communities)): ?>
+<?php if (!empty($companies)): ?>
     <ul class="list-group">
-        <?php foreach ($communities['data'] as $community): ?>
+        <?php foreach ($companies['data'] as $company): ?>
             <li class="list-group-item">
                 <div class="media">
                     <div class="media-left">
                         <div class="avatar avatar-online">
-                            <?= Html::a(Html::img($community->image, [
+                            <?= Html::a(Html::img($company->image, [
                                     'alt' => '...'
-                            ]), ['/community/view', 'id' => $community->id]) ?>
+                            ]), ['/company/view', 'id' => $company->id]) ?>
                         </div>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading"><?= $community->name ?></h4>
+                        <h4 class="media-heading"><?= $company->name ?></h4>
                         <p>
                             <i class="icon icon-color wb-map" aria-hidden="true"></i>
                         </p>
@@ -42,8 +42,8 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
         <?php endforeach; ?>
     </ul>
 
-    <?php $communities['data'] = $additionData ?>
-    <?= Pagination::widget($communities) ?>
+    <?php $companies['data'] = $additionData ?>
+    <?= Pagination::widget($companies) ?>
 
 <?php endif; ?>
 

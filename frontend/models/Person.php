@@ -3,6 +3,8 @@
 namespace frontend\models;
 
 use common\models\User;
+use frontend\models\books\BookOwnerProject;
+use frontend\models\books\BookUserProject;
 use Yii;
 use yii\db\Query;
 use yii\helpers\VarDumper;
@@ -121,17 +123,17 @@ class Person extends User
 
     public function getParticipants()
     {
-        return $this->hasMany(BookUserCommunity::className(), ['user_id' => 'id']);
+        return $this->hasMany(\frontend\models\books\BookUserCompany::className(), ['user_id' => 'id']);
     }
 
     public function getAdmins()
     {
-        return $this->hasMany(BookAdminsCommunity::className(), ['admin_id' => 'id']);
+        return $this->hasMany(\frontend\models\books\BookAdminCompany::className(), ['admin_id' => 'id']);
     }
 
     public function getCompanies()
     {
-        return $this->hasMany(Community::className(), ['id' => 'community_id'])
+        return $this->hasMany(Company::className(), ['id' => 'company_id'])
             ->via('participants')->via('admins');
     }
 
@@ -157,11 +159,11 @@ class Person extends User
 
     }
 
-    public function getCommunitiesData($page = 1, $search = '')
+    public function getCompaniesData($page = 1, $search = '')
     {
         $query = $this->getCompanies();
-        $query->andFilterWhere(['LIKE', Community::tableName() . '.name', $search]);
-        return Pagination::getData($query, $page, Community::$limit, 'communities');
+        $query->andFilterWhere(['LIKE', Company::tableName() . '.name', $search]);
+        return Pagination::getData($query, $page, Company::$limit, 'companies');
     }
 
     public function afterFind()

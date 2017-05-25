@@ -35,10 +35,10 @@ class PersonController extends Controller
         $person->setRelation($user);
         $projects = $person->getProjectsData(1, '', Project::RELATION_ADMIN);
         $friends = Friends::getFriends($person->id);
-        $communities = $person->getCommunitiesData();
+        $companies = $person->getCompaniesData();
 
         return $this->render('profile',
-            compact('person', 'projects', 'friends', 'communities'));
+            compact('person', 'projects', 'friends', 'companies'));
 
     }
 

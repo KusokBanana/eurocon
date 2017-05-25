@@ -74,10 +74,12 @@ $this->registerCssFile('@web/css/timeline.min.css');
                     $month = date('m', strtotime($timeline->date));
                     $num_days = ceil((time() - strtotime($timeline->date))/86400) - 1;
                     $when = ($num_days) ? ($num_days == 1 ? 'Yesterday' : $num_days . ' Days ago') : 'Today';
+                    $next = next($colors);
+                    $color = ($next !== false) ? $next : reset($colors);
                     ?>
 
                     <li class="timeline-item <?= ($key%2) ? 'timeline-reverse' : ''; ?>">
-                        <div class="timeline-dot <?= next($colors) ?>" data-placement="<?= ($key%2) ? 'left' : 'right'; ?>"
+                        <div class="timeline-dot <?= $color ?> animation-scale-up" data-placement="<?= ($key%2) ? 'left' : 'right'; ?>"
                              data-toggle="tooltip"
                              data-trigger="hover" data-original-title="<?= $when  ?>"></div>
 
@@ -145,7 +147,8 @@ $this->registerCssFile('@web/css/timeline.min.css');
                                             <?= Html::img($timeline->image_srcs[0], ['alt' => 'slide']) ?>
                                         <?php endif; ?>
                                     </div>
-                                <?php elseif ($timeline->media_type_id == ProjectTimeline::MEDIA_TYPE_VIDEO): ?>
+                                <?php elseif ($timeline->media_type_id == ProjectTimeline::MEDIA_TYPE_VIDEO &&
+                                    $timeline->video_src): ?>
                                     <div class="card-header cover player p-0" data-plugin="plyr">
                                         <video poster="<?= Url::to('@web/img/layer_images/poster.jpg') ?>"
                                                controls crossorigin>

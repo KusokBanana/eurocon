@@ -2,7 +2,6 @@
 
 namespace frontend\controllers;
 
-use frontend\models\Community;
 use frontend\models\Company;
 use frontend\models\Person;
 use frontend\models\Tag;
@@ -11,7 +10,7 @@ use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
-class CommunityController extends Controller
+class CompanyController extends CommunityController
 {
 
     public function actionIndex()
@@ -91,14 +90,14 @@ class CommunityController extends Controller
     public function actionCreate()
     {
 
-        $community = new Community();
+        $company = new Company();
 
-        if ($community->load(Yii::$app->request->post())) {
-            $companyId = $community->createNew();
+        if ($company->load(Yii::$app->request->post())) {
+            $companyId = $company->createNew();
             return $this->redirect(['view', 'id' => $companyId]);
         }
 
-        return $this->render('create', compact('community'));
+        return $this->render('create', compact('company'));
     }
 
     public function actionJoin($id)

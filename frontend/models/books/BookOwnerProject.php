@@ -1,7 +1,9 @@
 <?php
 
-namespace frontend\models;
+namespace frontend\models\books;
 
+use frontend\models\Person;
+use frontend\models\Project;
 use Yii;
 use yii\db\ActiveRecord;
 
@@ -60,7 +62,7 @@ class BookOwnerProject extends ActiveRecord
 
     public static function getAdmins($projectId)
     {
-        return BookOwnerProject::find()->where(['project_id' => $projectId])->joinWith('user')->all();
+        return \frontend\models\books\BookOwnerProject::find()->where(['project_id' => $projectId])->joinWith('user')->all();
     }
 
     /**
