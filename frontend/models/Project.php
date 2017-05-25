@@ -318,9 +318,6 @@ class Project extends ActiveRecord
             }
         }
 
-
-
-
     }
 
 }

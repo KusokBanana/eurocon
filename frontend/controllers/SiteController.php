@@ -5,6 +5,7 @@ use common\models\User;
 use frontend\models\Friends;
 use frontend\models\Person;
 use frontend\models\Project;
+use UploadHandler;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\helpers\Json;
@@ -328,6 +329,5 @@ class SiteController extends Controller
         return $this->render('marketplace');
 
     }
-
 
 }

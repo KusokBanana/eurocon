@@ -6,7 +6,9 @@ namespace frontend\controllers;
 use frontend\models\Friends;
 use frontend\models\Person;
 use frontend\models\Project;
+use frontend\models\ProjectTimeline;
 use frontend\models\Tag;
+use frontend\widgets\CustomModal;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
@@ -53,8 +55,10 @@ class ProjectController extends Controller
                     $potentialSubscribers[$friend->id] = $friend->full_name;
             }
 
+            $projectTimeline = ProjectTimeline::find()->where(['project_id' => $id])->orderBy(['id' => SORT_DESC])->all();
+
             return $this->render('view',
-                compact('project', 'participants', 'friends', 'potentialSubscribers'));
+                compact('project', 'participants', 'potentialSubscribers', 'projectTimeline'));
 
         }
 
@@ -126,17 +130,60 @@ class ProjectController extends Controller
 
     }
 
-//    /**
-//     * @inheritdoc
-//     */
-//    public function beforeAction($action)
-//    {
-//        if ($action->id == 'create') {
-//            $this->enableCsrfValidation = false;
-//        }
-//
-//        return parent::beforeAction($action);
-//    }
+    public function actionTimeline($id = 0, $project_id)
+    {
+
+        if (Yii::$app->request->isAjax) {
+            $type = Yii::$app->request->post('type');
+
+            if ($id) {
+                $timeLine = ProjectTimeline::findOne($id);
+
+                if ($type && $type == 'delete') {
+                    $timeLine->delete();
+                    $project = Project::findOne($project_id);
+                    $project->setRelation(Yii::$app->user);
+                    $projectTimeline = ProjectTimeline::find()->where(['project_id' => $project_id])
+                        ->orderBy(['id' => SORT_DESC])->all();
+
+                    return $this->renderAjax('_timeline', ['timelines' => $projectTimeline, 'project' => $project]);
+                }
+
+            } else {
+                $timeLine = new ProjectTimeline();
+                $timeLine->project_id = $project_id;
+            }
+
+            if (!$timeLine)
+                return false;
+
+            if ($timeLine->load(Yii::$app->request->post())) {
+                switch ($timeLine->media_type_id) {
+                    case ProjectTimeline::MEDIA_TYPE_IMAGE:
+                        $files = UploadedFile::getInstances($timeLine, 'image_files');
+                        $timeLine->saveFile($files);
+                        break;
+                    case ProjectTimeline::MEDIA_TYPE_VIDEO:
+//                    $files = UploadedFile::getInstances($timeLine, 'image_files');
+//                    $timeLine->saveFile($files);
+//                    break;
+                }
+//            $file = UploadedFile::getInstance($timeLine, 'video');
+//            $project->saveImage($file, 'background_image');
+                if ($type == 'request') {
+                    $timeLine->is_active = 0;
+                }
+                $timeLine->save();
+
+                if ($timeLine->id) {
+                    return $this->redirect(['view', 'id' => $timeLine->project_id]);
+                }
+            }
+
+            return CustomModal::widget(['type' => 'project_timeline_edit', 'model' => $timeLine]);
+        }
+
+    }
 
     public function actionNews()
     {

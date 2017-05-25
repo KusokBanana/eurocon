@@ -3,11 +3,16 @@
 /* @var $project Project */
 /* @var $participants \frontend\models\Person */
 /* @var $potentialSubscribers array */
+/* @var $projectTimeline \frontend\models\ProjectTimeline */
 
+use frontend\assets\AppAsset;
 use frontend\models\Project;
 use frontend\widgets\CustomModal;
 use yii\helpers\Html;
+use yii\web\JqueryAsset;
 
+$this->registerJsFile('@web/js/project.js',  ['depends' => [AppAsset::className()]]);
+$this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [AppAsset::className()]]);
 ?>
 
 <div class="page">
@@ -52,133 +57,10 @@ use yii\helpers\Html;
                             <div class="tab-content">
 
                                 <div class="tab-pane animation-fade active" id="project_timeline" role="tabpanel" aria-expanded="false">
-
-                                    <ul class="list-group">
-                                        <li class="list-group-item">
-
-                                            <div class="page-content container">
-                                                <!-- Timeline -->
-                                                <ul class="timeline timeline-simple">
-                                                    <li class="timeline-period">MAY 2017</li>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-dot" data-placement="right" data-toggle="tooltip" data-trigger="hover" data-original-title="2 Days ago"></div>
-                                                        <div class="timeline-content">
-                                                            <div class="card card-shadow">
-                                                                <div class="card-img-top cover">
-                                                                    <img class="cover-image" src="https://turbo.network/hqroom/image/upload/c_limit,f_auto,h_10000,w_1600/v1488356661/post/337aa063fb17274cd05d1954/3cf2e8af707bf250rGMx2HeQEbamnr9U.jpg" alt="...">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-item timeline-reverse">
-                                                        <div class="timeline-dot bg-green-500" data-placement="left" data-toggle="tooltip" data-trigger="hover" data-original-title="2 Days ago"></div>
-                                                        <div class="timeline-content">
-                                                            <div class="card card-shadow">
-                                                                <div class="card-img-top cover">
-                                                                    <img class="cover-image" src="https://turbo.network/hqroom/image/upload/c_limit,f_auto,h_10000,w_1600/v1488356658/post/337aa063fb17274cd05d1954/f085de7cf5b50feeJBCFibXc253i0NGq.jpg" alt="...">
-                                                                </div>
-                                                                <div class="card-block p-30">
-                                                                    <h3 class="card-title">Lorem Ipsum Dolor</h3>
-                                                                    <p class="card-text">
-                                                                        <small>MAY 15, 2017</small>
-                                                                    </p>
-                                                                    <p>Dubium sequatur declinare fecit securi emolumento ait habere tutiorem
-                                                                        neglegentur, pugnantibus simplicem propemodum atqui suo licet
-                                                                        confirmat. Iudicium ipso debent panaetium exorsus, vacuitate
-                                                                        artifex confirmavit asperner posuit sollicitant contentam probamus
-                                                                        perdiderunt. Coniuncta appetendi quo operis, iniucundus, putat
-                                                                        magnis, invitat diceret. </p>
-                                                                </div>
-                                                                <div class="card-block">
-                                                                    <div class="card-actions pull-xs-right">
-                                                                        <a href="javascript:void(0)">
-                                                                            <i class="icon wb-chat-working" aria-hidden="true"></i>
-                                                                            <span>2500</span>
-                                                                        </a>
-                                                                        <a href="javascript:void(0)">
-                                                                            <i class="icon wb-heart" aria-hidden="true"></i>
-                                                                            <span>20</span>
-                                                                        </a>
-                                                                    </div>
-                                                                    <a class="btn btn-primary btn-outline card-link" href="javascript:void(0)">Read More</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-dot bg-orange-500" data-placement="right" data-toggle="tooltip" data-trigger="hover" data-original-title="9 Days ago"></div>
-                                                        <div class="timeline-content">
-                                                            <div class="card card-shadow">
-                                                                <div class="card-header cover">
-                                                                    <div class="cover-background p-30" style="background-image: url('https://www.firestock.ru/wp-content/uploads/2013/08/firestock_dark_Leather_06082013-1024x1024.jpg')">
-                                                                        <blockquote class="blockquote cover-quote white card-blockquote">Fabulis timentis synephebos faciendum laetitia utamur consuevit
-                                                                            tali hortatore videre, summa quasi, consequentis desideret.
-                                                                            Constantia aptior consectetur credo audiebamus dissentiunt
-                                                                            vivere moribus. </blockquote>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-period">Apr 2017</li>
-                                                    <li class="timeline-item">
-                                                        <div class="timeline-dot bg-green-500 animation-scale-up" data-placement="right" data-toggle="tooltip" data-trigger="hover" data-original-title="1 Month ago"></div>
-                                                        <div class="timeline-content animation-slide-left">
-                                                            <div class="card card-shadow">
-                                                                <div class="card-img-top cover">
-                                                                    <img class="cover-image" src="https://turbo.network/hqroom/image/upload/c_limit,f_auto,h_10000,w_1600/v1488356657/post/337aa063fb17274cd05d1954/32db6a5687b8e0d9Issj8K6CwgOFi0QE.jpg" alt="...">
-                                                                </div>
-                                                                <div class="card-block">
-                                                                    <h3 class="card-title">Lorem Ipsum Dolor</h3>
-                                                                    <p class="card-text">
-                                                                        <small>MAY 08, 2017</small>
-                                                                    </p>
-                                                                    <p>Sumus homo praetor intellegerem erga incidunt singulis, legam viveremus
-                                                                        deorum, tertio frui tantum dedocendi profecto omittantur gravissimas
-                                                                        cognitioque. Arbitrer negarent vocant disserui urbanitas, videtis
-                                                                        commenticiam persequeris recteque data amoris opes. Discenda
-                                                                        efficere diligi praesenti nostri adversantur pertinaces detractis
-                                                                        levitatibus etiam. </p>
-                                                                </div>
-                                                                <div class="card-block">
-                                                                    <div class="card-actions pull-xs-right">
-                                                                        <a href="javascript:void(0)">
-                                                                            <i class="icon wb-chat-working" aria-hidden="true"></i>
-                                                                            <span>2500</span>
-                                                                        </a>
-                                                                        <a href="javascript:void(0)">
-                                                                            <i class="icon wb-heart" aria-hidden="true"></i>
-                                                                            <span>20</span>
-                                                                        </a>
-                                                                    </div>
-                                                                    <a class="btn btn-primary btn-outline card-link" href="javascript:void(0)">Read More</a>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="timeline-item timeline-reverse">
-                                                        <div class="timeline-dot bg-orange-600 animation-scale-up" data-placement="left" data-toggle="tooltip" data-trigger="hover" data-original-title="1 Month ago"></div>
-                                                        <div class="timeline-content animation-slide-right">
-                                                            <div class="card card-shadow">
-                                                                <div class="card-header cover">
-                                                                    <div class="cover-background p-30" style="background-image: url('https://www.firestock.ru/wp-content/uploads/2013/08/firestock_dark_Leather_06082013-1024x1024.jpg')">
-                                                                        <blockquote class="blockquote cover-quote white card-blockquote">Debilitati fugienda partitio esse debemus, erat segnitiae quaerimus
-                                                                            iudicia aspernatur vis, perfunctio quae ludus commodius habemus
-                                                                            inflammat. Distinguantur vera a tollatur desiderent. </blockquote>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-
-                                                </ul>
-                                                <!-- End Timeline -->
-                                            </div>
-                                        </li>
-                                    </ul>
-
-
-
+                                    <?= $this->render('_timeline', [
+                                        'project' => $project,
+                                        'timelines' => $projectTimeline
+                                    ]) ?>
                                 </div>
 
                                 <div class="tab-pane animation-fade" id="participants" role="tabpanel" aria-expanded="false">
@@ -942,8 +824,6 @@ use yii\helpers\Html;
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
                     </div>
