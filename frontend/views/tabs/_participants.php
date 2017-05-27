@@ -28,11 +28,11 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
                     <div class="media-left">
                         <?= Html::a("<div class=\"avatar ". ($participant->is_online ?
                             'avatar-online' : 'avatar-away') . " \">".
-                             Html::img($participant->image,
+                             Html::img($participant->imageShow,
                                 ['alt' => '...']) .
                                     "<i></i>".
                                     "</div>",
-                            ['/site/index', 'id' => $participant->id]) ?>
+                            ['/person/profile', 'id' => $participant->id]) ?>
 
                     </div>
                     <div class="media-body">

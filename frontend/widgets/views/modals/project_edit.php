@@ -132,13 +132,13 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                     <?php $templateFileInput =
                                         '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">'.
                                         '<div class="input-group input-group-file" data-plugin="inputGroupFile">'.
-                                        Html::textInput('', $model->background_image, ['class' => 'form-control', 'readonly' => '']).
+                                        Html::textInput('', $model->background, ['class' => 'form-control', 'readonly' => '']).
                                         '<span class="input-group-btn">'.
                                         '<span class="btn btn-outline btn-file">'.
                                         '<i class="icon wb-upload" aria-hidden="true"></i>{input}</span></span></div>'.
                                         '<small class="text-danger">{error}</small></div></div>'; ?>
 
-                                    <?= $form->field($model, 'background_imageFile', ['template' => $templateFileInput])
+                                    <?= $form->field($model, 'backgroundFile', ['template' => $templateFileInput])
                                         ->fileInput()
                                         ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
 

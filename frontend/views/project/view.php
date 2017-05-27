@@ -9,13 +9,13 @@ use frontend\assets\AppAsset;
 use frontend\models\Project;
 use frontend\widgets\CustomModal;
 use yii\helpers\Html;
-use yii\web\JqueryAsset;
 
 $this->registerJsFile('@web/js/project.js',  ['depends' => [AppAsset::className()]]);
 $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [AppAsset::className()]]);
 ?>
 
 <div class="page">
+
     <div class="page-content container-fluid">
         <div class="row" data-plugin="matchHeight" data-by-row="true">
             <!-- First Row -->

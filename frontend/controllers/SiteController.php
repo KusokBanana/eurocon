@@ -2,6 +2,8 @@
 namespace frontend\controllers;
 
 use common\models\User;
+use frontend\models\Community;
+use frontend\models\Company;
 use frontend\models\Friends;
 use frontend\models\Person;
 use frontend\models\Project;
@@ -114,49 +116,6 @@ class SiteController extends Controller
                 if ($result)
                     return $this->redirect(Yii::$app->request->referrer);
             }
-        }
-    }
-
-    public function actionAjaxReload()
-    {
-        if (Yii::$app->request->isAjax) {
-            $page = Yii::$app->request->get('page');
-            $type = Yii::$app->request->get('type');
-            $data = Yii::$app->request->post('data');
-            $data = Json::decode($data, true);
-            $action = isset($data['action']) ? $data['action'] : false;
-            $search = isset($data['search']) ? trim($data['search']) : '';
-
-            if ($action == 'search') {
-                $page = $data['page'] = 1;
-            }
-
-            switch ($type) {
-                case 'friends':
-                    $friends = Friends::getFriends($data['id'], $page, $search);
-                    return $this->renderAjax('/tabs/_participants',
-                        [
-                            'participants' => $friends,
-                            'additionData' => $data
-                        ]);
-                case 'projects':
-                    $person = Person::findOne($data['id']);
-                    $projects = $person->getProjectsData($page, $search, Project::RELATION_ADMIN);
-                    return $this->renderAjax('/tabs/_projects',
-                        [
-                            'projects' => $projects,
-                            'additionData' => $data
-                        ]);
-                case 'companies':
-                    $person = Person::findOne($data['id']);
-                    $companies = $person->getCompaniesData($page, $search);
-                    return $this->renderAjax('/tabs/_companies',
-                        [
-                            'companies' => $companies,
-                            'additionData' => $data
-                        ]);
-            }
-
         }
     }
 

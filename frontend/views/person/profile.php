@@ -5,8 +5,10 @@
 /* @var $projects \frontend\models\Project array */
 /* @var $friends Person array */
 /* @var $companies \frontend\models\Company array */
+/* @var $communities \frontend\models\Community array  */
 
 use frontend\models\Person;
+use frontend\widgets\CustomModal;
 use yii\helpers\Html;
 
 $this->title = 'Eurocon / profile';
@@ -26,7 +28,7 @@ $this->title = 'Eurocon / profile';
                  style="background-image: url(<?= \yii\helpers\Url::to('@web/img/layer_images/first-page-image.jpg') ?>);
                     background-size: cover;">
                 <div class="text-xs-center blue-grey-800 m-t-50 m-xs-0">
-                    <div class="font-size-70 m-b-30 blue-grey-800">
+                    <div class="font-size-70 m-b- blue-grey-800">
                         <?= $person->name . ' ' . $person->surname ?>
                     </div>
                     <ul class="list-inline font-size-14">
@@ -47,7 +49,7 @@ $this->title = 'Eurocon / profile';
             <!-- End First Row -->
             <!-- Second Row -->
             <!-- Personal -->
-            <div class="col-xs-12 col-xxl-3 col-xl-3 col-lg-3">
+            <div class="col-xs-12 col-lg-4 col-xxl-3 col-xl-3">
                 <div id="personalCompletedWidget" class="card card-shadow p-b-20">
                     <div class="card-header card-header-transparent cover overlay">
                         <?= Html::img('@web/img/portraits/placeholder.png', [
@@ -55,14 +57,15 @@ $this->title = 'Eurocon / profile';
                         ]) ?>
                         <div class="overlay-panel overlay-background vertical-align" style="background-color:  #FA7A7A;">
                             <div class="vertical-align-middle">
-                                <?= Html::a(Html::img($person->image, [
+                                <?= Html::a(Html::img($person->imageShow, [
                                     'class' => 'navbar-brand-logo navbar-brand-logo-normal',
                                     'title' => 'Remark'
                                 ]), ["javascript:void(0)"], ['class' => 'avatar']); ?>
                                 <div class="font-size-20 m-t-10"><?= $person->name . ' ' . $person->surname ?></div>
-                                <div class="font-size-14">parquet producer</div>
+                                <div class="font-size-14"><?= $person->position ?></div>
                                 <div class="font-size-14 m-t-">
-                                    <i class="icon wb-map" aria-hidden="true"></i>Saltsburg, Austria
+                                    <i class="icon wb-map" aria-hidden="true"></i>
+                                    <?= isset($person->location['name']) ? $person->location['name'] : '' ?>
                                 </div>
 
                             </div>
@@ -75,7 +78,17 @@ $this->title = 'Eurocon / profile';
                         <?php if ($person->relation === Person::RELATION_SELF): ?>
                             <div class="row text-xs-center">
                                 <div class="col-xs-12 ">
-                                    <?= Html::a('edit', ['/'], ['class' => 'btn btn-block btn-primary btn-outline']) ?>
+                                    <?= Html::button('edit',
+                                        [
+                                            'class' => 'btn btn-block btn-primary btn-outline',
+                                            'data-target' => '#profile_edit',
+                                            'data-toggle' => 'modal',
+
+                                        ]) ?>
+                                    <?= CustomModal::widget([
+                                        'type' => 'profile_edit',
+                                        'model' => $person,
+                                    ]) ?>
                                 </div>
                             </div>
                         <?php else: ?>
@@ -107,39 +120,23 @@ $this->title = 'Eurocon / profile';
 
                                 <div class="card-block">
 
-                                    <div class="table-responsive">
+                                    <div class=" table-responsive" style=" overflow: hidden;">
                                         <table class="table">
                                             <tbody>
                                             <tr>
-                                                <td>
-                                                    Birthday
-                                                </td>
-
-                                                <td>
-                                                    <?= date('d.m.Y', strtotime($person->birthday)) ?>
-                                                </td>
+                                                <td>Birthday</td>
+                                                <td><?= date('d.m.Y', strtotime($person->birthday)) ?></td>
                                             </tr>
                                             <tr>
-                                                <td>
-                                                    Email
-                                                </td>
-
-                                                <td>
-                                                    <?= $person->email ?>
-                                                </td>
+                                                <td>Email</td>
+                                                <td><?= $person->email ?></td>
                                             </tr>
                                             <tr>
-                                                <td>
-                                                    Phone
-                                                </td>
-                                                <td>
-                                                    <?= $person->phone ?>
-                                                </td>
+                                                <td>Phone</td>
+                                                <td><?= $person->phone ?></td>
                                             </tr>
                                             <tr>
-                                                <td>
-                                                    Languages
-                                                </td>
+                                                <td>Languages</td>
                                                 <td>
                                                     <?= Html::img('@web/img/examples/country/germany-icon.png', [
                                                         'title' => 'Germany',
@@ -152,20 +149,12 @@ $this->title = 'Eurocon / profile';
                                                 </td>
                                             </tr>
                                             <tr>
-                                                <td>
-                                                    Companies
-                                                </td>
-                                                <td>
-                                                    Build&Co
-                                                </td>
+                                                <td>Companies</td>
+                                                <td>Build&Co</td>
                                             </tr>
                                             <tr>
-                                                <td>
-                                                    Competence
-                                                </td>
-                                                <td>
-                                                    carpenter
-                                                </td>
+                                                <td>Competence</td>
+                                                <td>carpenter</td>
                                             </tr>
                                             </tbody>
                                         </table>
@@ -181,7 +170,7 @@ $this->title = 'Eurocon / profile';
             </div>
 
             <!-- To Do List -->
-            <div class="col-xs-12 col-xxl-9  col-xl-9 col-lg-9">
+            <div class="col-xs-12 col-lg-8 col-xxl-9 col-xl-9">
 
                 <!-- Panel -->
                 <div class="panel">
@@ -194,12 +183,16 @@ $this->title = 'Eurocon / profile';
                                        aria-controls="all_contacts" role="tab" aria-expanded="false">Projects</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" data-toggle="tab" href="#tab_participants"
+                                    <a class="nav-link" data-toggle="tab" href="#tab_companies"
+                                       aria-controls="google_contacts" role="tab" aria-expanded="false">Companies</a>
+                                </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link active" data-toggle="tab" href="#tab_friends"
                                        aria-controls="my_contacts" role="tab" aria-expanded="true">Friends</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" data-toggle="tab" href="#tab_companies"
-                                       aria-controls="google_contacts" role="tab" aria-expanded="false">Companies</a>
+                                    <a class="nav-link" data-toggle="tab" href="#tab_communities"
+                                       aria-controls="communities" role="tab" aria-expanded="false">Communities</a>
                                 </li>
                             </ul>
 
@@ -210,7 +203,7 @@ $this->title = 'Eurocon / profile';
                                         'additionData' => ['id' => $person->id]
                                     ]) ?>
                                 </div>
-                                <div class="tab-pane animation-fade active" id="tab_participants" role="tabpanel" aria-expanded="true">
+                                <div class="tab-pane animation-fade active" id="tab_friends" role="tabpanel" aria-expanded="true">
                                     <?= $this->render('/tabs/_participants', [
                                         'participants' => $friends,
                                         'additionData' => ['id' => $person->id]
@@ -219,6 +212,12 @@ $this->title = 'Eurocon / profile';
                                 <div class="tab-pane animation-fade" id="tab_companies" role="tabpanel" aria-expanded="false">
                                     <?= $this->render('/tabs/_companies', [
                                         'companies' => $companies,
+                                        'additionData' => ['id' => $person->id]
+                                    ]) ?>
+                                </div>
+                                <div class="tab-pane animation-fade" id="tab_communities" role="tabpanel" aria-expanded="false">
+                                    <?= $this->render('/tabs/_communities', [
+                                        'communities' => $communities,
                                         'additionData' => ['id' => $person->id]
                                     ]) ?>
                                 </div>
@@ -237,3 +236,4 @@ $this->title = 'Eurocon / profile';
         <!-- End Second Row -->
     </div>
 </div>
+

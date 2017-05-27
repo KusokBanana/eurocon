@@ -25,7 +25,7 @@ use yii\imagine\Image;
  * @property integer $category_id
  * @property integer $editability_id
  * @property string $project_links
- * @property string $background_image [varchar(126)]
+ * @property string $background [varchar(126)]
  * @property string $completion_date [date]
  * @property string $social_links
  *
@@ -42,9 +42,9 @@ class Project extends ActiveRecord
     public $tagValues;
     public $owners;
     public $imageFile;
-    public $background_imageFile;
-    public $image_show;
-    private $background_image_show;
+    public $backgroundFile;
+    public $imageShow;
+    public $backgroundShow;
 
     const RELATION_ADMIN = 1;
     const RELATION_PARTICIPANT = 2;
@@ -122,10 +122,10 @@ class Project extends ActiveRecord
             ['date', 'default', 'value' => date('Y-m-d')],
             [['description'], 'string'],
             [['type_id', 'status_id', 'budget_id', 'category_id', 'editability_id'], 'integer'],
-            [['name', 'image', 'background_image'], 'string', 'max' => 126],
+            [['name', 'image', 'background'], 'string', 'max' => 126],
             [['project_links'], 'string', 'max' => 255],
             [['participants', 'owners', 'tagValues', 'social_links'], 'safe'],
-            [['imageFile', 'background_imageFile'], 'file', 'extensions' => 'png, jpg'],
+            [['imageFile', 'backgroundFile'], 'file', 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -149,7 +149,7 @@ class Project extends ActiveRecord
             'owners' => 'Project Partners and Owners',
             'tagValues' => 'Add tags for your project',
             'project_links' => 'Project Links',
-            'background_image' => 'Background',
+            'background' => 'Background',
             'social_links' => 'Social',
             'completion_date ' => 'Completion Date ',
         ];
@@ -199,7 +199,7 @@ class Project extends ActiveRecord
         $this->social_links = ($this->social_links) ? json_decode($this->social_links, true) : [];
 
         $this->setImage('image');
-        $this->setImage('background_image');
+        $this->setImage('background');
 
     }
 
@@ -209,11 +209,11 @@ class Project extends ActiveRecord
         $dir = self::$image_path . $type . '/';
         $path = Yii::getAlias('@frontend') . '/web' . $dir;
         $isImageExist = file_exists($path . $image);
-        $imageShowAttr = $type . '_show';
+        $showAttr = $type . 'Show';
         if ($image && $isImageExist) {
-            $this->$imageShowAttr = Yii::getAlias('@web') . $dir . $image;
+            $this->$showAttr = Yii::getAlias('@web') . $dir . $image;
         } else {
-            $this->$imageShowAttr = static::$default_image_path;
+            $this->$showAttr = static::$default_image_path;
         }
 
     }

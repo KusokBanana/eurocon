@@ -2,12 +2,20 @@
 
 namespace frontend\models;
 
+use common\models\OrlandoBanana;
 use common\models\User;
+use frontend\assets\LocationsAsset;
+use frontend\models\books\BookAdminCommunity;
+use frontend\models\books\BookAdminCompany;
 use frontend\models\books\BookOwnerProject;
+use frontend\models\books\BookUserCommunity;
+use frontend\models\books\BookUserCompany;
 use frontend\models\books\BookUserProject;
 use Yii;
 use yii\db\Query;
 use yii\helpers\VarDumper;
+use yii\imagine\Image;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "user".
@@ -26,12 +34,21 @@ use yii\helpers\VarDumper;
  * @property string $image
  * @property string $surname
  * @property string $name
+ * @property integer $gender_id
+ * @property string $position
+ * @property string $location
+ * @property string $language_ids
+ * @property string $site
+ * @property integer $chat_me_able_id
+ * @property integer $invite_project_able_id
+ * @property string $notice_ids
+ * @property string $background [varchar(126)]
  */
 class Person extends User
 {
 
     public static $quest_id = 5;
-    private static $avatar_path = '/upload/avatars/person/';
+    private static $avatar_path = '/upload/person/';
     private static $default_avatar = '@web/img/portraits/5.jpg';
     private static $minutes_ago_online = 5;
 
@@ -44,8 +61,37 @@ class Person extends User
     public $is_online = false;
     public $full_name;
     public $relation = false;
+    public $imageFile;
+    public $backgroundFile;
+    public $imageShow;
+    public $backgroundShow;
+
+    public static $genders = [
+        1 => 'Male',
+        2 => 'Female',
+    ];
 
     public static $limit = 12;
+
+    public static $languages = [
+        1 => 'Englsih',
+        2 => 'German',
+        3 => 'French',
+        4 => 'Russian',
+        5 => 'Chinese',
+    ];
+
+    const NOTICE_FRIENDS = 1;
+    const NOTICE_COMMUNITIES = 2;
+    const NOTICE_COMPANIES = 3;
+
+    const CAN_ONLY_FRIENDS = 1;
+    const CAN_FRIENDS = 2;
+    const CAN_EVERYONE = 3;
+
+    const FILE_WIDTH = 500;
+    const FILE_HEIGHT = 300;
+
 
     /**
      * @inheritdoc
@@ -53,6 +99,7 @@ class Person extends User
     public function rules()
     {
         return [
+            [['gender_id', 'chat_me_able_id', 'invite_project_able_id'], 'integer'],
             [['username', 'name'], 'required'],
             [['birthday'], 'safe'],
             [['username', 'email'], 'string', 'max' => 255],
@@ -61,6 +108,10 @@ class Person extends User
             [['password_reset_token'], 'unique'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
+            ['language_ids', 'string'],
+            [['position', 'location', 'site', 'background'], 'string', 'max' => 126],
+            [['language_ids', 'notice_ids'], 'safe'],
+            [['imageFile', 'backgroundFile'], 'file', 'extensions' => 'png, jpg'],
         ];
     }
 
@@ -72,18 +123,22 @@ class Person extends User
         return [
             'id' => 'ID',
             'username' => 'Username',
-//            'auth_key' => 'Auth Key',
-//            'password_hash' => 'Password Hash',
-//            'password_reset_token' => 'Password Reset Token',
             'email' => 'Email',
-//            'status' => 'Status',
-//            'created_at' => 'Created At',
-//            'updated_at' => 'Updated At',
             'birthday' => 'Birthday',
             'phone' => 'Phone',
             'image' => 'Image',
-            'surname' => 'Surname',
-            'name' => 'Name',
+            'surname' => 'My Last Name',
+            'name' => 'My Name',
+            'gender_id' => 'My Gender',
+            'position' => 'My Position',
+            'location' => 'My Location',
+            'language_ids' => 'Languages',
+            'site' => 'My site',
+            'chat_me_able_id' => 'Who can send me a message',
+            'invite_project_able_id' => 'Who can add me to a project',
+            'notice_ids' => 'Notice',
+            'imageFile' => 'My Photo',
+            'backgroundFile' => 'Background image',
         ];
     }
 
@@ -123,18 +178,56 @@ class Person extends User
 
     public function getParticipants()
     {
-        return $this->hasMany(\frontend\models\books\BookUserCompany::className(), ['user_id' => 'id']);
+        return $this->hasMany(BookUserCompany::className(), ['user_id' => 'id']);
     }
 
     public function getAdmins()
     {
-        return $this->hasMany(\frontend\models\books\BookAdminCompany::className(), ['admin_id' => 'id']);
+        return $this->hasMany(BookAdminCompany::className(), ['admin_id' => 'id']);
     }
 
-    public function getCompanies()
+    public function getParticipantsCommunity()
     {
+        return $this->hasMany(BookUserCommunity::className(), ['user_id' => 'id']);
+    }
+
+    public function getAdminsCommunity()
+    {
+        return $this->hasMany(BookAdminCommunity::className(), ['admin_id' => 'id']);
+    }
+
+    public function getCompanies($type)
+    {
+
+        $viaTable = '';
+        switch ($type) {
+            case Company::ROLE_PARTICIPANT_TYPE:
+                $viaTable = 'participants';
+                break;
+            case Company::ROLE_ADMIN_TYPE:
+                $viaTable = 'admins';
+                break;
+        }
+
         return $this->hasMany(Company::className(), ['id' => 'company_id'])
-            ->via('participants')->via('admins');
+            ->via($viaTable);
+    }
+
+    public function getCommunities($type)
+    {
+
+        $viaTable = '';
+        switch ($type) {
+            case Community::ROLE_PARTICIPANT_TYPE:
+                $viaTable = 'participantsCommunity';
+                break;
+            case Community::ROLE_ADMIN_TYPE:
+                $viaTable = 'adminsCommunity';
+                break;
+        }
+
+        return $this->hasMany(Community::className(), ['id' => 'community_id'])
+            ->via($viaTable);
     }
 
     public static function getPerson($user)
@@ -159,11 +252,18 @@ class Person extends User
 
     }
 
-    public function getCompaniesData($page = 1, $search = '')
+    public function getCompaniesData($page = 1, $search = '', $type)
     {
-        $query = $this->getCompanies();
+        $query = $this->getCompanies($type);
         $query->andFilterWhere(['LIKE', Company::tableName() . '.name', $search]);
         return Pagination::getData($query, $page, Company::$limit, 'companies');
+    }
+
+    public function getCommunitiesData($page = 1, $search = '', $type)
+    {
+        $query = $this->getCommunities($type);
+        $query->andFilterWhere(['LIKE', Community::tableName() . '.name', $search]);
+        return Pagination::getData($query, $page, Community::$limit, 'communities');
     }
 
     public function afterFind()
@@ -177,9 +277,13 @@ class Person extends User
             // TODO remove 3600 cause of local server time +3
         }
 
+        $this->location = Location::get($this->location);
+
         $this->full_name = $this->surname . ($this->surname ? ' ' : '') . $this->name;
 
-        $this->setImage();
+        $this->setImage('image');
+        $this->setImage('background');
+        $this->setAsArray('notice_ids');
     }
 
     public function addToFriends($user_id)
@@ -214,16 +318,83 @@ class Person extends User
 
     }
 
-    private function setImage()
+    public function savePerson()
     {
 
-        $image = $this->image;
-        $path = Yii::getAlias('@frontend') . '/web' . self::$avatar_path;
+        $this->saveImage('image');
+        $this->saveImage('background');
+        $this->saveids('notice_ids');
+
+        Location::setAttribute($this);
+
+    }
+
+    private function saveIds($attr)
+    {
+        if ($this->$attr && is_array($this->$attr)) {
+            $this->$attr = join(',', $this->$attr);
+        }
+    }
+
+    private function setAsArray($attr)
+    {
+        if ($this->$attr && !is_array($this->$attr)) {
+            $this->$attr = explode(',', $this->$attr);
+        }
+    }
+
+
+    private function setImage($type)
+    {
+        $image = $this->$type;
+        $dir = self::$avatar_path . $type . '/';
+        $path = Yii::getAlias('@frontend') . '/web' . $dir;
         $isImageExist = file_exists($path . $image);
+        $showAttr = $type . 'Show';
         if ($image && $isImageExist) {
-            $this->image = Yii::getAlias('@web') . self::$avatar_path . $image;
+            $this->$showAttr = Yii::getAlias('@web') . $dir . $image;
         } else {
-            $this->image = static::$default_avatar;
+            $this->$showAttr = static::$default_avatar;
+        }
+
+    }
+
+    public function saveImage($type)
+    {
+        $attrName = $type.'File';
+        $file = UploadedFile::getInstance($this, $attrName);
+
+        if($file && $file->tempName) {
+            $this->$attrName = $file;
+
+            if ($this->validate([$attrName])) {
+                $dir = Yii::getAlias('@frontend') . '/web' . self::$avatar_path . $type . '/';
+
+                if($this->$type && file_exists($dir . $this->$type))
+                {
+                    //удаляем файл
+                    unlink($dir . $this->$type);
+                    $this->$type = '';
+                }
+
+                $fileName = OrlandoBanana::getRandomFileName($dir, $file->extension);
+                $this->$attrName->saveAs($dir . $fileName);
+                $this->$attrName = $fileName; // без этого ошибка
+
+                $image = Image::frame($dir . $fileName);
+                $sizes = $image->getSize();
+
+                $width = ($sizes->getWidth() > self::FILE_WIDTH) ? self::FILE_WIDTH : $sizes->getWidth();
+                $height = ($sizes->getHeight() > self::FILE_HEIGHT) ? self::FILE_HEIGHT : $sizes->getHeight();
+
+                $sizes->widen($width);
+                $sizes->heighten($height);
+                $image->resize($sizes)->save($dir . $fileName);
+
+                $this->$type = $fileName;
+
+            }
+
         }
 
     }

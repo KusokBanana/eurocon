@@ -30,7 +30,9 @@
         "kartik-v/yii2-widget-select2": "*",
         "2amigos/yii2-taggable-behavior": "~1.0",
         "2amigos/yii2-selectize-widget": "~1.0",
-        "pudinglabs/yii2-bootstrap-tags-input": "*"
+        "pudinglabs/yii2-bootstrap-tags-input": "*",
+        "2amigos/yii2-google-maps-library" : "*",
+        "voime/yii2-google-maps": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

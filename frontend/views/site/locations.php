@@ -60,7 +60,7 @@ $this->params['body-class'] = 'app-travel'
                                                 <div class="card-header cover overlay">
 <!--                                                    <img class="cover-image" src="https://s-media-cache-ak0.pinimg.com/originals/f2/6e/58/f26e5892246118a65bc91782e4c3b40a.jpg" alt="spot_photo"-->
 <!--                                                    />-->
-                                                    <?= Html::img($project->image_show,
+                                                    <?= Html::img($project->imageShow,
                                                         [
                                                             'class' => 'cover-image',
                                                             'alt' => 'spot_photo',

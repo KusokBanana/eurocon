@@ -89,7 +89,7 @@ use yii\helpers\Html;
                     <div class="overlay-panel overlay-background vertical-align" style="background-color:  #47B8C6;">
                         <div class="vertical-align-middle">
                             <?= Html::a(
-                                    Html::img($company->image, [
+                                    Html::img($company->imageShow, [
                                     'class' => 'cover-image',
                             ]), ['/'], ['class' => 'avatar']) ?>
                             <div class="font-size-20 m-t-10"><?= $company->name ?></div>

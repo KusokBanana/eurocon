@@ -31,7 +31,7 @@ use yii\helpers\Url;
                 ]) ?>
                 <div class="overlay-panel overlay-background vertical-align" style="background-color:  #47B8C6;">
                     <div class="vertical-align-middle">
-                            <?= Html::a(Html::img($community->imageFile, [
+                            <?= Html::a(Html::img($community->imageShow, [
                                 'title' => 'Remark'
                             ]), ["javascript:void(0)"], ['class' => 'avatar']); ?>
                         <div class="font-size-20 m-t-10"><?= $community->name ?></div>

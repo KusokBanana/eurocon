@@ -38,8 +38,6 @@ class Company extends Community
 
     public static $image_path = '/upload/company/image/';
 
-    public $imageFile;
-
     const FILE_WIDTH = 500;
     const FILE_HEIGHT = 300;
 

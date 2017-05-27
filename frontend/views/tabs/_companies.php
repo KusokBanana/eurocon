@@ -25,17 +25,17 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
             <li class="list-group-item">
                 <div class="media">
                     <div class="media-left">
-                        <div class="avatar avatar-online">
-                            <?= Html::a(Html::img($company->image, [
-                                    'alt' => '...'
-                            ]), ['/company/view', 'id' => $company->id]) ?>
-                        </div>
+                        <?= Html::a('<div class="avatar avatar-online">'.
+                            Html::img($company->imageShow, [
+                                'alt' => '...'
+                            ]).'</div>',
+                            ['/company/view', 'id' => $company->id]) ?>
                     </div>
                     <div class="media-body">
-                        <h4 class="media-heading"><?= $company->name ?></h4>
-                        <p>
-                            <i class="icon icon-color wb-map" aria-hidden="true"></i>
-                        </p>
+                        <h4 class="media-heading">
+                            <?= $company->name ?>
+                        </h4>
+                        <p><?= $company->description ?></p>
                     </div>
                 </div>
             </li>
@@ -46,4 +46,3 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
     <?= Pagination::widget($companies) ?>
 
 <?php endif; ?>
-

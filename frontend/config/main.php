@@ -64,6 +64,13 @@ return [
                         '/fonts/font-awesome/font-awesome.min.css',
                     ]
                 ],
+                'dosamigos\google\maps\MapAsset' => [
+                    'options' => [
+                        'key' => 'AIzaSyAQOPXYob7TnbxAsrMsOhlBeBDJRfT7bYE',
+                        'language' => 'id',
+                        'version' => '3.1.18'
+                    ]
+                ]
             ],
         ],
         'errorHandler' => [
@@ -86,7 +93,6 @@ return [
                 'profile' => '/person/profile',
             ],
         ],
-
     ],
     'modules' => [
         'simplechat' => [

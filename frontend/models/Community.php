@@ -30,8 +30,9 @@ class Community extends ActiveRecord
         return 'community';
     }
 
-    public static $default_image = '@web/img/layer_images/company-avatar.png';
+    public static $default_image = 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSUQhqwznhnuV08YHOcoGczFwGDMHJ5k2nYxQ6DHTAhmr4JWbJssw';
     private static $image_path = '/upload/community/';
+    public static $limit = 12;
     const FILE_WIDTH = 500;
     const FILE_HEIGHT = 300;
     public $relation = false;
@@ -44,7 +45,8 @@ class Community extends ActiveRecord
     public $tagValues;
     public $imageFile;
     public $backgroundFile;
-    public $image_show;
+    public $imageShow;
+    public $backgroundShow;
 
     public static $post_abilities = [
         1 => 'only participants',
@@ -169,7 +171,7 @@ class Community extends ActiveRecord
         $image = $this->image;
         $path = Yii::getAlias('@frontend') . '/web' . self::$image_path . $type . '/';
         $isImageExist = file_exists($path . $image);
-        $attr = $type . 'File';
+        $attr = $type . 'Show';
         if ($image && $isImageExist) {
             $this->$attr = Yii::getAlias('@web') . self::$image_path . $type . '/' . $image;
         } else {

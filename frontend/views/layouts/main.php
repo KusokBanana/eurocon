@@ -124,7 +124,7 @@ $user = Person::getPerson(Yii::$app->user);
                     <a class="nav-link navbar-avatar" data-toggle="dropdown" href="#" aria-expanded="false"
                        data-animation="scale-up" role="button">
               <span class="avatar avatar-online">
-                  <?= Html::img($user->image, [
+                  <?= Html::img($user->imageShow, [
                       'alt' => '...'
                   ]) ?>
                 <i></i>

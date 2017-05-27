@@ -24,13 +24,13 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
         <?php foreach ($projects['data'] as $project): ?>
             <li class="list-group-item">
                 <div class="card card-shadow">
-                    <figure class="card-img-top overlay-hover overlay">
-                        <?= Html::img($project->image_show, [
+                    <figure class="card-img-top overlay-hover overlay" style="height: 215px;">
+                        <?= Html::img($project->imageShow, [
                             'class' => 'overlay-figure overlay-scale',
                             'alt' => '...'
                         ]) ?>
                         <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                            <a class="icon wb-search" href="<?= $project->image_show ?>"></a>
+                            <a class="icon wb-search" href="<?= $project->imageShow ?>"></a>
                         </figcaption>
                     </figure>
                     <div class="card-block">
