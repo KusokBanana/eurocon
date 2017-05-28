@@ -17,7 +17,7 @@ use yii\db\ActiveRecord;
  * @property Person $admin
  * @property Company $company
  */
-class BookAdminCompany extends ActiveRecord
+class BookAdminCompany extends BookAdminCommunity
 {
     /**
      * @inheritdoc
@@ -56,7 +56,7 @@ class BookAdminCompany extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAdmin()
+    public function getPerson()
     {
         return $this->hasOne(Person::className(), ['id' => 'admin_id']);
     }
@@ -68,4 +68,30 @@ class BookAdminCompany extends ActiveRecord
     {
         return $this->hasOne(Company::className(), ['id' => 'company_id']);
     }
+
+    public static function getAdmins($id, $isJustQuery = false)
+    {
+        $query = self::find()->where(['company_id' => $id])->joinWith('person');
+        if (!$isJustQuery)
+            $query->all();
+
+        return $query;
+    }
+
+    public static function addNew($personId, $companyId)
+    {
+        if ($personId && $companyId) {
+            $newAdmin = new self();
+            $newAdmin->admin_id = $personId;
+            $newAdmin->company_id = $companyId;
+
+            if ($newAdmin->save()) {
+                $participant = BookUserCompany::findOne(['user_id' => $personId, 'company_id' => $companyId]);
+                if ($participant) {
+                    $participant->delete();
+                }
+            }
+        }
+    }
+
 }

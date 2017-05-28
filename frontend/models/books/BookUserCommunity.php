@@ -67,4 +67,10 @@ class BookUserCommunity extends ActiveRecord
     {
         return $this->hasOne(Company::className(), ['id' => 'community_id']);
     }
+
+    public static function getParticipants($id)
+    {
+        return self::find()->where(['community_id' => $id])->joinWith('user')->all();
+    }
+
 }

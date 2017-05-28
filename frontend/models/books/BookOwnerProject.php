@@ -62,7 +62,7 @@ class BookOwnerProject extends ActiveRecord
 
     public static function getAdmins($projectId)
     {
-        return \frontend\models\books\BookOwnerProject::find()->where(['project_id' => $projectId])->joinWith('user')->all();
+        return self::find()->where(['project_id' => $projectId])->joinWith('user')->all();
     }
 
     /**
@@ -76,14 +76,12 @@ class BookOwnerProject extends ActiveRecord
 
     public static function addNew($personId, $projectId)
     {
-
         if ($personId && $projectId) {
             $newParticipant = new self();
             $newParticipant->user_id = $personId;
             $newParticipant->project_id = $projectId;
             $newParticipant->save();
         }
-
     }
 
 }

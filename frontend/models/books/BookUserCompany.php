@@ -17,7 +17,7 @@ use yii\db\ActiveRecord;
  * @property Person $user
  * @property Company $company
  */
-class BookUserCompany extends ActiveRecord
+class BookUserCompany extends BookUserCommunity
 {
     /**
      * @inheritdoc
@@ -36,7 +36,7 @@ class BookUserCompany extends ActiveRecord
             [['user_id', 'company_id'], 'required'],
             [['user_id', 'company_id'], 'integer'],
             [['user_id', 'company_id'], 'unique', 'targetAttribute' => ['user_id', 'company_id'], 'message' => 'The combination of User ID and Company ID has already been taken.'],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => Person::className(), 'targetAttribute' => ['user_id' => 'id']],
             [['company_id'], 'exist', 'skipOnError' => true, 'targetClass' => Company::className(), 'targetAttribute' => ['company_id' => 'id']],
         ];
     }
@@ -56,9 +56,9 @@ class BookUserCompany extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getPerson()
     {
-        return $this->hasOne(User::className(), ['id' => 'user_id']);
+        return $this->hasOne(Person::className(), ['id' => 'user_id']);
     }
 
     /**
@@ -68,4 +68,26 @@ class BookUserCompany extends ActiveRecord
     {
         return $this->hasOne(Company::className(), ['id' => 'company_id']);
     }
+
+    public static function getParticipants($id, $isJustQuery = false)
+    {
+        $query = self::find()->where(['company_id' => $id])->joinWith('person');
+
+        if (!$isJustQuery)
+            $query->all();
+
+        return $query;
+    }
+
+    public static function addNew($personId, $companyId)
+    {
+        // TODO добавить сюда проверку на присутствие в базе админов компании
+        if ($personId && $companyId) {
+            $newParticipant = new self();
+            $newParticipant->user_id = $personId;
+            $newParticipant->company_id = $companyId;
+            $newParticipant->save();
+        }
+    }
+
 }

@@ -3,9 +3,12 @@
 namespace frontend\controllers;
 
 use frontend\models\Company;
+use frontend\models\Friends;
+use frontend\models\Location;
 use frontend\models\Person;
 use frontend\models\Tag;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -81,10 +84,14 @@ class CompanyController extends CommunityController
             throw new NotFoundHttpException();
         }
 
+        $user = Yii::$app->user;
+
+        $company->setRelation($user);
         $cooperation = $company->getPersonsData(Company::ROLE_PARTICIPANT_TYPE);
         $admins = $company->getPersonsData(Company::ROLE_ADMIN_TYPE);
+        $potentialSubscribers = $company->getPotentialSubscribers();
 
-        return $this->render('view', compact('company', 'cooperation', 'admins'));
+        return $this->render('view', compact('company', 'cooperation', 'admins', 'potentialSubscribers'));
     }
 
     public function actionCreate()
@@ -124,6 +131,25 @@ class CompanyController extends CommunityController
             $result = $company->leave($person->id);
             if ($result)
                 return $this->redirect(['view', 'id' => $company->id]);
+        }
+
+    }
+
+
+    public function actionUpdate($id)
+    {
+
+        $company = Company::findOne($id);
+        if (!$company)
+            return false;
+
+        if ($company->load(Yii::$app->request->post())) {
+
+            $company->updateCompany();
+
+            if ($company->id) {
+                return $this->redirect(['view', 'id' => $company->id]);
+            }
         }
 
     }

@@ -9,6 +9,8 @@
 namespace common\models;
 
 
+use frontend\models\Tag;
+
 class OrlandoBanana
 {
 

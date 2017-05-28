@@ -117,11 +117,6 @@ class ProjectController extends Controller
             if (isset($post['completion_date']))
                 $project->completion_date = date('Y-m-d', strtotime($post['completion_date']));
 
-            $file = UploadedFile::getInstance($project, 'imageFile');
-            $project->saveImage($file, 'image');
-            $file = UploadedFile::getInstance($project, 'background_imageFile');
-            $project->saveImage($file, 'background_image');
-
             $project->updateProject();
             if ($project->id) {
                 return $this->redirect(['view', 'id' => $project->id]);

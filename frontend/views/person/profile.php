@@ -118,10 +118,10 @@ $this->title = 'Eurocon / profile';
                         <div class="table-reponsive">
                             <div  class="card card-shadow p-b-20">
 
-                                <div class="card-block">
+                                <div class="card-block p-r-0 p-l-0">
 
-                                    <div class=" table-responsive" style=" overflow: hidden;">
-                                        <table class="table">
+                                    <div class=" table-responsive">
+                                        <table class="table" style="min-width: 100px;">
                                             <tbody>
                                             <tr>
                                                 <td>Birthday</td>
@@ -147,10 +147,6 @@ $this->title = 'Eurocon / profile';
                                                         'alt' => 'GermanyGermany',
                                                     ]) ?>
                                                 </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Companies</td>
-                                                <td>Build&Co</td>
                                             </tr>
                                             <tr>
                                                 <td>Competence</td>

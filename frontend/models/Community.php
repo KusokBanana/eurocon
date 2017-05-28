@@ -31,11 +31,15 @@ class Community extends ActiveRecord
     }
 
     public static $default_image = 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSUQhqwznhnuV08YHOcoGczFwGDMHJ5k2nYxQ6DHTAhmr4JWbJssw';
+
     private static $image_path = '/upload/community/';
     public static $limit = 12;
     const FILE_WIDTH = 500;
     const FILE_HEIGHT = 300;
     public $relation = false;
+
+    public $participants = [];
+    public $admins = [];
 
     const ROLE_ADMIN_TYPE = 1;
     const ROLE_PARTICIPANT_TYPE = 2;
@@ -44,8 +48,8 @@ class Community extends ActiveRecord
 
     public $tagValues;
     public $imageFile;
-    public $backgroundFile;
     public $imageShow;
+    public $backgroundFile;
     public $backgroundShow;
 
     public static $post_abilities = [
@@ -192,6 +196,12 @@ class Community extends ActiveRecord
                 $this->relation = self::ROLE_PARTICIPANT_TYPE;
         }
 
+    }
+
+    public function setPersons()
+    {
+        $this->admins = BookAdminCommunity::getAdmins($this->id);
+        $this->participants = BookUserCommunity::getParticipants($this->id);
     }
 
 }

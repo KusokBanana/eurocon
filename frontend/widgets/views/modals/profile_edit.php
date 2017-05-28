@@ -186,8 +186,6 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                         <?= $form->field($model, 'language_ids')
                                             ->hiddenInput(['id' => 'lang_ids'])
                                             ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
-<!--                                        --><?//= Html::label('Languages', 'selectMulti',
-//                                            ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
                                         <div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">
                                             <?= Html::listBox('langs', explode(',', $model->language_ids), Person::$languages, [
                                                 'class' => 'form-control',
@@ -283,7 +281,7 @@ JS;
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" onclick="$('#profile_edit_form').submit();">Save changes</button>
+                <button type="button" class="btn btn-primary" onclick="$('#<?= $type ?>_form').submit();">Save changes</button>
             </div>
         </div>
     </div>

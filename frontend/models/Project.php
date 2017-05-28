@@ -223,7 +223,7 @@ class Project extends ActiveRecord
         if ($this->validate() && $this->save()) {
 
             if ($this->id) {
-                $this->addNewTags();
+                Tag::newTagsFromString($this->tagValues, $this->id, Tag::PROJECT_TYPE);
                 BookOwnerProject::addNew(Yii::$app->user->id, $this->id);
                 $this->addNewUsers();
             }
@@ -235,22 +235,15 @@ class Project extends ActiveRecord
     {
 
         $this->social_links = json_encode($this->social_links);
+        $file = UploadedFile::getInstance($this, 'imageFile');
+        $this->saveImage($file, 'image');
+        $file = UploadedFile::getInstance($this, 'background_imageFile');
+        $this->saveImage($file, 'background_image');
 
         $this->save();
         $this->addNewUsers();
-        Tag::deleteSelected($this->id, Tag::PROJECT_TYPE);
-        $this->addNewTags();
+        Tag::updateAllTags($this->tagValues, $this->id, Tag::PROJECT_TYPE);
 
-    }
-
-    private function addNewTags()
-    {
-        if ($this->tagValues) {
-            $tags = explode(',', $this->tagValues);
-            foreach ($tags as $tag) {
-                Tag::addNew($tag, $this->id, Tag::PROJECT_TYPE);
-            }
-        }
     }
 
     private function addNewUsers()

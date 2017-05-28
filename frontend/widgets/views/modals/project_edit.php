@@ -10,7 +10,7 @@ use yii\widgets\ActiveForm;
 $this->registerCssFile('@web/vendor/bootstrap-tokenfield/bootstrap-tokenfield.min.css');
 
 /* @var $type string */
-/* @var $model \yii\db\ActiveRecord */
+/* @var $model Project */
 /* @var $data array */
 
 $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">{input}'.
@@ -245,7 +245,7 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="submit" onclick="$('#project_edit_form').submit();"
+                <button type="submit" onclick="$('#<?= $type ?>_form').submit();"
                         class="btn btn-primary">Save changes</button>
             </div>
         </div>

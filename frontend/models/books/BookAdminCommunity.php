@@ -72,4 +72,9 @@ class BookAdminCommunity extends ActiveRecord
     {
         return $this->hasOne(Company::className(), ['id' => 'community_id']);
     }
+
+    public static function getAdmins($id)
+    {
+        return self::find()->where(['community_id' => $id])->joinWith('admin')->all();
+    }
 }

@@ -1,11 +1,14 @@
 <?php
 /* @var $this yii\web\View */
 use frontend\models\Company;
+use frontend\widgets\CustomModal;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /* @var $company Company */
 /* @var $cooperation array \frontend\models\Person */
 /* @var $admins array \frontend\models\Person */
+/* @var $potentialSubscribers array \frontend\models\Person */
 
 // TODO добавить сюда новые скрипты
 ?>
@@ -23,14 +26,14 @@ use yii\helpers\Html;
                          background-size: cover;">
                 <div class="text-xs-center blue-grey-800 m-t-50 m-xs-0">
                     <div class="font-size-70 m-b-30 blue-grey-800"><?= $company->name ?></div>
-                    <ul class="list-inline font-size-14">
-                        <li class="list-inline-item">
-                            <i class="icon wb-map m-r-5" aria-hidden="true"></i> <b>Saltsburg, Austria</b>
-                        </li>
-                        <li class="list-inline-item m-l-20">
-                            <i class="icon wb-heart m-r-5" aria-hidden="true"></i> <b>100, 256</b>
-                        </li>
-                    </ul>
+                    <?php if ($company->location): ?>
+                        <ul class="list-inline font-size-14">
+                            <li class="list-inline-item">
+                                <i class="icon wb-map m-r-5" aria-hidden="true"></i>
+                                <b><?= ArrayHelper::getValue($company->location, 'name'); ?></b>
+                            </li>
+                        </ul>
+                    <?php endif; ?>
                 </div>
             </div>
             <!-- End Team Total Completed -->
@@ -53,19 +56,32 @@ use yii\helpers\Html;
                             </ul>
                         </div>
 
-
                         <div class="page-content tab-content page-content-table nav-tabs-animate">
                             <div class="tab-pane animation-fade active" id="team" role="tabpanel" aria-expanded="true">
+                                <?php
+                                $adminsAddData = [
+                                    'id' => $company->id,
+                                    'type' => 'admins',
+                                    'subscribers' => $potentialSubscribers['admins'],
+                                ];
+                                $coopAddData = [
+                                    'id' => $company->id,
+                                    'type' => 'participants',
+                                    'subscribers' => $potentialSubscribers['cooperation'],
+                                ];
+                                ?>
                                 <?= $this->render('_persons', [
                                     'persons' => $admins,
-                                    'additionData' => ['id' => $company->id],
+                                    'company' => $company,
+                                    'additionData' => $adminsAddData,
                                 ]) ?>
                             </div>
 
                             <div class="tab-pane animation-fade" id="cooperation" role="tabpanel" aria-expanded="false">
                                 <?= $this->render('_persons', [
                                     'persons' => $cooperation,
-                                    'additionData' => ['id' => $company->id],
+                                    'company' => $company,
+                                    'additionData' => $coopAddData,
                                 ]) ?>
                             </div>
                     </div>
@@ -75,10 +91,21 @@ use yii\helpers\Html;
             </div>
         </div>
 
+            <?= CustomModal::widget([
+                'type' => 'add_persons',
+                'model' => $company,
+                'additionalData' => $coopAddData
+            ]) ?>
+            <?= CustomModal::widget([
+                'type' => 'add_persons',
+                'model' => $company,
+                'additionalData' => $adminsAddData
+            ]) ?>
+
         <!-- End First Row -->
         <!-- Second Row -->
         <!-- Personal -->
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4 col-xl-4 col-xxl-4">
+        <div class="col-xs-12 col-xxl-4 col-xl-4 col-lg-4">
 
             <div id="personalCompletedWidget" class="card card-shadow p-b-20">
 
@@ -93,7 +120,7 @@ use yii\helpers\Html;
                                     'class' => 'cover-image',
                             ]), ['/'], ['class' => 'avatar']) ?>
                             <div class="font-size-20 m-t-10"><?= $company->name ?></div>
-                            <div class="font-size-14">Construction company</div>
+                            <div class="font-size-14"><?= $company->specialty ?></div>
                         </div>
                     </div>
                 </div>
@@ -101,10 +128,30 @@ use yii\helpers\Html;
                 <div class="card-block">
 
                     <?php if ($company->isPerson(Company::ROLE_ADMIN_TYPE, $admins['data'])): ?>
-                        <div class="row text-xs-center">
+                        <div class="row text-xs-center m-b-20">
                             <div class="col-xs-12 ">
-                                <?= Html::a('edit', ['/'], ['class' => 'btn btn-block btn-primary btn-outline']) ?>
+                                <?php if ($company->relation === Company::ROLE_ADMIN_TYPE): ?>
+                                    <?= Html::button('edit',
+                                        [
+                                            'class' => 'btn btn-block btn-primary btn-outline btn-primary m-b-20',
+                                            'data-target' => '#company_edit',
+                                            'data-toggle' => 'modal',
+
+                                        ]) ?>
+                                    <?= CustomModal::widget([
+                                        'type' => 'company_edit',
+                                        'model' => $company,
+                                    ]) ?>
+                                <?php elseif ($company->relation !== Company::ROLE_PARTICIPANT_TYPE): ?>
+                                    <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Follow this project',
+                                        ['/'], ['class' => 'btn btn-block btn-primary']) ?>
+                                <?php elseif ($company->relation === Company::ROLE_PARTICIPANT_TYPE): ?>
+                                    <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Unsubscribe this project',
+                                        ['/'], ['class' => 'btn btn-block btn-primary']) ?>
+                                <?php endif; ?>
+
                             </div>
+
                         </div>
                     <?php else: ?>
                         <div class="row text-xs-center m-b-20">
@@ -136,51 +183,26 @@ use yii\helpers\Html;
 
                                 <div class="table-responsive">
                                     <table class="table">
-
                                         <tbody>
                                         <tr>
-
-                                            <td>
-                                                Location
-                                            </td>
-
-                                            <td>
-                                                Austria
-                                            </td>
+                                            <td>Location</td>
+                                            <td><?= ArrayHelper::getValue($company->location, 'name'); ?></td>
                                         </tr>
-
+<!--                                        <tr>-->
+<!--                                            <td>Countries</td>-->
+<!--                                            <td>Austria, Germany, Poland</td>-->
+<!--                                        </tr>-->
                                         <tr>
-                                            <td>
-                                                Countries
-                                            </td>
-                                            <td>
-                                                Austria, Germany, Poland
-                                            </td>
+                                            <td>Types of jobs</td>
+                                            <td><?= join(',', ArrayHelper::getColumn($company->tags, 'tag')); ?></td>
                                         </tr>
                                         <tr>
-                                            <td>
-                                                Types of jobs
-                                            </td>
-                                            <td>
-                                                Design from start to finish of complex projects
-                                            </td>
+                                            <td>Email</td>
+                                            <td><?= $company->email ?></td>
                                         </tr>
                                         <tr>
-                                            <td>
-                                                Email
-                                            </td>
-
-                                            <td>
-                                                <?= $company->email ?>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                Phone
-                                            </td>
-                                            <td>
-                                                <?= $company->phone ?>
-                                            </td>
+                                            <td>Phone</td>
+                                            <td><?= $company->phone ?></td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -190,32 +212,27 @@ use yii\helpers\Html;
 
                     </div>
                 </div>
-
-
             </div>
         </div>
 
         <!-- To Do List -->
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-8 col-xl-8 col-xxl-8">
-
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 col-xxl-8">
             <!-- Panel -->
             <div class="panel">
                 <div class="panel-body">
-                    <form class="page-search-form" role="search">
-                        <div class="input-search input-search-dark">
-                            <i class="input-search-icon wb-search" aria-hidden="true"></i>
-                            <input type="text" class="form-control" id="inputSearch" name="search" placeholder="Search">
-                            <button type="button" class="input-search-close icon wb-close" aria-label="Close"></button>
-                        </div>
-                    </form>
                     <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
-
                         <ul class="nav nav-tabs nav-tabs-line" role="tablist">
-                            <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#all_contacts" aria-controls="all_contacts" role="tab" aria-expanded="false">Projects</a></li>
-                            <li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="#my_contacts" aria-controls="my_contacts" role="tab" aria-expanded="true">Marketplace</a></li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link" data-toggle="tab" href="#projects"
+                                   aria-controls="all_contacts" role="tab" aria-expanded="false">Projects</a>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <a class="nav-link active" data-toggle="tab" href="#marketplace"
+                                   aria-controls="my_contacts" role="tab" aria-expanded="true">Marketplace</a>
+                            </li>
                         </ul>
                         <div class="tab-content">
-                            <div class="tab-pane animation-fade" id="all_contacts" role="tabpanel" aria-expanded="false">
+                            <div class="tab-pane animation-fade" id="projects" role="tabpanel" aria-expanded="false">
                                 <ul class="list-group blocks blocks-100 blocks-xxl-4 blocks-lg-3 blocks-md-2">
                                     <li class="list-group-item">
                                         <div class="card card-shadow">
@@ -348,233 +365,172 @@ use yii\helpers\Html;
                                         </div>
                                     </li>
 
-
-
-                                    <li class="list-group-item">
-                                        <div class="card card-shadow">
-                                            <figure class="card-img-top overlay-hover overlay">
-                                                <img class="overlay-figure overlay-scale" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTb9hAoyl3XOh5uu9pOcpPNxis8lWCLD_bgwUfKxiQSVnSi13bo_g" alt="...">
-                                                <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                    <a class="icon wb-search" href="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTb9hAoyl3XOh5uu9pOcpPNxis8lWCLD_bgwUfKxiQSVnSi13bo_g"></a>
-                                                </figcaption>
-                                            </figure>
-                                            <div class="card-block">
-                                                <h4 class="card-title">Project №10</h4>
-                                                <p class="card-text"> <i class="icon wb-time" aria-hidden="true"></i>work in progress  </p>
-                                            </div>
-                                        </div>
-                                    </li>
-
-
-                                    <li class="list-group-item">
-                                        <div class="card card-shadow">
-                                            <figure class="card-img-top overlay-hover overlay">
-                                                <img class="overlay-figure overlay-scale" src="http://www.pphomes.net/wp-content/uploads/2015/02/modern-house-architecture-and-design.jpg" alt="...">
-                                                <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                    <a class="icon wb-search" href="http://www.pphomes.net/wp-content/uploads/2015/02/modern-house-architecture-and-design.jpg"></a>
-                                                </figcaption>
-                                            </figure>
-                                            <div class="card-block">
-                                                <h4 class="card-title">Project №11</h4>
-                                                <p class="card-text"> <i class="icon wb-time" aria-hidden="true"></i>work in progress  </p>
-                                            </div>
-                                        </div>
-                                    </li>
-
-
-                                    <li class="list-group-item">
-                                        <div class="card card-shadow">
-                                            <figure class="card-img-top overlay-hover overlay">
-                                                <img class="overlay-figure overlay-scale" src="https://s-media-cache-ak0.pinimg.com/originals/3f/f1/4c/3ff14cfd6969ab40d8956eb3c3b07e34.jpg" alt="...">
-                                                <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                    <a class="icon wb-search" href="https://s-media-cache-ak0.pinimg.com/originals/3f/f1/4c/3ff14cfd6969ab40d8956eb3c3b07e34.jpg"></a>
-                                                </figcaption>
-                                            </figure>
-                                            <div class="card-block">
-                                                <h4 class="card-title">Project №12</h4>
-                                                <p class="card-text"> <i class="icon wb-time" aria-hidden="true"></i>work in progress  </p>
-                                            </div>
-                                        </div>
-                                    </li>
-
                                 </ul>
                                 <nav>
                                     <ul data-plugin="paginator" data-total="50" data-skin="pagination-no-border" class="pagination pagination-no-border"><li class="pagination-prev page-item disabled"><a class="page-link" href="javascript:void(0)" aria-label="Prev"><span class="icon wb-chevron-left-mini"></span></a></li><li class="pagination-items page-item active" data-value="1"><a class="page-link" href="javascript:void(0)">1</a></li><li class="pagination-items page-item" data-value="2"><a class="page-link" href="javascript:void(0)">2</a></li><li class="pagination-items page-item" data-value="3"><a class="page-link" href="javascript:void(0)">3</a></li><li class="pagination-items page-item" data-value="4"><a class="page-link" href="javascript:void(0)">4</a></li><li class="pagination-items page-item" data-value="5"><a class="page-link" href="javascript:void(0)">5</a></li><li class="pagination-next page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next"><span class="icon wb-chevron-right-mini"></span></a></li></ul>
                                 </nav>
                             </div>
-                            <div class="tab-pane animation-fade active" id="my_contacts" role="tabpanel" aria-expanded="true">
+                            <div class="tab-pane active" id="marketplace" role="tabpanel" aria-expanded="true">
+                                <form class="page-search-form m-t-10" role="search">
+                                    <div class="input-search input-search-dark">
+                                        <i class="input-search-icon wb-search" aria-hidden="true"></i>
+                                        <input type="text" class="form-control" id="inputSearch" name="search" placeholder="Search">
+                                        <button type="button" class="input-search-close icon wb-close" aria-label="Close"></button>
+                                    </div>
+                                </form>
+                                <div class="panel">
 
+                                    <div class="panel-body container-fluid">
+                                        <div class="row row-lg">
 
-                                <div class="row row-lg">
+                                            <div class="col-md-4 col-xl-3 col-xs-12">
+                                                <!-- Example Basic -->
 
+                                                <div class="radio-custom radio-primary m-l-30" style="display: inline-block; padding-left: 20px;">
+                                                    <input type="radio" id="inputRadiosUnchecked" name="inputRadios">
+                                                    <label for="inputRadiosUnchecked">Offers</label>
+                                                </div>
+                                                <div class="radio-custom radio-primary m-l-30">
+                                                    <input type="radio" id="inputRadiosUnchecked" name="inputRadios">
+                                                    <label for="inputRadiosUnchecked">Requests</label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-4 col-xl-4 col-xs-12">
+                                                <!-- Example Colors -->
+                                                <div class="form-group row">
+                                                    <label class="form-control-label col-xs-12 col-md-3">Type:</label>
+                                                    <div class="col-md-9 col-xs-12">
+                                                        <select class="form-control">
+                                                            <option>New building</option>
+                                                            <option>Renovation</option>
+                                                            <option>Extension</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group row">
+                                                    <label class="form-control-label col-xs-12 col-md-3">Budget:</label>
+                                                    <div class="col-md-9 col-xs-12">
+                                                        <select class="form-control">
+                                                            <option>[ 0; 1 mln $ ]</option>
+                                                            <option>[ 1 mln $; 3 mln $ ]</option>
+                                                            <option>[ 3 mln $; 5 mln $ ]</option>
+                                                            <option>[ 5 mln $; 10 mln $ ]</option>
+                                                            <option> &gt;10 mln $ </option>
+                                                        </select>
+                                                    </div>
+                                                </div>
 
+                                            </div>
+                                            <div class="col-md-4 col-xl-3 col-xs-12 p-t-30">
+                                                <button type="button" class="btn btn-outline btn-primary" data-target="#exampleTabs123" data-toggle="modal"><i class="icon wb-plus" aria-hidden="true"></i> Add offers or request</button>
 
-                                    <div class="row row-lg">
-                                        <div class="col-xl-12 col-xs-12">
-                                            <!-- Example Tabs Left -->
-                                            <div class="example-wrap">
-                                                <div class="nav-tabs-vertical" data-plugin="tabs">
-                                                    <ul class="nav nav-tabs m-r-55" role="tablist">
+                                            </div>
 
-
-                                                        <li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="#exampleTabsLeftFour" aria-controls="exampleTabsLeftFour" role="tab" aria-expanded="true">Request</a></li>
-                                                        <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#exampleTabsLeftOne" aria-controls="exampleTabsLeftOne" role="tab" aria-expanded="false">Offers</a></li>
-                                                    </ul>
-                                                    <div class="tab-content p-y-15">
-                                                        <div class="tab-pane active" id="exampleTabsLeftFour" role="tabpanel" aria-expanded="true">
-                                                            <ul class="list-group blocks blocks-100 blocks-xxl-4 blocks-lg-3 blocks-md-2">
-                                                                <li class="list-group-item">
-                                                                    <div class="card card-shadow">
-                                                                        <figure class="card-img-top overlay-hover overlay">
-                                                                            <img class="overlay-figure overlay-scale" src="https://s-media-cache-ak0.pinimg.com/originals/ba/43/5e/ba435e514b1b6428a13e2b3372a82646.jpg" alt="...">
-                                                                            <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                                                <a class="icon wb-search" href="https://s-media-cache-ak0.pinimg.com/originals/ba/43/5e/ba435e514b1b6428a13e2b3372a82646.jpg"></a>
-                                                                            </figcaption>
-                                                                        </figure>
-                                                                        <div class="card-block">
-                                                                            <h4 class="card-title">Project №1</h4>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div class="card card-shadow">
-                                                                        <figure class="card-img-top overlay-hover overlay">
-                                                                            <img class="overlay-figure overlay-scale" src="http://depoole.com/wp-content/uploads/2016/08/modern-house-minecraft.jpg" alt="...">
-                                                                            <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                                                <a class="icon wb-search" href="http://depoole.com/wp-content/uploads/2016/08/modern-house-minecraft.jpg"></a>
-                                                                            </figcaption>
-                                                                        </figure>
-                                                                        <div class="card-block">
-                                                                            <h4 class="card-title">Project №2</h4>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div class="card card-shadow">
-                                                                        <figure class="card-img-top overlay-hover overlay">
-                                                                            <img class="overlay-figure overlay-scale" src="http://modern-homedesign.com/wp-content/uploads/2016/11/Modern-House-Design-With-Rooftop-2017-Of-Modern-House-Deck-Ign-2017-Of-Modern-Home-Ign-Single-Floor-2017-Of-Modern-One-Story-Ranch-House-One-Story-House-Exterior-Ign-Ideas-Lrg-Dd71cdf6c15747f0-1024x768.jpg" alt="...">
-                                                                            <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                                                <a class="icon wb-search" href="http://modern-homedesign.com/wp-content/uploads/2016/11/Modern-House-Design-With-Rooftop-2017-Of-Modern-House-Deck-Ign-2017-Of-Modern-Home-Ign-Single-Floor-2017-Of-Modern-One-Story-Ranch-House-One-Story-House-Exterior-Ign-Ideas-Lrg-Dd71cdf6c15747f0-1024x768.jpg"></a>
-                                                                            </figcaption>
-                                                                        </figure>
-                                                                        <div class="card-block">
-                                                                            <h4 class="card-title">Project №3</h4>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div class="card card-shadow">
-                                                                        <figure class="card-img-top overlay-hover overlay">
-                                                                            <img class="overlay-figure overlay-scale" src="http://inspiringhomeideas.net/wp-content/uploads/2016/01/Fascinating-modern-brick-building-architecture-plus-modern-buildings-using-roman-architecture-1024x768.jpg" alt="...">
-                                                                            <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                                                <a class="icon wb-search" href="http://inspiringhomeideas.net/wp-content/uploads/2016/01/Fascinating-modern-brick-building-architecture-plus-modern-buildings-using-roman-architecture-1024x768.jpg"></a>
-                                                                            </figcaption>
-                                                                        </figure>
-                                                                        <div class="card-block">
-                                                                            <h4 class="card-title">Project №4</h4>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div class="card card-shadow">
-                                                                        <figure class="card-img-top overlay-hover overlay">
-                                                                            <img class="overlay-figure overlay-scale" src="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTVaQCBKSxbIwV9wOPpBbIOCoqbR4vIa2IcUHd7ZYB73dmNO4Ky" alt="...">
-                                                                            <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                                                <a class="icon wb-search" href="https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTVaQCBKSxbIwV9wOPpBbIOCoqbR4vIa2IcUHd7ZYB73dmNO4Ky"></a>
-                                                                            </figcaption>
-                                                                        </figure>
-                                                                        <div class="card-block">
-                                                                            <h4 class="card-title">Project №5</h4>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div class="card card-shadow">
-                                                                        <figure class="card-img-top overlay-hover overlay">
-                                                                            <img class="overlay-figure overlay-scale" src="http://media.gettyimages.com/photos/directly-below-shot-of-ceiling-of-modern-building-picture-id564763181" alt="...">
-                                                                            <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                                                <a class="icon wb-search" href="http://media.gettyimages.com/photos/directly-below-shot-of-ceiling-of-modern-building-picture-id564763181"></a>
-                                                                            </figcaption>
-                                                                        </figure>
-                                                                        <div class="card-block">
-                                                                            <h4 class="card-title">Project №6</h4>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-                                                                <li class="list-group-item">
-                                                                    <div class="card card-shadow">
-                                                                        <figure class="card-img-top overlay-hover overlay">
-                                                                            <img class="overlay-figure overlay-scale" src="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTuYoD-AeuNf5nwKnec__4FHA2oZZvVQaVZcmoxtQA004Eac0KR" alt="...">
-                                                                            <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                                                <a class="icon wb-search" href="https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTuYoD-AeuNf5nwKnec__4FHA2oZZvVQaVZcmoxtQA004Eac0KR"></a>
-                                                                            </figcaption>
-                                                                        </figure>
-                                                                        <div class="card-block">
-                                                                            <h4 class="card-title">Project №7</h4>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-
-                                                                <li class="list-group-item">
-                                                                    <div class="card card-shadow">
-                                                                        <figure class="card-img-top overlay-hover overlay">
-                                                                            <img class="overlay-figure overlay-scale" src="http://modern-homedesign.com/wp-content/uploads/2016/11/Modern-Building-Exterior-Design-Of-B8f02d9300833f0d0e3684614fda35ab-1024x768.jpg" alt="...">
-                                                                            <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                                                <a class="icon wb-search" href="http://modern-homedesign.com/wp-content/uploads/2016/11/Modern-Building-Exterior-Design-Of-B8f02d9300833f0d0e3684614fda35ab-1024x768.jpg"></a>
-                                                                            </figcaption>
-                                                                        </figure>
-                                                                        <div class="card-block">
-                                                                            <h4 class="card-title">Project №8</h4>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-
-
-                                                                <li class="list-group-item">
-                                                                    <div class="card card-shadow">
-                                                                        <figure class="card-img-top overlay-hover overlay">
-                                                                            <img class="overlay-figure overlay-scale" src="https://odis.homeaway.com/odis/listing/a1e985d7-88cf-4b4e-9a4f-3b924bb5ba60.c10.jpg" alt="...">
-                                                                            <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                                                                <a class="icon wb-search" href="https://odis.homeaway.com/odis/listing/a1e985d7-88cf-4b4e-9a4f-3b924bb5ba60.c10.jpg"></a>
-                                                                            </figcaption>
-                                                                        </figure>
-                                                                        <div class="card-block">
-                                                                            <h4 class="card-title">Project №9</h4>
-                                                                        </div>
-                                                                    </div>
-                                                                </li>
-
-
-
-
-                                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ul class="list-group">
+                                    <li class="list-group-item">
+                                        <div class="media media-lg">
+                                            <div class="media-body">
+                                                <div class="profile-brief">
+                                                    <div class="media">
+                                                        <a class="media-left">
+                                                            <img class="media-object" src="../../global/photos/placeholder.png" alt="...">
+                                                        </a>
+                                                        <div class="media-body p-l-20">
+                                                            <h4 class="media-heading">Getting Started</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                                elit. Integer nec odio. Praesent libero. Sed
+                                                                cursus ante dapibus diam. Sed nisi. Nulla quis
+                                                                sem at nibh elementum imperdiet. Duis sagittis
+                                                                ipsum. Praesent mauris.</p>
                                                         </div>
-                                                        <div class="tab-pane" id="exampleTabsLeftOne" role="tabpanel" aria-expanded="false">
-                                                            Puto loqueretur maxime tuentur statuam quanta quamquam multoque cogitavisse, romano
-                                                            continens repellat omnis liquidae, inveneris aegritudine
-                                                            inesse dirigentur graece secundum ipso unam, cognitionis
-                                                            isdem mortem tantis opibus turma virtus legum, procedat accusantium
-                                                            ipse sine fuissent desideraturam. Naturalem virtutum familiari
-                                                            nasci tenebo provident convincere. Senserit ultima faciam
-                                                            deterius plurimum ornateque curiosi. Oratione sit, dices
-                                                            malunt quibusdam. Distinguique parendum contentam graecam
-                                                            sale.
+                                                        <div class="media-left media-middle"  style="border-left: 1px solid rgb(213,228,241); padding: 15px;">
+                                                            <span>01.01.2018</span>
+                                                            <span>Jo Smith</span>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- End Example Tabs Left -->
                                         </div>
-
-                                    </div>
-
-
-
-                                </div>
-
-
-
-
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="media media-lg">
+                                            <div class="media-body">
+                                                <div class="profile-brief">
+                                                    <div class="media">
+                                                        <a class="media-left">
+                                                            <img class="media-object" src="../../global/photos/placeholder.png" alt="...">
+                                                        </a>
+                                                        <div class="media-body p-l-20">
+                                                            <h4 class="media-heading">Getting Started</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                                elit. Integer nec odio. Praesent libero. Sed
+                                                                cursus ante dapibus diam. Sed nisi. Nulla quis
+                                                                sem at nibh elementum imperdiet. Duis sagittis
+                                                                ipsum. Praesent mauris.</p>
+                                                        </div>
+                                                        <div class="media-left media-middle"  style="border-left: 1px solid rgb(213,228,241); padding: 15px;">
+                                                            <span>01.01.2018</span>
+                                                            <span>Jo Smith</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="media media-lg">
+                                            <div class="media-body">
+                                                <div class="profile-brief">
+                                                    <div class="media">
+                                                        <a class="media-left">
+                                                            <img class="media-object" src="../../global/photos/placeholder.png" alt="...">
+                                                        </a>
+                                                        <div class="media-body p-l-20">
+                                                            <h4 class="media-heading">Getting Started</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                                elit. Integer nec odio. Praesent libero. Sed
+                                                                cursus ante dapibus diam. Sed nisi. Nulla quis
+                                                                sem at nibh elementum imperdiet. Duis sagittis
+                                                                ipsum. Praesent mauris.</p>
+                                                        </div>
+                                                        <div class="media-left media-middle"  style="border-left: 1px solid rgb(213,228,241); padding: 15px;">
+                                                            <span>01.01.2018</span>
+                                                            <span>Jo Smith</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <div class="media media-lg">
+                                            <div class="media-body">
+                                                <div class="profile-brief">
+                                                    <div class="media">
+                                                        <a class="media-left">
+                                                            <img class="media-object" src="../../global/photos/placeholder.png" alt="...">
+                                                        </a>
+                                                        <div class="media-body p-l-20">
+                                                            <h4 class="media-heading">Getting Started</h4>
+                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing
+                                                                elit. Integer nec odio. Praesent libero. Sed
+                                                                cursus ante dapibus diam. Sed nisi. Nulla quis
+                                                                sem at nibh elementum imperdiet. Duis sagittis
+                                                                ipsum. Praesent mauris.</p>
+                                                        </div>
+                                                        <div class="media-left media-middle"  style="border-left: 1px solid rgb(213,228,241); padding: 15px;">
+                                                            <span>01.01.2018</span>
+                                                            <span>Jo Smith</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
                                 <nav>
                                     <ul data-plugin="paginator" data-total="50" data-skin="pagination-no-border" class="pagination pagination-no-border"><li class="pagination-prev page-item disabled"><a class="page-link" href="javascript:void(0)" aria-label="Prev"><span class="icon wb-chevron-left-mini"></span></a></li><li class="pagination-items page-item active" data-value="1"><a class="page-link" href="javascript:void(0)">1</a></li><li class="pagination-items page-item" data-value="2"><a class="page-link" href="javascript:void(0)">2</a></li><li class="pagination-items page-item" data-value="3"><a class="page-link" href="javascript:void(0)">3</a></li><li class="pagination-items page-item" data-value="4"><a class="page-link" href="javascript:void(0)">4</a></li><li class="pagination-items page-item" data-value="5"><a class="page-link" href="javascript:void(0)">5</a></li><li class="pagination-next page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next"><span class="icon wb-chevron-right-mini"></span></a></li></ul>
                                 </nav>

@@ -3,6 +3,7 @@
 namespace frontend\models;
 
 use Yii;
+use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 
@@ -14,12 +15,13 @@ use yii\helpers\VarDumper;
  * @property integer $type_id
  * @property integer $field_id
  */
-class Tag extends \yii\db\ActiveRecord
+class Tag extends ActiveRecord
 {
 
     const PERSON_TYPE = 1;
     const COMPANY_TYPE = 2;
     const PROJECT_TYPE = 3;
+    const COMMUNITY_TyPE = 4;
 
     /**
      * @inheritdoc
@@ -98,6 +100,24 @@ class Tag extends \yii\db\ActiveRecord
             $newTag->type_id = $type;
             $newTag->save();
         }
+
+    }
+
+
+    public static function newTagsFromString($tagValuesString, $fields_id, $type)
+    {
+        if ($tagValuesString) {
+            $tags = explode(',', $tagValuesString);
+            foreach ($tags as $tag) {
+                Tag::addNew($tag, $fields_id, $type);
+            }
+        }
+    }
+
+    public static function updateAllTags($tagValuesString, $fields_id, $type)
+    {
+        self::deleteSelected($fields_id, $type);
+        self::newTagsFromString($tagValuesString, $fields_id, $type);
 
     }
 
