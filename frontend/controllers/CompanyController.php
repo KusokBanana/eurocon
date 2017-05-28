@@ -54,22 +54,19 @@ class CompanyController extends CommunityController
                             'companies' => $companies,
                             'additionData' => $data
                         ]);
+                case 'projects':
+                    $company = Company::findOne($data['id']);
+                    $companies = $company->getProjectsData($page, $search);
+                    return $this->renderAjax('/tabs/_projects',
+                        [
+                            'companies' => $companies,
+                            'additionData' => $data
+                        ]);
                 case Company::ROLE_ADMIN_TYPE:
                 case Company::ROLE_PARTICIPANT_TYPE:
                     $company = Company::findOne($data['id']);
                     $company->setRelation(Yii::$app->user);
-//                    $roleType = ($type == 'admins') ? Company::ROLE_ADMIN_TYPE : Company::ROLE_PARTICIPANT_TYPE;
                     $persons = $company->getPersonsData($type, $page);
-//                    $adminsAddData = [
-//                        'id' => $company->id,
-//                        'type' => 'admins',
-//                        'subscribers' => $potentialSubscribers['admins'],
-//                    ];
-//                    $coopAddData = [
-//                        'id' => $company->id,
-//                        'type' => 'participants',
-//                        'subscribers' => $potentialSubscribers['cooperation']
-//                    ];
                     return $this->renderAjax('_persons',
                         [
                             'persons' => $persons,
@@ -91,13 +88,13 @@ class CompanyController extends CommunityController
         }
 
         $user = Yii::$app->user;
-
         $company->setRelation($user);
         $cooperation = $company->getPersonsData(Company::ROLE_PARTICIPANT_TYPE);
         $admins = $company->getPersonsData(Company::ROLE_ADMIN_TYPE);
         $potentialSubscribers = $company->getPotentialSubscribers();
+        $projects = $company->getProjectsData();
 
-        return $this->render('view', compact('company', 'cooperation', 'admins', 'potentialSubscribers'));
+        return $this->render('view', compact('company', 'cooperation', 'admins', 'potentialSubscribers', 'projects'));
     }
 
     public function actionCreate()

@@ -30,6 +30,12 @@ $user = Person::getPerson(Yii::$app->user);
     <link rel="apple-touch-icon" href="../../web/img/layer_images/apple-touch-icon.png">
     <link rel="shortcut icon" href="../../web/favicon.ico">
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
+    <style>
+        /* TODO */
+        .no-underline {
+            text-decoration: none !important;
+        }
+    </style>
     <!--[if lt IE 9]>
     <script src="../../web/vendor/html5shiv/html5shiv.min.js"></script>
     <![endif]-->

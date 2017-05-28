@@ -45,6 +45,7 @@ class Project extends ActiveRecord
     public $backgroundFile;
     public $imageShow;
     public $backgroundShow;
+    public $statusData;
 
     const RELATION_ADMIN = 1;
     const RELATION_PARTICIPANT = 2;
@@ -62,7 +63,7 @@ class Project extends ActiveRecord
     public static $statuses = [
         1 => 'Planning',
         2 => 'Confirmed',
-        3 => 'Under Constructin',
+        3 => 'Under Construction',
         4 => 'Ready',
     ];
 
@@ -198,6 +199,7 @@ class Project extends ActiveRecord
         $this->owners = BookOwnerProject::getAdmins($this->id);
         $this->social_links = ($this->social_links) ? json_decode($this->social_links, true) : [];
 
+        $this->setStatusData();
         $this->setImage('image');
         $this->setImage('background');
 
@@ -314,6 +316,28 @@ class Project extends ActiveRecord
             }
         }
 
+    }
+
+    public function setStatusData()
+    {
+
+        $statusesIcons = [
+            1 => '',
+            2 => '',
+            3 => '',
+            4 => '<i class="icon wb-check" aria-hidden="true"></i>'
+        ];
+
+        $statusId = $this->status_id;
+        $name = isset(self::$statuses[$statusId]) ? self::$statuses[$statusId] : '-';
+        $icon = isset($statusesIcons[$statusId]) ? $statusesIcons[$statusId] : '';
+
+        $statusData = [
+            'name' => $name,
+            'icon' => $icon
+        ];
+
+        $this->statusData = $statusData;
     }
 
 }

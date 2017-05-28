@@ -67,4 +67,15 @@ class BookCompanyProject extends ActiveRecord
     {
         return $this->hasOne(Project::className(), ['id' => 'project_id']);
     }
+
+    public static function getProjects($company_id, $isJustQuery = false)
+    {
+
+        $query = self::find()->where(['company_id' => $company_id])->joinWith('project');
+        if (!$isJustQuery)
+            $query->all();
+
+        return $query;
+
+    }
 }

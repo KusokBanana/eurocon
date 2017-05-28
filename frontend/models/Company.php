@@ -44,9 +44,6 @@ class Company extends Community
 
     public static $image_path = '/upload/company/image/';
 
-    const FILE_WIDTH = 500;
-    const FILE_HEIGHT = 300;
-
     const COMMUNITY_TYPE_COMPANY = 1;
     const COMMUNITY_TYPE_TEAM = 2;
     const COMMUNITY_TYPE_PUBLIC_PAGE = 3;
@@ -132,32 +129,20 @@ class Company extends Community
                 return false;
         }
 
-        $limit = ($page === false) ? null : 1;
+        $limit = ($page === false) ? null : 6;
 
         return Pagination::getData($query, $page, $limit, $type);
     }
 
-    public function isPerson($type, $dataArray = [])
+    public function getProjectsData($page = 1, $search = '')
     {
-        if (empty($dataArray)) {
-            switch ($type) {
-                case Company::ROLE_ADMIN_TYPE:
-                    $dataArray = $this->admins;
-                    break;
-                case Company::ROLE_PARTICIPANT_TYPE:
-                    $dataArray = $this->participants;
-                    break;
-                default:
-                    return null;
-            }
-        }
+        $query = BookCompanyProject::getProjects($this->id, true);
+        $query->andFilterWhere(['LIKE', Project::tableName() . '.name', $search]);
 
-        $ids = ArrayHelper::getColumn($dataArray, function ($element) {
-            return $element->id;
-        });
+        $limit = ($page === false) ? null : 9;
+        $type = 'projects';
 
-        $personId = Yii::$app->user->id;
-        return in_array($personId, $ids);
+        return Pagination::getData($query, $page, $limit, $type);
     }
 
     public function createNew()
@@ -179,7 +164,7 @@ class Company extends Community
 
     public function join($user_id)
     {
-
+// TODO добавить сюда в зависимости от выбранной настройки вступления в компанию разное добавление пользователя
         if ($user_id) {
             $isAdmin = BookAdminCompany::find()->where(['admin_id' => $user_id, 'company_id' => $this->id])->one();
             if ($isAdmin)
@@ -283,6 +268,20 @@ class Company extends Community
                 }
             }
         }
+    }
+
+    public function setRelation($user)
+    {
+
+        $isAdmin = BookAdminCompany::findOne(['company_id' => $this->id, 'admin_id' => $user->id]);
+        if ($isAdmin) {
+            $this->relation = self::ROLE_ADMIN_TYPE;
+        } else {
+            $isParticipant = BookUserCompany::findOne(['company_id' => $this->id, 'user_id' => $user->id]);
+            if ($isParticipant)
+                $this->relation = self::ROLE_PARTICIPANT_TYPE;
+        }
+
     }
 
 }
