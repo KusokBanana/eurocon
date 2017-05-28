@@ -36,17 +36,17 @@ use frontend\widgets\Pagination;
                 <div class="row">
                     <?php $persons['data'] = $additionData; ?>
 
-                    <?php if ($company->relation === Company::ROLE_ADMIN_TYPE): ?>
-                        <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
-                            <?= Html::button('<i class="icon wb-plus"></i> Add',
-                                    [
-                                        'class' => 'btn btn-outline btn-primary',
-                                        'data-target' => '#add_persons_' . $additionData['type'],
-                                        'data-toggle' => 'modal',
+                    <div class="col-xs-1 col-sm-1 col-md-3 col-lg-3 col-xl-3 col-xxl-3">
+                        <?php if ($company->relation === Company::ROLE_ADMIN_TYPE): ?>
+                        <?= Html::button('<i class="icon wb-plus"></i> Add',
+                                [
+                                    'class' => 'btn btn-outline btn-primary',
+                                    'data-target' => '#add_persons_' . $additionData['type'],
+                                    'data-toggle' => 'modal',
 
-                                    ]) ?>
-                        </div>
-                    <?php endif; ?>
+                                ]) ?>
+                        <?php endif; ?>
+                    </div>
 
                     <div class="col-xs-12 col-sm-10 col-md-6 col-lg-6 col-xl-6 col-xxl-6">
                         <div class="text-xs-center ">

@@ -55,20 +55,26 @@ class CompanyController extends CommunityController
                             'additionData' => $data
                         ]);
                 case Company::ROLE_ADMIN_TYPE:
-                    $company = Company::findOne($data['id']);
-                    $admins = $company->getPersonsData(Company::ROLE_ADMIN_TYPE, $page);
-                    return $this->renderAjax('_persons',
-                        [
-                            'persons' => $admins,
-                            'additionData' => $data
-                        ]);
                 case Company::ROLE_PARTICIPANT_TYPE:
                     $company = Company::findOne($data['id']);
-                    $participants = $company->getPersonsData(Company::ROLE_PARTICIPANT_TYPE, $page);
+                    $company->setRelation(Yii::$app->user);
+//                    $roleType = ($type == 'admins') ? Company::ROLE_ADMIN_TYPE : Company::ROLE_PARTICIPANT_TYPE;
+                    $persons = $company->getPersonsData($type, $page);
+//                    $adminsAddData = [
+//                        'id' => $company->id,
+//                        'type' => 'admins',
+//                        'subscribers' => $potentialSubscribers['admins'],
+//                    ];
+//                    $coopAddData = [
+//                        'id' => $company->id,
+//                        'type' => 'participants',
+//                        'subscribers' => $potentialSubscribers['cooperation']
+//                    ];
                     return $this->renderAjax('_persons',
                         [
-                            'persons' => $participants,
-                            'additionData' => $data
+                            'persons' => $persons,
+                            'additionData' => $data,
+                            'company' => $company
                         ]);
             }
 

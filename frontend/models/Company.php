@@ -124,18 +124,15 @@ class Company extends Community
         switch ($type) {
             case self::ROLE_ADMIN_TYPE:
                 $query = BookAdminCompany::getAdmins($this->id, true);
-//                $query = $this->getAdminsOfCompany();
                 break;
             case self::ROLE_PARTICIPANT_TYPE:
-//                $query = $this->getParticipantsOfCompany();
                 $query = BookUserCompany::getParticipants($this->id, true);
-
                 break;
             default:
                 return false;
         }
 
-        $limit = ($page === false) ? null : 6;
+        $limit = ($page === false) ? null : 1;
 
         return Pagination::getData($query, $page, $limit, $type);
     }
