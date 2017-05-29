@@ -2,38 +2,63 @@
 
 use yii\helpers\Html;
 use frontend\widgets\Pagination;
+use yii\helpers\Url;
+use frontend\widgets\Search;
 
 /* @var $persons array */
+/* @var $type string */
+/* @var $additionData array */
+
+$additionData['search'] = isset($additionData['search']) ? $additionData['search'] : null;
 
 ?>
-
-<?php if (!empty($persons['data'])): ?>
-    <table class="table is-indent">
-        <tbody>
-            <div class="card user-following">
-                <div class="card-block">
-                    <div class="row">
-                        <?php foreach ($persons['data'] as $person): ?>
-                            <div class="col-xs-6 col-sm-4 col-md-3 col-lg-2 col-xl-2 col-xxl-2 m-b-20">
-                                <?= Html::a(Html::img($person->image, [
-                                    'alt' => '...',
-                                    'width' => '128px'
-                                ]), ['/site/profile', 'id' => $person->id]) ?>
-                                <h4 class="font-size-16 m-b-5"><?= $person->full_name ?></h4>
-                                <span>
-                                    <span>architecture</span>
-                                </span>
+<div class="panel-heading">
+    <h3 class="panel-title">
+        <?= $additionData['name'] ?>
+        <span style="opacity: 0.5;">
+            <?= count($persons['data']) ?>
+<!--            --><?//= (count($persons['data']) ? count($persons['data']) : '') ?>
+        </span>
+    </h3>
+    <?php if ($additionData['type'] == 'followers' && !empty($persons['data'])): ?>
+        <?= Search::widget([
+            'additionData' => $additionData,
+            'query' => $additionData['search'],
+            'data' => $persons['data'],
+            'type' => $persons['type']
+        ]) ?>
+    <?php endif; ?>
+</div>
+<div class="panel-body">
+    <?php if (!empty($persons['data'])): ?>
+        <ul class="list-group list-group-dividered list-group-full h-300 scrollable is-enabled scrollable-vertical"
+            data-plugin="scrollable" style="position: relative;">
+            <div data-role="container" class="scrollable-container" style="height: 300px; width: 602px;">
+                <div data-role="content" class="scrollable-content" style="width: 585px;">
+                    <?php foreach ($persons['data'] as $personData): ?>
+                        <?php /** @var \frontend\models\Person $person */
+                        $person = $personData->person; ?>
+                        <li class="list-group-item">
+                            <div class="media">
+                                <div class="media-left">
+                                    <?= Html::a(Html::img($person->imageShow) . '<i></i>',
+                                        ['/person/profile', 'id' => $person->id],
+                                        ['class' => 'avatar avatar-online']) ?>
+                                </div>
+                                <div class="media-body">
+                                    <div>
+                                        <span><?= $person->full_name ?></span>
+                                    </div>
+                                    <small>@heavybutterfly920</small>
+                                </div>
                             </div>
-                        <?php endforeach; ?>
-                    </div>
-
-                    <div class="text-xs-center ">
-                        <?php $persons['data'] = $additionData; ?>
-
-                        <?= Pagination::widget($persons); ?>
-                    </div>
+                        </li>
+                    <?php endforeach; ?>
                 </div>
             </div>
-        </tbody>
-    </table>
-<?php endif; ?>
+            <div class="scrollable-bar scrollable-bar-vertical scrollable-bar-hide" draggable="false">
+                <div class="scrollable-bar-handle" style="height: 156.15px; transform: translate3d(0px, 0px, 0px);"></div>
+            </div>
+        </ul>
+    <?php endif; ?>
+</div>

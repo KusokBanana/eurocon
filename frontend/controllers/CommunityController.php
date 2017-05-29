@@ -52,17 +52,9 @@ class CommunityController extends Controller
                             'companies' => $companies,
                             'additionData' => $data
                         ]);
-                case Company::ROLE_ADMIN_TYPE:
-                    $company = Company::findOne($data['id']);
-                    $admins = $company->getPersonsData(Company::ROLE_ADMIN_TYPE, $page);
-                    return $this->renderAjax('_persons',
-                        [
-                            'persons' => $admins,
-                            'additionData' => $data
-                        ]);
-                case Company::ROLE_PARTICIPANT_TYPE:
-                    $company = Company::findOne($data['id']);
-                    $participants = $company->getPersonsData(Company::ROLE_PARTICIPANT_TYPE, $page);
+                case Community::ROLE_PARTICIPANT_TYPE:
+                    $community = Community::findOne($data['id']);
+                    $participants = $community->getPersonsData(Company::ROLE_PARTICIPANT_TYPE, $search);
                     return $this->renderAjax('_persons',
                         [
                             'persons' => $participants,
@@ -84,10 +76,10 @@ class CommunityController extends Controller
         $user = Yii::$app->user;
         $community->setRelation($user);
 
-//        $cooperation = $company->getPersonsData(Company::ROLE_PARTICIPANT_TYPE);
-//        $admins = $company->getPersonsData(Company::ROLE_ADMIN_TYPE);
+        $followers = $community->getPersonsData(Company::ROLE_PARTICIPANT_TYPE);
+        $admins = $community->getPersonsData(Company::ROLE_ADMIN_TYPE);
 
-        return $this->render('view', compact('community'/*, 'cooperation', 'admins'*/));
+        return $this->render('view', compact('community', 'followers', 'admins'));
     }
 
     public function actionCreate()
@@ -106,13 +98,12 @@ class CommunityController extends Controller
     public function actionJoin($id)
     {
 
-        $company = Company::findOne($id);
-        if ($company) {
+        $community = Community::findOne($id);
+        if ($community) {
             $user = Yii::$app->user;
             $person = Person::getPerson($user);
-            $result = $company->join($person->id);
-            if ($result)
-                return $this->redirect(['view', 'id' => $company->id]);
+            $result = $community->join($person->id);
+            return $this->redirect(['view', 'id' => $community->id]);
         }
 
     }
@@ -120,13 +111,12 @@ class CommunityController extends Controller
     public function actionLeave($id)
     {
 
-        $company = Company::findOne($id);
-        if ($company) {
+        $community = Community::findOne($id);
+        if ($community) {
             $user = Yii::$app->user;
             $person = Person::getPerson($user);
-            $result = $company->leave($person->id);
-            if ($result)
-                return $this->redirect(['view', 'id' => $company->id]);
+            $result = $community->leave($person->id);
+            return $this->redirect(['view', 'id' => $community->id]);
         }
 
     }

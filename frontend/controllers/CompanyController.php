@@ -56,10 +56,10 @@ class CompanyController extends CommunityController
                         ]);
                 case 'projects':
                     $company = Company::findOne($data['id']);
-                    $companies = $company->getProjectsData($page, $search);
-                    return $this->renderAjax('/tabs/_projects',
+                    $projects = $company->getProjectsData($page, $search);
+                    return $this->renderAjax('_projects',
                         [
-                            'companies' => $companies,
+                            'projects' => $projects,
                             'additionData' => $data
                         ]);
                 case Company::ROLE_ADMIN_TYPE:

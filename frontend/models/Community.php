@@ -63,6 +63,9 @@ class Community extends ActiveRecord
         2 => 'without agreement',
     ];
 
+    const JOIN_WITH_AGREEMENT = 1;
+    const JOIN_WITHOUT_AGREEMENT = 2;
+
     /**
      * @inheritdoc
      */
@@ -90,6 +93,26 @@ class Community extends ActiveRecord
             'post_ability_id' => 'Who can add post',
             'acceptance_id' => 'How to join community',
         ];
+    }
+
+    public function getPersonsData($type, $search = '')
+    {
+
+        switch ($type) {
+            case self::ROLE_ADMIN_TYPE:
+                $query = BookAdminCommunity::getAdmins($this->id, true);
+                break;
+            case self::ROLE_PARTICIPANT_TYPE:
+                $query = BookUserCommunity::getParticipants($this->id, true);
+                break;
+            default:
+                return false;
+        }
+
+        $query->andFilterWhere(['LIKE', "CONCAT(" . Person::tableName() . ".`name`, ' ', " .
+            Person::tableName() . ".`surname`)", $search]);
+
+        return Pagination::getData($query, 0, null, $type);
     }
 
     public function createNew()
@@ -198,10 +221,22 @@ class Community extends ActiveRecord
 
     }
 
-    public function setPersons()
+    public function join($user_id)
     {
-        $this->admins = BookAdminCommunity::getAdmins($this->id);
-        $this->participants = BookUserCommunity::getParticipants($this->id);
+// TODO добавить сюда в зависимости от выбранной настройки вступления в компанию разное добавление пользователя
+        if ($user_id) {
+            $isConfirmed = ($this->acceptance_id == self::JOIN_WITH_AGREEMENT) ? 0 : 1;
+            return BookUserCommunity::add($user_id, $this->id, $isConfirmed);
+        }
+
+        return false;
+
+    }
+    public function leave($user_id)
+    {
+        if ($user_id) {
+            BookUserCommunity::remove($user_id, $this->id);
+        }
     }
 
 }

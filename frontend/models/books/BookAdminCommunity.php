@@ -60,7 +60,7 @@ class BookAdminCommunity extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getAdmin()
+    public function getPerson()
     {
         return $this->hasOne(Person::className(), ['id' => 'admin_id']);
     }
@@ -73,8 +73,18 @@ class BookAdminCommunity extends ActiveRecord
         return $this->hasOne(Company::className(), ['id' => 'community_id']);
     }
 
-    public static function getAdmins($id)
+    public static function getAdmins($id, $isJustQuery = false)
     {
-        return self::find()->where(['community_id' => $id])->joinWith('admin')->all();
+        $query = self::find()->where(['community_id' => $id])->joinWith('person');
+        if (!$isJustQuery)
+            $query->all();
+
+        return $query;
     }
+
+    public static function isAdmin($admin_id, $community_id)
+    {
+        return self::find()->where(['admin_id' => $admin_id, 'community_id' => $community_id])->one();
+    }
+
 }

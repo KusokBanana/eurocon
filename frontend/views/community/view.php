@@ -7,7 +7,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $community Company */
-/* @var $cooperation array \frontend\models\Person */
+/* @var $followers array \frontend\models\Person */
 /* @var $admins array \frontend\models\Person */
 
 ?>
@@ -39,7 +39,6 @@ use yii\helpers\Url;
                     </div>
                 </div>
             </div>
-
             <div class="card-block">
                 <div class="row text-xs-center m-b-20">
 
@@ -61,206 +60,38 @@ use yii\helpers\Url;
                             ]) ?>
                         <?php elseif ($community->relation !== Community::ROLE_PARTICIPANT_TYPE): ?>
                             <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Follow this community',
-                                ['/'], ['class' => 'btn btn-block btn-primary']) ?>
+                                ['join', 'id' => $community->id], ['class' => 'btn btn-block btn-primary']) ?>
                         <?php elseif ($community->relation === Community::ROLE_PARTICIPANT_TYPE): ?>
                             <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Unsubscribe this community',
-                                ['/'], ['class' => 'btn btn-block btn-primary']) ?>
+                                ['leave', 'id' => $community->id], ['class' => 'btn btn-block btn-primary']) ?>
                         <?php endif; ?>
 
                         <!-- Modal body -->
                         <!-- End modal body -->
                     </div>
-
                 </div>
-
 
                 <div class="panel" id="followers">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            Followers <span style="opacity: 0.5;">1023</span>
-                        </h3>
-                        <div class="form-group">
-                            <div class="input-search">
-                                <i class="input-search-icon wb-search" aria-hidden="true"></i>
-                                <input type="text" class="form-control" name="" placeholder="Search...">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="panel-body">
-                        <ul class="list-group list-group-dividered list-group-full h-300 scrollable is-enabled scrollable-vertical" data-plugin="scrollable" style="position: relative;">
-                            <div data-role="container" class="scrollable-container" style="height: 300px; width: 602px;">
-                                <div data-role="content" class="scrollable-content" style="width: 585px;">
-                                    <li class="list-group-item">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a class="avatar avatar-online" href="javascript:void(0)">
-                                                    <img src="../../global/portraits/9.jpg" alt="">
-                                                    <i></i>
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <div>
-                                                    <span>Willard Wood</span>
-                                                </div>
-                                                <small>@heavybutterfly920</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a class="avatar avatar-away" href="javascript:void(0)">
-                                                    <img src="../../global/portraits/10.jpg" alt="">
-                                                    <i></i>
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <div>
-                                                    <span>Ronnie Ellis</span>
-                                                </div>
-                                                <small>@kingronnie24</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a class="avatar avatar-busy" href="javascript:void(0)">
-                                                    <img src="../../global/portraits/11.jpg" alt="">
-                                                    <i></i>
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <div>
-                                                    <span>Gwendolyn Wheeler</span>
-                                                </div>
-                                                <small>@perttygirl66</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a class="avatar avatar-off" href="javascript:void(0)">
-                                                    <img src="../../global/portraits/12.jpg" alt="">
-                                                    <i></i>
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <div>
-                                                    <span>Daniel Russell</span>
-                                                </div>
-                                                <small>@danieltiger08</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a class="avatar avatar-online" href="javascript:void(0)">
-                                                    <img src="../../global/portraits/9.jpg" alt="">
-                                                    <i></i>
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <div>
-                                                    <span>Willard Wood</span>
-                                                </div>
-                                                <small>@heavybutterfly920</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a class="avatar avatar-away" href="javascript:void(0)">
-                                                    <img src="../../global/portraits/10.jpg" alt="">
-                                                    <i></i>
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <div>
-                                                    <span>Ronnie Ellis</span>
-                                                </div>
-                                                <small>@kingronnie24</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a class="avatar avatar-busy" href="javascript:void(0)">
-                                                    <img src="../../global/portraits/11.jpg" alt="">
-                                                    <i></i>
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <div>
-                                                    <span>Gwendolyn Wheeler</span>
-                                                </div>
-                                                <small>@perttygirl66</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a class="avatar avatar-off" href="javascript:void(0)">
-                                                    <img src="../../global/portraits/12.jpg" alt="">
-                                                    <i></i>
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <div>
-                                                    <span>Daniel Russell</span>
-                                                </div>
-                                                <small>@danieltiger08</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </div>
-                            </div>
-                            <div class="scrollable-bar scrollable-bar-vertical scrollable-bar-hide" draggable="false"><div class="scrollable-bar-handle" style="height: 156.15px; transform: translate3d(0px, 0px, 0px);"></div></div></ul>
-                    </div>
+                    <?= $this->render('_persons', [
+                        'persons' => $followers,
+                        'additionData' => [
+                            'id' => $community->id,
+                            'type' => 'followers',
+                            'name' => 'Followers'
+                        ]
+                    ]) ?>
                 </div>
-                <div class="panel" id="followers">
-                    <div class="panel-heading">
-                        <h3 class="panel-title">
-                            Contacts
-                        </h3>
-                    </div>
-                    <div class="panel-body">
-                        <ul class="list-group list-group-dividered list-group-full h-300 scrollable is-enabled scrollable-vertical" data-plugin="scrollable" style="position: relative;">
-                            <div data-role="container" class="scrollable-container" style="height: 300px; width: 602px;">
-                                <div data-role="content" class="scrollable-content" style="width: 585px;">
-                                    <li class="list-group-item" style="border-bottom-color: white;">
-                                        <div class="media">
-                                            <div class="media-left">
-                                                <a class="avatar avatar-off" href="javascript:void(0)">
-                                                    <img src="../../global/portraits/12.jpg" alt="">
-                                                    <i></i>
-                                                </a>
-                                            </div>
-                                            <div class="media-body">
-                                                <div>
-                                                    <span>Daniel Russell</span>
-                                                </div>
-                                                <small>@danieltiger08</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </div>
-                            </div>
-                            <div class="scrollable-bar scrollable-bar-vertical scrollable-bar-hide" draggable="false"><div class="scrollable-bar-handle" style="height: 156.15px; transform: translate3d(0px, 0px, 0px);"></div></div></ul>
-                    </div>
+                <div class="panel" id="contacts">
+                    <?= $this->render('_persons', [
+                        'persons' => $admins,
+                        'additionData' => [
+                            'id' => $community->id,
+                            'type' => 'contacts',
+                            'name' => 'Contacts'
+                        ]
+                    ]) ?>
                 </div>
-
-
-
-
             </div>
-
-
         </div>
     </div>
 
