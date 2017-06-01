@@ -2,7 +2,7 @@
 
 /* @var $this \yii\web\View*/
 /* @var $newProject \frontend\models\Project */
-/* @var $friends array */
+/* @var $follows array */
 
 use dosamigos\selectize\SelectizeTextInput;
 use frontend\models\Project;
@@ -76,7 +76,7 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-12">{input
                                 <?= $form->field($newProject, 'participants', ['template' => $templateInput])
                                     ->widget(Select2::classname(),
                                         [
-                                            'data' => $friends,
+                                            'data' => $follows,
                                             'options' => ['placeholder' => 'Search Participants..', 'multiple' => true],
                                             'class' => 'form-control',
                                             'maintainOrder' => true,
@@ -89,7 +89,7 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-12">{input
                                 <?= $form->field($newProject, 'owners', ['template' => $templateInput])
                                     ->widget(Select2::classname(),
                                         [
-                                            'data' => $friends,
+                                            'data' => $follows,
                                             'options' => ['placeholder' => 'John Smith and ..', 'multiple' => true],
                                             'class' => 'form-control',
                                             'maintainOrder' => true,

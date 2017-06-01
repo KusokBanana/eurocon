@@ -3,12 +3,13 @@
 /* @var $this yii\web\View */
 /* @var $person Person */
 /* @var $projects \frontend\models\Project array */
-/* @var $friends Person array */
+/* @var $follows Person array */
 /* @var $companies \frontend\models\Company array */
 /* @var $communities \frontend\models\Community array  */
 
 use frontend\models\Person;
 use frontend\widgets\CustomModal;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 $this->title = 'Eurocon / profile';
@@ -60,7 +61,7 @@ $this->title = 'Eurocon / profile';
                                 <?= Html::a(Html::img($person->imageShow, [
                                     'class' => 'navbar-brand-logo navbar-brand-logo-normal',
                                     'title' => 'Remark'
-                                ]), ["javascript:void(0)"], ['class' => 'avatar']); ?>
+                                ]), "javascript:void(0)", ['class' => 'avatar']); ?>
                                 <div class="font-size-20 m-t-10"><?= $person->name . ' ' . $person->surname ?></div>
                                 <div class="font-size-14"><?= $person->position ?></div>
                                 <div class="font-size-14 m-t-">
@@ -98,66 +99,66 @@ $this->title = 'Eurocon / profile';
                                         ['/'], ['class' => 'btn btn-block btn-primary']) ?>
                                 </div>
                                 <div class="col-xs-6">
-                                    <?php if ($person->relation === Person::RELATION_REQUEST_FROM): ?>
-                                        <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Accept Friendship',
-                                            ['/site/to-friends', 'id' => $person->id], ['class' => 'btn btn-block btn-primary']) ?>
-                                    <?php elseif ($person->relation == Person::RELATION_REQUEST_TO): ?>
-                                        <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Cancel Invitation',
-                                            ['/site/from-friends', 'id' => $person->id], ['class' => 'btn btn-block btn-primary']) ?>
-                                    <?php elseif ($person->relation == Person::RELATION_FRIEND): ?>
-                                        <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Remove from Friends',
-                                            ['/site/from-friends', 'id' => $person->id], ['class' => 'btn btn-block btn-primary']) ?>
+                                    <?php if ($person->relation === Person::RELATION_FOLLOWING): ?>
+                                        <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Unfollow',
+                                            ['/person/un-follow', 'id' => $person->id],
+                                            ['class' => 'btn btn-block btn-primary']) ?>
                                     <?php else: ?>
-                                        <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Add to Friends',
-                                            ['/site/to-friends', 'id' => $person->id], ['class' => 'btn btn-block btn-primary']) ?>
+                                        <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Follow',
+                                            ['/person/follow', 'id' => $person->id],
+                                            ['class' => 'btn btn-block btn-primary']) ?>
                                     <?php endif; ?>
                                 </div>
                             </div>
                         <?php endif; ?>
 
-                        <div class="table-reponsive">
-                            <div  class="card card-shadow p-b-20">
+                        <div  class="card card-shadow p-b-20">
 
-                                <div class="card-block p-r-0 p-l-0">
-
-                                    <div class=" table-responsive">
-                                        <table class="table" style="min-width: 100px;">
-                                            <tbody>
-                                            <tr>
-                                                <td>Birthday</td>
-                                                <td><?= date('d.m.Y', strtotime($person->birthday)) ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Email</td>
-                                                <td><?= $person->email ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Phone</td>
-                                                <td><?= $person->phone ?></td>
-                                            </tr>
-                                            <tr>
-                                                <td>Languages</td>
-                                                <td>
-                                                    <?= Html::img('@web/img/examples/country/germany-icon.png', [
-                                                        'title' => 'Germany',
-                                                        'alt' => 'GermanyGermany',
-                                                    ]) ?>
-                                                    <?= Html::img('@web/img/examples/country/uk-icon.png', [
-                                                        'title' => 'Germany',
-                                                        'alt' => 'GermanyGermany',
-                                                    ]) ?>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>Competence</td>
-                                                <td>carpenter</td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-                                    </div>
-                                </div>
+                            <div class="card-block p-r-0 p-l-0">
+                                    <table class="table table-sm"
+                                           style="width: 100%; word-wrap: break-word;
+                                           table-layout: fixed; min-width: 200px;">
+                                        <tbody>
+                                        <tr>
+                                            <td>Birthday</td>
+                                            <td><?= date('d.m.Y', strtotime($person->birthday)) ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Email</td>
+                                            <td><?= $person->email ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Phone</td>
+                                            <td><?= $person->phone ?></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Languages</td>
+                                            <td>
+                                                <?= Html::img('@web/img/examples/country/germany-icon.png', [
+                                                    'title' => 'Germany',
+                                                    'alt' => 'GermanyGermany',
+                                                ]) ?>
+                                                <?= Html::img('@web/img/examples/country/uk-icon.png', [
+                                                    'title' => 'Germany',
+                                                    'alt' => 'GermanyGermany',
+                                                ]) ?>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Competence</td>
+                                            <td><?php
+                                                if (!empty($person->ownTags)) {
+                                                    foreach ($person->ownTags as $tag) {
+                                                        echo '<span class="tag tag-round tag-primary">'.
+                                                            $tag->tag . '</span> ';
+                                                    }
+                                                }
+                                                ?>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
                             </div>
-
                         </div>
                     </div>
 
@@ -175,16 +176,16 @@ $this->title = 'Eurocon / profile';
 
                             <ul class="nav nav-tabs nav-tabs-line" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" data-toggle="tab" href="#tab_projects"
-                                       aria-controls="all_contacts" role="tab" aria-expanded="false">Projects</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#tab_projects"
+                                       aria-controls="all_contacts" role="tab" aria-expanded="true">Projects</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" data-toggle="tab" href="#tab_companies"
                                        aria-controls="google_contacts" role="tab" aria-expanded="false">Companies</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link active" data-toggle="tab" href="#tab_friends"
-                                       aria-controls="my_contacts" role="tab" aria-expanded="true">Friends</a>
+                                    <a class="nav-link" data-toggle="tab" href="#tab_followers"
+                                       aria-controls="my_contacts" role="tab" aria-expanded="false">Followers</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" data-toggle="tab" href="#tab_communities"
@@ -193,25 +194,29 @@ $this->title = 'Eurocon / profile';
                             </ul>
 
                             <div class="tab-content">
-                                <div class="tab-pane animation-fade" id="tab_projects" role="tabpanel" aria-expanded="false">
+                                <div class="tab-pane animation-fade active" id="tab_projects"
+                                     role="tabpanel" aria-expanded="false">
                                     <?= $this->render('/tabs/_projects', [
                                         'projects' => $projects,
                                         'additionData' => ['id' => $person->id]
                                     ]) ?>
                                 </div>
-                                <div class="tab-pane animation-fade active" id="tab_friends" role="tabpanel" aria-expanded="true">
-                                    <?= $this->render('/tabs/_participants', [
-                                        'participants' => $friends,
+                                <div class="tab-pane animation-fade" id="tab_followers"
+                                     role="tabpanel" aria-expanded="true">
+                                    <?= $this->render('_followers', [
+                                        'participants' => $follows,
                                         'additionData' => ['id' => $person->id]
                                     ]) ?>
                                 </div>
-                                <div class="tab-pane animation-fade" id="tab_companies" role="tabpanel" aria-expanded="false">
+                                <div class="tab-pane animation-fade" id="tab_companies"
+                                     role="tabpanel" aria-expanded="false">
                                     <?= $this->render('/tabs/_companies', [
                                         'companies' => $companies,
                                         'additionData' => ['id' => $person->id]
                                     ]) ?>
                                 </div>
-                                <div class="tab-pane animation-fade" id="tab_communities" role="tabpanel" aria-expanded="false">
+                                <div class="tab-pane animation-fade" id="tab_communities"
+                                     role="tabpanel" aria-expanded="false">
                                     <?= $this->render('/tabs/_communities', [
                                         'communities' => $communities,
                                         'additionData' => ['id' => $person->id]

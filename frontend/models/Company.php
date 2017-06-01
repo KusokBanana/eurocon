@@ -5,6 +5,7 @@ namespace frontend\models;
 use common\models\OrlandoBanana;
 use frontend\models\books\BookAdminCompany;
 use frontend\models\books\BookCompanyProject;
+use frontend\models\books\BookFollowers;
 use frontend\models\books\BookUserCompany;
 use Imagine\Image\BoxInterface;
 use Imagine\Image\ImageInterface;
@@ -229,7 +230,7 @@ class Company extends Community
         $user = Yii::$app->user;
         $potentialSubscribers = ['admins' => [], 'cooperation' => []];
         if ($this->relation == Company::ROLE_ADMIN_TYPE) {
-            $friends = Friends::getFriends($user->id, 1, '', true)['data'];
+            $follows = BookFollowers::getFollows($user->id, 1, '', BookFollowers::TYPE_ALL, true)['data'];
 
             $data = $this->getPersonsData(Company::ROLE_PARTICIPANT_TYPE, false)['data'];
             $participantsArray = ArrayHelper::getColumn($data, 'user_id');
@@ -237,15 +238,15 @@ class Company extends Community
             $data = $this->getPersonsData(Company::ROLE_ADMIN_TYPE, false)['data'];
             $adminsArray = ArrayHelper::getColumn($data, 'admin_id');
 
-            foreach ($friends as $friend) {
-                $isInAdminArr = ArrayHelper::isIn($friend->id, $adminsArray);
-                $isInCoopArr = ArrayHelper::isIn($friend->id, $participantsArray);
+            foreach ($follows as $follow) {
+                $isInAdminArr = ArrayHelper::isIn($follow->id, $adminsArray);
+                $isInCoopArr = ArrayHelper::isIn($follow->id, $participantsArray);
 
                 if (!$isInAdminArr)
-                    $potentialSubscribers['admins'][$friend->id] = $friend->full_name;
+                    $potentialSubscribers['admins'][$follow->id] = $follow->full_name;
 
                 if (!$isInAdminArr && !$isInCoopArr)
-                    $potentialSubscribers['cooperation'][$friend->id] = $friend->full_name;
+                    $potentialSubscribers['cooperation'][$follow->id] = $follow->full_name;
             }
         }
 

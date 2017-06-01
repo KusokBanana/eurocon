@@ -3,7 +3,6 @@
 namespace frontend\controllers;
 
 use frontend\models\Company;
-use frontend\models\Friends;
 use frontend\models\Location;
 use frontend\models\Person;
 use frontend\models\Tag;

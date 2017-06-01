@@ -228,7 +228,7 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                             'class' => 'form-control',
                                             'data-plugin' => 'tokenfield',
                                             'tabindex' => '1',
-                                            'value' => join(',', ArrayHelper::getColumn($model->tags, 'tag')),
+                                            'value' => join(',', ArrayHelper::getColumn($model->ownTags, 'tag')),
                                             'style' => 'position: absolute; left: -10000px;',
                                             'autocomplete' => 'off',
                                             'data-delimiter' => [',', ' ']

@@ -183,11 +183,16 @@ class Project extends ActiveRecord
         return $this->hasMany(Tag::className(), ['field_id' => 'id']);
     }
 
+    public function getOwnTags()
+    {
+        return $this->getTags()->andOnCondition([Tag::tableName().'.type_id' => Tag::PROJECT_TYPE]);
+    }
+
     public function getParticipantsData($page = 1)
     {
         $query = $this->getParticipants()->joinWith(['tags' => function($query) {
-            $query->andOnCondition(['type_id' => Tag::PROJECT_TYPE]);
-        }], true, 'LEFT OUTER JOIN');;
+            $query->andOnCondition(['type_id' => Tag::PERSON_TYPE]); // TODO changed from project type
+        }], true, 'LEFT OUTER JOIN');
 
         return Pagination::getData($query, $page, Person::$limit, 'participants');
     }

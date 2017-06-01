@@ -18,12 +18,25 @@ $(document).ready(function() {
             additionData = JSON.parse(additionData);
             additionData.action = 'search';
             additionData.search = $(this).val();
-            console.log(additionData);
             additionData = JSON.stringify(additionData);
 
             ajaxReload(additionData, $(this), $(this).attr('data-href'));
 
         }
+    }).on('click change', '.filter-ajax-tabs', function(e) {
+
+        var name = $(this).attr('name'),
+            value = $(this).val(),
+            infoBlock = $(this).closest('.filter-tab-info'),
+            additionData = infoBlock.attr('data-addition'),
+            href = infoBlock.attr('data-href');
+
+        additionData = JSON.parse(additionData);
+        additionData[name] = value;
+        additionData = JSON.stringify(additionData);
+
+        ajaxReload(additionData, $(this), href);
+
     });
 
     function ajaxReload(additionData, element, href) {
@@ -35,7 +48,7 @@ $(document).ready(function() {
             url: href,
             type: 'POST',
             data: {
-                'data': additionData
+                data: additionData
             },
             success: function (data) {
                 if (data) {
@@ -44,6 +57,7 @@ $(document).ready(function() {
             }
         })
     }
+
 
 
 });

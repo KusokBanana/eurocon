@@ -10,9 +10,9 @@ namespace frontend\controllers;
 
 
 use common\models\User;
+use frontend\models\books\BookFollowers;
 use frontend\models\Community;
 use frontend\models\Company;
-use frontend\models\Friends;
 use frontend\models\Location;
 use frontend\models\Person;
 use frontend\models\Project;
@@ -36,14 +36,13 @@ class PersonController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $person->setRelation($user);
         $projects = $person->getProjectsData(1, '', Project::RELATION_ADMIN);
-        $friends = Friends::getFriends($person->id);
+        $follows = BookFollowers::getFollows($person->id);
         $companies = $person->getCompaniesData(1, '', Company::ROLE_ADMIN_TYPE);
         $communities = $person->getCommunitiesData(1, '', Community::ROLE_ADMIN_TYPE);
 
         return $this->render('profile',
-            compact('person', 'projects', 'friends', 'companies', 'communities'));
+            compact('person', 'projects', 'follows', 'companies', 'communities'));
 
     }
 
@@ -62,11 +61,11 @@ class PersonController extends Controller
             }
 
             switch ($type) {
-                case 'friends':
-                    $friends = Friends::getFriends($data['id'], $page, $search);
-                    return $this->renderAjax('/tabs/_participants',
+                case 'followers':
+                    $follows = BookFollowers::getFollows($data['id'], $page, $search, $data['type']);
+                    return $this->renderAjax('_followers',
                         [
-                            'participants' => $friends,
+                            'participants' => $follows,
                             'additionData' => $data
                         ]);
                 case 'projects':
@@ -115,6 +114,34 @@ class PersonController extends Controller
             }
         }
 
+    }
+
+
+    public function actionFollow($id)
+    {
+        $person = Person::findOne($id);
+        if ($person) {
+            $requestPerson = Person::getPerson(Yii::$app->user);
+            if ($requestPerson) {
+                $result = BookFollowers::follow($requestPerson->id, $id);;
+                if ($result)
+                    $this->redirect(Yii::$app->request->referrer);
+            }
+        }
+    }
+
+
+    public function actionUnFollow($id)
+    {
+        $person = Person::findOne($id);
+        if ($person) {
+            $requestPerson = Person::getPerson(Yii::$app->user);
+            if ($requestPerson) {
+                $result = BookFollowers::unFollow($requestPerson->id, $id);;
+                if ($result)
+                    return $this->redirect(Yii::$app->request->referrer);
+            }
+        }
     }
 
 }

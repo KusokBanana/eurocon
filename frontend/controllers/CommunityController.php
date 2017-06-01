@@ -115,7 +115,7 @@ class CommunityController extends Controller
         if ($community) {
             $user = Yii::$app->user;
             $person = Person::getPerson($user);
-            $result = $community->leave($person->id);
+            $community->leave($person->id);
             return $this->redirect(['view', 'id' => $community->id]);
         }
 

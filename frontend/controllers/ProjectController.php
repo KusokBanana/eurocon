@@ -3,7 +3,7 @@
 namespace frontend\controllers;
 
 
-use frontend\models\Friends;
+use frontend\models\books\BookFollowers;
 use frontend\models\Person;
 use frontend\models\Project;
 use frontend\models\ProjectTimeline;
@@ -45,14 +45,14 @@ class ProjectController extends Controller
             $participants = $project->getParticipantsData();
             $project->setRelation($user);
 
-            $friends = Friends::getFriends($user->id, 1, '', true)['data'];
+            $follows = BookFollowers::getFollows($user->id, 1, '', BookFollowers::TYPE_ALL, true)['data'];
 
             $participantsArray = ArrayHelper::getColumn($participants['data'], 'id');
             $adminsArray = ArrayHelper::getColumn($project->owners, 'user_id');
             $potentialSubscribers = [];
-            foreach ($friends as $friend) {
-                if (!ArrayHelper::isIn($friend->id, ArrayHelper::merge($participantsArray, $adminsArray)))
-                    $potentialSubscribers[$friend->id] = $friend->full_name;
+            foreach ($follows as $follow) {
+                if (!ArrayHelper::isIn($follow->id, ArrayHelper::merge($participantsArray, $adminsArray)))
+                    $potentialSubscribers[$follow->id] = $follow->full_name;
             }
 
             $projectTimeline = ProjectTimeline::find()->where(['project_id' => $id])->orderBy(['id' => SORT_DESC])->all();
@@ -92,8 +92,8 @@ class ProjectController extends Controller
 
         $newProject = new Project();
         $person = Person::getPerson(Yii::$app->user);
-        $friends = Friends::getFriends($person->id, 1, '', true)['data'];
-        $friends = ArrayHelper::map($friends, 'id', 'full_name');
+        $follows = BookFollowers::getFollows($person->id, 1, '', BookFollowers::TYPE_ALL, true)['data'];
+        $follows = ArrayHelper::map($follows, 'id', 'full_name');
         if ($newProject->load(Yii::$app->request->post())) {
             $newProject->createNew();
             if ($newProject->id) {
@@ -101,7 +101,7 @@ class ProjectController extends Controller
             }
         }
 
-        return $this->render('create', compact('newProject', 'friends'));
+        return $this->render('create', compact('newProject', 'follows'));
 
     }
 

@@ -2,9 +2,9 @@
 namespace frontend\controllers;
 
 use common\models\User;
+use frontend\models\books\BookFollowers;
 use frontend\models\Community;
 use frontend\models\Company;
-use frontend\models\Friends;
 use frontend\models\Person;
 use frontend\models\Project;
 use UploadHandler;
@@ -90,33 +90,6 @@ class SiteController extends Controller
             return $this->redirect(['/person/profile', 'id' => $user->id]);
         }
 
-    }
-
-    public function actionToFriends($id)
-    {
-        $person = Person::findOne($id);
-        if ($person) {
-            $requestPerson = Person::getPerson(Yii::$app->user);
-            if ($requestPerson) {
-                $result = $person->addToFriends($requestPerson->id);
-                if ($result)
-                    $this->redirect(Yii::$app->request->referrer);
-            }
-        }
-    }
-
-
-    public function actionFromFriends($id)
-    {
-        $person = Person::findOne($id);
-        if ($person) {
-            $requestPerson = Person::getPerson(Yii::$app->user);
-            if ($requestPerson) {
-                $result = $person->removeFromFriends($requestPerson);
-                if ($result)
-                    return $this->redirect(Yii::$app->request->referrer);
-            }
-        }
     }
 
     /**

@@ -218,11 +218,11 @@
 
 #personalCompletedWidget .table td {
   padding: 20px 0 19px;
-  width: 40%;
+  /*width: 40%;*/
 }
 
 #personalCompletedWidget .table td:last-child {
-  width: 20%;
+  /*width: 20%;*/
   text-align: right;
 }
 

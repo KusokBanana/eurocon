@@ -7,6 +7,7 @@ use common\models\User;
 use frontend\assets\LocationsAsset;
 use frontend\models\books\BookAdminCommunity;
 use frontend\models\books\BookAdminCompany;
+use frontend\models\books\BookFollowers;
 use frontend\models\books\BookOwnerProject;
 use frontend\models\books\BookUserCommunity;
 use frontend\models\books\BookUserCompany;
@@ -53,9 +54,7 @@ class Person extends User
     private static $minutes_ago_online = 5;
 
     const RELATION_SELF = 1;
-    const RELATION_FRIEND = 2;
-    const RELATION_REQUEST_FROM = 3;
-    const RELATION_REQUEST_TO = 4;
+    const RELATION_FOLLOWING = 2;
 
     public $last_access = 'never';
     public $is_online = false;
@@ -65,6 +64,7 @@ class Person extends User
     public $backgroundFile;
     public $imageShow;
     public $backgroundShow;
+    public $tagValues;
 
     public static $genders = [
         1 => 'Male',
@@ -110,7 +110,7 @@ class Person extends User
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             ['language_ids', 'string'],
             [['position', 'location', 'site', 'background'], 'string', 'max' => 126],
-            [['language_ids', 'notice_ids'], 'safe'],
+            [['language_ids', 'notice_ids', 'tagValues'], 'safe'],
             [['imageFile', 'backgroundFile'], 'file', 'extensions' => 'png, jpg'],
         ];
     }
@@ -139,12 +139,18 @@ class Person extends User
             'notice_ids' => 'Notice',
             'imageFile' => 'My Photo',
             'backgroundFile' => 'Background image',
+            'tagValues' => 'Competence',
         ];
     }
 
     public function getTags()
     {
         return $this->hasMany(Tag::className(), ['field_id' => 'id']);
+    }
+
+    public function getOwnTags()
+    {
+        return $this->getTags()->andOnCondition([Tag::tableName().'.type_id' => Tag::PERSON_TYPE]);
     }
 
     public function getUsersForProjects()
@@ -284,16 +290,7 @@ class Person extends User
         $this->setImage('image');
         $this->setImage('background');
         $this->setAsArray('notice_ids');
-    }
-
-    public function addToFriends($user_id)
-    {
-        return Friends::add($user_id, $this->id);
-    }
-
-    public function removeFromFriends($user_id)
-    {
-        return Friends::remove($user_id, $this->id);
+        $this->setRelation(Yii::$app->user);
     }
 
     public function setRelation($user)
@@ -302,18 +299,8 @@ class Person extends User
         if ($this->id === $user->id) {
             $this->relation = self::RELATION_SELF;
         } else {
-            $isHasRequest = RequestsToFriends::isHasRequest($this->id, $user->id, true);
-            if ($isHasRequest) {
-                if ($isHasRequest == RequestsToFriends::REQUEST_TYPE_FROM)
-                    $this->relation = self::RELATION_REQUEST_FROM;
-                elseif ($isHasRequest == RequestsToFriends::REQUEST_TYPE_TO)
-                    $this->relation = self::RELATION_REQUEST_TO;
-            } else {
-                $isFriend = Friends::isFriends($user->id, $this->id);
-                if ($isFriend) {
-                    $this->relation = self::RELATION_FRIEND;
-                }
-            }
+            $isFollowing = BookFollowers::isFollowingTo($user->id, $this->id);
+            $this->relation = $isFollowing ? self::RELATION_FOLLOWING : false;
         }
 
     }
@@ -324,6 +311,7 @@ class Person extends User
         $this->saveImage('image');
         $this->saveImage('background');
         $this->saveids('notice_ids');
+        Tag::updateAllTags($this->tagValues, $this->id, Tag::PERSON_TYPE);
 
         Location::setAttribute($this);
 

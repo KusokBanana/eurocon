@@ -149,12 +149,18 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                             <!-- Example Horizontal Form -->
                             <div class="example-wrap">
                                 <div class="example">
-                                    <div class="form-group row">
-                                        <label class="col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label">Competence:</label>
-                                        <div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">
-                                            <input type="text" class="form-control" name="name" placeholder="carpenter" autocomplete="off">
-                                        </div>
-                                    </div>
+
+                                    <?= $form->field($model, 'tagValues', ['template' => $templateInput])
+                                        ->textInput([
+                                            'class' => 'form-control',
+                                            'data-plugin' => 'tokenfield',
+                                            'tabindex' => '1',
+                                            'value' => join(',', ArrayHelper::getColumn($model->ownTags, 'tag')),
+                                            'style' => 'position: absolute; left: -10000px;',
+                                            'autocomplete' => 'off',
+                                            'data-delimiter' => [',', ' ']
+                                        ])
+                                        ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
 
                                     <?= $form->field($model, 'email', ['template' => $templateInput])
                                         ->textInput(['class' => 'form-control', 'placeholder' => '@email.com',

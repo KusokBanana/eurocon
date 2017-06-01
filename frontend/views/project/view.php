@@ -887,8 +887,8 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                     </td>
                                     <td>
                                         <?php
-                                        if (!empty($project->tags)) {
-                                            foreach ($project->tags as $tag) {
+                                        if (!empty($project->ownTags)) {
+                                            foreach ($project->ownTags as $tag) {
                                                 echo '<span class="tag tag-round tag-primary">'.
                                                     $tag->tag . '</span> ';
                                             }

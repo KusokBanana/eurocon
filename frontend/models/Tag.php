@@ -21,7 +21,7 @@ class Tag extends ActiveRecord
     const PERSON_TYPE = 1;
     const COMPANY_TYPE = 2;
     const PROJECT_TYPE = 3;
-    const COMMUNITY_TyPE = 4;
+    const COMMUNITY_TYPE = 4;
 
     /**
      * @inheritdoc
