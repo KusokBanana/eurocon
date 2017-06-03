@@ -7,8 +7,6 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
 
-$this->registerCssFile('@web/vendor/bootstrap-tokenfield/bootstrap-tokenfield.min.css');
-
 /* @var $type string */
 /* @var $model Project */
 /* @var $data array */

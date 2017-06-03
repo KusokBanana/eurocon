@@ -14,7 +14,6 @@ use dosamigos\taggable\Taggable;
 
 $this->registerCssFile('@web/css/jquery-wizard.min.css');
 $this->registerCssFile('@web/css/formValidation.min.css');
-$this->registerCssFile('@web/vendor/bootstrap-tokenfield/bootstrap-tokenfield.min.css');
 
 //$this->registerJsFile('@web/js/assets/jquery-wizard.min.js', ['position' => \yii\web\View::POS_LOAD]);
 //$this->registerJsFile('@web/js/assets/matchheight.min.js', ['position' => \yii\web\View::POS_LOAD]);

@@ -28,6 +28,8 @@ class AppAsset extends AssetBundle
         'vendor/bootstrap-datepicker/bootstrap-datepicker.min.css',
         'css/team.min.css',
         '/css/media.min.css',
+        '/vendor/sliptree-bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css',
+        '/vendor/sliptree-bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css',
         // fonts
         'fonts/web-icons/web-icons.min.css',
         'fonts/brand-icons/brand-icons.min.css',
@@ -97,8 +99,7 @@ class AppAsset extends AssetBundle
         '/js/assets/matchheight.min.js',
         '/js/Plugin/jquery-wizard.min.js',
         '/vendor/forms/wizard.js',
-        '/vendor/bootstrap-tokenfield/bootstrap-tokenfield.min.js',
-        '/js/Plugin/bootstrap-tokenfield.min.js',
+        '/vendor/sliptree-bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

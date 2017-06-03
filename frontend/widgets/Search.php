@@ -20,7 +20,7 @@ class Search extends Widget
         parent::init();
 
         $this->isEmpty = empty($this->data);
-        $this->data = Json::encode($this->additionData);
+        $this->data = $this->additionData;
     }
 
     public function run()

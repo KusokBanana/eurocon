@@ -9,7 +9,6 @@ use yii\widgets\ActiveForm;
 
 /* @var $model \yii\db\ActiveRecord */
 /* @var $data array */
-$this->registerCssFile('@web/vendor/bootstrap-tokenfield/bootstrap-tokenfield.min.css');
 
 $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">{input}'.
     '<small class="text-danger">{error}</small></div></div>';

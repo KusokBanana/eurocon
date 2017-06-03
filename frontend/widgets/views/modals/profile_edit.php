@@ -16,16 +16,9 @@ use yii\widgets\ActiveForm;
 /* @var $data array */
 /* @var $this \yii\web\View */
 
-$this->registerCssFile('@web/vendor/bootstrap-tokenfield/bootstrap-tokenfield.min.css');
-
 $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">{input}'.
     '<small class="text-danger">{error}</small></div></div>';
 ?>
-<style>
-    span.select2-container.select2-container--krajee.select2-container--open, div.pac-container.pac-logo.hdpi {
-        z-index: 10000;
-    }
-</style>
 
 <div class="modal fade" id="<?= $type ?>" aria-hidden="true"
      aria-labelledby="exampleModalTabs" role="dialog" tabindex="-1">
@@ -155,9 +148,10 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                             'class' => 'form-control',
                                             'data-plugin' => 'tokenfield',
                                             'tabindex' => '1',
+                                            'data-delay' => 100,
                                             'value' => join(',', ArrayHelper::getColumn($model->ownTags, 'tag')),
-                                            'style' => 'position: absolute; left: -10000px;',
-                                            'autocomplete' => 'off',
+//                                            'style' => 'position: absolute; left: -10000px;',
+//                                            'autocomplete' => 'off',
                                             'data-delimiter' => [',', ' ']
                                         ])
                                         ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>

@@ -77,7 +77,7 @@ class BookOwnerProject extends ActiveRecord
     public static function addNew($personId, $projectId)
     {
         if ($personId && $projectId) {
-            $newParticipant = new self();
+            $newParticipant = new static();
             $newParticipant->user_id = $personId;
             $newParticipant->project_id = $projectId;
             $newParticipant->save();

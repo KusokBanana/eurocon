@@ -4,7 +4,10 @@ namespace frontend\controllers;
 
 
 use frontend\models\books\BookFollowers;
+use frontend\models\books\BookOwnerProject;
 use frontend\models\Person;
+use frontend\models\Post;
+use frontend\models\PostComment;
 use frontend\models\Project;
 use frontend\models\ProjectTimeline;
 use frontend\models\Tag;
@@ -43,48 +46,115 @@ class ProjectController extends Controller
 
             $user = Yii::$app->user;
             $participants = $project->getParticipantsData();
+            $admins = BookOwnerProject::getAdmins($user->id);
             $project->setRelation($user);
 
             $follows = BookFollowers::getFollows($user->id, 1, '', BookFollowers::TYPE_ALL, true)['data'];
 
             $participantsArray = ArrayHelper::getColumn($participants['data'], 'id');
-            $adminsArray = ArrayHelper::getColumn($project->owners, 'user_id');
+            $adminsArray = ArrayHelper::getColumn($admins, 'user_id');
             $potentialSubscribers = [];
             foreach ($follows as $follow) {
                 if (!ArrayHelper::isIn($follow->id, ArrayHelper::merge($participantsArray, $adminsArray)))
                     $potentialSubscribers[$follow->id] = $follow->full_name;
             }
 
+            $posts = Post::getPostsData(Post::TYPE_PROJECT, $id);
+            $newPost = new Post();
+            $newPost->field_id = $id;
+
             $projectTimeline = ProjectTimeline::find()->where(['project_id' => $id])->orderBy(['id' => SORT_DESC])->all();
 
             return $this->render('view',
-                compact('project', 'participants', 'potentialSubscribers', 'projectTimeline'));
+                compact('project', 'participants', 'potentialSubscribers',
+                    'projectTimeline', 'admins', 'posts', 'newPost'));
 
         }
 
     }
 
-    public function actionPage()
+    public function actionAjaxReload()
     {
         if (Yii::$app->request->isAjax) {
             $page = Yii::$app->request->get('page');
             $type = Yii::$app->request->get('type');
             $data = Yii::$app->request->post('data');
             $data = Json::decode($data, true);
+            $action = isset($data['action']) ? $data['action'] : false;
+            $search = isset($data['search']) ? trim($data['search']) : '';
+
+            if ($action == 'search') {
+                $page = $data['page'] = 1;
+            }
 
             switch ($type) {
                 case 'participants':
                     $project = Project::findOne($data['id']);
-                    $participants = $project->getParticipantsData($page);
+                    $participants = $project->getParticipantsData($page, $search);
                     return $this->renderAjax('/tabs/_participants',
                         [
                             'participants' => $participants,
                             'additionData' => $data
                         ]);
+                case 'forum':
+                    $posts = Post::getPostsData(Post::TYPE_PROJECT, $data['id'], $page, $search);
+                    return $this->renderAjax('_forum',
+                        [
+                            'posts' => $posts,
+                            'additionData' => $data
+                        ]);
+            }
+
+        }
+    }
+
+    public function actionForum($post_id, $comment_id = null)
+    {
+
+        if (Yii::$app->request->isAjax) {
+
+            $text = Yii::$app->request->post('text');
+            $action = Yii::$app->request->get('action');
+
+            switch ($action) {
+                case 'add':
+                    $res = PostComment::add($post_id, $text, $comment_id);
+                    $action = 'show';
+                case 'show':
+                    $post = Post::find()->where([Post::tableName().'.id' => $post_id])
+                        ->joinWith('comments')->one();
+                    /** @var Post $post */
+                    if ($post)
+                        $post->setCommentaries();
+
+                    return $this->renderAjax('_reply',
+                        [
+                            'post' => $post,
+                            'index' => 0
+                        ]);
+
+                case 'create':
+                    $post = new Post();
+                    if ($post->load(Yii::$app->request->post())) {
+                        $files = UploadedFile::getInstances($post, 'image_files');
+                        $post->type_for = Post::TYPE_PROJECT;
+                        $post->saveImages($files);
+                        $post->save();
+
+                        $posts = Post::getPostsData(Post::TYPE_PROJECT, $post->field_id);
+                        $additionData = [
+                            'id' => $post->field_id,
+                        ];
+                        
+                        return $this->renderAjax('_forum',
+                            compact('posts', 'additionData'));
+                    }
 
             }
 
         }
+
+
     }
 
     public function actionCreate()

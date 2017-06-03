@@ -387,8 +387,10 @@ class Person extends User
 
     }
 
-    private function getLastAccess($timestamp)
+    public function getLastAccess($timestamp)
     {
+        $timestamp = is_int($timestamp) ? $timestamp : strtotime($timestamp);
+
         if($timestamp > (time() - (3600*24))) {
 
         // Calculate time difference

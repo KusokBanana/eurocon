@@ -118,24 +118,6 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
 
                 <?php ActiveForm::end(); ?>
 
-<!--                <div class="panel panel-transparent">-->
-<!--                    <div class="panel-heading">-->
-<!--                        <h3 class="panel-title p-x-0">jQuery File Upload-->
-<!--                            <small><a class="example-plugin-link" href="https://blueimp.github.io/jQuery-File-Upload/"-->
-<!--                                      target="_blank">official website</a></small>-->
-<!--                        </h3>-->
-<!--                    </div>-->
-<!--                    <form class="upload-form" id="exampleUploadForm" method="POST">-->
-<!--                        <input type="file" id="inputUpload" name="files[]" multiple="" />-->
-<!--                        <div class="uploader-inline">-->
-<!--                            <p class="upload-instructions">Click Or Drop Files To Upload.</p>-->
-<!--                        </div>-->
-<!--                        <div class="file-wrap container-fluid">-->
-<!--                            <div class="file-list row"></div>-->
-<!--                        </div>-->
-<!--                    </form>-->
-<!--                </div>-->
-
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
