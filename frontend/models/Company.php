@@ -112,8 +112,12 @@ class Company extends Community
 
     public function getTags()
     {
-        return $this->hasMany(Tag::className(), ['field_id' => 'id'])
-            ->onCondition(['type_id' => Tag::COMPANY_TYPE]);
+        return $this->hasMany(Tag::className(), ['field_id' => 'id']);
+    }
+
+    public function getOwnTags()
+    {
+        return $this->getTags()->andOnCondition([Tag::tableName().'.type_id' => Tag::COMPANY_TYPE]);
     }
 
     public function getPersonsData($type, $page = 1)
@@ -208,7 +212,6 @@ class Company extends Community
         $this->saveImage('background');
         Location::setAttribute($this);
         Tag::updateAllTags($this->tagValues, $this->id, Tag::COMPANY_TYPE);
-        $this->addNewUsers();
 
         $this->save();
     }
@@ -253,7 +256,7 @@ class Company extends Community
         return $potentialSubscribers;
     }
 
-    private function addNewUsers()
+    public function addNewUsers()
     {
         if ($this->participants && !empty($this->participants)) {
             foreach ($this->participants as $participant) {

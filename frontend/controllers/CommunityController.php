@@ -147,6 +147,7 @@ class CommunityController extends Controller
 
             $community->saveImage('image');
             $community->saveImage('background');
+            Tag::updateAllTags($community->tagValues, $community->id, Tag::COMMUNITY_TYPE);
 
             $community->save();
             if ($community->id) {

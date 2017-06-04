@@ -45,7 +45,7 @@ switch($data['type']) {
                 <?php $form = ActiveForm::begin([
                     'id' => $id . '_form',
                     'successCssClass' => '',
-                    'action' => Url::to(['update', 'id' => $model->id]),
+                    'action' => Url::to(['update-persons', 'id' => $model->id]),
 
                 ]); ?>
 

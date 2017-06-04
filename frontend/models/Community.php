@@ -95,6 +95,16 @@ class Community extends ActiveRecord
         ];
     }
 
+    public function getTags()
+    {
+        return $this->hasMany(Tag::className(), ['field_id' => 'id']);
+    }
+
+    public function getOwnTags()
+    {
+        return $this->getTags()->andOnCondition([Tag::tableName().'.type_id' => Tag::COMMUNITY_TYPE]);
+    }
+
     public function getPersonsData($type, $search = '')
     {
 
@@ -179,13 +189,6 @@ class Community extends ActiveRecord
 
                 $this->$type = $fileName;
 
-// Для ресайза фотки до 800x800px по большей стороне надо обращаться к функции Box() или widen, так как в обертках доступны только 5 простых функций: crop, frame, getImagine, setImagine, text, thumbnail, watermark
-//                $photo = Image::getImagine()->open($dir . $fileName);
-//                $photo->thumbnail(new Box(800, 800))->save($dir . $fileName, ['quality' => 90]);
-
-                //$imagineObj = new Imagine();
-                //$imageObj = $imagineObj->open(\Yii::$app->basePath . $dir . $fileName);
-                //$imageObj->resize($imageObj->getSize()->widen(400))->save(\Yii::$app->basePath . $dir . $fileName);
             }
 
         }

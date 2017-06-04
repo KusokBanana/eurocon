@@ -156,4 +156,18 @@ class CompanyController extends CommunityController
 
     }
 
+    public function actionUpdatePersons($id)
+    {
+        $company = Company::findOne($id);
+        if (!$company)
+            return false;
+
+        if ($company->load(Yii::$app->request->post())) {
+            $company->addNewUsers();
+        }
+
+        return $this->redirect(['view', 'id' => $company->id]);
+
+    }
+
 }

@@ -165,42 +165,41 @@ use yii\helpers\Html;
                             <?php endif; ?>
 
                     </div>
-                    <div class="table-reponsive">
 
-                        <div  class="card card-shadow p-b-20">
+                    <div  class="card card-shadow p-b-20">
 
-                            <div class="card-block">
-
-                                <div class="table-responsive">
-                                    <table class="table">
-                                        <tbody>
-                                        <tr>
-                                            <td>Location</td>
-                                            <td><?= ArrayHelper::getValue($company->location, 'name'); ?></td>
-                                        </tr>
+                        <div class="card-block p-r-0 p-l-0">
+                            <table class="table table-sm">
+                                <tbody>
+                                <tr>
+                                    <td>Location</td>
+                                    <td><?= ArrayHelper::getValue($company->location, 'name'); ?></td>
+                                </tr>
 <!--                                        <tr>-->
 <!--                                            <td>Countries</td>-->
 <!--                                            <td>Austria, Germany, Poland</td>-->
 <!--                                        </tr>-->
-                                        <tr>
-                                            <td>Types of jobs</td>
-                                            <td><?= join(',', ArrayHelper::getColumn($company->tags, 'tag')); ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Email</td>
-                                            <td><?= $company->email ?></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Phone</td>
-                                            <td><?= $company->phone ?></td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
+                                <tr>
+                                    <td>Types of jobs</td>
+                                    <td><?= join(',', ArrayHelper::getColumn($company->tags, 'tag')); ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Email</td>
+                                    <td><?= $company->email ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Phone</td>
+                                    <td><?= $company->phone ?></td>
+                                </tr>
+                                <tr>
+                                    <td>Company Foundation</td>
+                                    <td><?= date('d.m.Y', strtotime($company->birthday)) ?></td>
+                                </tr>
+                                </tbody>
+                            </table>
                         </div>
-
                     </div>
+
                 </div>
             </div>
         </div>

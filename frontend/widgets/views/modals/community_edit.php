@@ -3,6 +3,7 @@
 
 /* @var $type string */
 use frontend\models\Community;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\ActiveForm;
@@ -63,8 +64,9 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                             ->textInput([
                                                 'class' => 'form-control',
                                                 'data-plugin' => 'tokenfield',
-                                                'style' => 'position: absolute; left: -10000px;',
-                                                'autocomplete' => 'off'
+                                                'data-delay' => 100,
+                                                'value' => join(',', ArrayHelper::getColumn($model->ownTags, 'tag')),
+                                                'data-delimiter' => [',', ' '],
                                             ])
                                             ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
 
