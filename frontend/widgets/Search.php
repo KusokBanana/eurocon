@@ -21,7 +21,7 @@ class Search extends Widget
         parent::init();
 
         $this->isEmpty = empty($this->data);
-        $this->data = $this->additionData;
+        $this->data = $this->additionData; // TODO remove data to additionData
     }
 
     public function run()

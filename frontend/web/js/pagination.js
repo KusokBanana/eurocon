@@ -41,6 +41,17 @@ $(document).ready(function() {
 
         ajaxReload(additionData, $(this), href);
 
+    }).on('change', 'form.ajax-reload-filter', function(e) {
+        var form = $(this),
+            additionData = form.attr('data-addition'),
+            formData = form.serializeArray();
+
+        additionData = JSON.parse(additionData);
+        additionData.filter = formData;
+        additionData = JSON.stringify(additionData);
+
+        ajaxReload(additionData, $(this), form.attr('action'));
+
     });
 
     function ajaxReload(additionData, element, href, wrap) {

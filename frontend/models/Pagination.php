@@ -20,9 +20,10 @@ class Pagination
      * @param $page int
      * @param $limit int
      * @param $type string
+     * @param array $filter
      * @return array
      */
-    public static function getData($query, $page, $limit, $type)
+    public static function getData($query, $page, $limit, $type, $filter = [])
     {
 
         $offset = ($page - 1) * $limit;
@@ -36,21 +37,11 @@ class Pagination
             'page' => $page,
             'pageCount' => $limit,
             'type' => $type,
-            'data' => $query->all()
+            'data' => $query->all(),
+            'filter' => $filter
         ];
 
     }
 
-
-
-//    /**
-//     * @param int $page
-//     * @return Person
-//     */
-//    public function setPage($page)
-//    {
-//        $this->page = $page;
-//        return $this;
-//    }
 
 }

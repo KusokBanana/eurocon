@@ -1,4 +1,21 @@
-<div class="modal fade" id="exampleTabs123" aria-hidden="true" aria-labelledby="examplePositionCenter" role="dialog" tabindex="-1">
+<?php
+use frontend\models\Community;
+use kartik\select2\Select2;
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\widgets\ActiveForm;
+
+/* @var $model \yii\db\ActiveRecord */
+/* @var $data array */
+/* @var $type string */
+
+$templateInput = '<div class="col-md-12 col-xs-12">{input}</div>';
+
+?>
+
+
+<div class="modal fade" id="<?= $type ?>" aria-hidden="true" aria-labelledby="examplePositionCenter"
+     role="dialog" tabindex="-1">
     <div class="modal-dialog modal-center">
         <div class="modal-content">
             <div class="modal-header">

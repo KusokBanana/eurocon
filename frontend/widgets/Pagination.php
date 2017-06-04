@@ -14,6 +14,7 @@ class Pagination extends Widget
     public $type;
     public $data;
     public $search = '';
+    public $filter = '';
 
     private $pageNumbers;
 

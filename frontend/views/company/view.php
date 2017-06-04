@@ -2,6 +2,7 @@
 /* @var $this yii\web\View */
 use frontend\models\Company;
 use frontend\widgets\CustomModal;
+use voime\GoogleMaps\MapInput;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
@@ -10,8 +11,9 @@ use yii\helpers\Html;
 /* @var $admins array \frontend\models\Person */
 /* @var $potentialSubscribers array \frontend\models\Person */
 /* @var $projects array \frontend\models\Project */
+/* @var $marketplace array \frontend\models\MarketplaceItem */
+/* @var $newMarketplaceItem \frontend\models\MarketplaceItem */
 
-// TODO добавить сюда новые скрипты
 ?>
 
 <div class="page">
@@ -91,7 +93,7 @@ use yii\helpers\Html;
                 <!-- End Panel -->
             </div>
         </div>
-
+        <?php if ($company->relation === Company::ROLE_ADMIN_TYPE): ?>
             <?= CustomModal::widget([
                 'type' => 'add_persons',
                 'model' => $company,
@@ -102,6 +104,7 @@ use yii\helpers\Html;
                 'model' => $company,
                 'additionalData' => $adminsAddData
             ]) ?>
+        <?php endif; ?>
 
             <!-- Personal -->
             <div class="col-xs-12 col-xxl-4 col-xl-4 col-lg-4">
@@ -230,169 +233,12 @@ use yii\helpers\Html;
                                 ]) ?>
                             </div>
                             <div class="tab-pane active" id="marketplace" role="tabpanel" aria-expanded="true">
-                                <form class="page-search-form m-t-10" role="search">
-                                    <div class="input-search input-search-dark">
-                                        <i class="input-search-icon wb-search" aria-hidden="true"></i>
-                                        <input type="text" class="form-control" id="inputSearch" name="search" placeholder="Search">
-                                        <button type="button" class="input-search-close icon wb-close" aria-label="Close"></button>
-                                    </div>
-                                </form>
-                                <div class="panel">
-
-                                    <div class="panel-body container-fluid">
-                                        <div class="row row-lg">
-
-                                            <div class="col-md-4 col-xl-3 col-xs-12">
-                                                <!-- Example Basic -->
-
-                                                <div class="radio-custom radio-primary m-l-30" style="display: inline-block; padding-left: 20px;">
-                                                    <input type="radio" id="inputRadiosUnchecked" name="inputRadios">
-                                                    <label for="inputRadiosUnchecked">Offers</label>
-                                                </div>
-                                                <div class="radio-custom radio-primary m-l-30">
-                                                    <input type="radio" id="inputRadiosUnchecked" name="inputRadios">
-                                                    <label for="inputRadiosUnchecked">Requests</label>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-4 col-xl-4 col-xs-12">
-                                                <!-- Example Colors -->
-                                                <div class="form-group row">
-                                                    <label class="form-control-label col-xs-12 col-md-3">Type:</label>
-                                                    <div class="col-md-9 col-xs-12">
-                                                        <select class="form-control">
-                                                            <option>New building</option>
-                                                            <option>Renovation</option>
-                                                            <option>Extension</option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                                <div class="form-group row">
-                                                    <label class="form-control-label col-xs-12 col-md-3">Budget:</label>
-                                                    <div class="col-md-9 col-xs-12">
-                                                        <select class="form-control">
-                                                            <option>[ 0; 1 mln $ ]</option>
-                                                            <option>[ 1 mln $; 3 mln $ ]</option>
-                                                            <option>[ 3 mln $; 5 mln $ ]</option>
-                                                            <option>[ 5 mln $; 10 mln $ ]</option>
-                                                            <option> &gt;10 mln $ </option>
-                                                        </select>
-                                                    </div>
-                                                </div>
-
-                                            </div>
-                                            <div class="col-md-4 col-xl-3 col-xs-12 p-t-30">
-                                                <button type="button" class="btn btn-outline btn-primary" data-target="#exampleTabs123" data-toggle="modal"><i class="icon wb-plus" aria-hidden="true"></i> Add offers or request</button>
-
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <ul class="list-group">
-                                    <li class="list-group-item">
-                                        <div class="media media-lg">
-                                            <div class="media-body">
-                                                <div class="profile-brief">
-                                                    <div class="media">
-                                                        <a class="media-left">
-                                                            <img class="media-object" src="../../global/photos/placeholder.png" alt="...">
-                                                        </a>
-                                                        <div class="media-body p-l-20">
-                                                            <h4 class="media-heading">Getting Started</h4>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                                elit. Integer nec odio. Praesent libero. Sed
-                                                                cursus ante dapibus diam. Sed nisi. Nulla quis
-                                                                sem at nibh elementum imperdiet. Duis sagittis
-                                                                ipsum. Praesent mauris.</p>
-                                                        </div>
-                                                        <div class="media-left media-middle"  style="border-left: 1px solid rgb(213,228,241); padding: 15px;">
-                                                            <span>01.01.2018</span>
-                                                            <span>Jo Smith</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="media media-lg">
-                                            <div class="media-body">
-                                                <div class="profile-brief">
-                                                    <div class="media">
-                                                        <a class="media-left">
-                                                            <img class="media-object" src="../../global/photos/placeholder.png" alt="...">
-                                                        </a>
-                                                        <div class="media-body p-l-20">
-                                                            <h4 class="media-heading">Getting Started</h4>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                                elit. Integer nec odio. Praesent libero. Sed
-                                                                cursus ante dapibus diam. Sed nisi. Nulla quis
-                                                                sem at nibh elementum imperdiet. Duis sagittis
-                                                                ipsum. Praesent mauris.</p>
-                                                        </div>
-                                                        <div class="media-left media-middle"  style="border-left: 1px solid rgb(213,228,241); padding: 15px;">
-                                                            <span>01.01.2018</span>
-                                                            <span>Jo Smith</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="media media-lg">
-                                            <div class="media-body">
-                                                <div class="profile-brief">
-                                                    <div class="media">
-                                                        <a class="media-left">
-                                                            <img class="media-object" src="../../global/photos/placeholder.png" alt="...">
-                                                        </a>
-                                                        <div class="media-body p-l-20">
-                                                            <h4 class="media-heading">Getting Started</h4>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                                elit. Integer nec odio. Praesent libero. Sed
-                                                                cursus ante dapibus diam. Sed nisi. Nulla quis
-                                                                sem at nibh elementum imperdiet. Duis sagittis
-                                                                ipsum. Praesent mauris.</p>
-                                                        </div>
-                                                        <div class="media-left media-middle"  style="border-left: 1px solid rgb(213,228,241); padding: 15px;">
-                                                            <span>01.01.2018</span>
-                                                            <span>Jo Smith</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item">
-                                        <div class="media media-lg">
-                                            <div class="media-body">
-                                                <div class="profile-brief">
-                                                    <div class="media">
-                                                        <a class="media-left">
-                                                            <img class="media-object" src="../../global/photos/placeholder.png" alt="...">
-                                                        </a>
-                                                        <div class="media-body p-l-20">
-                                                            <h4 class="media-heading">Getting Started</h4>
-                                                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing
-                                                                elit. Integer nec odio. Praesent libero. Sed
-                                                                cursus ante dapibus diam. Sed nisi. Nulla quis
-                                                                sem at nibh elementum imperdiet. Duis sagittis
-                                                                ipsum. Praesent mauris.</p>
-                                                        </div>
-                                                        <div class="media-left media-middle"  style="border-left: 1px solid rgb(213,228,241); padding: 15px;">
-                                                            <span>01.01.2018</span>
-                                                            <span>Jo Smith</span>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                                <nav>
-                                    <ul data-plugin="paginator" data-total="50" data-skin="pagination-no-border" class="pagination pagination-no-border"><li class="pagination-prev page-item disabled"><a class="page-link" href="javascript:void(0)" aria-label="Prev"><span class="icon wb-chevron-left-mini"></span></a></li><li class="pagination-items page-item active" data-value="1"><a class="page-link" href="javascript:void(0)">1</a></li><li class="pagination-items page-item" data-value="2"><a class="page-link" href="javascript:void(0)">2</a></li><li class="pagination-items page-item" data-value="3"><a class="page-link" href="javascript:void(0)">3</a></li><li class="pagination-items page-item" data-value="4"><a class="page-link" href="javascript:void(0)">4</a></li><li class="pagination-items page-item" data-value="5"><a class="page-link" href="javascript:void(0)">5</a></li><li class="pagination-next page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next"><span class="icon wb-chevron-right-mini"></span></a></li></ul>
-                                </nav>
+                                <?= $this->render('_marketplace', [
+                                    'items' => $marketplace,
+                                    'additionData' => [
+                                        'id' => $company->id,
+                                    ]
+                                ]) ?>
                             </div>
                         </div>
                     </div>
@@ -407,4 +253,12 @@ use yii\helpers\Html;
 
     </div>
 </div>
+
+<?php if ($company->relation === Company::ROLE_ADMIN_TYPE): ?>
+<?= CustomModal::widget([
+    'type' => 'add_marketplace_item',
+    'model' => $newMarketplaceItem,
+    'additionalData' => []
+]) ?>
+<?php endif; ?>
 

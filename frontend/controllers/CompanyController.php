@@ -2,8 +2,10 @@
 
 namespace frontend\controllers;
 
+use frontend\models\books\BookMarketplace;
 use frontend\models\Company;
 use frontend\models\Location;
+use frontend\models\MarketplaceItem;
 use frontend\models\Person;
 use frontend\models\Tag;
 use Yii;
@@ -72,6 +74,15 @@ class CompanyController extends CommunityController
                             'additionData' => $data,
                             'company' => $company
                         ]);
+                case 'marketplace':
+                    $filter = ArrayHelper::getValue($data, 'filter');
+                    $marketplace = MarketplaceItem::getData($data['id'], BookMarketplace::TYPE_FOR_COMPANY,
+                        $page, $search, $filter);
+                    return $this->renderAjax('_marketplace',
+                        [
+                            'items' => $marketplace,
+                            'additionData' => $data,
+                        ]);
             }
 
         }
@@ -92,8 +103,11 @@ class CompanyController extends CommunityController
         $admins = $company->getPersonsData(Company::ROLE_ADMIN_TYPE);
         $potentialSubscribers = $company->getPotentialSubscribers();
         $projects = $company->getProjectsData();
+        $marketplace = MarketplaceItem::getData($id, BookMarketplace::TYPE_FOR_COMPANY);
+        $newMarketplaceItem = new MarketplaceItem();
 
-        return $this->render('view', compact('company', 'cooperation', 'admins', 'potentialSubscribers', 'projects'));
+        return $this->render('view', compact('company', 'cooperation', 'admins',
+            'potentialSubscribers', 'projects', 'marketplace', 'newMarketplaceItem'));
     }
 
     public function actionCreate()
