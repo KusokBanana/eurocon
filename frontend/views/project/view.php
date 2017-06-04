@@ -12,9 +12,11 @@
 use frontend\assets\AppAsset;
 use frontend\models\Project;
 use frontend\widgets\CustomModal;
+use frontend\widgets\Forum;
 use yii\helpers\Html;
 
 $this->registerJsFile('@web/js/project.js',  ['depends' => [AppAsset::className()]]);
+$this->registerJsFile('@web/js/forum.js',  ['depends' => [AppAsset::className()]]);
 $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [AppAsset::className()]]);
 ?>
 
@@ -79,10 +81,11 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                 <div class="tab-pane animation-fade" id="forum" role="tabpanel"
                                      aria-expanded="false">
 
-                                    <?= $this->render('_forum', [
-                                        'posts' => $posts,
+                                    <?= Forum::widget([
+                                        'data' => $posts,
                                         'additionData' => [
                                             'id' => $project->id,
+                                            'search-wrapper-class' => 'input-search-dark'
                                         ]
                                     ]) ?>
 
@@ -95,10 +98,10 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
             </div><!-- Second Row -->
             <!-- Personal -->
             <?= CustomModal::widget([
-                'type' => 'add_project_post',
+                'type' => Forum::$FORUM_MODAL_ADD_POST_ID,
                 'model' => $newPost,
                 'additionalData' => [
-                    'project' => $project
+                    'for_model' => $project
                 ]
             ]) ?>
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xxl-4 col-xl-4">

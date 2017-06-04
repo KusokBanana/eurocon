@@ -1,15 +1,11 @@
 <?php
-use frontend\assets\AppAsset;
 use frontend\models\Post;
-use frontend\models\Project;
-use frontend\models\ProjectTimeline;
-use frontend\widgets\CustomModal;
+use frontend\widgets\Forum;
 use frontend\widgets\Pagination;
 use frontend\widgets\Search;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\web\JqueryAsset;
 
 /** @var \yii\web\View $this */
 /** @var Post $posts */
@@ -25,7 +21,8 @@ use yii\web\JqueryAsset;
                         ]),
                         'query' => ArrayHelper::getValue($additionData, 'search', null),
                         'data' => $posts['data'],
-                        'type' => $posts['type']
+                        'type' => $posts['type'],
+                        'wrapSelector' => '#forum'
                     ]) ?>
             </div>
         </div>
@@ -33,7 +30,7 @@ use yii\web\JqueryAsset;
             <?= Html::button('Add post',
                 [
                     'class' => 'btn btn-outline btn-primary',
-                    'data-target' => '#add_project_post',
+                    'data-target' => '#'.Forum::$FORUM_MODAL_ADD_POST_ID,
                     'data-toggle' => 'modal',
 
                 ]) ?>
@@ -45,12 +42,12 @@ use yii\web\JqueryAsset;
             <?php if (!empty($posts)): ?>
             <?php /** @var Post $post */
             foreach ($posts['data'] as $post): ?>
-                <div class="col-xs-12 col-lg-12 col-sm-12"
-            <!-- Widget -->
+                <div class="col-xs-12 col-lg-12 col-sm-12 forum-post"
+                    <!-- Widget -->
                     <div class="card card-shadow">
                         <div class="row">
                             <div class="col-xs-3 col-lg-3 col-sm-3">
-                                <?php if (!empty($post->image_srcs)): ?>
+                                <?php if (count($post->image_srcs) > 1): ?>
                                 <?php $sliderId = 'forumPostSlider_' . $post->id ?>
                                     <div class="card-img-top cover">
                                         <div class="cover-gallery carousel slide"
@@ -85,6 +82,17 @@ use yii\web\JqueryAsset;
                                             </a>
                                         </div>
                                     </div>
+                                <?php elseif (count($post->image_srcs) == 1): ?>
+                                    <div class="card-img-top cover">
+                                        <div class="row">
+                                            <div class="col-xs-3 col-lg-3 col-sm-3">
+                                                <?= Html::img($post->image_srcs[0], ['alt' => 'Forum Post Image',
+                                                    'style' =>
+                                                        'height:'.Post::IMAGE_HEIGHT.'px;'.
+                                                        'width:'. Post::IMAGE_HEIGHT.'px;']) ?>
+                                            </div>
+                                        </div>
+                                    </div>
                                 <?php endif; ?>
                             </div>
                             <div class="col-xs-9 col-lg-9 col-sm-9">
@@ -103,20 +111,22 @@ use yii\web\JqueryAsset;
                                 'post_id' => $post->id,
                                 'action' => 'show'
                             ], [
-                                'class' => 'btn btn-outline btn-default card-link project-forum-get-replies pull-left',
+                                'class' => 'btn btn-outline btn-default card-link forum-get-replies pull-left forum-see-all',
                                 'role' => 'button',
+                                'data-comments_count' => $post->commentsCount,
                                 'data-loaded' => false,
                                 'data-title' => 'Hide comments',
                                 'data-target' => "comments-block-" . $post->id
                             ]) ?>
                             <?= Html::a('Add comment', '#', [
-                                'class' => 'btn btn-outline btn-default card-link project-forum-reply pull-right',
+                                'class' => 'btn btn-outline btn-default card-link forum-post-reply pull-right',
                                 'role' => 'button',
-                                'data-target' => 'projectForumReply_post_' . $post->id
+                                'data-target' => 'forumReply_post_' . $post->id
                             ]) ?>
                         </div>
                         <form class="comment-form"
-                              id="projectForumReply_post_<?= $post->id ?>"
+                              id="forumReply_post_<?= $post->id ?>"
+                              data-comments_count="<?= $post->commentsCount ?>"
                               data-target="comments-block-<?= $post->id ?>"
                               action="<?= Url::to([
                                   'forum',

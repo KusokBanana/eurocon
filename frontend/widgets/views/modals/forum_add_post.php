@@ -1,7 +1,6 @@
 <?php
 use frontend\assets\AppAsset;
 use frontend\models\Person;
-use frontend\models\Project;
 use kartik\select2\Select2;
 use voime\GoogleMaps\MapInput;
 use yii\bootstrap\Modal;
@@ -55,7 +54,7 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                     ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
 
                                 <?= $form->field($model, 'field_id')
-                                    ->hiddenInput(['value' => $data['project']->id])
+                                    ->hiddenInput(['value' => $data['for_model']->id])
                                     ->label(false); ?>
 
                                 <?php $templateFileInput =

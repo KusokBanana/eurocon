@@ -12,6 +12,7 @@ use frontend\models\Project;
 use frontend\models\ProjectTimeline;
 use frontend\models\Tag;
 use frontend\widgets\CustomModal;
+use frontend\widgets\Forum;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
@@ -98,11 +99,11 @@ class ProjectController extends Controller
                         ]);
                 case 'forum':
                     $posts = Post::getPostsData(Post::TYPE_PROJECT, $data['id'], $page, $search);
-                    return $this->renderAjax('_forum',
-                        [
-                            'posts' => $posts,
-                            'additionData' => $data
-                        ]);
+
+                    return Forum::widget([
+                        'data' => $posts,
+                        'additionData' => $data
+                    ]);
             }
 
         }
@@ -119,7 +120,6 @@ class ProjectController extends Controller
             switch ($action) {
                 case 'add':
                     $res = PostComment::add($post_id, $text, $comment_id);
-                    $action = 'show';
                 case 'show':
                     $post = Post::find()->where([Post::tableName().'.id' => $post_id])
                         ->joinWith('comments')->one();
@@ -127,34 +127,34 @@ class ProjectController extends Controller
                     if ($post)
                         $post->setCommentaries();
 
-                    return $this->renderAjax('_reply',
-                        [
-                            'post' => $post,
-                            'index' => 0
-                        ]);
+                    return Forum::widget([
+                        'type' => Forum::$TYPE_COMMENTS,
+                        'data' => $post,
+                        'index' => 0
+                    ]);
 
                 case 'create':
                     $post = new Post();
                     if ($post->load(Yii::$app->request->post())) {
-                        $files = UploadedFile::getInstances($post, 'image_files');
                         $post->type_for = Post::TYPE_PROJECT;
-                        $post->saveImages($files);
+                        $post->saveImages();
                         $post->save();
 
                         $posts = Post::getPostsData(Post::TYPE_PROJECT, $post->field_id);
-                        $additionData = [
-                            'id' => $post->field_id,
-                        ];
-                        
-                        return $this->renderAjax('_forum',
-                            compact('posts', 'additionData'));
+
+                        return Forum::widget([
+                            'data' => $posts,
+                            'additionData' => [
+                                'id' => $post->field_id,
+                                'search-wrapper-class' => 'input-search-dark'
+                            ]
+                        ]);
+
                     }
 
             }
 
         }
-
-
     }
 
     public function actionCreate()

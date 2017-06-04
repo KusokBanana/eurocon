@@ -1,4 +1,5 @@
 <?php
+use frontend\widgets\Forum;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -34,13 +35,14 @@ if (!empty($comments) && isset($comments[$index])): ?>
                         </div>
                         <div class="comment-actions">
                             <?= Html::a('Reply', '#', [
-                                        'class' => 'active project-forum-reply',
+                                        'class' => 'active forum-post-reply',
                                         'role' => 'button',
-                                        'data-target' => 'projectForumReply_'.$comment->id
+                                        'data-target' => 'forumReply_'.$comment->id
                                 ]) ?>
                         </div>
-                        <form class="comment-form" id="projectForumReply_<?= $comment->id ?>"
+                        <form class="comment-form" id="forumReply_<?= $comment->id ?>"
                               data-target="comments-block-<?= $post->id ?>"
+                              data-comments_count="<?= $post->commentsCount ?>"
                               action="<?= Url::to([
                                   'forum',
                                   'post_id' => $post->id,
@@ -60,10 +62,12 @@ if (!empty($comments) && isset($comments[$index])): ?>
                             </div>
                         </form>
 
-                        <?= $this->render('_reply', [
-                            'post' => $post,
+                        <?= Forum::widget([
+                            'type' => Forum::$TYPE_COMMENTS,
+                            'data' => $post,
                             'index' => $comment->id
-                        ]) ?>
+                        ]);
+                        ?>
 
                     </div>
                 </div>

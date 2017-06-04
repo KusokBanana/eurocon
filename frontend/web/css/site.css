@@ -875,7 +875,7 @@ ul.site-menu {
 }
 
 .page-content {
-  padding: 0 30px;
+  padding: 0 30px 30px 30px;
 }
 
 @media (max-width: 479px) {
@@ -10881,6 +10881,15 @@ ul.panel-actions > li:first-child {
 .example {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+#forum .example {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+#forum .example-wrap {
+  margin-bottom: 0;
 }
 
 .example:before {

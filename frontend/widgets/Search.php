@@ -12,6 +12,7 @@ class Search extends Widget
     public $additionData;
     public $data;
     public $type;
+    public $wrapSelector = false;
 
     private $isEmpty;
 
@@ -29,7 +30,8 @@ class Search extends Widget
             'type' => $this->type,
             'additionData' => $this->data,
             'query' => $this->query,
-            'isEmpty' => $this->isEmpty
+            'isEmpty' => $this->isEmpty,
+            'wrapSelector' => $this->wrapSelector
         ]);
     }
 

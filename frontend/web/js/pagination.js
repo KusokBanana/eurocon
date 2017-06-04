@@ -14,13 +14,17 @@ $(document).ready(function() {
     }).on('keyup', '.search-ajax-field', function(e) {
         if(e.keyCode === 13){
             e.preventDefault();
-            var additionData = $(this).attr('data-addition');
+            var additionData = $(this).attr('data-addition'),
+                wrapSelector = $(this).attr('data-wrap'),
+                wrap = (wrapSelector) ? $(wrapSelector) : false;
+                // wrap = (wrapSelector) ? $(wrapSelector) : $(this).closest('.tab-pane');
+
             additionData = JSON.parse(additionData);
             additionData.action = 'search';
             additionData.search = $(this).val();
             additionData = JSON.stringify(additionData);
 
-            ajaxReload(additionData, $(this), $(this).attr('data-href'));
+            ajaxReload(additionData, $(this), $(this).attr('data-href'), wrap);
 
         }
     }).on('click change', '.filter-ajax-tabs', function(e) {
@@ -39,7 +43,7 @@ $(document).ready(function() {
 
     });
 
-    function ajaxReload(additionData, element, href) {
+    function ajaxReload(additionData, element, href, wrap) {
 
         if (!href || href === undefined)
             return false;
@@ -52,7 +56,8 @@ $(document).ready(function() {
             },
             success: function (data) {
                 if (data) {
-                    element.closest('.tab-pane').empty().append(data);
+                    wrap = (wrap) ? wrap : element.closest('.tab-pane');
+                    wrap.empty().append(data);
                 }
             }
         })

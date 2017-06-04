@@ -8,6 +8,7 @@ use Yii;
 use yii\db\ActiveRecord;
 use yii\db\Query;
 use yii\imagine\Image;
+use yii\web\UploadedFile;
 
 /**
  * This is the model class for table "post".
@@ -31,11 +32,12 @@ class Post extends ActiveRecord
     }
 
     const TYPE_PROJECT = 1;
-    const TYPE_COMPANY = 2;
+    const TYPE_COMMUNITY = 2;
     const IMAGE_WIDTH = 220;
     const IMAGE_HEIGHT = 220;
 
     public static $PROJECT_IMAGE_PATH = '/upload/project/post/';
+    public static $COMMUNITY_IMAGE_PATH = '/upload/community/post/';
 
     public $commentaries = [];
     public $commentsCount = 0;
@@ -145,15 +147,18 @@ class Post extends ActiveRecord
     {
         parent::afterFind();
 
-        $count = PostComment::find()->where(['post_id' => $this->id, 'reply_comment_id' => NULL])->count();
+        $count = PostComment::find()->where(['post_id' => $this->id])->count();
+//        $count = PostComment::find()->where(['post_id' => $this->id, 'reply_comment_id' => NULL])->count();
         $this->commentsCount = $count;
         $this->setImages();
 
     }
 
 
-    public function saveImages($files)
+    public function saveImages()
     {
+
+        $files = UploadedFile::getInstances($this, 'image_files');
 
         if ($files && !empty($files)) {
 
@@ -162,23 +167,15 @@ class Post extends ActiveRecord
                 if ($oneFile && $oneFile->tempName) {
                     $this->image_file = $oneFile;
                     if ($this->validate(['image_file'])) {
-                        $dir = Yii::getAlias('@frontend') . '/web' . self::$PROJECT_IMAGE_PATH;
+                        $imagePath = ($this->type_for === self::TYPE_PROJECT) ? self::$PROJECT_IMAGE_PATH :
+                            self::$COMMUNITY_IMAGE_PATH;
+                        $dir = Yii::getAlias('@frontend') . '/web' . $imagePath;
 
                         $this->deleteIfExist($dir);
 
                         $fileName = OrlandoBanana::getRandomFileName($dir, $oneFile->extension);
                         $this->image_file->saveAs($dir . $fileName);
                         $this->image_file = $fileName; // без этого ошибка
-//
-//                        $image = Image::frame($dir . $fileName);
-//                        $sizes = $image->getSize();
-//
-//                        $width = ($sizes->getWidth() > self::IMAGE_WIDTH) ? self::IMAGE_WIDTH : $sizes->getWidth();
-//                        $height = ($sizes->getHeight() > self::IMAGE_HEIGHT) ? self::IMAGE_HEIGHT : $sizes->getHeight();
-//
-//                        $sizes->widen($width);
-//                        $sizes->heighten($height);
-//                        $image->resize($sizes)->save($dir . $fileName);
 
                         $photo = Image::getImagine()->open($dir . $fileName);
                         $photo->thumbnail(new Box(self::IMAGE_WIDTH, self::IMAGE_HEIGHT))
@@ -201,10 +198,12 @@ class Post extends ActiveRecord
         if ($this->images) {
             $names = explode(',', $this->images);
             foreach ($names as $name) {
-                $path = Yii::getAlias('@frontend') . '/web' . self::$PROJECT_IMAGE_PATH;
+                $imagePath = ($this->type_for === self::TYPE_PROJECT) ? self::$PROJECT_IMAGE_PATH :
+                    self::$COMMUNITY_IMAGE_PATH;
+                $path = Yii::getAlias('@frontend') . '/web' . $imagePath;
                 $isFileExist = file_exists($path . $name);
                 if ($name && $isFileExist) {
-                    $this->image_srcs[] = Yii::getAlias('@web') . self::$PROJECT_IMAGE_PATH . $name;
+                    $this->image_srcs[] = Yii::getAlias('@web') . $imagePath . $name;
                 }
             }
 
