@@ -24,8 +24,8 @@ class CommunityController extends Controller
         if (!$user->isGuest) {
 
             $person = Person::getPerson(Yii::$app->user);
-            $companies = $person->getCompaniesData();
-            return $this->render('index', compact('companies', 'person'));
+            $communities = $person->getCommunitiesData(Community::ROLE_PARTICIPANT_TYPE);
+            return $this->render('index', compact('communities', 'person'));
 
         } else {
 
@@ -48,12 +48,12 @@ class CommunityController extends Controller
             }
 
             switch ($type) {
-                case 'companies':
+                case 'communities':
                     $person = Person::findOne($data['id']);
-                    $companies = $person->getCompaniesData($page, $search);
-                    return $this->renderAjax('/tabs/_companies',
+                    $communities = $person->getCommunitiesData(Community::ROLE_PARTICIPANT_TYPE, $page, $search);
+                    return $this->renderAjax('/tabs/_communities',
                         [
-                            'companies' => $companies,
+                            'communities' => $communities,
                             'additionData' => $data
                         ]);
                 case Community::ROLE_PARTICIPANT_TYPE:

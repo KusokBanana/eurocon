@@ -38,8 +38,8 @@ class PersonController extends Controller
 
         $projects = $person->getProjectsData(1, '', Project::RELATION_ADMIN);
         $follows = BookFollowers::getFollows($person->id);
-        $companies = $person->getCompaniesData(1, '', Company::ROLE_ADMIN_TYPE);
-        $communities = $person->getCommunitiesData(1, '', Community::ROLE_ADMIN_TYPE);
+        $companies = $person->getCompaniesData(Company::ROLE_ADMIN_TYPE, 1, '');
+        $communities = $person->getCommunitiesData(Community::ROLE_ADMIN_TYPE, 1, '');
 
         return $this->render('profile',
             compact('person', 'projects', 'follows', 'companies', 'communities'));
@@ -78,7 +78,7 @@ class PersonController extends Controller
                         ]);
                 case 'companies':
                     $person = Person::findOne($data['id']);
-                    $companies = $person->getCompaniesData($page, $search, Company::ROLE_ADMIN_TYPE);
+                    $companies = $person->getCompaniesData(Company::ROLE_ADMIN_TYPE, $page, $search);
                     return $this->renderAjax('/tabs/_companies',
                         [
                             'companies' => $companies,
@@ -86,7 +86,7 @@ class PersonController extends Controller
                         ]);
                 case 'communities':
                     $person = Person::findOne($data['id']);
-                    $communities = $person->getCommunitiesData($page, $search, Community::ROLE_ADMIN_TYPE);
+                    $communities = $person->getCommunitiesData(Community::ROLE_ADMIN_TYPE, $page, $search);
                     return $this->renderAjax('/tabs/_communities',
                         [
                             'communities' => $communities,

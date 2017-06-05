@@ -84,7 +84,7 @@ class SiteController extends Controller
     {
         $user = Yii::$app->user;
 
-        if (!$user->isGuest) {
+        if ($user->isGuest) {
 
             return $this->render('index', []);
 

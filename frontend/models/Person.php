@@ -258,14 +258,14 @@ class Person extends User
 
     }
 
-    public function getCompaniesData($page = 1, $search = '', $type)
+    public function getCompaniesData($type, $page = 1, $search = '')
     {
         $query = $this->getCompanies($type);
         $query->andFilterWhere(['LIKE', Company::tableName() . '.name', $search]);
         return Pagination::getData($query, $page, Company::$limit, 'companies');
     }
 
-    public function getCommunitiesData($page = 1, $search = '', $type)
+    public function getCommunitiesData($type, $page = 1, $search = '')
     {
         $query = $this->getCommunities($type);
         $query->andFilterWhere(['LIKE', Community::tableName() . '.name', $search]);

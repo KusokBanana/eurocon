@@ -1,6 +1,6 @@
 <?php
 /* @var $this yii\web\View */
-/* @var $companies \frontend\models\Company array */
+/* @var $communities \frontend\models\Community array */
 /* @var $person \frontend\models\Person */
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -46,8 +46,8 @@ use yii\helpers\Url;
                         <div class="tab-content">
                             <div class="tab-pane animation-fade active" id="my_contacts"
                                  role="tabpanel" aria-expanded="true">
-                                    <?= $this->render('/tabs/_companies', [
-                                            'companies' => $companies,
+                                    <?= $this->render('/tabs/_communities', [
+                                            'communities' => $communities,
                                             'additionData' => ['id' => $person->id]
                                     ]) ?>
                             </div>
