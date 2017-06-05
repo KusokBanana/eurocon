@@ -5,6 +5,7 @@
 
 use frontend\models\Person;
 use rmrevin\yii\fontawesome\FA;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
@@ -112,136 +113,145 @@ $user = Person::getPerson(Yii::$app->user);
             <!-- End Navbar Toolbar -->
             <!-- Navbar Toolbar Right -->
             <ul class="nav navbar-toolbar navbar-right navbar-toolbar-right">
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
-                       aria-expanded="false" role="button">
-                        <span class="flag-icon flag-icon-us"></span>
-                    </a>
-                    <div class="dropdown-menu" role="menu">
-                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
-                            <span class="flag-icon flag-icon-gb"></span> English</a>
-                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
-                            <span class="flag-icon flag-icon-fr"></span> French</a>
-                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
-                            <span class="flag-icon flag-icon-cn"></span> Chinese</a>
-                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
-                            <span class="flag-icon flag-icon-de"></span> German</a>
-                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
-                            <span class="flag-icon flag-icon-nl"></span> Dutch</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link navbar-avatar" data-toggle="dropdown" href="#" aria-expanded="false"
-                       data-animation="scale-up" role="button">
-              <span class="avatar avatar-online">
-                  <?= Html::img($user->imageShow, [
-                      'alt' => '...'
-                  ]) ?>
-                <i></i>
-              </span>
-                    </a>
-                    <div class="dropdown-menu" role="menu">
-                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-question" aria-hidden="true"></i> FAQ</a>
-                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>
-                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-bookmark" aria-hidden="true"></i>About Eurocon</a>
-                        <div class="dropdown-divider" role="presentation"></div>
-                        <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-sitemap" aria-hidden="true"></i> SITE MAP</a>
-                    </div>
-                </li>
-                <li class="nav-item dropdown">
-                    <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" title="Notifications"
-                       aria-expanded="false" data-animation="scale-up" role="button">
-                        <i class="icon wb-bell" aria-hidden="true"></i>
-                        <span class="tag tag-pill tag-danger up">5</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
-                        <div class="dropdown-menu-header">
-                            <h5>NOTIFICATIONS</h5>
-                            <span class="tag tag-round tag-danger">New 5</span>
+                <?php if (!ArrayHelper::getValue($this->params, 'is_main')): ?>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" data-animation="scale-up"
+                           aria-expanded="false" role="button">
+                            <span class="flag-icon flag-icon-us"></span>
+                        </a>
+                        <div class="dropdown-menu" role="menu">
+                            <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+                                <span class="flag-icon flag-icon-gb"></span> English</a>
+                            <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+                                <span class="flag-icon flag-icon-fr"></span> French</a>
+                            <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+                                <span class="flag-icon flag-icon-cn"></span> Chinese</a>
+                            <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+                                <span class="flag-icon flag-icon-de"></span> German</a>
+                            <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+                                <span class="flag-icon flag-icon-nl"></span> Dutch</a>
                         </div>
-                        <div class="list-group">
-                            <div data-role="container">
-                                <div data-role="content">
-                                    <a class="list-group-item dropdown-item" href="javascript:void(0)" role="menuitem">
-                                        <div class="media">
-                                            <div class="media-left p-r-10">
-                                                <i class="icon wb-order bg-red-600 white icon-circle" aria-hidden="true"></i>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link navbar-avatar" data-toggle="dropdown" href="#" aria-expanded="false"
+                           data-animation="scale-up" role="button">
+                          <span class="avatar avatar-online">
+                              <?= Html::img($user->imageShow, [
+                                  'alt' => '...'
+                              ]) ?>
+                            <i></i>
+                          </span>
+                        </a>
+                        <div class="dropdown-menu" role="menu">
+                            <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-question" aria-hidden="true"></i> FAQ</a>
+                            <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-settings" aria-hidden="true"></i> Settings</a>
+                            <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon wb-bookmark" aria-hidden="true"></i>About Eurocon</a>
+                            <div class="dropdown-divider" role="presentation"></div>
+                            <a class="dropdown-item" href="javascript:void(0)" role="menuitem"><i class="icon fa-sitemap" aria-hidden="true"></i> SITE MAP</a>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" data-toggle="dropdown" href="javascript:void(0)" title="Notifications"
+                           aria-expanded="false" data-animation="scale-up" role="button">
+                            <i class="icon wb-bell" aria-hidden="true"></i>
+                            <span class="tag tag-pill tag-danger up">5</span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right dropdown-menu-media" role="menu">
+                            <div class="dropdown-menu-header">
+                                <h5>NOTIFICATIONS</h5>
+                                <span class="tag tag-round tag-danger">New 5</span>
+                            </div>
+                            <div class="list-group">
+                                <div data-role="container">
+                                    <div data-role="content">
+                                        <a class="list-group-item dropdown-item" href="javascript:void(0)" role="menuitem">
+                                            <div class="media">
+                                                <div class="media-left p-r-10">
+                                                    <i class="icon wb-order bg-red-600 white icon-circle" aria-hidden="true"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h6 class="media-heading">A new order has been placed</h6>
+                                                    <time class="media-meta" datetime="2017-06-12T20:50:48+08:00">5 hours ago</time>
+                                                </div>
                                             </div>
-                                            <div class="media-body">
-                                                <h6 class="media-heading">A new order has been placed</h6>
-                                                <time class="media-meta" datetime="2017-06-12T20:50:48+08:00">5 hours ago</time>
+                                        </a>
+                                        <a class="list-group-item dropdown-item" href="javascript:void(0)" role="menuitem">
+                                            <div class="media">
+                                                <div class="media-left p-r-10">
+                                                    <i class="icon wb-user bg-green-600 white icon-circle" aria-hidden="true"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h6 class="media-heading">Completed the task</h6>
+                                                    <time class="media-meta" datetime="2017-06-11T18:29:20+08:00">2 days ago</time>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                    <a class="list-group-item dropdown-item" href="javascript:void(0)" role="menuitem">
-                                        <div class="media">
-                                            <div class="media-left p-r-10">
-                                                <i class="icon wb-user bg-green-600 white icon-circle" aria-hidden="true"></i>
+                                        </a>
+                                        <a class="list-group-item dropdown-item" href="javascript:void(0)" role="menuitem">
+                                            <div class="media">
+                                                <div class="media-left p-r-10">
+                                                    <i class="icon wb-settings bg-red-600 white icon-circle" aria-hidden="true"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h6 class="media-heading">Settings updated</h6>
+                                                    <time class="media-meta" datetime="2017-06-11T14:05:00+08:00">2 days ago</time>
+                                                </div>
                                             </div>
-                                            <div class="media-body">
-                                                <h6 class="media-heading">Completed the task</h6>
-                                                <time class="media-meta" datetime="2017-06-11T18:29:20+08:00">2 days ago</time>
+                                        </a>
+                                        <a class="list-group-item dropdown-item" href="javascript:void(0)" role="menuitem">
+                                            <div class="media">
+                                                <div class="media-left p-r-10">
+                                                    <i class="icon wb-calendar bg-blue-600 white icon-circle" aria-hidden="true"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h6 class="media-heading">Event started</h6>
+                                                    <time class="media-meta" datetime="2017-06-10T13:50:18+08:00">3 days ago</time>
+                                                </div>
                                             </div>
-                                        </div>
-                                    </a>
-                                    <a class="list-group-item dropdown-item" href="javascript:void(0)" role="menuitem">
-                                        <div class="media">
-                                            <div class="media-left p-r-10">
-                                                <i class="icon wb-settings bg-red-600 white icon-circle" aria-hidden="true"></i>
+                                        </a>
+                                        <a class="list-group-item dropdown-item" href="javascript:void(0)" role="menuitem">
+                                            <div class="media">
+                                                <div class="media-left p-r-10">
+                                                    <i class="icon wb-chat bg-orange-600 white icon-circle" aria-hidden="true"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h6 class="media-heading">Message received</h6>
+                                                    <time class="media-meta" datetime="2017-06-10T12:34:48+08:00">3 days ago</time>
+                                                </div>
                                             </div>
-                                            <div class="media-body">
-                                                <h6 class="media-heading">Settings updated</h6>
-                                                <time class="media-meta" datetime="2017-06-11T14:05:00+08:00">2 days ago</time>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="list-group-item dropdown-item" href="javascript:void(0)" role="menuitem">
-                                        <div class="media">
-                                            <div class="media-left p-r-10">
-                                                <i class="icon wb-calendar bg-blue-600 white icon-circle" aria-hidden="true"></i>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="media-heading">Event started</h6>
-                                                <time class="media-meta" datetime="2017-06-10T13:50:18+08:00">3 days ago</time>
-                                            </div>
-                                        </div>
-                                    </a>
-                                    <a class="list-group-item dropdown-item" href="javascript:void(0)" role="menuitem">
-                                        <div class="media">
-                                            <div class="media-left p-r-10">
-                                                <i class="icon wb-chat bg-orange-600 white icon-circle" aria-hidden="true"></i>
-                                            </div>
-                                            <div class="media-body">
-                                                <h6 class="media-heading">Message received</h6>
-                                                <time class="media-meta" datetime="2017-06-10T12:34:48+08:00">3 days ago</time>
-                                            </div>
-                                        </div>
-                                    </a>
+                                        </a>
+                                    </div>
                                 </div>
                             </div>
+                            <div class="dropdown-menu-footer">
+                                <a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">
+                                    <i class="icon md-settings" aria-hidden="true"></i>
+                                </a>
+                                <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
+                                    All notifications
+                                </a>
+                            </div>
                         </div>
-                        <div class="dropdown-menu-footer">
-                            <a class="dropdown-menu-footer-btn" href="javascript:void(0)" role="button">
-                                <i class="icon md-settings" aria-hidden="true"></i>
-                            </a>
-                            <a class="dropdown-item" href="javascript:void(0)" role="menuitem">
-                                All notifications
-                            </a>
-                        </div>
+                    </li>
+                    <li class="nav-item" id="toggleChat">
+                        <a class="nav-link" data-toggle="site-sidebar" href="javascript:void(0)" title="Chat"
+                           data-url="<?= Url::to(['/message/get-chat']) ?>">
+                            <i class="icon wb-chat" aria-hidden="true"></i>
+                            <span class="tag tag-pill tag-info up">3</span>
+                        </a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <?= Html::a(FA::icon('sign-out', ['class' => 'icon', 'aria-hidden' => 'true']),
+                            ['/site/logout'], [
+                                'class' => 'nav-link', 'role' => 'button']) ?>
+                    </li>
+                <?php else: ?>
+                    <div class="btn-group btn-group-lg" aria-label="Large button group" role="group">
+                        <?= Html::a('Sign in', ['/site/login'],
+                            ['class' => 'btn btn-info', 'style' => 'padding: 1.09rem 1.286rem']); ?>
+                        <?= Html::a('Join now', ['/site/signup'],
+                            ['class' => 'btn btn-success', 'style' => 'padding: 1.09rem 1.286rem']); ?>
                     </div>
-                </li>
-                <li class="nav-item" id="toggleChat">
-                    <a class="nav-link" data-toggle="site-sidebar" href="javascript:void(0)" title="Chat"
-                       data-url="<?= Url::to(['/message/get-chat']) ?>">
-                        <i class="icon wb-chat" aria-hidden="true"></i>
-                        <span class="tag tag-pill tag-info up">3</span>
-                    </a>
-                </li>
-                <li class="nav-item dropdown">
-                    <?= Html::a(FA::icon('sign-out', ['class' => 'icon', 'aria-hidden' => 'true']),
-                        ['/site/logout'], [
-                            'class' => 'nav-link', 'role' => 'button']) ?>
-                </li>
+                <?php endif; ?>
             </ul>
             <!-- End Navbar Toolbar Right -->
         </div>
@@ -308,7 +318,7 @@ $user = Person::getPerson(Yii::$app->user);
 
                     <li class="site-menu-item">
                         <?= Html::a('<i class="icon wb-shopping-cart" aria-hidden="true"></i>
-                            <span class="site-menu-title">Marketplace</span>', ['/site/marketplace']) ?>
+                            <span class="site-menu-title">Marketplace</span>', ['/marketplace']) ?>
                     </li>
 
 

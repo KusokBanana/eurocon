@@ -91,7 +91,7 @@ $filter = $additionData['filter'] = $items['filter'];
     <ul class="list-group">
         <?php /** @var MarketplaceItem $item */
         foreach ($items['data'] as $item): ?>
-
+            <?php $item = $item->item; ?>
             <li class="list-group-item">
                 <div class="media media-lg">
                     <div class="media-body">

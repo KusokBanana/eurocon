@@ -71,13 +71,12 @@ class BookMarketplace extends ActiveRecord
     {
         if ($field_id && $type_for) {
 
-            $query = MarketplaceItem::find()
-                ->leftJoin(self::tableName(),
-                    [
-                        self::tableName().'.item_id' => MarketplaceItem::tableName().'.id',
-                        self::tableName().'.field_id' => $field_id,
-                        self::tableName().'.type_id' => $type_for
-                    ]);
+            $query = static::find()
+                ->where([
+                    self::tableName().'.field_id' => $field_id,
+                    self::tableName().'.type_id' => $type_for
+                ])
+                ->joinWith('item');
 
             return $query;
         }

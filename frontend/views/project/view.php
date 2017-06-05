@@ -7,6 +7,7 @@
 /* @var $admins array \frontend\models\Person */
 /* @var $posts array \frontend\models\Post */
 /* @var $newPost \frontend\models\Post */
+/* @var $marketplaceItems array */
 
 
 use frontend\assets\AppAsset;
@@ -204,41 +205,10 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                     </div>
                 </div>
                 <div class="col-xs-12 col-xxl-12 col-xl-12 col-lg-12">
-                    <div class="card">
-                        <div class="card-header card-header-transparent p-20">
-                            <h3 class="card-title m-b-0 center">Marketplace</h3>
-                        </div>
-                        <div class="row p-l-30 p-r-30">
-                            <div class="col-sm-6 col-xs-6 m-b-20">
-                                <img src="http://stroyday.ru/wp-content/uploads/2015/03/%D0%9F%D0%B0%D1%80%D0%BA%D0%B5%D1%82-%D0%BF%D0%BB%D0%B0%D1%88%D0%BA%D0%B8.jpg" width="100%" height="100%">
-                                <h4 class="font-size-16 m-b-5">product №1</h4>
-                                <span>
-                          <a href="#"><span>See more</span></a>
-                        </span>
-                            </div>
-                            <div class="col-sm-6 col-xs-6 m-b-20">
-                                <img src="http://dkvartnsk.ru/wp-content/uploads/2012/01/L2hvbWUvc2JrcGx1c2MvcHVibGljX2h0bWwvaW1hZ2VzL3N0b3JpZXMvZGVjb3JfNDAuanBn.jpg" width="100%" height="100%">
-                                <h4 class="font-size-16 m-b-5">product №2</h4>
-                                <span>
-                          <a href="#"><span>See more</span></a>
-                        </span>
-                            </div>
-                            <div class="col-sm-6 col-xs-6 m-b-20">
-                                <img src="http://static.jobfine.ru/news/images/plotnik-chto-nuzhno-znat.jpg" width="100%" height="100%">
-                                <h4 class="font-size-16 m-b-5">service №1</h4>
-                                <span>
-                          <a href="#"><span>See more</span></a>
-                        </span>
-                            </div>
-                            <div class="col-sm-6 col-xs-6 m-b-20">
-                                <img src="http://www.sewctc.org/uploads/7/6/1/2/7612415/carpenter-new-4.jpg" width="100%" height="100%">
-                                <h4 class="font-size-16 m-b-5">service №2</h4>
-                                <span>
-                          <a href="#"><span>See more</span></a>
-                        </span>
-                            </div>
-                        </div>
-                    </div>
+                    <?= $this->render('_marketplace', [
+                        'items' => $marketplaceItems,
+                        'additionData' => ['id' => $project->id]
+                    ]) ?>
                 </div>
             </div>
 

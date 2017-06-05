@@ -4,7 +4,9 @@ namespace frontend\controllers;
 
 
 use frontend\models\books\BookFollowers;
+use frontend\models\books\BookMarketplace;
 use frontend\models\books\BookOwnerProject;
+use frontend\models\MarketplaceItem;
 use frontend\models\Person;
 use frontend\models\Post;
 use frontend\models\PostComment;
@@ -65,10 +67,11 @@ class ProjectController extends Controller
             $newPost->field_id = $id;
 
             $projectTimeline = ProjectTimeline::find()->where(['project_id' => $id])->orderBy(['id' => SORT_DESC])->all();
+            $marketplaceItems = MarketplaceItem::getData($project->id, BookMarketplace::TYPE_FOR_PROJECT);
 
             return $this->render('view',
                 compact('project', 'participants', 'potentialSubscribers',
-                    'projectTimeline', 'admins', 'posts', 'newPost'));
+                    'projectTimeline', 'admins', 'posts', 'newPost', 'marketplaceItems'));
 
         }
 

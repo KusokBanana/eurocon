@@ -171,7 +171,7 @@ class MarketplaceItem extends ActiveRecord
         }
         $filter = $newFilter;
 
-        $query->where($where)->andFilterWhere(['LIKE', self::tableName() . '.name', $search]);
+        $query->andWhere($where)->andFilterWhere(['LIKE', self::tableName() . '.name', $search]);
     }
 
     public function afterFind()

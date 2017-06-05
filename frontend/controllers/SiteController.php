@@ -84,12 +84,19 @@ class SiteController extends Controller
     {
         $user = Yii::$app->user;
 
-        if ($user->isGuest) {
-            return $this->redirect(['marketplace']);
+        if (!$user->isGuest) {
+
+            return $this->render('index', []);
+
         } else {
             return $this->redirect(['/person/profile', 'id' => $user->id]);
         }
 
+    }
+
+    public function actionMain()
+    {
+        return $this->render('index', []);
     }
 
     /**
@@ -252,13 +259,6 @@ class SiteController extends Controller
     {
 
         return $this->render('friends');
-
-    }
-
-    public function actionMarketplace()
-    {
-
-        return $this->render('marketplace');
 
     }
 
