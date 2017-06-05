@@ -7,6 +7,7 @@ use frontend\models\Community;
 use frontend\models\Company;
 use frontend\models\Person;
 use frontend\models\Project;
+use frontend\models\Tag;
 use UploadHandler;
 use Yii;
 use yii\base\InvalidParamException;
@@ -246,12 +247,14 @@ class SiteController extends Controller
     public function actionLocations()
     {
 
-        $user = Yii::$app->user;
+//        $user = Yii::$app->user;
 //        $person = Person::getPerson($user);
-        $projects = Project::find()->all();
+        $projects = Project::find()->where(['not', ['location' => null]])->all();
+        $companies = Company::find()->where(['not', ['location' => null]])->all();
+        $persons = Person::find()->where(['not', ['location' => null]])->all();
+        $tags = Tag::getAllByTypes(true);
 
-
-        return $this->render('locations', compact('projects'));
+        return $this->render('locations', compact('projects', 'companies', 'persons', 'tags'));
 
     }
 

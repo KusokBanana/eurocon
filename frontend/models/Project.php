@@ -31,6 +31,7 @@ use yii\imagine\Image;
  *
  * @property BookCompanyProject[] $bookCompanyProjects
  * @property BookUserProject[] $participants
+ * @property string $location [varchar(255)]
  */
 class Project extends ActiveRecord
 {
@@ -124,7 +125,7 @@ class Project extends ActiveRecord
             [['description'], 'string'],
             [['type_id', 'status_id', 'budget_id', 'category_id', 'editability_id'], 'integer'],
             [['name', 'image', 'background'], 'string', 'max' => 126],
-            [['project_links'], 'string', 'max' => 255],
+            [['location', 'project_links'], 'string', 'max' => 255],
             [['participants', 'owners', 'tagValues', 'social_links'], 'safe'],
             [['imageFile', 'backgroundFile'], 'file', 'extensions' => 'png, jpg'],
         ];
@@ -153,6 +154,7 @@ class Project extends ActiveRecord
             'background' => 'Background',
             'social_links' => 'Social',
             'completion_date ' => 'Completion Date ',
+            'location' => 'Location',
         ];
     }
 
@@ -209,6 +211,7 @@ class Project extends ActiveRecord
         $this->setStatusData();
         $this->setImage('image');
         $this->setImage('background');
+        $this->location = Location::get($this->location);
 
     }
 
@@ -248,6 +251,7 @@ class Project extends ActiveRecord
         $this->saveImage($file, 'image');
         $file = UploadedFile::getInstance($this, 'background_imageFile');
         $this->saveImage($file, 'background_image');
+        Location::setAttribute($this);
 
         $this->save();
         $this->addNewUsers();

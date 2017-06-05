@@ -56,6 +56,7 @@ class LocationsAsset extends AssetBundle
         '/js/assets/Sidebar.min.js',
         '/js/assets/PageAside.min.js',
         '/js/assets/menu.js',
+        '/js/Plugin/switchery.min.js',
         '/js/config/colors.min.js',
         '/js/config/tour.min.js',
         '/js/Plugin/raty.min.js',

@@ -126,4 +126,40 @@ class Tag extends ActiveRecord
         static::deleteAll(['field_id' => $field_id, 'type_id' => $type]);
     }
 
+    /**
+     * @param bool $isForLocations
+     * @return array
+     */
+    public static function getAllByTypes($isForLocations = false)
+    {
+
+        $tags = static::find()->all();
+        $result = [
+            static::PERSON_TYPE => [],
+            static::COMPANY_TYPE => [],
+            static::PROJECT_TYPE => [],
+            static::COMMUNITY_TYPE => [],
+        ];
+        if (!empty($tags)) {
+            /** @var Tag $tag */
+            foreach ($tags as $tag) {
+                if (isset($result[$tag->type_id][$tag->field_id])) {
+                    if ($isForLocations) {
+                        $result[$tag->type_id][$tag->field_id][$tag->tag] = $tag->tag;
+                    } else {
+                        $result[$tag->type_id][$tag->field_id][] = $tag->tag;
+                    }
+                } else {
+                    if ($isForLocations) {
+                        $result[$tag->type_id][$tag->field_id] = [$tag->tag => $tag->tag];
+                    } else {
+                        $result[$tag->type_id][$tag->field_id] = [$tag->tag];
+                    }
+                }
+            }
+        }
+        return $result;
+
+    }
+
 }

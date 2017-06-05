@@ -1,13 +1,10 @@
 <?php
-
+use frontend\models\MarketplaceItem;
+use yii\helpers\Html;
 
 ?>
 
-
-
-<?php use frontend\models\MarketplaceItem;
-use yii\helpers\Html;
-
+<?php
 if (!empty($items['data'])): ?>
     <div class="card">
         <div class="card-header card-header-transparent p-20">
