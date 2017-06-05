@@ -134,8 +134,17 @@ class MarketplaceItem extends ActiveRecord
     public static function getData($field_id, $type_for, $page = 1, $search = '', $filter = null)
     {
 
-
         $query = BookMarketplace::get($field_id, $type_for);
+        static::setFilters($query, $search, $filter);
+
+        return Pagination::getData($query, $page, self::$limit, 'marketplace', $filter);
+
+    }
+
+    public static function getAll($page = 1, $search = '', $filter = null)
+    {
+
+        $query = static::find();
         static::setFilters($query, $search, $filter);
 
         return Pagination::getData($query, $page, self::$limit, 'marketplace', $filter);

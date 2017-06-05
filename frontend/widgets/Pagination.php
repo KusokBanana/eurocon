@@ -23,7 +23,6 @@ class Pagination extends Widget
         parent::init();
 
         $this->pageNumbers = $this->getPagesArray();
-        $this->data = Json::encode($this->data);
     }
 
     public function run()

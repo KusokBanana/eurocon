@@ -2,16 +2,19 @@
 /* @var $pageNumbers array */
 /* @var $page int */
 /* @var $type string */
-/* @var $data string */
+/* @var $data array */
 /* @var $search string */
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Json;
 
 if (count($pageNumbers) > 1):
 ?>
 <nav>
     <ul data-plugin="paginator" data-total="" data-skin="pagination-no-border"
-        class="pagination pagination-no-border" data-addition='<?= $data ?>'>
+        data-wrapSelector="<?= ArrayHelper::getValue($data, 'wrapSelector') ?>"
+        class="pagination pagination-no-border" data-addition='<?= Json::encode($data) ?>'>
         <?php
         $currentIndex = array_search($page, $pageNumbers);
 

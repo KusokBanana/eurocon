@@ -33,11 +33,14 @@ class Post extends ActiveRecord
 
     const TYPE_PROJECT = 1;
     const TYPE_COMMUNITY = 2;
+    const TYPE_MARKETPLACE = 3;
+
     const IMAGE_WIDTH = 220;
     const IMAGE_HEIGHT = 220;
 
     public static $PROJECT_IMAGE_PATH = '/upload/project/post/';
     public static $COMMUNITY_IMAGE_PATH = '/upload/community/post/';
+    public static $MARKETPLACE_IMAGE_PATH = '/upload/marketplace/post/';
 
     public $commentaries = [];
     public $commentsCount = 0;
@@ -167,8 +170,7 @@ class Post extends ActiveRecord
                 if ($oneFile && $oneFile->tempName) {
                     $this->image_file = $oneFile;
                     if ($this->validate(['image_file'])) {
-                        $imagePath = ($this->type_for === self::TYPE_PROJECT) ? self::$PROJECT_IMAGE_PATH :
-                            self::$COMMUNITY_IMAGE_PATH;
+                        $imagePath = $this->getImagePath();
                         $dir = Yii::getAlias('@frontend') . '/web' . $imagePath;
 
                         $this->deleteIfExist($dir);
@@ -198,8 +200,7 @@ class Post extends ActiveRecord
         if ($this->images) {
             $names = explode(',', $this->images);
             foreach ($names as $name) {
-                $imagePath = ($this->type_for === self::TYPE_PROJECT) ? self::$PROJECT_IMAGE_PATH :
-                    self::$COMMUNITY_IMAGE_PATH;
+                $imagePath = $this->getImagePath();
                 $path = Yii::getAlias('@frontend') . '/web' . $imagePath;
                 $isFileExist = file_exists($path . $name);
                 if ($name && $isFileExist) {
@@ -222,6 +223,22 @@ class Post extends ActiveRecord
             }
             $this->images = '';
         }
+    }
+
+    private function getImagePath()
+    {
+
+        switch ($this->type_for) {
+            case self::TYPE_PROJECT:
+                return self::$PROJECT_IMAGE_PATH;
+            case self::TYPE_COMMUNITY:
+                return self::$COMMUNITY_IMAGE_PATH;
+            case self::TYPE_MARKETPLACE:
+                return self::$COMMUNITY_IMAGE_PATH;
+        }
+
+        return '';
+
     }
 
 }

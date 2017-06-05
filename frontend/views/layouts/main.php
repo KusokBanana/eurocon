@@ -32,8 +32,12 @@ $user = Person::getPerson(Yii::$app->user);
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
     <style>
         /* TODO */
-        .no-underline {
+        .no-underline, .no-underline * {
             text-decoration: none !important;
+            color: inherit;
+        }
+        .no-underline:hover, .no-underline *:hover, .no-underline:focus, .no-underline *:focus {
+            color: inherit;
         }
     </style>
     <!--[if lt IE 9]>

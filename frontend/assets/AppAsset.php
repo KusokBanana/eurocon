@@ -26,7 +26,7 @@ class AppAsset extends AssetBundle
         'vendor/aspieprogress/asPieProgress.min.css',
         'vendor/jquery-selective/jquery-selective.min.css',
         'vendor/bootstrap-datepicker/bootstrap-datepicker.min.css',
-        'css/team.min.css',
+        '/css/team.min.css',
         '/css/media.min.css',
         '/vendor/sliptree-bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css',
         '/vendor/sliptree-bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css',
