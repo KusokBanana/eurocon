@@ -44,12 +44,14 @@ class MarketplaceItem extends ActiveRecord
     public $imageShow;
 
     public static $types = [
+        0 => '-- Not selected --',
         1 => 'New building',
         2 => 'Renovation',
         3 => 'Extension',
     ];
 
     public static $statuses = [
+        0 => '-- Not selected --',
         1 => 'Planning',
         2 => 'Confirmed',
         3 => 'Under Construction',
@@ -57,6 +59,7 @@ class MarketplaceItem extends ActiveRecord
     ];
 
     public static $budgets = [
+        0 => '-- Not selected --',
         1 => '[ 0; 1 mln $ ]',
         2 => '[ 1 mln $; 3 mln $ ]',
         3 => '[ 3 mln $; 5 mln $ ]',
@@ -65,6 +68,7 @@ class MarketplaceItem extends ActiveRecord
     ];
 
     public static $categories = [
+        0 => '-- Not selected --',
         1 => 'Private / Farms',
         2 => 'Residential',
         3 => 'Hotel',
@@ -88,6 +92,7 @@ class MarketplaceItem extends ActiveRecord
     ];
 
     public static $editability = [
+        0 => '-- Not selected --',
         1 => 'Everyone',
         2 => 'Only your friends',
         3 => 'Only you',

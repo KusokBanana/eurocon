@@ -43,6 +43,7 @@ class Community extends ActiveRecord
 
     const ROLE_ADMIN_TYPE = 1;
     const ROLE_PARTICIPANT_TYPE = 2;
+    const ROLE_WAITING_FOR_CONFIRM = 3;
 
     const IMAGE_SIZE = 1024 * 1024 * 40; // 40 MB
 
@@ -218,15 +219,15 @@ class Community extends ActiveRecord
             $this->relation = self::ROLE_ADMIN_TYPE;
         } else {
             $isParticipant = BookUserCommunity::findOne(['community_id' => $this->id, 'user_id' => $user->id]);
-            if ($isParticipant)
-                $this->relation = self::ROLE_PARTICIPANT_TYPE;
+            if ($isParticipant) {
+                $this->relation = $isParticipant->is_confirmed ? self::ROLE_PARTICIPANT_TYPE : self::ROLE_WAITING_FOR_CONFIRM;
+            }
         }
 
     }
 
     public function join($user_id)
     {
-// TODO добавить сюда в зависимости от выбранной настройки вступления в компанию разное добавление пользователя
         if ($user_id) {
             $isConfirmed = ($this->acceptance_id == self::JOIN_WITH_AGREEMENT) ? 0 : 1;
             return BookUserCommunity::add($user_id, $this->id, $isConfirmed);

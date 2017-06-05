@@ -64,12 +64,15 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
 //                                    'subscribers' => $potentialSubscribers
                                 ]
                             ]) ?>
-                        <?php elseif ($community->relation !== Community::ROLE_PARTICIPANT_TYPE): ?>
-                            <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Follow this community',
-                                ['join', 'id' => $community->id], ['class' => 'btn btn-block btn-primary']) ?>
                         <?php elseif ($community->relation === Community::ROLE_PARTICIPANT_TYPE): ?>
                             <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Unsubscribe this community',
                                 ['leave', 'id' => $community->id], ['class' => 'btn btn-block btn-primary']) ?>
+                        <?php elseif ($community->relation === Community::ROLE_WAITING_FOR_CONFIRM): ?>
+                            <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Cancel request',
+                                ['leave', 'id' => $community->id], ['class' => 'btn btn-block btn-primary']) ?>
+                        <?php elseif (!$community->relation): ?>
+                            <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Follow this community',
+                                ['join', 'id' => $community->id], ['class' => 'btn btn-block btn-primary']) ?>
                         <?php endif; ?>
 
                         <!-- Modal body -->
