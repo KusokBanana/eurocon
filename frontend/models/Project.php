@@ -233,7 +233,7 @@ class Project extends ActiveRecord
 
             if ($this->id) {
                 Tag::newTagsFromString($this->tagValues, $this->id, Tag::PROJECT_TYPE);
-                BookOwnerProject::addNew(Yii::$app->user->id, $this->id);
+                BookOwnerProject::add(Yii::$app->user->id, $this->id);
                 $this->addNewUsers();
             }
 
@@ -260,14 +260,14 @@ class Project extends ActiveRecord
         if ($this->participants && !empty($this->participants)) {
             foreach ($this->participants as $participant) {
                 if ($participant) {
-                    BookUserProject::addNew($participant, $this->id);
+                    BookUserProject::add($participant, $this->id);
                 }
             }
         }
         if ($this->owners && !empty($this->owners)) {
             foreach ($this->owners as $owner) {
                 if ($owner) {
-                    BookOwnerProject::addNew($owner, $this->id);
+                    BookOwnerProject::add($owner, $this->id);
                 }
             }
         }
@@ -346,5 +346,24 @@ class Project extends ActiveRecord
 
         $this->statusData = $statusData;
     }
+
+
+    public function join($user_id)
+    {
+        if ($user_id) {
+//            $isConfirmed = ($this->acceptance_id == self::JOIN_WITH_AGREEMENT) ? 0 : 1;
+            return BookUserProject::add($user_id, $this->id);
+        }
+
+        return false;
+
+    }
+    public function leave($user_id)
+    {
+        if ($user_id) {
+            BookUserProject::remove($user_id, $this->id);
+        }
+    }
+
 
 }

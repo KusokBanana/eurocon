@@ -285,7 +285,7 @@ class Company extends Community
             if ($isParticipant)
                 $this->relation = self::ROLE_PARTICIPANT_TYPE;
         }
-
+// TODO check if user can send message to company on company page
     }
 
 }

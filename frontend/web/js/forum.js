@@ -87,14 +87,14 @@ $(document).ready(function() {
                     method: 'GET',
                     success: function(data) {
                         if (data) {
-                            $('#' + target).empty().append(data);
+                            $('#' + target).empty().append(data).slideToggle('slow');
                             $(this).attr('data-loaded', true);
                         }
                     }
                 });
             }
 
-            var form = $('#'+target).slideToggle('slow').find('form');
+            var form = $('#'+target).find('form');
             if (form.length)
                 var commentsCount = form.attr('data-comments_count');
             else
@@ -104,6 +104,9 @@ $(document).ready(function() {
                 seeAllText = $(this).text().replace(/(\d)/, commentsCount);
             $(this).attr('data-title', seeAllText);
             $(this).text(seeAllAttrText);
+
+            if (isLoaded)
+                form.slideToggle('slow')
 
         })
 

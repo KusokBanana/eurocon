@@ -265,4 +265,30 @@ class ProjectController extends Controller
 
     }
 
+    public function actionJoin($id)
+    {
+
+        $project = Project::findOne($id);
+        if ($project) {
+            $user = Yii::$app->user;
+            $person = Person::getPerson($user);
+            $result = $project->join($person->id);
+            return $this->redirect(['view', 'id' => $project->id]);
+        }
+
+    }
+
+    public function actionLeave($id)
+    {
+
+        $project = Project::findOne($id);
+        if ($project) {
+            $user = Yii::$app->user;
+            $person = Person::getPerson($user);
+            $project->leave($person->id);
+            return $this->redirect(['view', 'id' => $project->id]);
+        }
+
+    }
+
 }

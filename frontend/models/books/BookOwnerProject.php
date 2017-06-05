@@ -73,8 +73,7 @@ class BookOwnerProject extends ActiveRecord
         return $this->hasOne(Project::className(), ['id' => 'project_id']);
     }
 
-
-    public static function addNew($personId, $projectId)
+    public static function add($personId, $projectId)
     {
         if ($personId && $projectId) {
             $newParticipant = new static();
@@ -82,6 +81,11 @@ class BookOwnerProject extends ActiveRecord
             $newParticipant->project_id = $projectId;
             $newParticipant->save();
         }
+    }
+
+    public static function isAdmin($admin_id, $project_id)
+    {
+        return self::find()->where(['user_id' => $admin_id, 'project_id' => $project_id])->one();
     }
 
 }

@@ -25,34 +25,47 @@ $templateInput = '<div class="col-md-12 col-xs-12">{input}</div>';
                 <h4 class="modal-title">Let's do this</h4>
             </div>
             <div class="modal-body">
+                <?php $form = ActiveForm::begin([
+                    //                                'enableAjaxValidation' => true,
+                    'id' => $type . '_form',
+                    'successCssClass' => '',
+                    'action' => Url::to(['update', 'id' => $model->id]),
+                    'options' => ['enctype' => 'multipart/form-data', 'class' => 'form-horizontal'],
 
+                ]); ?>
                 <!-- Example Basic -->
-                <div class="row">
-                    <div class="radio-custom radio-primary m-l-30 col-xs-12 col-xl-2 form-group">
-                        <input type="radio" id="inputRadiosUnchecked" name="inputRadios">
-                        <label for="inputRadiosUnchecked">Offers</label>
-                    </div>
-                    <div class="radio-custom radio-primary m-l-30 col-xs-12 col-xl-2 form-group">
-                        <input type="radio" id="inputRadiosUnchecked" name="inputRadios">
-                        <label for="inputRadiosUnchecked">Requests</label>
-                    </div>
-                </div>
-                <form>
+                        <?= $form->field($model, 'item_type_id', ['template' => $templateInput])
+                            ->radioList(['Offers', 'Requests'],
+                                ['class' => '',
+                                    'item' => function($index, $label, $name, $checked, $value) {
+                                        $checked = $checked ? ' checked ' : '';
+                                        $return = '<div class="radio-custom radio-primary m-l-30 col-xs-12 col-xl-2 form-group">';
+                                        $return .= '<input type="radio" '. $checked .
+                                            ' name="' . $name . '" id="'.$name.'-'.$index.'" '.
+                                            'value="' . $value . '">';
+                                        $return .= '<label for="'.$name.'-'.$index.'" '.'">'.$label.'</label>';
+                                        $return .= '</div>';
+
+                                        return $return;
+                                    }])
+                            ->label(null); ?>
+                        <div class="radio-custom radio-primary m-l-30 col-xs-12 col-xl-2 form-group">
+                            <input type="radio" id="inputRadiosUnchecked" name="inputRadios">
+                            <label for="inputRadiosUnchecked">Offers</label>
+                        </div>
+                        <div class="radio-custom radio-primary m-l-30 col-xs-12 col-xl-2 form-group">
+                            <input type="radio" id="inputRadiosUnchecked" name="inputRadios">
+                            <label for="inputRadiosUnchecked">Requests</label>
+                        </div>
                     <div class="row">
                         <div class="col-xs-12 col-xl-4 form-group">
                             <input type="text" class="form-control" name="Offer Name" placeholder="BestWood">
-                        </div>
-                        <div class="col-xs-12 col-xl-4 form-group">
-                            <input type="email" class="form-control" name="Budget" placeholder="1 000 000$">
-                        </div>
-                        <div class="col-xs-12 col-xl-4 form-group">
-                            <input type="email" data-plugin="datepicker" class="form-control" name="last date" placeholder="01.01.2018">
                         </div>
                         <div class="col-xl-12 col-xs-12">
                             <textarea class="form-control" rows="5" placeholder="Describe your offer"></textarea>
                         </div>
                     </div>
-                </form>
+                <?php ActiveForm::end(); ?>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

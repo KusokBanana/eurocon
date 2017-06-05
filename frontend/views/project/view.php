@@ -50,7 +50,7 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                             <ul class="nav nav-tabs nav-tabs-line" role="tablist">
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link active" data-toggle="tab" href="#project_timeline"
-                                       aria-controls="project_timeline" role="true">Project Timeline</a>
+                                       aria-controls="project_timeline" role="tab">Project Timeline</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" data-toggle="tab" href="#participants"
@@ -129,10 +129,10 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                         ]) ?>
                                     <?php elseif ($project->relation !== Project::RELATION_PARTICIPANT): ?>
                                         <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Follow this project',
-                                            ['/'], ['class' => 'btn btn-block btn-primary']) ?>
+                                            ['join', 'id' => $project->id], ['class' => 'btn btn-block btn-primary']) ?>
                                     <?php elseif ($project->relation === Project::RELATION_PARTICIPANT): ?>
                                         <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Unsubscribe this project',
-                                            ['/'], ['class' => 'btn btn-block btn-primary']) ?>
+                                            ['leave', 'id' => $project->id], ['class' => 'btn btn-block btn-primary']) ?>
                                     <?php endif; ?>
                                 </div>
                             </div>

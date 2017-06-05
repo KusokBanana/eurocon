@@ -284,14 +284,48 @@ $user = Person::getPerson(Yii::$app->user);
                             <span class="site-menu-title">Me</span>', ['/']) ?>
                     </li>
 
-                    <li class="site-menu-item">
-                        <?= Html::a('<i class="icon wb-hammer" aria-hidden="true"></i>
-                            <span class="site-menu-title">Projects</span>', ['/project/index']) ?>
+                    <li class="dropdown site-menu-item has-sub">
+                        <a data-toggle="dropdown" href="javascript:void(0)" data-dropdown-toggle="false">
+                            <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
+                            <span class="site-menu-title">Search</span>
+                            <span class="site-menu-arrow"></span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <div class="site-menu-scroll-wrap is-list">
+                                <div>
+                                    <div>
+                                        <ul class="site-menu-sub site-menu-normal-list">
+                                            <li class="site-menu-item">
+                                                <?= Html::a('<i class="icon wb-hammer" aria-hidden="true"></i>
+                            <span class="site-menu-title">Projects</span>', ['/project/index'],
+                                                    ['class' => 'animsition-link']) ?>
+                                            </li>
+                                            <li class="site-menu-item has-sub">
+                                                <?= Html::a('<i class="icon fa-group" aria-hidden="true"></i>
+                            <span class="site-menu-title">Communities</span>', ['/community/index'],
+                                                    ['class' => 'animsition-link']) ?>
+                                            </li>
+                                            <li class="site-menu-item">
+                                                <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>
+                            <span class="site-menu-title">People</span>', ['/site/friends'],
+                                                    ['class' => 'animsition-link']) ?>
+                                            </li>
+                                            <li class="site-menu-item has-sub">
+                                                <?= Html::a('<i class="icon wb-map" aria-hidden="true"></i>
+                            <span class="site-menu-title">Locations</span>', ['/site/locations'],
+                                                    ['class' => 'animsition-link']) ?>
+                                            </li>
+
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </li>
 
                     <li class="site-menu-item">
-                        <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>
-                            <span class="site-menu-title">Friends</span>', ['/site/friends']) ?>
+                        <?= Html::a('<i class="icon wb-shopping-cart" aria-hidden="true"></i>
+                            <span class="site-menu-title">Marketplace</span>', ['/marketplace']) ?>
                     </li>
 
                     <li class="site-menu-item">
@@ -301,27 +335,10 @@ $user = Person::getPerson(Yii::$app->user);
                         </a>
                     </li>
 
-                    <li class="site-menu-item has-sub">
-                        <?= Html::a('<i class="icon wb-map" aria-hidden="true"></i>
-                            <span class="site-menu-title">Locations</span>', ['/site/locations']) ?>
-                    </li>
-
-                    <li class="site-menu-item has-sub">
-                        <?= Html::a('<i class="icon fa-group" aria-hidden="true"></i>
-                            <span class="site-menu-title">Communities</span>', ['/community/index']) ?>
-                    </li>
-
                     <li class="site-menu-item">
                         <?= Html::a('<i class="icon fa-newspaper-o" aria-hidden="true"></i>
-                            <span class="site-menu-title">Projects news</span>', ['/project/news']) ?>
+                            <span class="site-menu-title">News feed</span>', ['/project/news']) ?>
                     </li>
-
-                    <li class="site-menu-item">
-                        <?= Html::a('<i class="icon wb-shopping-cart" aria-hidden="true"></i>
-                            <span class="site-menu-title">Marketplace</span>', ['/marketplace']) ?>
-                    </li>
-
-
                 </ul>
             </div>
         </div>

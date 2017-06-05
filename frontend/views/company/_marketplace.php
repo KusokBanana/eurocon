@@ -105,11 +105,13 @@ $filter = $additionData['filter'] = $items['filter'];
                                     <h4 class="media-heading"><?= $item->name ?></h4>
                                     <p><?= $item->description ?></p>
                                 </div>
-                                <div class="media-left media-middle"  style="border-left: 1px solid rgb(213,228,241); padding: 15px;">
+                                <div class="media-left media-middle"
+                                     style="border-left: 1px solid rgb(213,228,241); padding: 15px; width: 20%;">
                                     <span><?= date('d.m.Y', strtotime($item->date)) ?></span>
+                                    <br>
                                     <span>Jo Smith</span>
                                     <hr>
-                                    <span><mark style="background-color: #89BCEB;">100 000$</mark></span>
+                                    <span><mark style="background-color: #89BCEB;">On request</mark></span> <!-- TODO add here money  -->
                                 </div>
                             </div>
                         </div>

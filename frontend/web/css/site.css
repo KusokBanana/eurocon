@@ -875,7 +875,8 @@ ul.site-menu {
 }
 
 .page-content {
-  padding: 0 30px 30px 30px;
+  padding-top: 0;
+  padding-bottom: 30px;
 }
 
 @media (max-width: 479px) {

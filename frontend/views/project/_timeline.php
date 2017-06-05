@@ -34,31 +34,31 @@ $this->registerCssFile('@web/css/timeline.min.css');
 ?>
 
 <ul class="list-group">
-    <div class="text-xs-center m-t-50">
+    <li class="list-group-item p-l-0 p-r-0">
 
-        <?php if ($project->relation === Project::RELATION_ADMIN): ?>
-            <?= Html::a('Add new', ['timeline', 'id' => 0, 'project_id' => $project->id],
-                [
-                    'class' => 'btn btn-lg btn-outline btn-primary m-r-10 timeline-edit',
-                    'data-type' => 'new'
-                ]) ?>
-            <?= Html::button('Edit',
-                [
-                    'class' => 'btn btn-lg btn-outline btn-primary m-l-10 timeline-edit',
-                    'data-type' => 'activate'
-                ]) ?>
-        <?php elseif ($project->relation === Project::RELATION_PARTICIPANT): ?>
-            <?= Html::a('Request new', ['timeline', 'id' => 0, 'project_id' => $project->id],
-                [
-                    'class' => 'btn btn-lg btn-outline btn-primary m-r-10 timeline-edit',
-                    'data-type' => 'request'
-                ]) ?>
-        <?php endif; ?>
+        <div class="page-content">
+            <div class="m-t-10">
 
-    </div>
-    <li class="list-group-item">
+                <?php if ($project->relation === Project::RELATION_ADMIN): ?>
+                    <?= Html::a('Add new', ['timeline', 'id' => 0, 'project_id' => $project->id],
+                        [
+                            'class' => 'btn btn-outline btn-primary m-r-10 timeline-edit',
+                            'data-type' => 'new'
+                        ]) ?>
+                    <?= Html::button('Edit',
+                        [
+                            'class' => 'btn btn-outline btn-primary m-l-10 timeline-edit',
+                            'data-type' => 'activate'
+                        ]) ?>
+                <?php elseif ($project->relation === Project::RELATION_PARTICIPANT): ?>
+                    <?= Html::a('Suggest news', ['timeline', 'id' => 0, 'project_id' => $project->id],
+                        [
+                            'class' => 'btn btn-outline btn-primary m-r-10 timeline-edit',
+                            'data-type' => 'request'
+                        ]) ?>
+                <?php endif; ?>
 
-        <div class="page-content container">
+            </div>
             <!-- Timeline -->
             <ul class="timeline timeline-simple">
                 <?php $month = ''; ?>
