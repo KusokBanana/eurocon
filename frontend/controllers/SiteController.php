@@ -247,8 +247,6 @@ class SiteController extends Controller
     public function actionLocations()
     {
 
-//        $user = Yii::$app->user;
-//        $person = Person::getPerson($user);
         $projects = Project::find()->where(['not', ['location' => null]])->all();
         $companies = Company::find()->where(['not', ['location' => null]])->all();
         $persons = Person::find()->where(['not', ['location' => null]])->all();

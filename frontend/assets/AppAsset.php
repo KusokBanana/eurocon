@@ -17,7 +17,6 @@ class AppAsset extends AssetBundle
         // plugins
         'vendor/animsition/animsition.min.css',
         'vendor/asscrollable/asScrollable.min.css',
-        'vendor/switchery/switchery.min.css',
         'vendor/intro-js/introjs.min.css',
         'vendor/slidepanel/slidePanel.min.css',
         'vendor/flag-icon-css/flag-icon.min.css',
@@ -44,10 +43,10 @@ class AppAsset extends AssetBundle
         'vendor/asscrollbar/jquery-asScrollbar.min.js',
         'vendor/asscrollable/jquery-asScrollable.min.js',
         // Plugins
-        'vendor/switchery/switchery.min.js',
         'vendor/intro-js/intro.min.js',
         'vendor/screenfull/screenfull.min.js',
         'vendor/slidepanel/jquery-slidePanel.min.js',
+        '/vendor/raty/jquery.raty.js',
         'vendor/chartist/chartist.min.js',
         'vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js',
         'vendor/aspieprogress/jquery-asPieProgress.min.js',
@@ -67,7 +66,6 @@ class AppAsset extends AssetBundle
         'js/assets/Section/GridMenu.js',
         '/vendor/breakpoints/breakpoints.min.js',
         'js/breakpoints.run.js',
-        'js/assets/menu.js',
         // Config
         'js/config/colors.min.js',
         'js/config/tour.min.js',
@@ -75,7 +73,6 @@ class AppAsset extends AssetBundle
         'js/assets/Site.min.js',
         'js/Plugin/asscrollable.min.js',
         'js/Plugin/slidepanel.min.js',
-        'js/Plugin/switchery.min.js',
         'js/Plugin/matchheight.min.js',
         'js/Plugin/aspieprogress.min.js',
         'js/Plugin/bootstrap-datepicker.min.js',

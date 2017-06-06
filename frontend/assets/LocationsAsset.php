@@ -14,7 +14,8 @@ class LocationsAsset extends AssetBundle
         // plugins
         '/vendor/animsition/animsition.min.css',
         '/vendor/asscrollable/asScrollable.min.css',
-        '/vendor/switchery/switchery.min.css',
+//        '/vendor/switchery/switchery.min.css',
+        '/vendor/switchery-master/dist/switchery.min.css',
         '/vendor/intro-js/introjs.min.css',
         '/vendor/slidepanel/slidePanel.min.css',
         '/vendor/flag-icon-css/flag-icon.min.css',
@@ -39,7 +40,7 @@ class LocationsAsset extends AssetBundle
         '/vendor/mousewheel/jquery.mousewheel.min.js',
         '/vendor/asscrollbar/jquery-asScrollbar.min.js',
         '/vendor/asscrollable/jquery-asScrollable.min.js',
-        '/vendor/switchery/switchery.min.js',
+//        '/vendor/switchery/switchery.min.js',
         '/vendor/intro-js/intro.min.js',
         '/vendor/screenfull/screenfull.min.js',
         '/vendor/slidepanel/jquery-slidePanel.min.js',
@@ -55,14 +56,15 @@ class LocationsAsset extends AssetBundle
         '/js/assets/Menubar.min.js',
         '/js/assets/Sidebar.min.js',
         '/js/assets/PageAside.min.js',
-        '/js/assets/menu.js',
-        '/js/Plugin/switchery.min.js',
+//        '/js/Plugin/switchery.min.js',
         '/js/config/colors.min.js',
         '/js/config/tour.min.js',
         '/js/Plugin/raty.min.js',
         '/js/assets/Site.min.js',
         '/js/assets/Travel.js',
         '/js/Plugin/travel.min.js',
+        '/vendor/switchery-master/dist/switchery.js',
+        '/vendor/switchery-master/start.js',
     ];
 
     public $depends = [

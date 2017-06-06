@@ -176,4 +176,17 @@ class BookFollowers extends ActiveRecord
 
     }
 
+    public static function getPossiblePeopleToSubscribeForCurrentUser()
+    {
+        $user = Yii::$app->user;
+        $people = [];
+        if (!$user->isGuest) {
+            $people = static::getFollows($user->id, 1, '', BookFollowers::TYPE_ALL, true)['data'];
+        }
+
+        return $people;
+
+
+    }
+
 }

@@ -413,7 +413,6 @@
                 $(document).on('change submit', '.location-filter', function (e) {
                     e.preventDefault();
                     var $this = $(this);
-                    console.log('asdasd')
 
                     var tabOption = self.getState('optionChange'),
                         firstLetterOption = tabOption.substring(0, 1).toUpperCase() + tabOption.substring(1),

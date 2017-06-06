@@ -5,3 +5,7 @@ RewriteEngine on
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . index.php
+
+<FilesMatch ".(flv|gif|jpg|jpeg|png|ico|swf|css|pdf|js)$">
+Header set Cache-Control "max-age=1"
+</FilesMatch>

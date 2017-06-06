@@ -52,14 +52,16 @@ class ProjectController extends Controller
             $admins = BookOwnerProject::getAdmins($user->id);
             $project->setRelation($user);
 
-            $follows = BookFollowers::getFollows($user->id, 1, '', BookFollowers::TYPE_ALL, true)['data'];
+            $follows = BookFollowers::getPossiblePeopleToSubscribeForCurrentUser();
 
             $participantsArray = ArrayHelper::getColumn($participants['data'], 'id');
             $adminsArray = ArrayHelper::getColumn($admins, 'user_id');
             $potentialSubscribers = [];
-            foreach ($follows as $follow) {
-                if (!ArrayHelper::isIn($follow->id, ArrayHelper::merge($participantsArray, $adminsArray)))
-                    $potentialSubscribers[$follow->id] = $follow->full_name;
+            if (!empty($follows)) {
+                foreach ($follows as $follow) {
+                    if (!ArrayHelper::isIn($follow->id, ArrayHelper::merge($participantsArray, $adminsArray)))
+                        $potentialSubscribers[$follow->id] = $follow->full_name;
+                }
             }
 
             $posts = Post::getPostsData(Post::TYPE_PROJECT, $id);

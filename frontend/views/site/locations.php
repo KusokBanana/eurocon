@@ -21,7 +21,6 @@ use yii\helpers\Url;
 LocationsAsset::register($this);
 
 $this->params['body-class'] = 'app-travel';
-$this->registerCssFile('@web/vendor/switchery/switchery.min.css');
 ?>
 
 <div class="page-header h-300 m-b-30"
@@ -37,11 +36,6 @@ $this->registerCssFile('@web/vendor/switchery/switchery.min.css');
 
     <!-- Travel Options Siderbar -->
     <div class="page-aside">
-
-<!--        <div class="page-aside-switch">-->
-<!--            <i class="icon wb-chevron-left" aria-hidden="true"></i>-->
-<!--            <i class="icon wb-chevron-right" aria-hidden="true"></i>-->
-<!--        </div>-->
 
         <div class="page-aside-inner nav-tabs-animate">
             <div class="page-nav-tabs">
@@ -92,9 +86,7 @@ $this->registerCssFile('@web/vendor/switchery/switchery.min.css');
                                                             <div>
                                                                 <div class="pull-xs-right m-r-15">
                                                                     <?= Html::checkbox('type_id', false, [
-                                                                        'data-plugin' => "switchery",
-                                                                        'data-switchery' => 'true',
-                                                                        'style' => 'display: none;',
+                                                                        'class' => 'js-switch',
                                                                         'value' => 1
                                                                     ]) ?>
                                                                 </div>
@@ -105,9 +97,7 @@ $this->registerCssFile('@web/vendor/switchery/switchery.min.css');
                                                             <div>
                                                                 <div class="pull-xs-right m-r-15">
                                                                     <?= Html::checkbox('type_id', false, [
-                                                                        'data-plugin' => "switchery",
-                                                                        'data-switchery' => 'true',
-                                                                        'style' => 'display: none;',
+                                                                        'class' => 'js-switch',
                                                                         'value' => 2
                                                                     ]) ?>
                                                                 </div>
@@ -118,9 +108,7 @@ $this->registerCssFile('@web/vendor/switchery/switchery.min.css');
                                                             <div>
                                                                 <div class="pull-xs-right m-r-15">
                                                                     <?= Html::checkbox('type_id', false, [
-                                                                        'data-plugin' => "switchery",
-                                                                        'data-switchery' => 'true',
-                                                                        'style' => 'display: none;',
+                                                                        'class' => 'js-switch',
                                                                         'value' => 3
                                                                     ]) ?>
                                                                 </div>
