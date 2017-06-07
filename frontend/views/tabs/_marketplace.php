@@ -19,7 +19,7 @@ use frontend\widgets\Search;
     'type' => $items->type
 ]) ?>
 
-<?php if (isset($items->extraData['isWithCreateBtn']) && $items->extraData['isWithCreateBtn']): ?>
+<?php if (isset($items->extraData['isWithBtn']) && $items->extraData['isWithBtn']): ?>
     <div class="panel">
         <div class="panel-body container-fluid text-xs-center">
             <?= Html::a('<span><i class="icon wb-hammer" aria-hidden="true"></i>Create a product</span>',

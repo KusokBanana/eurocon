@@ -55,14 +55,14 @@ class BookOwnerProject extends ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getUser()
+    public function getPerson()
     {
         return $this->hasOne(Person::className(), ['id' => 'user_id']);
     }
 
     public static function getAdmins($projectId)
     {
-        return self::find()->where(['project_id' => $projectId])->joinWith('user')->all();
+        return self::find()->where(['project_id' => $projectId])->joinWith('person')->all();
     }
 
     /**

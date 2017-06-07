@@ -78,22 +78,6 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                                 ],
                                             ])->label('Add Owners', ['class' => 'col-xs-12 col-md-3 form-control-label']); ?>
 
-                                    <?= $form->field($model, 'participants', ['template' => $templateInput])
-                                        ->widget(Select2::classname(),
-                                            [
-                                                'data' => $data['subscribers'],
-                                                'options' => [
-                                                    'multiple' => true,
-                                                ],
-                                                'class' => 'form-control',
-                                                'maintainOrder' => true,
-                                                'pluginOptions' => [
-                                                    'tokenSeparators' => [',', ' '],
-                                                    'maximumInputLength' => 10,
-                                                    'allowClear' => true
-                                                ],
-                                            ])->label('Add Participants', ['class' => 'col-xs-12 col-md-3 form-control-label']); ?>
-
                                     <?= $form->field($model, 'project_links', ['template' => $templateInput])
                                         ->textarea([
                                             'class' => 'form-control',

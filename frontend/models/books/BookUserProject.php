@@ -27,6 +27,14 @@ class BookUserProject extends BookOwnerProject
         return 'book_participant_project';
     }
 
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getPerson()
+    {
+        return $this->hasOne(Person::className(), ['id' => 'user_id']);
+    }
+
     public static function add($user_id, $project_id)
     {
         $isAdmin = BookOwnerProject::isAdmin($user_id, $project_id);
@@ -41,6 +49,16 @@ class BookUserProject extends BookOwnerProject
         $participant = self::findOne(['user_id' => $user_id, 'project_id' => $project_id]);
         if ($participant)
             $participant->delete();
+    }
+
+    public static function getParticipants($id, $isJustQuery = false)
+    {
+        $query = self::find()->where(['project_id' => $id])->joinWith('person');
+
+        if (!$isJustQuery)
+            $query->all();
+
+        return $query;
     }
 
 }

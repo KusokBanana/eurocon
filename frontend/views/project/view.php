@@ -74,7 +74,10 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                 <div class="tab-pane animation-fade" id="participants" role="tabpanel"
                                      aria-expanded="false">
                                     <?= $this->render('/tabs/_participants', [
-                                        'participants' => $participants->joinExtraData(['id' => $project->id]),
+                                        'participants' => $participants->joinExtraData([
+                                            'id' => $project->id,
+                                            'isWithBtn' => ($project->relation === Project::RELATION_ADMIN)
+                                        ]),
                                     ]) ?>
                                 </div>
 
@@ -104,6 +107,22 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                     'for_model' => $project
                 ]
             ]) ?>
+
+
+            <?php
+            if ($project->relation === Project::RELATION_ADMIN):
+                echo CustomModal::widget([
+                    'type' => 'add_persons',
+                    'model' => $project,
+                    'additionalData' => [
+                        'id' => $project->id,
+                        'type' => 'participants',
+                        'subscribers' => $potentialSubscribers['cooperation'],
+                    ]
+                ]);
+            endif;
+            ?>
+
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4 col-xxl-4 col-xl-4">
                 <div class="col-xs-12 col-xxl-12 col-xl-12 col-lg-12 ">
                     <div class="panel">
@@ -123,7 +142,7 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                             'type' => 'project_edit',
                                             'model' => $project,
                                             'additionalData' => [
-                                                'subscribers' => $potentialSubscribers
+                                                'subscribers' => $potentialSubscribers['admins']
                                             ]
                                         ]) ?>
                                     <?php elseif ($project->relation !== Project::RELATION_PARTICIPANT): ?>
@@ -143,8 +162,8 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                         <?php
                                         if (!empty($admins)):
                                             foreach ($admins as $key => $admin): ?>
-                                                <?= Html::a($admin->user->full_name,
-                                                    ['/person/profile', 'id' => $admin->user->id]); ?>
+                                                <?= Html::a($admin->person->full_name,
+                                                    ['/person/profile', 'id' => $admin->person->id]); ?>
                                                 <?= ($key < count($admins) - 1) ? ', ' : ''; ?>
                                             <?php endforeach; ?>
                                         <?php endif; ?>

@@ -215,7 +215,7 @@ $this->title = 'Eurocon / profile';
                                 </li>
                             </ul>
 
-                            <?php $isWithCreateBtn = $person->relation === Person::RELATION_SELF; ?>
+                            <?php $isWithBtn = $person->relation === Person::RELATION_SELF; ?>
 
                             <div class="tab-content">
                                 <div class="tab-pane animation-fade active" id="tab_projects"
@@ -223,7 +223,7 @@ $this->title = 'Eurocon / profile';
                                     <?= $this->render('/tabs/_projects', [
                                         'projects' => $projects->joinExtraData([
                                             'id' => $person->id,
-                                            'isWithCreateBtn' => $isWithCreateBtn
+                                            'isWithBtn' => $isWithBtn
                                         ])
                                     ]) ?>
                                 </div>
@@ -232,7 +232,7 @@ $this->title = 'Eurocon / profile';
                                     <?= $this->render('_followers', [
                                         'participants' => $follows->joinExtraData([
                                             'id' => $person->id,
-                                            'isWithCreateBtn' => $isWithCreateBtn
+                                            'isWithBtn' => $isWithBtn
                                         ])
                                     ]) ?>
                                 </div>
@@ -241,7 +241,7 @@ $this->title = 'Eurocon / profile';
                                     <?= $this->render('/tabs/_companies', [
                                         'companies' => $companies->joinExtraData([
                                             'id' => $person->id,
-                                            'isWithCreateBtn' => $isWithCreateBtn
+                                            'isWithBtn' => $isWithBtn
                                         ])
                                     ]) ?>
                                 </div>
@@ -250,7 +250,7 @@ $this->title = 'Eurocon / profile';
                                     <?= $this->render('/tabs/_communities', [
                                         'communities' => $communities->joinExtraData([
                                             'id' => $person->id,
-                                            'isWithCreateBtn' => $isWithCreateBtn
+                                            'isWithBtn' => $isWithBtn
                                         ])
                                     ]) ?>
                                 </div>
@@ -258,7 +258,7 @@ $this->title = 'Eurocon / profile';
                                      role="tabpanel" aria-expanded="false">
                                     <?= $this->render('/tabs/_marketplace', [
                                         'items' => $marketplace->joinExtraData([
-                                            'isWithCreateBtn' => $isWithCreateBtn
+                                            'isWithBtn' => $isWithBtn
                                         ])
                                     ]) ?>
                                 </div>

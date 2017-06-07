@@ -16,7 +16,7 @@ use yii\helpers\Html;
     'type' => $companies->type
 ]) ?>
 
-<?php if (isset($companies->extraData['isWithCreateBtn']) && $companies->extraData['isWithCreateBtn']): ?>
+<?php if (isset($companies->extraData['isWithBtn']) && $companies->extraData['isWithBtn']): ?>
     <div class="panel">
         <div class="panel-body container-fluid text-xs-center">
             <?= Html::a('<span><i class="icon wb-home" aria-hidden="true"></i>Create a company</span>',

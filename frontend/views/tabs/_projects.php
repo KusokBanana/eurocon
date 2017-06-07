@@ -18,7 +18,7 @@ use yii\helpers\Html;
     'type' => $projects->type
 ]) ?>
 
-<?php if (isset($projects->extraData['isWithCreateBtn']) && $projects->extraData['isWithCreateBtn']): ?>
+<?php if (isset($projects->extraData['isWithBtn']) && $projects->extraData['isWithBtn']): ?>
     <div class="panel">
         <div class="panel-body container-fluid text-xs-center">
             <?= Html::a('<span><i class="icon wb-hammer" aria-hidden="true"></i>Create a project</span>',

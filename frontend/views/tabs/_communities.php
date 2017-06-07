@@ -16,7 +16,7 @@ use yii\helpers\Html;
     'type' => $communities->type
 ]) ?>
 
-<?php if (isset($communities->extraData['isWithCreateBtn']) && $communities->extraData['isWithCreateBtn']): ?>
+<?php if (isset($communities->extraData['isWithBtn']) && $communities->extraData['isWithBtn']): ?>
     <div class="panel">
         <div class="panel-body container-fluid text-xs-center">
             <?= Html::a('<span><i class="icon fa-group" aria-hidden="true"></i>Create a community</span>',

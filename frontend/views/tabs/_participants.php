@@ -1,6 +1,5 @@
 <?php
 /* @var $participants \frontend\models\AjaxReload */
-/* @var $additionData array*/
 
 use frontend\widgets\Pagination;
 use frontend\widgets\Search;
@@ -8,10 +7,20 @@ use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
 
-$additionData['search'] = isset($additionData['search']) ? $additionData['search'] : null;
 ?>
 
+<?php if (isset($participants->extraData['isWithBtn']) && $participants->extraData['isWithBtn']): ?>
+    <?= Html::button('<i class="icon wb-plus"></i> Invite Participant',
+        [
+            'class' => 'btn btn-outline btn-primary m-t-15 m-b-15',
+            'data-target' => '#add_persons_' . $participants->type,
+            'data-toggle' => 'modal',
+
+        ]) ?>
+<?php endif; ?>
+
 <br>
+
 <?= Search::widget([
     'extraData' => $participants->extraData,
     'query' => $participants->getSearch(),

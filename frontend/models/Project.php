@@ -3,11 +3,13 @@
 namespace frontend\models;
 
 use frontend\models\books\BookCompanyProject;
+use frontend\models\books\BookFollowers;
 use frontend\models\books\BookOwnerProject;
 use frontend\models\books\BookUserProject;
 use Imagine\Image\Box;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\web\UploadedFile;
 
 use yii\imagine\Image;
@@ -263,7 +265,7 @@ class Project extends ActiveRecord
 
     }
 
-    private function addNewUsers()
+    public function addNewUsers()
     {
         if ($this->participants && !empty($this->participants)) {
             foreach ($this->participants as $participant) {
@@ -371,6 +373,34 @@ class Project extends ActiveRecord
         if ($user_id) {
             BookUserProject::remove($user_id, $this->id);
         }
+    }
+
+    public function getPotentialSubscribers()
+    {
+        $user = Yii::$app->user;
+        $potentialSubscribers = ['admins' => [], 'cooperation' => []];
+        if ($this->relation == Company::ROLE_ADMIN_TYPE) {
+            $follows = BookFollowers::getFollows($user->id, 1, [], true)->data;
+
+            $participants = BookUserProject::find()->where(['project_id' => $this->id])
+                ->select('user_id')->column();
+            $admins = BookOwnerProject::find()->where(['project_id' => $this->id])
+                ->select('user_id')->column();
+
+            foreach ($follows as $follow) {
+                $id = (string) $follow->id;
+                $isInAdminArr = ArrayHelper::isIn($id, $admins);
+                $isInCoopArr = ArrayHelper::isIn($id, $participants);
+
+                if (!$isInAdminArr)
+                    $potentialSubscribers['admins'][$id] = $follow->full_name;
+
+                if (!$isInAdminArr && !$isInCoopArr)
+                    $potentialSubscribers['cooperation'][$id] = $follow->full_name;
+            }
+        }
+
+        return $potentialSubscribers;
     }
 
 

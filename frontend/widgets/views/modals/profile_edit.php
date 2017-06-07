@@ -205,7 +205,7 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                                 // $(this).prop('selected', !$(this).prop('selected'));
                                                 
                                                 var select = $(this).closest('select');
-                                                var value = select.val();
+                                                var value = (select.val() && select.val() !== null) ? select.val() : [];
                                                 var optionValue = $(this).val();
                                                 if (!$(this).prop('selected')) {
                                                     value.push(optionValue);
