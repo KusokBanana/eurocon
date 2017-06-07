@@ -11,9 +11,11 @@ namespace frontend\controllers;
 
 use common\models\User;
 use frontend\models\books\BookFollowers;
+use frontend\models\books\BookMarketplace;
 use frontend\models\Community;
 use frontend\models\Company;
 use frontend\models\Location;
+use frontend\models\MarketplaceItem;
 use frontend\models\Person;
 use frontend\models\Project;
 use Yii;
@@ -39,9 +41,10 @@ class PersonController extends Controller
         $follows = BookFollowers::getFollows($person->id);
         $companies = $person->getCompaniesData(Company::ROLE_ADMIN_TYPE, 1);
         $communities = $person->getCommunitiesData(Community::ROLE_ADMIN_TYPE, 1, '');
+        $marketplace = MarketplaceItem::getData($id, BookMarketplace::TYPE_FOR_PERSON);
 
         return $this->render('profile',
-            compact('person', 'projects', 'follows', 'companies', 'communities'));
+            compact('person', 'projects', 'follows', 'companies', 'communities', 'marketplace'));
 
     }
 
@@ -85,6 +88,13 @@ class PersonController extends Controller
                     return $this->renderAjax('/tabs/_communities',
                         [
                             'communities' => $communities,
+                        ]);
+                case 'marketplace':
+                    $marketplace = MarketplaceItem::getData($data['id'], BookMarketplace::TYPE_FOR_PERSON,
+                        $page, $data);
+                    return $this->renderAjax('/tabs/_marketplace',
+                        [
+                            'items' => $marketplace
                         ]);
             }
 

@@ -6,6 +6,7 @@
 /* @var $follows \frontend\models\AjaxReload */
 /* @var $companies \frontend\models\AjaxReload */
 /* @var $communities \frontend\models\AjaxReload  */
+/* @var $marketplace \frontend\models\AjaxReload  */
 
 use frontend\models\Person;
 use frontend\widgets\CustomModal;
@@ -208,6 +209,10 @@ $this->title = 'Eurocon / profile';
                                     <a class="nav-link" data-toggle="tab" href="#tab_communities"
                                        aria-controls="communities" role="tab" aria-expanded="false">Communities</a>
                                 </li>
+                                <li class="nav-item" role="presentation">
+                                    <a class="nav-link" data-toggle="tab" href="#tab_marketplace"
+                                       aria-controls="marketplace" role="tab" aria-expanded="false">Products</a>
+                                </li>
                             </ul>
 
                             <?php $isWithCreateBtn = $person->relation === Person::RELATION_SELF; ?>
@@ -245,6 +250,14 @@ $this->title = 'Eurocon / profile';
                                     <?= $this->render('/tabs/_communities', [
                                         'communities' => $communities->joinExtraData([
                                             'id' => $person->id,
+                                            'isWithCreateBtn' => $isWithCreateBtn
+                                        ])
+                                    ]) ?>
+                                </div>
+                                <div class="tab-pane animation-fade" id="tab_marketplace"
+                                     role="tabpanel" aria-expanded="false">
+                                    <?= $this->render('/tabs/_marketplace', [
+                                        'items' => $marketplace->joinExtraData([
                                             'isWithCreateBtn' => $isWithCreateBtn
                                         ])
                                     ]) ?>

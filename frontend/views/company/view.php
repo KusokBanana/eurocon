@@ -11,7 +11,7 @@ use yii\helpers\Html;
 /* @var $admins array \frontend\models\Person */
 /* @var $potentialSubscribers array \frontend\models\Person */
 /* @var $projects array \frontend\models\Project */
-/* @var $marketplace array \frontend\models\MarketplaceItem */
+/* @var $marketplace \frontend\models\AjaxReload */
 /* @var $newMarketplaceItem \frontend\models\MarketplaceItem */
 
 ?>
@@ -230,8 +230,8 @@ use yii\helpers\Html;
                                 ]) ?>
                             </div>
                             <div class="tab-pane active" id="marketplace" role="tabpanel" aria-expanded="true">
-                                <?= $this->render('_marketplace', [
-                                    'items' => $marketplace
+                                <?= $this->render('/tabs/_marketplace', [
+                                    'items' => $marketplace->joinExtraData(['isWithFilters' => false])
                                 ]) ?>
                             </div>
                         </div>

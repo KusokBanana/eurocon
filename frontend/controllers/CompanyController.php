@@ -73,7 +73,7 @@ class CompanyController extends CommunityController
                 case 'marketplace':
                     $marketplace = MarketplaceItem::getData($data['id'], BookMarketplace::TYPE_FOR_COMPANY,
                         $page, $data);
-                    return $this->renderAjax('_marketplace',
+                    return $this->renderAjax('/tabs/_marketplace',
                         [
                             'items' => $marketplace
                         ]);

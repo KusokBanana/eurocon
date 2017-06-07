@@ -20,6 +20,7 @@ use yii\helpers\ArrayHelper;
  * @property string $description
  * @property string $image
  * @property string $date
+ * @property int $owner_id [int(11)]
  */
 class MarketplaceItem extends ActiveRecord
 {
@@ -111,6 +112,7 @@ class MarketplaceItem extends ActiveRecord
             [['item_type_id', 'name'], 'required'],
             [['item_type_id', 'type_id', 'status_id', 'budget_id', 'category_id'], 'integer'],
             [['description'], 'string'],
+            [['owner_id'], 'safe'],
             [['name'], 'string', 'max' => 255],
             [['image'], 'string', 'max' => 126],
             [['date'], 'date'],
