@@ -2,8 +2,7 @@
 /* @var $pageNumbers array */
 /* @var $page int */
 /* @var $type string */
-/* @var $data array */
-/* @var $search string */
+/* @var $extraData array */
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -13,8 +12,8 @@ if (count($pageNumbers) > 1):
 ?>
 <nav>
     <ul data-plugin="paginator" data-total="" data-skin="pagination-no-border"
-        data-wrapSelector="<?= ArrayHelper::getValue($data, 'wrapSelector') ?>"
-        class="pagination pagination-no-border" data-addition='<?= Json::encode($data) ?>'>
+        data-wrapSelector="<?= ArrayHelper::getValue($extraData, 'wrapSelector') ?>"
+        class="pagination pagination-no-border" data-addition='<?= Json::encode($extraData) ?>'>
         <?php
         $currentIndex = array_search($page, $pageNumbers);
 
@@ -28,7 +27,7 @@ if (count($pageNumbers) > 1):
 
         <li class="pagination-prev page-item <?= $prevDisabled ?>">
             <?= Html::a('<span class="icon wb-chevron-left-mini"></span>',
-                ['ajax-reload', 'page' => $prevPage, 'type' => $type, 'search' => $search],
+                ['ajax-reload', 'page' => $prevPage, 'type' => $type],
                 [
                     'class' => 'page-link',
                     'aria-label' => 'Prev',
@@ -43,7 +42,7 @@ if (count($pageNumbers) > 1):
                 $active = 'active'
             ?>
             <li class="pagination-items page-item <?= $active ?>" data-value="">
-                <?= Html::a($pageNumber, ['ajax-reload', 'page' => $pageNumber, 'type' => $type, 'search' => $search],
+                <?= Html::a($pageNumber, ['ajax-reload', 'page' => $pageNumber, 'type' => $type],
                     ['class' => 'page-link']) ?>
             </li>
 
@@ -60,7 +59,7 @@ if (count($pageNumbers) > 1):
 
         <li class="pagination-next page-item <?= $nextDisabled ?>">
             <?= Html::a('<span class="icon wb-chevron-right-mini"></span>',
-                ['ajax-reload', 'page' => $nextPage, 'type' => $type, 'search' => $search],
+                ['ajax-reload', 'page' => $nextPage, 'type' => $type],
                 [
                     'class' => 'page-link',
                     'aria-label' => 'Next',

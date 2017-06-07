@@ -60,158 +60,156 @@ $this->params['body-class'] = 'app-travel';
                         <div class="tab-content">
                             <div class="tab-pane animation-fade active" id="projects"
                                  role="tabpanel" aria-expanded="true">
-                                <div class="spots-list row">
-                                    <div class="panel">
-                                        <div class="panel-body container-fluid">
-                                            <div class="row row-lg">
-                                                <?= Html::beginForm('', 'post',
-                                                    ['class' => 'location-filter']) ?>
-                                                    <div class="form-group col-xs-12">
-                                                        <div class="input-search">
-                                                            <i class="input-search-icon wb-search" aria-hidden="true"></i>
-                                                            <?= Html::textInput('name', null,
-                                                                ['class' => 'form-control', 'placeholder' => 'Search...',
-                                                                    'autocomplete' => 'off']) ?>
-                                                            <?= Html::button('',
-                                                                [
-                                                                    'class' => 'input-search-close icon wb-close',
-                                                                    'aria-label' => 'Close'
+                                <div class="panel">
+                                    <div class="panel-body container-fluid">
+                                        <div class="row row-lg">
+                                            <?= Html::beginForm('', 'post',
+                                                ['class' => 'location-filter']) ?>
+                                                <div class="form-group col-xs-12">
+                                                    <div class="input-search">
+                                                        <i class="input-search-icon wb-search" aria-hidden="true"></i>
+                                                        <?= Html::textInput('name', null,
+                                                            ['class' => 'form-control', 'placeholder' => 'Search...',
+                                                                'autocomplete' => 'off']) ?>
+                                                        <?= Html::button('',
+                                                            [
+                                                                'class' => 'input-search-close icon wb-close',
+                                                                'aria-label' => 'Close'
+                                                            ]) ?>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6 col-xl-4 col-xs-12">
+                                                    <!-- Example Basic -->
+                                                    <div class="example-wrap m-lg-0">
+
+                                                        <div>
+                                                            <div class="pull-xs-right m-r-15">
+                                                                <?= Html::checkbox('type_id', false, [
+                                                                    'class' => 'js-switch',
+                                                                    'value' => 1
                                                                 ]) ?>
+                                                            </div>
+                                                            <?= Html::label('New building', 'type_id',
+                                                                ['class' => 'p-t-3  m-l-25']) ?>
                                                         </div>
-                                                    </div>
-                                                    <div class="col-md-6 col-xl-4 col-xs-12">
-                                                        <!-- Example Basic -->
-                                                        <div class="example-wrap m-lg-0">
 
-                                                            <div>
-                                                                <div class="pull-xs-right m-r-15">
-                                                                    <?= Html::checkbox('type_id', false, [
-                                                                        'class' => 'js-switch',
-                                                                        'value' => 1
-                                                                    ]) ?>
-                                                                </div>
-                                                                <?= Html::label('New building', 'type_id',
-                                                                    ['class' => 'p-t-3  m-l-25']) ?>
+                                                        <div>
+                                                            <div class="pull-xs-right m-r-15">
+                                                                <?= Html::checkbox('type_id', false, [
+                                                                    'class' => 'js-switch',
+                                                                    'value' => 2
+                                                                ]) ?>
                                                             </div>
-
-                                                            <div>
-                                                                <div class="pull-xs-right m-r-15">
-                                                                    <?= Html::checkbox('type_id', false, [
-                                                                        'class' => 'js-switch',
-                                                                        'value' => 2
-                                                                    ]) ?>
-                                                                </div>
-                                                                <?= Html::label('Renovation', 'type_id',
-                                                                    ['class' => 'p-t-3 m-l-25']) ?>
-                                                            </div>
-
-                                                            <div>
-                                                                <div class="pull-xs-right m-r-15">
-                                                                    <?= Html::checkbox('type_id', false, [
-                                                                        'class' => 'js-switch',
-                                                                        'value' => 3
-                                                                    ]) ?>
-                                                                </div>
-                                                                <?= Html::label('Extension', 'type_id',
-                                                                    ['class' => 'p-t-3 m-l-25']) ?>
-                                                            </div>
-
-
+                                                            <?= Html::label('Renovation', 'type_id',
+                                                                ['class' => 'p-t-3 m-l-25']) ?>
                                                         </div>
-                                                        <!-- End Example Basic -->
-                                                    </div>
-                                                    <div class="col-md-6 col-xl-4 col-xs-12">
 
-                                                        <div class="form-group row">
-                                                            <?= Html::label('Status', 'status_id',
-                                                                ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
-                                                            <div class="col-md-9 col-xs-12">
-                                                                <?= Html::dropDownList('status_id', null,
-                                                                    Project::$statuses,
-                                                                    ['class' => 'form-control', 'prompt' => '-']) ?>
+                                                        <div>
+                                                            <div class="pull-xs-right m-r-15">
+                                                                <?= Html::checkbox('type_id', false, [
+                                                                    'class' => 'js-switch',
+                                                                    'value' => 3
+                                                                ]) ?>
                                                             </div>
+                                                            <?= Html::label('Extension', 'type_id',
+                                                                ['class' => 'p-t-3 m-l-25']) ?>
                                                         </div>
+
 
                                                     </div>
-                                                    <div class="col-md-6 col-xl-4 col-xs-12">
+                                                    <!-- End Example Basic -->
+                                                </div>
+                                                <div class="col-md-6 col-xl-4 col-xs-12">
 
-                                                        <div class="form-group row">
-                                                            <?= Html::label('Budget', 'budget_id',
-                                                                ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
-                                                            <div class="col-md-9 col-xs-12">
-                                                                <?= Html::dropDownList('budget_id', null,
-                                                                    Project::$budgets,
-                                                                    ['class' => 'form-control', 'prompt' => '-']) ?>
-                                                            </div>
+                                                    <div class="form-group row">
+                                                        <?= Html::label('Status', 'status_id',
+                                                            ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
+                                                        <div class="col-md-9 col-xs-12">
+                                                            <?= Html::dropDownList('status_id', null,
+                                                                Project::$statuses,
+                                                                ['class' => 'form-control', 'prompt' => '-']) ?>
                                                         </div>
-
-                                                        <div class="form-group row">
-                                                            <?= Html::label('Category', 'category_id',
-                                                                ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
-                                                            <div class="col-md-9 col-xs-12">
-                                                                <?= Html::dropDownList('category_id', null,
-                                                                    Project::$categories,
-                                                                    ['class' => 'form-control', 'prompt' => '-']) ?>
-                                                            </div>
-                                                        </div>
-
                                                     </div>
-                                                <?= Html::endForm() ?>
+
+                                                </div>
+                                                <div class="col-md-6 col-xl-4 col-xs-12">
+
+                                                    <div class="form-group row">
+                                                        <?= Html::label('Budget', 'budget_id',
+                                                            ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
+                                                        <div class="col-md-9 col-xs-12">
+                                                            <?= Html::dropDownList('budget_id', null,
+                                                                Project::$budgets,
+                                                                ['class' => 'form-control', 'prompt' => '-']) ?>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group row">
+                                                        <?= Html::label('Category', 'category_id',
+                                                            ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
+                                                        <div class="col-md-9 col-xs-12">
+                                                            <?= Html::dropDownList('category_id', null,
+                                                                Project::$categories,
+                                                                ['class' => 'form-control', 'prompt' => '-']) ?>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            <?= Html::endForm() ?>
+                                        </div>
+                                    </div>
+                                </div>
+                                <?php /** @var Project $project */
+                                        /* @var $project->location array */
+                                foreach ($projects as $key => $project): ?>
+                                    <div class="col-xs-12 col-xxl-6 col-lg-12 projects-info location-item"
+                                         data-location="<?= $project->location[Location::LAT] . ',' .
+                                            $project->location[Location::LNG] ?>"
+                                         data-filter_data='<?= Json::encode($project->getAttributes([
+                                                 'type_id', 'status_id', 'budget_id', 'category_id', 'name'
+                                         ])); ?>'
+                                         data-spot-id="<?= 's_'.$key ?>">
+                                        <div class="card card-shadow">
+                                            <div class="card-header cover overlay">
+                                                <?= Html::a(Html::img($project->imageShow,
+                                                    [
+                                                        'class' => 'cover-image',
+                                                        'alt' => 'spot_photo',
+                                                    ]),
+                                                    ['/company/view', 'id' => $project->id]) ?>
+                                                <div class="overlay-panel">
+                                                    <div class="card-actions pull-xs-right">
+                                                        <a href="javascript:void(0)">
+                                                            <i class="icon wb-heart-outline text" aria-hidden="true"></i>
+                                                            <i class="icon wb-heart text-active" aria-hidden="true"></i>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card-block">
+                                                <h3 class="card-title item-title">
+                                                    <?= $project->name ?>
+                                                </h3>
+                                                <span class="item-name">exercitation</span>
+                                                <p class="card-text type-link">
+                                                    <small>
+                                                        Posted in
+                                                        <a href="javascript:void(0)">
+                                                            qui
+                                                        </a>
+                                                    </small>
+                                                </p>
+                                                <p class="card-text">
+                                                    <?= $project->description ?>
+                                                </p>
+                                            </div>
+                                            <div class="card-block">
+                                                <div class="rating" data-score="4" data-nummber="5" data-plugin="rating">
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <?php /** @var Project $project */
-                                            /* @var $project->location array */
-                                    foreach ($projects as $key => $project): ?>
-                                        <div class="col-xs-12 col-xxl-6 col-lg-12 projects-info location-item"
-                                             data-location="<?= $project->location[Location::LAT] . ',' .
-                                                $project->location[Location::LNG] ?>"
-                                             data-filter_data='<?= Json::encode($project->getAttributes([
-                                                     'type_id', 'status_id', 'budget_id', 'category_id', 'name'
-                                             ])); ?>'
-                                             data-spot-id="<?= 's_'.$key ?>">
-                                            <div class="card card-shadow">
-                                                <div class="card-header cover overlay">
-                                                    <?= Html::a(Html::img($project->imageShow,
-                                                        [
-                                                            'class' => 'cover-image',
-                                                            'alt' => 'spot_photo',
-                                                        ]),
-                                                        ['/company/view', 'id' => $project->id]) ?>
-                                                    <div class="overlay-panel">
-                                                        <div class="card-actions pull-xs-right">
-                                                            <a href="javascript:void(0)">
-                                                                <i class="icon wb-heart-outline text" aria-hidden="true"></i>
-                                                                <i class="icon wb-heart text-active" aria-hidden="true"></i>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="card-block">
-                                                    <h3 class="card-title item-title">
-                                                        <?= $project->name ?>
-                                                    </h3>
-                                                    <span class="item-name">exercitation</span>
-                                                    <p class="card-text type-link">
-                                                        <small>
-                                                            Posted in
-                                                            <a href="javascript:void(0)">
-                                                                qui
-                                                            </a>
-                                                        </small>
-                                                    </p>
-                                                    <p class="card-text">
-                                                        <?= $project->description ?>
-                                                    </p>
-                                                </div>
-                                                <div class="card-block">
-                                                    <div class="rating" data-score="4" data-nummber="5" data-plugin="rating">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    <?php endforeach; ?>
-                                </div>
+                                <?php endforeach; ?>
                             </div>
                             <div class="tab-pane animation-fade" id="companies" role="tabpanel" aria-expanded="false">
                                 <div class="panel">

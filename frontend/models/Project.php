@@ -190,16 +190,20 @@ class Project extends ActiveRecord
         return $this->getTags()->andOnCondition([Tag::tableName().'.type_id' => Tag::PROJECT_TYPE]);
     }
 
-    public function getParticipantsData($page = 1, $search = '')
+    public function getParticipantsData($page = 1, $extraData = [])
     {
 
         $query = $this->getParticipants()->joinWith(['tags' => function($query) {
             $query->andOnCondition(['type_id' => Tag::PERSON_TYPE]); // TODO changed from project type
         }], true, 'LEFT OUTER JOIN');
 
-        $query->andFilterWhere(['LIKE', 'CONCAT(IFNULL(surname, ""), " ", IFNULL(name, ""))', $search]);
+        $ajaxReload = new AjaxReload();
+        $ajaxReload->init($query, $extraData, Person::class)
+            ->setSearchString('CONCAT(IFNULL(surname, ""), " ", IFNULL(name, ""))')
+            ->search()
+            ->setData($page, Person::$limit, 'participants');
 
-        return Pagination::getData($query, $page, Person::$limit, 'participants');
+        return $ajaxReload;
     }
 
     public function afterFind()

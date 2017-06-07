@@ -9,7 +9,7 @@ class Search extends Widget
 {
 
     public $query;
-    public $additionData;
+    public $extraData;
     public $data;
     public $type;
     public $wrapSelector = false;
@@ -21,14 +21,13 @@ class Search extends Widget
         parent::init();
 
         $this->isEmpty = empty($this->data);
-        $this->data = $this->additionData; // TODO remove data to additionData
     }
 
     public function run()
     {
         return $this->render('search', [
             'type' => $this->type,
-            'additionData' => $this->data,
+            'extraData' => $this->extraData,
             'query' => $this->query,
             'isEmpty' => $this->isEmpty,
             'wrapSelector' => $this->wrapSelector

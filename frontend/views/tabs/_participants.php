@@ -1,6 +1,5 @@
 <?php
-/* @var $participants array */
-/* @var $participants['data'] \frontend\models\Person array*/
+/* @var $participants \frontend\models\AjaxReload */
 /* @var $additionData array*/
 
 use frontend\widgets\Pagination;
@@ -14,15 +13,15 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
 
 <br>
 <?= Search::widget([
-    'additionData' => $additionData,
-    'query' => $additionData['search'],
-    'data' => $participants['data'],
-    'type' => $participants['type']
+    'extraData' => $participants->extraData,
+    'query' => $participants->getSearch(),
+    'data' => $participants->data,
+    'type' => $participants->type
 ]) ?>
 
-<?php if (!empty($participants['data'])): ?>
+<?php if (!empty($participants->data)): ?>
     <ul class="list-group">
-        <?php foreach ($participants['data'] as $participant): ?>
+        <?php foreach ($participants->data as $participant): ?>
             <li class="list-group-item">
                 <div class="media">
                     <div class="media-left">
@@ -42,7 +41,7 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
                         </h4>
                         <p>
                             <i class="icon icon-color wb-map" aria-hidden="true"></i>
-                            Street 4190 W Lone Mountain Rd
+                            <?= $participant->location['name'] ?>
                         </p>
                         <div>
                             <a class="text-action" href="javascript:void(0)">
@@ -67,8 +66,6 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
         <?php endforeach; ?>
     </ul>
 
-    <?php $participants['data'] = $additionData; ?>
-
-    <?= Pagination::widget($participants); ?>
+    <?= Pagination::widget($participants->pagination); ?>
 
 <?php endif; ?>

@@ -120,7 +120,7 @@ class Company extends Community
         return $this->getTags()->andOnCondition([Tag::tableName().'.type_id' => Tag::COMPANY_TYPE]);
     }
 
-    public function getPersonsData($type, $page = 1)
+    public function getPersonsData($type, $page = 1, $extraData = [])
     {
 
         switch ($type) {
@@ -136,18 +136,28 @@ class Company extends Community
 
         $limit = ($page === false) ? null : 6;
 
-        return Pagination::getData($query, $page, $limit, $type);
+        $extraData = (empty($extraData)) ? ['id' => $this->id] : $extraData;
+
+        $ajaxReload = new AjaxReload();
+        $ajaxReload->init($query, $extraData, Person::class)
+            ->setData($page, $limit, $type);
+
+        return $ajaxReload;
     }
 
-    public function getProjectsData($page = 1, $search = '')
+    public function getProjectsData($page = 1, $extraData = [])
     {
         $query = BookCompanyProject::getProjects($this->id, true);
-        $query->andFilterWhere(['LIKE', Project::tableName() . '.name', $search]);
 
         $limit = ($page === false) ? null : 9;
-        $type = 'projects';
+        $extraData = (empty($extraData)) ? ['id' => $this->id] : $extraData;
 
-        return Pagination::getData($query, $page, $limit, $type);
+        $ajaxReload = new AjaxReload();
+        $ajaxReload->init($query, $extraData, Project::class)
+            ->setFilters()
+            ->setData($page, $limit, 'projects');
+
+        return $ajaxReload;
     }
 
     public function createNew()
@@ -233,12 +243,12 @@ class Company extends Community
         $user = Yii::$app->user;
         $potentialSubscribers = ['admins' => [], 'cooperation' => []];
         if ($this->relation == Company::ROLE_ADMIN_TYPE) {
-            $follows = BookFollowers::getFollows($user->id, 1, '', BookFollowers::TYPE_ALL, true)['data'];
+            $follows = BookFollowers::getFollows($user->id, 1, [], true)->data;
 
-            $data = $this->getPersonsData(Company::ROLE_PARTICIPANT_TYPE, false)['data'];
+            $data = $this->getPersonsData(Company::ROLE_PARTICIPANT_TYPE, false)->data;
             $participantsArray = ArrayHelper::getColumn($data, 'user_id');
 
-            $data = $this->getPersonsData(Company::ROLE_ADMIN_TYPE, false)['data'];
+            $data = $this->getPersonsData(Company::ROLE_ADMIN_TYPE, false)->data;
             $adminsArray = ArrayHelper::getColumn($data, 'admin_id');
 
             foreach ($follows as $follow) {

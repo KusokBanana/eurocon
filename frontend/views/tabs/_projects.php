@@ -1,27 +1,36 @@
 <?php
 
-/* @var $projects array */
-/* @var $projects['data'] \frontend\models\Project array */
-/* @var $additionData array*/
+/* @var $projects \frontend\models\AjaxReload */
 
 use frontend\widgets\Pagination;
 use frontend\widgets\Search;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
-$additionData['search'] = isset($additionData['search']) ? $additionData['search'] : null;
 ?>
 
 <br>
+
 <?= Search::widget([
-    'additionData' => $additionData,
-    'query' => $additionData['search'],
-    'data' => $projects['data'],
-    'type' => $projects['type']
+    'extraData' => $projects->extraData,
+    'query' => $projects->getSearch(),
+    'data' => $projects->data,
+    'type' => $projects->type
 ]) ?>
 
-<?php if (!empty($projects)): ?>
+<?php if (isset($projects->extraData['isWithCreateBtn']) && $projects->extraData['isWithCreateBtn']): ?>
+    <div class="panel">
+        <div class="panel-body container-fluid text-xs-center">
+            <?= Html::a('<span><i class="icon wb-hammer" aria-hidden="true"></i>Create a project</span>',
+                ['/project/create'],
+                ['class' => 'btn btn-primary btn-animate btn-animate-side']) ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if (!empty($projects->data)): ?>
     <ul class="list-group blocks blocks-100 blocks-xxl-4 blocks-lg-3 blocks-md-2">
-        <?php foreach ($projects['data'] as $project): ?>
+        <?php foreach ($projects->data as $project): ?>
             <li class="list-group-item">
                 <div class="card card-shadow">
                     <figure class="card-img-top overlay-hover overlay" style="height: 215px;">
@@ -42,8 +51,7 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
         <?php endforeach; ?>
     </ul>
 
-    <?php $projects['data'] = $additionData ?>
-    <?= Pagination::widget($projects) ?>
+    <?= Pagination::widget($projects->pagination) ?>
 
 <?php endif; ?>
 

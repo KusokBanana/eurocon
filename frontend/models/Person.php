@@ -249,27 +249,43 @@ class Person extends User
 
     }
 
-    public function getProjectsData($page = 1, $search = '', $type)
+    public function getProjectsData($page = 1, $type, $extraData = [])
     {
 
         $query = $this->getProjects($type);
-        $query->andFilterWhere(['LIKE', Project::tableName() . '.name', $search]);
-        return Pagination::getData($query, $page, Project::$limit, 'projects');
+
+        $extraData = (empty($extraData)) ? ['id' => $this->id] : $extraData;
+
+        $ajaxReload = new AjaxReload();
+        $ajaxReload->init($query, $extraData, Project::class)
+            ->setFilters()
+            ->setData($page, Project::$limit, 'projects');
+
+        return $ajaxReload;
 
     }
 
-    public function getCompaniesData($type, $page = 1, $search = '')
+    public function getCompaniesData($type, $page = 1, $extraData = [])
     {
         $query = $this->getCompanies($type);
-        $query->andFilterWhere(['LIKE', Company::tableName() . '.name', $search]);
-        return Pagination::getData($query, $page, Company::$limit, 'companies');
+
+        $ajaxReload = new AjaxReload();
+        $ajaxReload->init($query, $extraData)
+            ->setFilters()
+            ->setData($page, Company::$limit, 'companies');
+
+        return $ajaxReload;
     }
 
-    public function getCommunitiesData($type, $page = 1, $search = '')
+    public function getCommunitiesData($type, $page = 1, $extraData = [])
     {
         $query = $this->getCommunities($type);
-        $query->andFilterWhere(['LIKE', Community::tableName() . '.name', $search]);
-        return Pagination::getData($query, $page, Community::$limit, 'communities');
+        $ajaxReload = new AjaxReload();
+        $ajaxReload->init($query, $extraData)
+            ->setFilters()
+            ->setData($page, Community::$limit, 'communities');
+
+        return $ajaxReload;
     }
 
     public function afterFind()

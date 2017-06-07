@@ -10,20 +10,6 @@ use yii\web\JqueryAsset;
 /** @var Project $project */
 /** @var ProjectTimeline $timelines */
 
-//$this->registerJsFile('@web/vendor/jquery-ui/jquery-ui.js',  ['depends' => [AppAsset::className()]]);
-//$this->registerJsFile('@web/vendor/blueimp-tmpl/tmpl.min.js',  ['depends' => [AppAsset::className()]]);
-//$this->registerJsFile('@web/vendor/blueimp-canvas-to-blob/canvas-to-blob.js',  ['depends' => [AppAsset::className()]]);
-//$this->registerJsFile('@web/vendor/blueimp-load-image/load-image.all.min.js',  ['depends' => [AppAsset::className()]]);
-//$this->registerJsFile('@web/vendor/blueimp-file-upload/jquery.fileupload.js',  ['depends' => [AppAsset::className()]]);
-//$this->registerJsFile('@web/vendor/blueimp-file-upload/jquery.fileupload-process.js',  ['depends' => [AppAsset::className()]]);
-//$this->registerJsFile('@web/vendor/blueimp-file-upload/jquery.fileupload-image.js',  ['depends' => [AppAsset::className()]]);
-//$this->registerJsFile('@web/vendor/blueimp-file-upload/jquery.fileupload-video.js',  ['depends' => [AppAsset::className()]]);
-//$this->registerJsFile('@web/vendor/dropify/dropify.min.js',  ['depends' => [AppAsset::className()]]);
-//$this->registerJsFile('@web/js/Plugin/dropify.min.js',  ['depends' => [AppAsset::className()]]);
-//$this->registerJsFile('@web/vendor/forms/uploads.js',  ['depends' => [AppAsset::className()]]);
-//
-//$this->registerCssFile('@web/vendor/dropify/dropify.min.css');
-//$this->registerCssFile('@web/vendor/blueimp-file-upload/jquery.fileupload.min.css');
 $this->registerJsFile('@web/vendor/jquery-appear/jquery.appear.js',  ['depends' => [AppAsset::className()]]);
 $this->registerJsFile('@web/vendor/plyr/plyr.js',  ['depends' => [AppAsset::className()]]);
 $this->registerJsFile('@web/js/Plugin/plyr.js',  ['depends' => [AppAsset::className()]]);

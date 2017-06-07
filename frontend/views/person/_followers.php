@@ -1,61 +1,64 @@
 <?php
-/* @var $participants array */
-/* @var $additionData array*/
+/* @var $participants \frontend\models\AjaxReload */
 
 use frontend\models\books\BookFollowers;
 use frontend\models\Person;
 use frontend\widgets\Pagination;
 use frontend\widgets\Search;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
 
-$additionData['search'] = isset($additionData['search']) ? $additionData['search'] : null;
-$additionData['type'] = isset($additionData['type']) && $additionData['type'] ?
-    $additionData['type'] : BookFollowers::TYPE_ALL;
 ?>
 
 <br>
 <?= Search::widget([
-    'additionData' => $additionData,
-    'query' => $additionData['search'],
-    'data' => $participants['data'],
-    'type' => $participants['type']
+    'extraData' => $participants->extraData,
+    'query' => $participants->getSearch(),
+    'data' => $participants->data,
+    'type' => $participants->type
 ]) ?>
 
-<div class="panel filter-tab-info"
-     data-href="<?= Url::to(['ajax-reload', 'page' => 1, 'type' => $participants['type']]) ?>"
-     data-addition='<?= Json::encode($additionData) ?>'>
-    <div class="panel-body container-fluid">
-        <div class="row">
-            <div class="col-md-3 col-xl-3 col-xs-6">
-                <div class="radio-custom radio-primary m-l-30" style="display: inline-block; padding-left: 20px;">
-                    <?= Html::radio('type', $additionData['type'] == BookFollowers::TYPE_FOLLOWER, [
-                        'id' => 'type-radio-1',
-                        'value' => BookFollowers::TYPE_FOLLOWER,
-                        'class' => 'filter-ajax-tabs'
-                    ]) ?>
-                    <?= Html::label('Followers', 'type-radio-1') ?>
+<?= Html::beginForm(['ajax-reload', 'type' => $participants->type, 'page' => $participants->page], 'post',
+    [
+        'class' => 'ajax-reload-filter',
+        'data-addition' => Json::encode($participants->extraData)
+    ]) ?>
+
+    <div class="panel">
+        <div class="panel-body container-fluid">
+            <div class="row">
+                <div class="col-md-3 col-xl-3 col-xs-6">
+                    <div class="radio-custom radio-primary m-l-30" style="display: inline-block; padding-left: 20px;">
+                        <?= Html::radio('type', $participants->extraData['type'] == BookFollowers::TYPE_FOLLOWER, [
+                            'id' => 'type-radio-1',
+                            'value' => BookFollowers::TYPE_FOLLOWER
+                        ]) ?>
+                        <?= Html::label('Followers', 'type-radio-1') ?>
+                    </div>
                 </div>
-            </div>
-            <div class="col-md-3 col-xl-3 col-xs-6">
-                <div class="radio-custom radio-primary m-l-30">
-                    <?= Html::radio('type', $additionData['type'] == BookFollowers::TYPE_FOLLOWING, [
-                        'id' => 'type-radio-2',
-                        'value' => BookFollowers::TYPE_FOLLOWING,
-                        'class' => 'filter-ajax-tabs'
-                    ]) ?>
-                    <?= Html::label('Following', 'type-radio-2') ?>
+                <div class="col-md-3 col-xl-3 col-xs-6">
+                    <div class="radio-custom radio-primary m-l-30">
+                        <?= Html::radio('type', $participants->extraData['type'] == BookFollowers::TYPE_FOLLOWING, [
+                            'id' => 'type-radio-2',
+                            'value' => BookFollowers::TYPE_FOLLOWING
+                        ]) ?>
+                        <?= Html::label('Following', 'type-radio-2') ?>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 
-<?php if (!empty($participants['data'])): ?>
+<?= Html::endForm() ?>
+
+
+
+<?php if (!empty($participants->data)): ?>
     <ul class="list-group">
         <?php /** @var Person $participant */
-        foreach ($participants['data'] as $participant): ?>
+        foreach ($participants->data as $participant): ?>
             <li class="list-group-item">
                 <div class="media">
                     <div class="media-left">
@@ -75,7 +78,7 @@ $additionData['type'] = isset($additionData['type']) && $additionData['type'] ?
                         </h4>
                         <p>
                             <i class="icon icon-color wb-map" aria-hidden="true"></i>
-                            Street 4190 W Lone Mountain Rd
+                            <?= $participant->location['name'] ?>
                         </p>
                         <div>
                             <a class="text-action" href="javascript:void(0)">
@@ -111,8 +114,6 @@ $additionData['type'] = isset($additionData['type']) && $additionData['type'] ?
         <?php endforeach; ?>
     </ul>
 
-    <?php $participants['data'] = $additionData; ?>
-
-    <?= Pagination::widget($participants); ?>
+    <?= Pagination::widget($participants->pagination); ?>
 
 <?php endif; ?>

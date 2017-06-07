@@ -2,10 +2,10 @@
 
 /* @var $this yii\web\View */
 /* @var $person Person */
-/* @var $projects \frontend\models\Project array */
-/* @var $follows Person array */
-/* @var $companies \frontend\models\Company array */
-/* @var $communities \frontend\models\Community array  */
+/* @var $projects \frontend\models\AjaxReload */
+/* @var $follows \frontend\models\AjaxReload */
+/* @var $companies \frontend\models\AjaxReload */
+/* @var $communities \frontend\models\AjaxReload  */
 
 use frontend\models\Person;
 use frontend\widgets\CustomModal;
@@ -37,12 +37,29 @@ $this->title = 'Eurocon / profile';
                     </ul>
 
                     <?php
-                    if ($person->relation === Person::RELATION_SELF) {
-                        echo Html::a('<span><i class="icon wb-hammer " aria-hidden="true"></i>Create a project</span>',
-                            ['/project/create'],
-                            ['class' => 'btn btn-dark btn-animate btn-animate-side']);
-                    }
-                    ?>
+                    if ($person->relation === Person::RELATION_SELF): ?>
+                    <div class="btn-group" role="group">
+                        <?= Html::a('<span><i class="icon wb-hammer" aria-hidden="true"></i>Start to create</span>',
+                            '#',
+                            [
+                                'class' => 'btn btn-dark btn-animate btn-animate-side',
+                                'data-toggle' => 'dropdown',
+                                'aria-expanded' => 'false',
+                                'style' => 'border-radius: .215rem',
+                                'id' => 'profileCreateBtns'
+                            ]); ?>
+                        <div class="dropdown-menu" aria-labelledby="profileCreateBtns" role="menu">
+                            <?= Html::a('Create a project', ['/project/create'],
+                                ['role' => 'menuitem', 'class' => 'dropdown-item']) ?>
+                            <?= Html::a('Create a company', ['/company/create'],
+                                ['role' => 'menuitem', 'class' => 'dropdown-item']) ?>
+                            <?= Html::a('Create a community', ['/community/create'],
+                                ['role' => 'menuitem', 'class' => 'dropdown-item']) ?>
+                            <?= Html::a('Create a product', ['/product/create'],
+                                ['role' => 'menuitem', 'class' => 'dropdown-item']) ?>
+                        </div>
+                    </div>
+                    <?php endif; ?>
 
                 </div>
             </div>
@@ -193,33 +210,43 @@ $this->title = 'Eurocon / profile';
                                 </li>
                             </ul>
 
+                            <?php $isWithCreateBtn = $person->relation === Person::RELATION_SELF; ?>
+
                             <div class="tab-content">
                                 <div class="tab-pane animation-fade active" id="tab_projects"
                                      role="tabpanel" aria-expanded="false">
                                     <?= $this->render('/tabs/_projects', [
-                                        'projects' => $projects,
-                                        'additionData' => ['id' => $person->id]
+                                        'projects' => $projects->joinExtraData([
+                                            'id' => $person->id,
+                                            'isWithCreateBtn' => $isWithCreateBtn
+                                        ])
                                     ]) ?>
                                 </div>
                                 <div class="tab-pane animation-fade" id="tab_followers"
                                      role="tabpanel" aria-expanded="true">
                                     <?= $this->render('_followers', [
-                                        'participants' => $follows,
-                                        'additionData' => ['id' => $person->id]
+                                        'participants' => $follows->joinExtraData([
+                                            'id' => $person->id,
+                                            'isWithCreateBtn' => $isWithCreateBtn
+                                        ])
                                     ]) ?>
                                 </div>
                                 <div class="tab-pane animation-fade" id="tab_companies"
                                      role="tabpanel" aria-expanded="false">
                                     <?= $this->render('/tabs/_companies', [
-                                        'companies' => $companies,
-                                        'additionData' => ['id' => $person->id]
+                                        'companies' => $companies->joinExtraData([
+                                            'id' => $person->id,
+                                            'isWithCreateBtn' => $isWithCreateBtn
+                                        ])
                                     ]) ?>
                                 </div>
                                 <div class="tab-pane animation-fade" id="tab_communities"
                                      role="tabpanel" aria-expanded="false">
                                     <?= $this->render('/tabs/_communities', [
-                                        'communities' => $communities,
-                                        'additionData' => ['id' => $person->id]
+                                        'communities' => $communities->joinExtraData([
+                                            'id' => $person->id,
+                                            'isWithCreateBtn' => $isWithCreateBtn
+                                        ])
                                     ]) ?>
                                 </div>
                             </div>

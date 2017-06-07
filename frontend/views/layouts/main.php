@@ -287,7 +287,7 @@ $user = Person::getPerson(Yii::$app->user);
                     <li class="dropdown site-menu-item has-sub">
                         <a data-toggle="dropdown" href="javascript:void(0)" data-dropdown-toggle="false">
                             <i class="site-menu-icon wb-layout" aria-hidden="true"></i>
-                            <span class="site-menu-title">Search</span>
+                            <span class="site-menu-title">Discover</span>
                             <span class="site-menu-arrow"></span>
                         </a>
                         <div class="dropdown-menu">

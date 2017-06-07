@@ -54,7 +54,7 @@ class ProjectController extends Controller
 
             $follows = BookFollowers::getPossiblePeopleToSubscribeForCurrentUser();
 
-            $participantsArray = ArrayHelper::getColumn($participants['data'], 'id');
+            $participantsArray = ArrayHelper::getColumn($participants->data, 'id');
             $adminsArray = ArrayHelper::getColumn($admins, 'user_id');
             $potentialSubscribers = [];
             if (!empty($follows)) {
@@ -87,7 +87,6 @@ class ProjectController extends Controller
             $data = Yii::$app->request->post('data');
             $data = Json::decode($data, true);
             $action = isset($data['action']) ? $data['action'] : false;
-            $search = isset($data['search']) ? trim($data['search']) : '';
 
             if ($action == 'search') {
                 $page = $data['page'] = 1;
@@ -96,18 +95,16 @@ class ProjectController extends Controller
             switch ($type) {
                 case 'participants':
                     $project = Project::findOne($data['id']);
-                    $participants = $project->getParticipantsData($page, $search);
+                    $participants = $project->getParticipantsData($page, $data);
                     return $this->renderAjax('/tabs/_participants',
                         [
-                            'participants' => $participants,
-                            'additionData' => $data
+                            'participants' => $participants
                         ]);
                 case 'forum':
-                    $posts = Post::getPostsData(Post::TYPE_PROJECT, $data['id'], $page, $search);
+                    $posts = Post::getPostsData(Post::TYPE_PROJECT, $data['id'], $page, $data);
 
                     return Forum::widget([
-                        'data' => $posts,
-                        'additionData' => $data
+                        'data' => $posts
                     ]);
             }
 
@@ -148,11 +145,11 @@ class ProjectController extends Controller
                         $posts = Post::getPostsData(Post::TYPE_PROJECT, $post->field_id);
 
                         return Forum::widget([
-                            'data' => $posts,
-                            'additionData' => [
-                                'id' => $post->field_id,
-                                'search-wrapper-class' => 'input-search-dark'
-                            ]
+                            'data' => $posts->joinExtraData([
+                                    'id' => $post->field_id,
+                                    'search-wrapper-class' => 'input-search-dark'
+                                ]
+                            )
                         ]);
 
                     }
@@ -167,7 +164,7 @@ class ProjectController extends Controller
 
         $newProject = new Project();
         $person = Person::getPerson(Yii::$app->user);
-        $follows = BookFollowers::getFollows($person->id, 1, '', BookFollowers::TYPE_ALL, true)['data'];
+        $follows = BookFollowers::getFollows($person->id, 1, [], true)->data;
         $follows = ArrayHelper::map($follows, 'id', 'full_name');
         if ($newProject->load(Yii::$app->request->post())) {
             $newProject->createNew();

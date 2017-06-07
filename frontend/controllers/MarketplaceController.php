@@ -52,7 +52,6 @@ class MarketplaceController extends Controller
             $data = Yii::$app->request->post('data');
             $data = Json::decode($data, true);
             $action = isset($data['action']) ? $data['action'] : false;
-            $search = isset($data['search']) ? trim($data['search']) : '';
 
             if ($action == 'search') {
                 $page = $data['page'] = 1;
@@ -60,13 +59,17 @@ class MarketplaceController extends Controller
 
             switch ($type) {
                 case 'marketplace':
-                    $filter = ArrayHelper::getValue($data, 'filter');
-                    $marketplace = MarketplaceItem::getAll($page, $search, $filter);
+                    $marketplace = MarketplaceItem::getAll($page, $data);
                     return $this->renderAjax('_items',
                         [
                             'items' => $marketplace,
-                            'additionData' => $data,
                         ]);
+
+                case 'forum':
+                    $posts = Post::getPostsData(Post::TYPE_MARKETPLACE, $data['id'], $page, $data);
+                    return Forum::widget([
+                        'data' => $posts,
+                    ]);
             }
 
         }
@@ -107,11 +110,10 @@ class MarketplaceController extends Controller
                         $posts = Post::getPostsData(Post::TYPE_MARKETPLACE, $post->field_id);
 
                         return Forum::widget([
-                            'data' => $posts,
-                            'additionData' => [
-                                'id' => $post->field_id
-                            ]
-                        ]);
+                            'data' => $posts->joinExtraData([
+                                    'id' => $post->field_id
+                                ]),
+                            ]);
 
                     }
 

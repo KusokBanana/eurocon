@@ -40,7 +40,6 @@ class CompanyController extends CommunityController
             $data = Yii::$app->request->post('data');
             $data = Json::decode($data, true);
             $action = isset($data['action']) ? $data['action'] : false;
-            $search = isset($data['search']) ? trim($data['search']) : '';
 
             if ($action == 'search') {
                 $page = $data['page'] = 1;
@@ -49,39 +48,34 @@ class CompanyController extends CommunityController
             switch ($type) {
                 case 'companies':
                     $person = Person::findOne($data['id']);
-                    $companies = $person->getCompaniesData($page, $search);
+                    $companies = $person->getCompaniesData($page, $data);
                     return $this->renderAjax('/tabs/_companies',
                         [
                             'companies' => $companies,
-                            'additionData' => $data
                         ]);
                 case 'projects':
                     $company = Company::findOne($data['id']);
-                    $projects = $company->getProjectsData($page, $search);
+                    $projects = $company->getProjectsData($page, $data);
                     return $this->renderAjax('_projects',
                         [
-                            'projects' => $projects,
-                            'additionData' => $data
+                            'projects' => $projects
                         ]);
                 case Company::ROLE_ADMIN_TYPE:
                 case Company::ROLE_PARTICIPANT_TYPE:
                     $company = Company::findOne($data['id']);
                     $company->setRelation(Yii::$app->user);
-                    $persons = $company->getPersonsData($type, $page);
+                    $persons = $company->getPersonsData($type, $page, $data);
                     return $this->renderAjax('_persons',
                         [
                             'persons' => $persons,
-                            'additionData' => $data,
                             'company' => $company
                         ]);
                 case 'marketplace':
-                    $filter = ArrayHelper::getValue($data, 'filter');
                     $marketplace = MarketplaceItem::getData($data['id'], BookMarketplace::TYPE_FOR_COMPANY,
-                        $page, $search, $filter);
+                        $page, $data);
                     return $this->renderAjax('_marketplace',
                         [
-                            'items' => $marketplace,
-                            'additionData' => $data,
+                            'items' => $marketplace
                         ]);
             }
 

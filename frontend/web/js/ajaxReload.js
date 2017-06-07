@@ -14,8 +14,8 @@ $(document).ready(function() {
 
         ajaxReload(additionData, $(this), $(this).attr('href'), wrap);
 
-    }).on('keyup', '.search-ajax-field', function(e) {
-        if(e.keyCode === 13){
+    }).on('keyup focusout', '.search-ajax-field', function(e) {
+        if((e.type === 'keyup' && e.keyCode === 13) || e.type === 'focusout'){
             e.preventDefault();
             var additionData = $(this).attr('data-addition'),
                 wrapSelector = $(this).attr('data-wrap'),

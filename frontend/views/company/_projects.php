@@ -5,23 +5,20 @@ use frontend\widgets\Pagination;
 use yii\helpers\Url;
 use frontend\widgets\Search;
 
-/* @var $projects array */
-/* @var $additionData array */
-
-$additionData['search'] = isset($additionData['search']) ? $additionData['search'] : null;
+/* @var $projects \frontend\models\AjaxReload */
 
 ?>
 <br>
 <?= Search::widget([
-    'additionData' => $additionData,
-    'query' => $additionData['search'],
-    'data' => $projects['data'],
-    'type' => $projects['type']
+    'extraData' => $projects->extraData,
+    'query' => $projects->getSearch(),
+    'data' => $projects->data,
+    'type' => $projects->type
 ]) ?>
 
-<?php if (!empty($projects['data'])): ?>
+<?php if (!empty($projects->data)): ?>
     <ul class="list-group blocks blocks-100 blocks-xxl-4 blocks-lg-3 blocks-md-2">
-        <?php foreach ($projects['data'] as $projectData): ?>
+        <?php foreach ($projects->data as $projectData): ?>
             <?php /** @var \frontend\models\Project $project */
             $project = $projectData->project; ?>
             <li class="list-group-item">
@@ -51,7 +48,6 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
         <?php endforeach; ?>
     </ul>
 
-    <?php $projects['data'] = $additionData; ?>
-    <?= Pagination::widget($projects); ?>
+    <?= Pagination::widget($projects->pagination); ?>
 
 <?php endif; ?>

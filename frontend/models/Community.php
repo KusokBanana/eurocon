@@ -106,7 +106,7 @@ class Community extends ActiveRecord
         return $this->getTags()->andOnCondition([Tag::tableName().'.type_id' => Tag::COMMUNITY_TYPE]);
     }
 
-    public function getPersonsData($type, $search = '')
+    public function getPersonsData($type, $extraData = [])
     {
 
         switch ($type) {
@@ -120,10 +120,14 @@ class Community extends ActiveRecord
                 return false;
         }
 
-        $query->andFilterWhere(['LIKE', "CONCAT(" . Person::tableName() . ".`name`, ' ', " .
-            Person::tableName() . ".`surname`)", $search]);
+        $ajaxReload = new AjaxReload();
+        $ajaxReload->init($query, $extraData)
+            ->setSearchString("CONCAT(" . Person::tableName() . ".`name`, ' ', " .
+                Person::tableName() . ".`surname`)")
+            ->search()
+            ->setData(0, null, $type);
 
-        return Pagination::getData($query, 0, null, $type);
+        return $ajaxReload;
     }
 
     public function createNew()

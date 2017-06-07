@@ -17,6 +17,7 @@ use frontend\models\Location;
 use frontend\models\Person;
 use frontend\models\Project;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -27,8 +28,6 @@ class PersonController extends Controller
     public function actionProfile($id)
     {
 
-        $user = Yii::$app->user;
-
         $pageUser = User::findOne($id);
         if ($pageUser) {
             $person = Person::getPerson($pageUser);
@@ -36,9 +35,9 @@ class PersonController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $projects = $person->getProjectsData(1, '', Project::RELATION_ADMIN);
+        $projects = $person->getProjectsData(1, Project::RELATION_ADMIN);
         $follows = BookFollowers::getFollows($person->id);
-        $companies = $person->getCompaniesData(Company::ROLE_ADMIN_TYPE, 1, '');
+        $companies = $person->getCompaniesData(Company::ROLE_ADMIN_TYPE, 1);
         $communities = $person->getCommunitiesData(Community::ROLE_ADMIN_TYPE, 1, '');
 
         return $this->render('profile',
@@ -54,7 +53,6 @@ class PersonController extends Controller
             $data = Yii::$app->request->post('data');
             $data = Json::decode($data, true);
             $action = isset($data['action']) ? $data['action'] : false;
-            $search = isset($data['search']) ? trim($data['search']) : '';
 
             if ($action == 'search') {
                 $page = $data['page'] = 1;
@@ -62,35 +60,31 @@ class PersonController extends Controller
 
             switch ($type) {
                 case 'followers':
-                    $follows = BookFollowers::getFollows($data['id'], $page, $search, $data['type']);
+                    $follows = BookFollowers::getFollows($data['id'], $page, $data);
                     return $this->renderAjax('_followers',
                         [
-                            'participants' => $follows,
-                            'additionData' => $data
+                            'participants' => $follows
                         ]);
                 case 'projects':
                     $person = Person::findOne($data['id']);
-                    $projects = $person->getProjectsData($page, $search, Project::RELATION_ADMIN);
+                    $projects = $person->getProjectsData($page, Project::RELATION_ADMIN, $data);
                     return $this->renderAjax('/tabs/_projects',
                         [
                             'projects' => $projects,
-                            'additionData' => $data
                         ]);
                 case 'companies':
                     $person = Person::findOne($data['id']);
-                    $companies = $person->getCompaniesData(Company::ROLE_ADMIN_TYPE, $page, $search);
+                    $companies = $person->getCompaniesData(Company::ROLE_ADMIN_TYPE, $page, $data);
                     return $this->renderAjax('/tabs/_companies',
                         [
                             'companies' => $companies,
-                            'additionData' => $data
                         ]);
                 case 'communities':
                     $person = Person::findOne($data['id']);
-                    $communities = $person->getCommunitiesData(Community::ROLE_ADMIN_TYPE, $page, $search);
+                    $communities = $person->getCommunitiesData(Community::ROLE_ADMIN_TYPE, $page, $data);
                     return $this->renderAjax('/tabs/_communities',
                         [
                             'communities' => $communities,
-                            'additionData' => $data
                         ]);
             }
 

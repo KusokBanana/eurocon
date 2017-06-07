@@ -3,7 +3,7 @@ use frontend\assets\AppAsset;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Url;
 
-/* @var $marketplaceItems \frontend\models\MarketplaceItem */
+/* @var $marketplaceItems \frontend\models\AjaxReload */
 /* @var $this \yii\web\View */
 
 //$this->registerJsFile('@web/js/Plugin/animate-list.min.js', ['depends' => [AppAsset::className()]]);
@@ -28,8 +28,9 @@ $this->params['body-class'] = 'app-media page-aside-left site-menubar-hide';
         <!-- Media Content Header -->
 
         <?= $this->render('_items', [
-            'items' => $marketplaceItems,
-            'additionData' => []
+            'items' => $marketplaceItems->joinExtraData([
+                    'wrapSelector' => '#marketplace'
+            ]),
         ]) ?>
 
     </div>

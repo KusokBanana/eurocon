@@ -91,23 +91,26 @@ class Post extends ActiveRecord
             ->joinWith('user');
     }
 
-    public static function getPostsData($type, $field_id, $page = 1, $search = '')
+    public static function getPostsData($type, $field_id, $page = 1, $extraData = [])
     {
 
         if ($type && $field_id) {
 
             $query = static::getPosts($type, $field_id);
 
-            $query->andFilterWhere(['LIKE', 'title', $search]);
+            $ajaxReload = new AjaxReload();
+            $ajaxReload->init($query, $extraData)
+                ->setSearchString('title')
+                ->search()
+                ->setData($page, static::$limit, 'forum');
 
-            $result = Pagination::getData($query, $page, static::$limit, 'forum');
 
             /** @var Post $post */
-            foreach ($result['data'] as $post) {
+            foreach ($ajaxReload->data as $post) {
                 $post->setCommentaries();
             }
 
-            return $result;
+            return $ajaxReload;
 
         }
 

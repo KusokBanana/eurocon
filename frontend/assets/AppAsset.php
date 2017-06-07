@@ -77,7 +77,7 @@ class AppAsset extends AssetBundle
         'js/Plugin/aspieprogress.min.js',
         'js/Plugin/bootstrap-datepicker.min.js',
         'js/Plugin/animate-list.min.js',
-        'js/pagination.js',
+        '/js/ajaxReload.js',
         '/js/Plugin/filterable.js',
         '/js/Plugin/gallery.min.js',
         '/vendor/isotope/isotope.pkgd.min.js',

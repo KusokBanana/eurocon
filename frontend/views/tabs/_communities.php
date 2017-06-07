@@ -1,27 +1,34 @@
 <?php
 
-/* @var $communities array */
-/* @var $communities['data'] \frontend\models\Community array */
-/* @var $additionData array*/
+/* @var $communities \frontend\models\AjaxReload */
 
 use frontend\widgets\Pagination;
 use frontend\widgets\Search;
 use yii\helpers\Html;
 
-$additionData['search'] = isset($additionData['search']) ? $additionData['search'] : null;
 ?>
 
 <br>
 <?= Search::widget([
-    'additionData' => $additionData,
-    'query' => $additionData['search'],
-    'data' => $communities['data'],
-    'type' => $communities['type']
+    'extraData' => $communities->extraData,
+    'query' => $communities->getSearch(),
+    'data' => $communities->data,
+    'type' => $communities->type
 ]) ?>
 
-<?php if (!empty($communities)): ?>
+<?php if (isset($communities->extraData['isWithCreateBtn']) && $communities->extraData['isWithCreateBtn']): ?>
+    <div class="panel">
+        <div class="panel-body container-fluid text-xs-center">
+            <?= Html::a('<span><i class="icon fa-group" aria-hidden="true"></i>Create a community</span>',
+                ['/community/create'],
+                ['class' => 'btn btn-primary btn-animate btn-animate-side']) ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if (!empty($communities->data)): ?>
     <ul class="list-group">
-        <?php foreach ($communities['data'] as $community): ?>
+        <?php foreach ($communities->data as $community): ?>
             <li class="list-group-item">
                 <div class="media">
                     <div class="media-left">
@@ -42,8 +49,7 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
         <?php endforeach; ?>
     </ul>
 
-    <?php $communities['data'] = $additionData ?>
-    <?= Pagination::widget($communities) ?>
+    <?= Pagination::widget($communities->pagination) ?>
 
 <?php endif; ?>
 

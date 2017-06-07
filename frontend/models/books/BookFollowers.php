@@ -2,7 +2,7 @@
 
 namespace frontend\models\books;
 
-use frontend\models\Pagination;
+use frontend\models\AjaxReload;
 use frontend\models\Person;
 use Yii;
 use yii\db\ActiveRecord;
@@ -133,10 +133,19 @@ class BookFollowers extends ActiveRecord
 
     }
 
-    public static function getFollows($user_id, $page = 1, $search = '', $type = self::TYPE_ALL, $isAll = false)
+    public static function getFollows($user_id, $page = 1, $extraData = [], $isAll = false)
     {
 
         if ($user_id) {
+
+            $type = ArrayHelper::getValue($extraData, 'type');
+            $filter = ArrayHelper::getValue($extraData, 'filter');
+            if (!empty($filter)) {
+                $filter = ArrayHelper::map($filter, 'name', 'value');
+                $type = ArrayHelper::getValue($filter, 'type');
+            }
+
+            $extraData['type'] = $type ? $type : self::TYPE_ALL;
 
             switch ($type) {
                 case self::TYPE_FOLLOWER:
@@ -165,13 +174,15 @@ class BookFollowers extends ActiveRecord
 
             $friendsQuery = Person::find()->where(['id' => $followsIds]);
 
-            $friendsQuery->andFilterWhere(['LIKE', 'CONCAT(IFNULL(surname, ""), " ", IFNULL(name, ""))', $search]);
-
             $limit = $isAll ? null : static::$limit;
 
-            $friends = Pagination::getData($friendsQuery, $page, $limit, 'followers');
+            $ajaxReload = new AjaxReload();
+            $ajaxReload->init($friendsQuery, $extraData, Person::class)
+                ->setSearchString('CONCAT(IFNULL(surname, ""), " ", IFNULL(name, ""))')
+                ->search()
+                ->setData($page, $limit, 'followers');
 
-            return $friends;
+            return $ajaxReload;
         }
 
     }
@@ -181,7 +192,7 @@ class BookFollowers extends ActiveRecord
         $user = Yii::$app->user;
         $people = [];
         if (!$user->isGuest) {
-            $people = static::getFollows($user->id, 1, '', BookFollowers::TYPE_ALL, true)['data'];
+            $people = static::getFollows($user->id, 1, [], true)->data;
         }
 
         return $people;

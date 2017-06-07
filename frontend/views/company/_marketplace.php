@@ -8,18 +8,15 @@ use yii\helpers\Json;
 use yii\helpers\Url;
 use frontend\widgets\Search;
 
-/* @var $items array */
-/* @var $additionData array */
+/* @var $items \frontend\models\AjaxReload */
 
-$additionData['search'] = ArrayHelper::getValue($additionData, 'search', null);
-$filter = $additionData['filter'] = $items['filter'];
 ?>
 <br>
 <?= Search::widget([
-    'additionData' => $additionData,
-    'query' => $additionData['search'],
-    'data' => $items['data'],
-    'type' => $items['type']
+    'extraData' => $items->extraData,
+    'query' => ArrayHelper::getValue($items->extraData, 'search', ''),
+    'data' => $items->data,
+    'type' => $items->type
 ]) ?>
 
 <div class="panel">
@@ -27,23 +24,23 @@ $filter = $additionData['filter'] = $items['filter'];
     <div class="panel-body container-fluid">
         <div class="row row-lg">
 
-            <?= Html::beginForm(['ajax-reload', 'type' => $items['type'], 'page' => 1], 'post',
+            <?= Html::beginForm(['ajax-reload', 'type' => $items->type, 'page' => $items->page], 'post',
                 [
                     'class' => 'ajax-reload-filter',
-                    'data-addition' => Json::encode($additionData)
+                    'data-addition' => Json::encode($items->extraData)
                 ]) ?>
 
                 <div class="col-md-4 col-xl-3 col-xs-12">
                     <!-- Example Basic -->
                     <div class="radio-custom radio-primary m-l-30" style="display: inline-block; padding-left: 20px;">
                         <?= Html::radio('item_type_id',
-                            ArrayHelper::getValue($filter, 'item_type_id') == MarketplaceItem::ITEM_TYPE_OFFER,
+                            $items->getFilterVal('item_type_id') == MarketplaceItem::ITEM_TYPE_OFFER,
                             ['value' => MarketplaceItem::ITEM_TYPE_OFFER]) ?>
                         <?= Html::label('Offers', 'item_type_id') ?>
                     </div>
                     <div class="radio-custom radio-primary m-l-30">
                         <?= Html::radio('item_type_id',
-                            ArrayHelper::getValue($filter, 'item_type_id') == MarketplaceItem::ITEM_TYPE_REQUEST,
+                            $items->getFilterVal('item_type_id') == MarketplaceItem::ITEM_TYPE_REQUEST,
                             ['value' => MarketplaceItem::ITEM_TYPE_REQUEST]) ?>
                         <?= Html::label('Requests', 'item_type_id') ?>
                     </div>
@@ -54,7 +51,7 @@ $filter = $additionData['filter'] = $items['filter'];
                         <?= Html::label('Type', 'type_id', ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
                         <div class="col-md-9 col-xs-12">
                             <?= Html::dropDownList('type_id',
-                                ArrayHelper::getValue($filter, 'type_id'),
+                                $items->getFilterVal('type_id'),
                                 MarketplaceItem::$types,
                                 ['class' => 'form-control']) ?>
                         </div>
@@ -63,7 +60,7 @@ $filter = $additionData['filter'] = $items['filter'];
                         <?= Html::label('Budget', 'budget_id', ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
                         <div class="col-md-9 col-xs-12">
                             <?= Html::dropDownList('budget_id',
-                                ArrayHelper::getValue($filter, 'budget_id'),
+                                $items->getFilterVal('budget_id'),
                                 MarketplaceItem::$budgets,
                                 ['class' => 'form-control']) ?>
                         </div>
@@ -87,10 +84,10 @@ $filter = $additionData['filter'] = $items['filter'];
     </div>
 </div>
 
-<?php if (!empty($items['data'])): ?>
+<?php if (!empty($items->data)): ?>
     <ul class="list-group">
         <?php /** @var MarketplaceItem $item */
-        foreach ($items['data'] as $item): ?>
+        foreach ($items->data as $item): ?>
             <?php $item = $item->item; ?>
             <li class="list-group-item">
                 <div class="media media-lg">
@@ -122,8 +119,7 @@ $filter = $additionData['filter'] = $items['filter'];
         <?php endforeach; ?>
     </ul>
 
-    <?php $items['data'] = $additionData; ?>
-    <?= Pagination::widget($items); ?>
+    <?= Pagination::widget($items->pagination); ?>
 
 <?php endif; ?>
 

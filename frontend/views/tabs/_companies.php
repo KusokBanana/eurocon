@@ -1,27 +1,34 @@
 <?php
 
-/* @var $companies array */
-/* @var $companies['data'] \frontend\models\Company array */
-/* @var $additionData array*/
+/* @var $companies \frontend\models\AjaxReload */
 
 use frontend\widgets\Pagination;
 use frontend\widgets\Search;
 use yii\helpers\Html;
 
-$additionData['search'] = isset($additionData['search']) ? $additionData['search'] : null;
 ?>
 
 <br>
 <?= Search::widget([
-    'additionData' => $additionData,
-    'query' => $additionData['search'],
-    'data' => $companies['data'],
-    'type' => $companies['type']
+    'extraData' => $companies->extraData,
+    'query' => $companies->getSearch(),
+    'data' => $companies->data,
+    'type' => $companies->type
 ]) ?>
 
-<?php if (!empty($companies)): ?>
+<?php if (isset($companies->extraData['isWithCreateBtn']) && $companies->extraData['isWithCreateBtn']): ?>
+    <div class="panel">
+        <div class="panel-body container-fluid text-xs-center">
+            <?= Html::a('<span><i class="icon wb-home" aria-hidden="true"></i>Create a company</span>',
+                ['/company/create'],
+                ['class' => 'btn btn-primary btn-animate btn-animate-side']) ?>
+        </div>
+    </div>
+<?php endif; ?>
+
+<?php if (!empty($companies->data)): ?>
     <ul class="list-group">
-        <?php foreach ($companies['data'] as $company): ?>
+        <?php foreach ($companies->data as $company): ?>
             <li class="list-group-item">
                 <div class="media">
                     <div class="media-left">
@@ -42,7 +49,6 @@ $additionData['search'] = isset($additionData['search']) ? $additionData['search
         <?php endforeach; ?>
     </ul>
 
-    <?php $companies['data'] = $additionData ?>
-    <?= Pagination::widget($companies) ?>
+    <?= Pagination::widget($companies->pagination) ?>
 
 <?php endif; ?>

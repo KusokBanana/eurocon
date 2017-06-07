@@ -9,10 +9,10 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 /* @var $community Company */
-/* @var $followers array \frontend\models\Person */
-/* @var $admins array \frontend\models\Person */
+/* @var $followers \frontend\models\AjaxReload */
+/* @var $admins \frontend\models\AjaxReload */
 /* @var $newPost \frontend\models\Post */
-/* @var $posts array \frontend\models\Post */
+/* @var $posts \frontend\models\AjaxReload */
 
 $this->registerJsFile('@web/js/forum.js',  ['depends' => [AppAsset::className()]]);
 $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [AppAsset::className()]]);
@@ -82,22 +82,20 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
 
                 <div class="panel" id="followers">
                     <?= $this->render('_persons', [
-                        'persons' => $followers,
-                        'additionData' => [
-                            'id' => $community->id,
-                            'type' => 'followers',
-                            'name' => 'Followers'
-                        ]
+                        'persons' => $followers->joinExtraData([
+                                'id' => $community->id,
+                                'type' => 'followers',
+                                'name' => 'Followers'
+                            ])
                     ]) ?>
                 </div>
                 <div class="panel" id="contacts">
                     <?= $this->render('_persons', [
-                        'persons' => $admins,
-                        'additionData' => [
-                            'id' => $community->id,
-                            'type' => 'contacts',
-                            'name' => 'Contacts'
-                        ]
+                        'persons' => $admins->joinExtraData([
+                                'id' => $community->id,
+                                'type' => 'contacts',
+                                'name' => 'Contacts'
+                            ])
                     ]) ?>
                 </div>
             </div>
@@ -111,10 +109,10 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
     <div class="col-xs-12 col-sm-12 col-md-12 col-lg-8 col-xl-8 col-xxl-8" id="forum">
 
         <?= Forum::widget([
-            'data' => $posts,
-            'additionData' => [
-                'id' => $community->id
-            ]
+            'data' => $posts->joinExtraData([
+                    'id' => $community->id,
+                    'wrapSelector' => '#forum'
+                ])
         ]) ?>
 
     </div>

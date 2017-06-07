@@ -1,13 +1,13 @@
 <?php
 /* @var $this yii\web\View */
 /* @var $project Project */
-/* @var $participants \frontend\models\Person */
+/* @var $participants \frontend\models\AjaxReload */
 /* @var $potentialSubscribers array */
 /* @var $projectTimeline \frontend\models\ProjectTimeline */
-/* @var $admins array \frontend\models\Person */
-/* @var $posts array \frontend\models\Post */
+/* @var $admins array */
+/* @var $posts \frontend\models\AjaxReload */
 /* @var $newPost \frontend\models\Post */
-/* @var $marketplaceItems array */
+/* @var $marketplaceItems \frontend\models\AjaxReload */
 
 
 use frontend\assets\AppAsset;
@@ -74,8 +74,7 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                 <div class="tab-pane animation-fade" id="participants" role="tabpanel"
                                      aria-expanded="false">
                                     <?= $this->render('/tabs/_participants', [
-                                        'participants' => $participants,
-                                        'additionData' => ['id' => $project->id]
+                                        'participants' => $participants->joinExtraData(['id' => $project->id]),
                                     ]) ?>
                                 </div>
 
@@ -83,11 +82,11 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                      aria-expanded="false">
 
                                     <?= Forum::widget([
-                                        'data' => $posts,
-                                        'additionData' => [
-                                            'id' => $project->id,
-                                            'search-wrapper-class' => 'input-search-dark'
-                                        ]
+                                        'data' => $posts->joinExtraData([
+                                                'id' => $project->id,
+                                                'search-wrapper-class' => 'input-search-dark',
+                                                'wrapSelector' => '#forum'
+                                            ]),
                                     ]) ?>
 
                                 </div>
@@ -206,8 +205,7 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                 </div>
                 <div class="col-xs-12 col-xxl-12 col-xl-12 col-lg-12">
                     <?= $this->render('_marketplace', [
-                        'items' => $marketplaceItems,
-                        'additionData' => ['id' => $project->id]
+                        'items' => $marketplaceItems->joinExtraData(['id' => $project->id]),
                     ]) ?>
                 </div>
             </div>

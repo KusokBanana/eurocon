@@ -15,7 +15,6 @@ class Forum extends Widget
     public $data;
     public $type = 1;
     public $index = 0;
-    public $additionData = [];
 
     private $view = 'forum/forum';
     private $viewData = [];
@@ -27,16 +26,14 @@ class Forum extends Widget
         switch ($this->type) {
             case 1:
                 $this->viewData = [
-                    'posts' => $this->data,
-                    'additionData' => $this->additionData
+                    'posts' => $this->data
                 ];
                 break;
             case 2:
                 $this->view = 'forum/_comments';
                 $this->viewData = [
                     'post' => $this->data,
-                    'index' => $this->index,
-                    'additionData' => $this->additionData
+                    'index' => $this->index
                 ];
         }
 

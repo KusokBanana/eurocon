@@ -5,6 +5,7 @@ namespace frontend\models;
 use frontend\models\books\BookMarketplace;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 
 /**
  * This is the model class for table "marketplace_item".
@@ -136,47 +137,32 @@ class MarketplaceItem extends ActiveRecord
         ];
     }
 
-    public static function getData($field_id, $type_for, $page = 1, $search = '', $filter = null)
+    public static function getData($field_id, $type_for, $page = 1, $extraData = [])
     {
 
         $query = BookMarketplace::get($field_id, $type_for);
-        static::setFilters($query, $search, $filter);
+        $extraData = (empty($extraData)) ? ['id' => $field_id] : $extraData;
 
-        return Pagination::getData($query, $page, self::$limit, 'marketplace', $filter);
+        $ajaxReload = new AjaxReload();
+        $ajaxReload->init($query, $extraData, self::class)
+                    ->setFilters()
+                    ->setData($page, self::$limit, 'marketplace');
+
+        return $ajaxReload;
 
     }
 
-    public static function getAll($page = 1, $search = '', $filter = null)
+    public static function getAll($page = 1, $extraData = [])
     {
 
         $query = static::find();
-        static::setFilters($query, $search, $filter);
+        $ajaxReload = new AjaxReload();
+        $ajaxReload->init($query, $extraData)
+            ->setFilters()
+            ->setData($page, self::$limit, 'marketplace');
 
-        return Pagination::getData($query, $page, self::$limit, 'marketplace', $filter);
+        return $ajaxReload;
 
-    }
-
-    public static function setFilters(&$query, $search, &$filter)
-    {
-
-        $where = [];
-        $marketPlaceSample = new self();
-        $newFilter = [];
-        if ($filter && !empty($filter)) {
-            foreach ($filter as $oneFilter)
-            {
-                $name = $oneFilter['name'];
-                $value = $oneFilter['value'];
-                $isAttr = $marketPlaceSample->hasAttribute($name);
-                if ($isAttr && $value) {
-                    $where[self::tableName().'.'.$name] = $value;
-                    $newFilter[$name] = $value;
-                }
-            }
-        }
-        $filter = $newFilter;
-
-        $query->andWhere($where)->andFilterWhere(['LIKE', self::tableName() . '.name', $search]);
     }
 
     public function afterFind()

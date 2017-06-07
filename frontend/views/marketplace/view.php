@@ -9,7 +9,7 @@ use yii\helpers\Html;
 
 /* @var $item MarketplaceItem */
 /* @var $newPost Post */
-/* @var $posts array*/
+/* @var $posts \frontend\models\AjaxReload*/
 
 $this->registerJsFile('@web/js/forum.js',  ['depends' => [AppAsset::className()]]);
 $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [AppAsset::className()]]);
@@ -154,10 +154,10 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                 <div class="tab-pane animation-fade" id="forum" role="tabpanel" aria-expanded="false">
 
                                     <?= Forum::widget([
-                                        'data' => $posts,
-                                        'additionData' => [
-                                            'id' => $item->id
-                                        ]
+                                        'data' => $posts->joinExtraData([
+                                                'id' => $item->id,
+                                                'wrapSelector' => '#forum'
+                                            ]),
                                     ]) ?>
 
                                 </div>

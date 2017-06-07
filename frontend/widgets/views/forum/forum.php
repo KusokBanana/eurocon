@@ -8,7 +8,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 /** @var \yii\web\View $this */
-/** @var Post $posts */
+/** @var \frontend\models\AjaxReload $posts */
 
 ?>
 <div class="panel">
@@ -16,12 +16,12 @@ use yii\helpers\Url;
         <div class="col-lg-8 col-xl-8 col-xxl-8 m-t-20 m-l-15">
             <div class="form-group">
                     <?= Search::widget([
-                        'additionData' => ArrayHelper::merge($additionData, [
+                        'extraData' => $posts->joinExtraData([
                             'placeholder' => 'Find post...'
-                        ]),
-                        'query' => ArrayHelper::getValue($additionData, 'search', null),
-                        'data' => $posts['data'],
-                        'type' => $posts['type'],
+                        ])->extraData,
+                        'query' => $posts->getSearch(),
+                        'data' => $posts->data,
+                        'type' => $posts->type,
                         'wrapSelector' => '#forum'
                     ]) ?>
             </div>
@@ -39,9 +39,9 @@ use yii\helpers\Url;
 
     <div class="page-content container-fluid">
         <div class="row">
-            <?php if (!empty($posts)): ?>
+            <?php if (!empty($posts->data)): ?>
             <?php /** @var Post $post */
-            foreach ($posts['data'] as $post): ?>
+            foreach ($posts->data as $post): ?>
                 <div class="col-xs-12 col-lg-12 col-sm-12 forum-post"
                     <!-- Widget -->
                     <div class="card card-shadow">
@@ -155,8 +155,7 @@ use yii\helpers\Url;
                 </div>
             <!-- End Widget -->
             <?php endforeach; ?>
-            <?php $posts['data'] = $additionData ?>
-            <?= Pagination::widget($posts) ?>
+            <?= Pagination::widget($posts->pagination) ?>
         <?php endif; ?>
         <!-- Widget -->
         <!-- End Widget -->

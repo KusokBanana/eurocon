@@ -226,18 +226,12 @@ use yii\helpers\Html;
                         <div class="tab-content">
                             <div class="tab-pane animation-fade" id="projects" role="tabpanel" aria-expanded="false">
                                 <?= $this->render('_projects', [
-                                    'projects' => $projects,
-                                    'additionData' => [
-                                        'id' => $company->id,
-                                    ]
+                                    'projects' => $projects
                                 ]) ?>
                             </div>
                             <div class="tab-pane active" id="marketplace" role="tabpanel" aria-expanded="true">
                                 <?= $this->render('_marketplace', [
-                                    'items' => $marketplace,
-                                    'additionData' => [
-                                        'id' => $company->id,
-                                    ]
+                                    'items' => $marketplace
                                 ]) ?>
                             </div>
                         </div>

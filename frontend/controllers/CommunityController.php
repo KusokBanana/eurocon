@@ -41,7 +41,6 @@ class CommunityController extends Controller
             $data = Yii::$app->request->post('data');
             $data = Json::decode($data, true);
             $action = isset($data['action']) ? $data['action'] : false;
-            $search = isset($data['search']) ? trim($data['search']) : '';
 
             if ($action == 'search') {
                 $page = $data['page'] = 1;
@@ -50,26 +49,23 @@ class CommunityController extends Controller
             switch ($type) {
                 case 'communities':
                     $person = Person::findOne($data['id']);
-                    $communities = $person->getCommunitiesData(Community::ROLE_PARTICIPANT_TYPE, $page, $search);
+                    $communities = $person->getCommunitiesData(Community::ROLE_PARTICIPANT_TYPE, $page, $data);
                     return $this->renderAjax('/tabs/_communities',
                         [
                             'communities' => $communities,
-                            'additionData' => $data
                         ]);
                 case Community::ROLE_PARTICIPANT_TYPE:
                     $community = Community::findOne($data['id']);
-                    $participants = $community->getPersonsData(Company::ROLE_PARTICIPANT_TYPE, $search);
+                    $participants = $community->getPersonsData(Company::ROLE_PARTICIPANT_TYPE, $data);
                     return $this->renderAjax('_persons',
                         [
                             'persons' => $participants,
-                            'additionData' => $data
                         ]);
 
                 case 'forum':
-                    $posts = Post::getPostsData(Post::TYPE_COMMUNITY, $data['id'], $page, $search);
+                    $posts = Post::getPostsData(Post::TYPE_COMMUNITY, $data['id'], $page, $data);
                     return Forum::widget([
                         'data' => $posts,
-                        'additionData' => $data
                     ]);
             }
 
@@ -192,10 +188,9 @@ class CommunityController extends Controller
                         $posts = Post::getPostsData(Post::TYPE_COMMUNITY, $post->field_id);
 
                         return Forum::widget([
-                            'data' => $posts,
-                            'additionData' => [
-                                'id' => $post->field_id
-                            ]
+                            'data' => $posts->joinExtraData([
+                                    'id' => $post->field_id
+                                ])
                         ]);
 
                     }

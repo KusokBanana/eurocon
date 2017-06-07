@@ -5,37 +5,33 @@ use frontend\widgets\Pagination;
 use yii\helpers\Url;
 use frontend\widgets\Search;
 
-/* @var $persons array */
+/* @var $persons \frontend\models\AjaxReload */
 /* @var $type string */
-/* @var $additionData array */
-
-$additionData['search'] = isset($additionData['search']) ? $additionData['search'] : null;
 
 ?>
 <div class="panel-heading">
     <h3 class="panel-title">
-        <?= $additionData['name'] ?>
+        <?= $persons->extraData['name'] ?>
         <span style="opacity: 0.5;">
-            <?= count($persons['data']) ?>
-<!--            --><?//= (count($persons['data']) ? count($persons['data']) : '') ?>
+            <?= count($persons->data) ?>
         </span>
     </h3>
-    <?php if ($additionData['type'] == 'followers' && !empty($persons['data'])): ?>
+    <?php if ($persons->extraData['type'] == 'followers' && !empty($persons->data)): ?>
         <?= Search::widget([
-            'additionData' => $additionData,
-            'query' => $additionData['search'],
-            'data' => $persons['data'],
-            'type' => $persons['type']
+            'extraData' => $persons->extraData,
+            'query' => $persons->getSearch(),
+            'data' => $persons->data,
+            'type' => $persons->type
         ]) ?>
     <?php endif; ?>
 </div>
 <div class="panel-body">
-    <?php if (!empty($persons['data'])): ?>
+    <?php if (!empty($persons->data)): ?>
         <ul class="list-group list-group-dividered list-group-full h-300 scrollable is-enabled scrollable-vertical"
             data-plugin="scrollable" style="position: relative;">
             <div data-role="container" class="scrollable-container" style="height: 300px; width: 602px;">
                 <div data-role="content" class="scrollable-content" style="width: 585px;">
-                    <?php foreach ($persons['data'] as $personData): ?>
+                    <?php foreach ($persons->data as $personData): ?>
                         <?php /** @var \frontend\models\Person $person */
                         $person = $personData->person; ?>
                         <li class="list-group-item">
