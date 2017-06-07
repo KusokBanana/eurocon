@@ -58,8 +58,8 @@ class ProjectController extends Controller
             $newPost = new Post();
             $newPost->field_id = $id;
 
-            $projectTimeline = ProjectTimeline::find()->where(['project_id' => $id])->orderBy(['id' => SORT_DESC])->all();
-            $marketplaceItems = MarketplaceItem::getData($project->id, BookMarketplace::TYPE_FOR_PROJECT);
+            $projectTimeline = ProjectTimeline::getByProjectId($id);
+            $marketplaceItems = MarketplaceItem::getData($id, BookMarketplace::TYPE_FOR_PROJECT);
 
             return $this->render('view',
                 compact('project', 'participants', 'potentialSubscribers',
@@ -200,8 +200,7 @@ class ProjectController extends Controller
                     $timeLine->delete();
                     $project = Project::findOne($project_id);
                     $project->setRelation(Yii::$app->user);
-                    $projectTimeline = ProjectTimeline::find()->where(['project_id' => $project_id])
-                        ->orderBy(['id' => SORT_DESC])->all();
+                    $projectTimeline = ProjectTimeline::getByProjectId($project_id);
 
                     return $this->renderAjax('_timeline', ['timelines' => $projectTimeline, 'project' => $project]);
                 }
@@ -225,6 +224,9 @@ class ProjectController extends Controller
                         $timeLine->saveFile($file);
                         break;
                 }
+
+                if ($timeLine->date)
+                    $timeLine->date = date('Y-m-d', strtotime($timeLine->date));
 
                 if ($type == 'request') {
                     $timeLine->is_active = 0;

@@ -16,7 +16,6 @@ use yii\widgets\ActiveForm;
 
 $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">{input}'.
     '<small class="text-danger">{error}</small></div></div>';
-
 ?>
 
 <div class="modal fade" id="<?= $type ?>" aria-labelledby="exampleModalTabs" role="dialog">
@@ -50,6 +49,16 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
 
                             <?= $form->field($model, 'text', ['template' => $templateInput])
                                 ->textarea(['class' => 'form-control', 'rows' => 6])
+                                ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+
+                            <?= $form->field($model, 'date', ['template' => $templateInput])
+                                ->textInput([
+                                    'class' => 'form-control',
+                                    'placeholder' => '01.01.2000',
+                                    'data-plugin' => 'datepicker',
+                                    'mode'=>'date',
+                                    'data-format' => 'yyyy-mm-dd',
+                                ])
                                 ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
 
                             <?= $form->field($model, 'media_type_id', ['template' => $templateInput])

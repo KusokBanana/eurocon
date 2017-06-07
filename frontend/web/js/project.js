@@ -37,7 +37,8 @@ $(document).ready(function() {
                                 .find('.timeline-edit[data-type="'+ACT+'"]').trigger('click');
                         } else {
                             $('body').append(data);
-                            $('#project_timeline_edit').modal();
+                            $('#project_timeline_edit').modal()
+                                .find('[data-plugin="datepicker"]').datepicker({format: 'yyyy-mm-dd'});
                         }
 
                     }

@@ -27,11 +27,23 @@
 
       $item.find('.timeline-dot').removeClass('invisible').addClass('animation-scale-up');
 
+      var prevPrev = $item.prev('.timeline-item').prev('.timeline-item');
+      if (prevPrev.length) {
+        console.log(prevPrev, prevPrev.position());
+        if (prevPrev.position().top + prevPrev.height() >= $item.position().top) {
+            console.log($item, 'toggled', prevPrev.position().top + prevPrev.height(), $item.position().top);
+            $item.toggleClass('timeline-reverse');
+            $item.nextAll().toggleClass('timeline-reverse');
+        }
+      }
+
       if ($item.hasClass('timeline-reverse') || $item.css('float') === 'none') {
+        console.log($item, 1);
         $item.find('.timeline-info').removeClass('invisible').addClass('animation-slide-right');
         $item.find('.timeline-content').removeClass('invisible').addClass('animation-slide-right');
       } else {
-        $item.find('.timeline-info').removeClass('invisible').addClass('animation-slide-left');
+          console.log($item, 2);
+          $item.find('.timeline-info').removeClass('invisible').addClass('animation-slide-left');
         $item.find('.timeline-content').removeClass('invisible').addClass('animation-slide-left');
       }
     });

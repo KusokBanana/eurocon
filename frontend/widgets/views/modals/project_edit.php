@@ -14,11 +14,7 @@ use yii\widgets\ActiveForm;
 $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">{input}'.
     '<small class="text-danger">{error}</small></div></div>';
 ?>
-<style>
-    span.select2-container.select2-container--krajee.select2-container--open {
-        z-index: 10000;
-    }
-</style>
+
 <div class="modal fade" id="<?= $type ?>" aria-labelledby="exampleModalTabs" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
