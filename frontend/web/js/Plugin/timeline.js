@@ -29,9 +29,7 @@
 
       var prevPrev = $item.prev('.timeline-item').prev('.timeline-item');
       if (prevPrev.length) {
-        console.log(prevPrev, prevPrev.position());
         if (prevPrev.position().top + prevPrev.height() >= $item.position().top) {
-            console.log($item, 'toggled', prevPrev.position().top + prevPrev.height(), $item.position().top);
             $item.toggleClass('timeline-reverse');
             $item.nextAll().toggleClass('timeline-reverse');
         }

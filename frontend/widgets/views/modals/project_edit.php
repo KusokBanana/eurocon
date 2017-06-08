@@ -97,28 +97,57 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                     <?php $templateFileInput =
                                         '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">'.
                                         '<div class="input-group input-group-file" data-plugin="inputGroupFile">'.
-                                         Html::textInput('', $model->image, ['class' => 'form-control', 'readonly' => '']).
+                                         Html::textInput('', null, ['class' => 'form-control', 'readonly' => '']).
                                         '<span class="input-group-btn">'.
                                         '<span class="btn btn-outline btn-file">'.
                                         '<i class="icon wb-upload" aria-hidden="true"></i>{input}</span></span></div>'.
                                         '<small class="text-danger">{error}</small></div></div>'; ?>
 
                                     <?= $form->field($model, 'imageFile', ['template' => $templateFileInput])
-                                        ->fileInput()
-                                        ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+                                        ->fileInput(['class' => 'image-input-with-preview'])
+                                        ->label(null,
+                                            ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+                                    <div class="row image-input-preview-block">
+                                        <?php if ($model->image): ?>
+                                            <div class="col-md-4 col-xs-12">
+                                                <div class="example">
+                                                    <?= Html::img($model->imageShow, [
+                                                        'class' => 'img-rounded img-bordered img-bordered-primary',
+                                                        'alt' => '...',
+                                                    ]) ?>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
 
                                     <?php $templateFileInput =
                                         '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">'.
                                         '<div class="input-group input-group-file" data-plugin="inputGroupFile">'.
-                                        Html::textInput('', $model->background, ['class' => 'form-control', 'readonly' => '']).
+                                        Html::textInput('', null, ['class' => 'form-control', 'readonly' => '']).
                                         '<span class="input-group-btn">'.
                                         '<span class="btn btn-outline btn-file">'.
                                         '<i class="icon wb-upload" aria-hidden="true"></i>{input}</span></span></div>'.
                                         '<small class="text-danger">{error}</small></div></div>'; ?>
 
                                     <?= $form->field($model, 'backgroundFile', ['template' => $templateFileInput])
-                                        ->fileInput()
-                                        ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+                                        ->fileInput(['class' => 'image-input-with-preview'])
+                                        ->label(null,
+                                            ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3
+                                        form-control-label']) ?>
+                                    <div class="row image-input-preview-block">
+                                        <?php if ($model->background): ?>
+                                            <div class="col-md-4 col-xs-12">
+                                                <div class="example">
+                                                    <?= Html::img($model->backgroundShow, [
+                                                        'class' => 'img-rounded img-bordered img-bordered-primary',
+                                                        'height' => '100',
+                                                        'width' => '100',
+                                                        'alt' => '...',
+                                                    ]) ?>
+                                                </div>
+                                            </div>
+                                        <?php endif; ?>
+                                    </div>
 
                                     <?= $form->field($model, 'social_links[facebook]', ['template' => $templateInput])
                                         ->textInput([

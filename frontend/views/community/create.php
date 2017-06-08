@@ -89,8 +89,20 @@ $template = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-
                                             '<small class="text-danger">{error}</small></div></div>'; ?>
 
                                         <?= $form->field($community, 'imageFile', ['template' => $templateFileInput])
-                                            ->fileInput()
+                                            ->fileInput(['class' => 'image-input-with-preview'])
                                             ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+                                        <div class="row image-input-preview-block">
+                                            <?php if ($community->image): ?>
+                                                <div class="col-md-4 col-xs-12">
+                                                    <div class="example">
+                                                        <?= Html::img($community->imageShow, [
+                                                            'class' => 'img-rounded img-bordered img-bordered-primary',
+                                                            'alt' => '...',
+                                                        ]) ?>
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
 
                                         <?php $templateFileInput =
                                             '<div class="form-group row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">'.
@@ -102,8 +114,22 @@ $template = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-
                                             '<small class="text-danger">{error}</small></div></div>'; ?>
 
                                         <?= $form->field($community, 'backgroundFile', ['template' => $templateFileInput])
-                                            ->fileInput()
+                                            ->fileInput(['class' => 'image-input-with-preview'])
                                             ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+                                        <div class="row image-input-preview-block">
+                                            <?php if ($community->background): ?>
+                                                <div class="col-md-4 col-xs-12">
+                                                    <div class="example">
+                                                        <?= Html::img($community->backgroundShow, [
+                                                            'class' => 'img-rounded img-bordered img-bordered-primary',
+                                                            'height' => '100',
+                                                            'width' => '100',
+                                                            'alt' => '...',
+                                                        ]) ?>
+                                                    </div>
+                                                </div>
+                                            <?php endif; ?>
+                                        </div>
 
                                         <?= $form->field($community, 'post_ability_id', ['template' => $template])
                                             ->dropDownList(Community::$post_abilities, ['class' => 'form-control'])

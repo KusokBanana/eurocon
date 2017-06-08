@@ -82,5 +82,37 @@ $(document).ready(function() {
     }
 
 
+    // Another ajax function (for download preview images after change file input)
+
+    function handleFileSelect(e) {
+        var files = e.target.files; // FileList object
+        var input = $(e.target),
+            previewBlock = input.closest('.form-group').next('.image-input-preview-block').empty();
+
+        console.log(input, previewBlock, files);
+
+        // Loop through the FileList and render image files as thumbnails.
+        for (var i = 0, f; f = files[i]; i++) {
+            // Only process image files.
+            if (!f.type.match('image.*')) {
+                alert("Image only please....");
+            }
+            var reader = new FileReader();
+            // Closure to capture the file information.
+            reader.onload = (function (theFile) {
+                return function (e) {
+                    // Render thumbnail.
+                    var preview = '<div class="col-md-4 col-xs-12"><div class="example">';
+                    preview += '<img class="img-rounded img-bordered img-bordered-primary" '+
+                        'src="' + e.target.result + '" title="'+theFile.name+'">';
+                    preview += '</div></div>';
+                    previewBlock.append(preview);
+                };
+            })(f);
+            // Read in the image file as a data URL.
+            reader.readAsDataURL(f);
+        }
+    }
+    $('body').on('change', '.image-input-with-preview', handleFileSelect);
 
 });

@@ -96,8 +96,27 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                     '<small class="text-danger">{error}</small></div></div>'; ?>
 
                                 <?= $form->field($model, 'image_files[]', ['template' => $templateFileInput])
-                                    ->fileInput(['multiple' => 'multiple', 'accept' => 'image/*'])
+                                    ->fileInput(
+                                            [
+                                                'multiple' => 'multiple',
+                                                'accept' => 'image/*',
+                                                'class' => 'image-input-with-preview'
+                                            ])
                                     ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+                                <div class="row image-input-preview-block">
+                                    <?php if (!empty($model->image_srcs)): ?>
+                                        <?php foreach ($model->image_srcs as $image_src): ?>
+                                            <div class="col-md-4 col-xs-12">
+                                                <div class="example">
+                                                    <?= Html::img($image_src, [
+                                                        'class' => 'img-rounded img-bordered img-bordered-primary',
+                                                        'alt' => '...',
+                                                    ]) ?>
+                                                </div>
+                                        </div>
+                                        <?php endforeach; ?>
+                                    <?php endif; ?>
+                                </div>
                             </div>
 
                             <div class="project-timeline-media-block"
