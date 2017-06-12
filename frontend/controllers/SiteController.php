@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use common\models\User;
 use frontend\models\books\BookFollowers;
+use frontend\models\ChatHandler;
 use frontend\models\Community;
 use frontend\models\Company;
 use frontend\models\Person;

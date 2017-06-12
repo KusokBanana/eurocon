@@ -9,7 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-frontend',
     'basePath' => dirname(__DIR__),
-    'bootstrap' => ['log', 'simplechat'],
+    'bootstrap' => ['log',/* 'simplechat',*/ 'chat'],
     'controllerNamespace' => 'frontend\controllers',
     'homeUrl' => '/',
     'components' => [
@@ -90,7 +90,7 @@ return [
                 'signup' => '/site/signup',
                 'login' => '/site/login',
                 'projects' => '/project',
-                'profile' => '/person/profile',
+                'profile' => '/person/profile'
             ],
         ],
     ],
@@ -99,15 +99,9 @@ return [
             'class' => 'bubasuma\simplechat\Module',
         ],
         'chat' => [
-            'class' => 'venkatesanchinna\yii2livechat\Module'
+            'class' => 'frontend\modules\chat\Module',
         ]
-        // ...
     ],
-//    'modules' => [
-//        'messenger' => [
-//            'class' => \nanson\messenger\Messenger::className(),
-//        ],
-//    ],
 
     'params' => $params,
 ];

@@ -351,16 +351,21 @@ class Person extends User
     private function setImage($type)
     {
         $image = $this->$type;
+        $showAttr = $type . 'Show';
+        $this->$showAttr = static::getImage($image, $type);
+
+    }
+
+    public static function getImage($image, $type = 'image')
+    {
         $dir = self::$avatar_path . $type . '/';
         $path = Yii::getAlias('@frontend') . '/web' . $dir;
         $isImageExist = file_exists($path . $image);
-        $showAttr = $type . 'Show';
         if ($image && $isImageExist) {
-            $this->$showAttr = Yii::getAlias('@web') . $dir . $image;
+            return Yii::getAlias('@web') . $dir . $image;
         } else {
-            $this->$showAttr = static::$default_avatar;
+            return static::$default_avatar;
         }
-
     }
 
     public function saveImage($type)

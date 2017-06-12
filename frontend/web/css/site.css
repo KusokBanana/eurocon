@@ -624,6 +624,7 @@ ul.site-menu {
 }
 
 .site-sidebar.slidePanel.slidePanel-right, .site-sidebar.slidePanel.slidePanel-left {
+/*.site-sidebar.slidePanel.slidePanel-right, .site-sidebar.slidePanel.slidePanel-left {*/
   width: 300px;
   overflow: hidden;
 }

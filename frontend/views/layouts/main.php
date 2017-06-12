@@ -233,11 +233,15 @@ $user = Person::getPerson(Yii::$app->user);
                         </div>
                     </li>
                     <li class="nav-item" id="toggleChat">
-                        <a class="nav-link" data-toggle="site-sidebar" href="javascript:void(0)" title="Chat"
-                           data-url="<?= Url::to(['/message/get-chat']) ?>">
-                            <i class="icon wb-chat" aria-hidden="true"></i>
-                            <span class="tag tag-pill tag-info up">3</span>
-                        </a>
+                        <?= Html::a('<i class="icon wb-chat" aria-hidden="true"></i>
+                            <span class="tag tag-pill tag-info up">3</span>', 'javascript:void(0)',
+                            [
+                                'class' => 'nav-link',
+                                'data-url' => Url::to(['/message/get-chat']),
+//                                'data-direction' => "right",
+                                'data-toggle' => "site-sidebar",
+                                'title' => 'Chat',
+                            ]) ?>
                     </li>
                     <li class="nav-item dropdown">
                         <?= Html::a(FA::icon('sign-out', ['class' => 'icon', 'aria-hidden' => 'true']),
@@ -344,7 +348,6 @@ $user = Person::getPerson(Yii::$app->user);
         </div>
     </div>
 </div>
-
 <?= $content ?>
 
 <footer class="site-footer">
@@ -358,125 +361,6 @@ $user = Person::getPerson(Yii::$app->user);
 
     </div>
 </footer>
-
-<!--<div class="wrap">-->
-<!--    --><?php
-//    NavBar::begin([
-//        'brandLabel' => 'My Company',
-//        'brandUrl' => Yii::$app->homeUrl,
-//        'options' => [
-//            'class' => 'navbar-inverse navbar-fixed-top',
-//        ],
-//    ]);
-//    $menuItems = [
-//        ['label' => 'Home', 'url' => ['/site/index']],
-//        ['label' => 'About', 'url' => ['/site/about']],
-//        ['label' => 'Contact', 'url' => ['/site/contact']],
-//    ];
-//    if (Yii::$app->user->isGuest) {
-//        $menuItems[] = ['label' => 'Signup', 'url' => ['/site/signup']];
-//        $menuItems[] = ['label' => 'Login', 'url' => ['/site/login']];
-//    } else {
-//        $menuItems[] = '<li>'
-//            . Html::beginForm(['/site/logout'], 'post')
-//            . Html::submitButton(
-//                'Logout (' . Yii::$app->user->identity->username . ')',
-//                ['class' => 'btn btn-link logout']
-//            )
-//            . Html::endForm()
-//            . '</li>';
-//    }
-//    echo Nav::widget([
-//        'options' => ['class' => 'navbar-nav navbar-right'],
-//        'items' => $menuItems,
-//    ]);
-//    NavBar::end();
-//    ?>
-<!---->
-<!--    <div class="container">-->
-<!--        --><?//= Breadcrumbs::widget([
-//            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-//        ]) ?>
-<!--        --><?//= Alert::widget() ?>
-<!--    </div>-->
-<!--</div>-->
-
-<!--<script src="../../web/vendor/babel-external-helpers/babel-external-helpers.js"></script>-->
-<!--<script src="../../web/vendor/jquery/jquery.min.js"></script>-->
-<!--<script src="../../web/vendor/tether/tether.min.js"></script>-->
-<!--<script src="../../web/vendor/bootstrap/bootstrap.min.js"></script>-->
-<!--<script src="../../web/vendor/animsition/animsition.min.js"></script>-->
-<!--<script src="../../web/vendor/mousewheel/jquery.mousewheel.min.js"></script>-->
-<!--<script src="../../web/vendor/asscrollbar/jquery-asScrollbar.min.js"></script>-->
-<!--<script src="../../web/vendor/asscrollable/jquery-asScrollable.min.js"></script>-->
-<!--<script src="../../web/vendor/switchery/switchery.min.js"></script>-->
-<!--<script src="../../web/vendor/intro-js/intro.min.js"></script>-->
-<!--<script src="../../web/vendor/screenfull/screenfull.min.js"></script>-->
-<!--<script src="../../web/vendor/slidepanel/jquery-slidePanel.min.js"></script>-->
-<!--<script src="../../web/vendor/chartist/chartist.min.js"></script>-->
-<!--<script src="../../web/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js"></script>-->
-<!--<script src="../../web/vendor/aspieprogress/jquery-asPieProgress.min.js"></script>-->
-<!--<script src="../../web/vendor/matchheight/jquery.matchHeight-min.js"></script>-->
-<!--<script src="../../web/vendor/jquery-selective/jquery-selective.min.js"></script>-->
-<!--<script src="../../web/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>-->
-<!--<script src="../../web/js/State.min.js"></script>-->
-<!--<script src="../../web/js/Component.min.js"></script>-->
-<!--<script src="../../web/js/Plugin.min.js"></script>-->
-<!--<script src="../../web/js/Base.min.js"></script>-->
-<!--<script src="../../web/js/Config.min.js"></script>-->
-<!--<script src="../../web/js/assets/Menubar.min.js"></script>-->
-<!--<script src="../../web/js/assets/Sidebar.min.js"></script>-->
-<!--<script src="../../web/js/assets/PageAside.min.js"></script>-->
-<!--<script src="../../web/js/assets/menu.min.js"></script>-->
-<!--<script src="../../web/js/config/colors.min.js"></script>-->
-<!--<script src="../../web/js/config/tour.min.js"></script>-->
-<!--<script>-->
-<!--    Config.set('assets', '../../web/js/assets');-->
-<!--</script>-->
-<!--<script src="../../web/js/assets/Site.min.js"></script>-->
-<!--<script src="../../web/js/Plugin/asscrollable.min.js"></script>-->
-<!--<script src="../../web/js/Plugin/slidepanel.min.js"></script>-->
-<!--<script src="../../web/js/Plugin/switchery.min.js"></script>-->
-<!--<script src="../../web/js/Plugin/matchheight.min.js"></script>-->
-<!--<script src="../../web/js/Plugin/aspieprogress.min.js"></script>-->
-<!--<script src="../../web/js/Plugin/bootstrap-datepicker.min.js"></script>-->
-<?php //$this->registerJsFile('../../web/vendor/babel-external-helpers/babel-external-helpers.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/jquery/jquery.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/tether/tether.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/bootstrap/bootstrap.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/animsition/animsition.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/mousewheel/jquery.mousewheel.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/asscrollbar/jquery-asScrollbar.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/asscrollable/jquery-asScrollable.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/switchery/switchery.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/intro-js/intro.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/screenfull/screenfull.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/slidepanel/jquery-slidePanel.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/chartist/chartist.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/aspieprogress/jquery-asPieProgress.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/matchheight/jquery.matchHeight-min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/jquery-selective/jquery-selective.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/vendor/bootstrap-datepicker/bootstrap-datepicker.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/State.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/Component.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/Plugin.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/Base.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/Config.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/assets/Menubar.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/assets/Sidebar.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/assets/PageAside.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/assets/menu.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/config/colors.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/config/tour.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJs('Config.set(\'assets\', \'../../web/js/assets\');', yii\web\View::POS_LOAD); ?>
-<?php //$this->registerJsFile('../../web/js/assets/Site.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/Plugin/asscrollable.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/Plugin/slidepanel.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/Plugin/switchery.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/Plugin/matchheight.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/Plugin/aspieprogress.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
-<?php //$this->registerJsFile('../../web/js/Plugin/bootstrap-datepicker.min.js', ['position' => yii\web\View::POS_LOAD]); ?>
 
 <?php $this->endBody() ?>
 </body>

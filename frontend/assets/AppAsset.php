@@ -13,12 +13,13 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
 
     public $css = [
-        'css/site.min.css',
         // plugins
         'vendor/animsition/animsition.min.css',
         'vendor/asscrollable/asScrollable.min.css',
         'vendor/intro-js/introjs.min.css',
-        'vendor/slidepanel/slidePanel.min.css',
+//        'vendor/jquery-slidePanel/dist/css/slidePanel.min.css',
+        'vendor/slidepanel/slidePanel.css',
+        'css/site.min.css',
         'vendor/flag-icon-css/flag-icon.min.css',
         'vendor/chartist/chartist.min.css',
         'vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.css',
@@ -27,13 +28,12 @@ class AppAsset extends AssetBundle
         'vendor/bootstrap-datepicker/bootstrap-datepicker.min.css',
         '/css/team.min.css',
         '/css/media.min.css',
+        '/css/message.min.css',
         '/vendor/sliptree-bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css',
         '/vendor/sliptree-bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css',
         // fonts
         'fonts/web-icons/web-icons.min.css',
         'fonts/brand-icons/brand-icons.min.css',
-
-
     ];
     public $js = [
         // Core
@@ -45,7 +45,9 @@ class AppAsset extends AssetBundle
         // Plugins
         'vendor/intro-js/intro.min.js',
         'vendor/screenfull/screenfull.min.js',
-        'vendor/slidepanel/jquery-slidePanel.min.js',
+//        'vendor/simpler-sidebar/dist/jquery.simpler-sidebar.min.js',
+        '/vendor/slidepanel/jquery-slidePanel.js',
+//        '/vendor/jquery-slidePanel/dist/jquery-slidePanel.js',
         '/vendor/raty/jquery.raty.js',
         'vendor/chartist/chartist.min.js',
         'vendor/chartist-plugin-tooltip/chartist-plugin-tooltip.min.js',
@@ -54,6 +56,7 @@ class AppAsset extends AssetBundle
         'vendor/jquery-selective/jquery-selective.min.js',
         'vendor/bootstrap-datepicker/bootstrap-datepicker.min.js',
         'vendor/jquery-placeholder/jquery.placeholder.min.js',
+        '/vendor/screenfull/screenfull.js', // -
         // Scripts
         'js/State.min.js',
         'js/Component.min.js',
@@ -72,7 +75,7 @@ class AppAsset extends AssetBundle
         // Page
         'js/assets/Site.min.js',
         'js/Plugin/asscrollable.min.js',
-        'js/Plugin/slidepanel.min.js',
+//        'js/Plugin/slidepanel.js',
         'js/Plugin/matchheight.min.js',
         'js/Plugin/aspieprogress.min.js',
         'js/Plugin/bootstrap-datepicker.min.js',
@@ -88,6 +91,7 @@ class AppAsset extends AssetBundle
         '/js/Plugin/selectable.min.js',
         '/js/BaseApp.min.js',
         '/js/Media.js',
+        '/vendor/autosize/autosize.js', // -
         '/js/assets/media.js',
         '/vendor/formvalidation/formValidation.js',
         '/vendor/formvalidation/framework/bootstrap.js',
@@ -97,6 +101,9 @@ class AppAsset extends AssetBundle
         '/js/Plugin/jquery-wizard.min.js',
         '/vendor/forms/wizard.js',
         '/vendor/sliptree-bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js',
+        '/js/chat.js',
+//        '/js/Message.js',
+//        '/js/Plugin/message.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

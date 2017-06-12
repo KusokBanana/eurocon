@@ -32,7 +32,8 @@
         "2amigos/yii2-selectize-widget": "~1.0",
         "pudinglabs/yii2-bootstrap-tags-input": "*",
         "2amigos/yii2-google-maps-library" : "*",
-        "voime/yii2-google-maps": "*"
+        "voime/yii2-google-maps": "*",
+        "nanson/yii2-messenger": "*"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
