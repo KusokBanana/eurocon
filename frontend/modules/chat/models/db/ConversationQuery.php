@@ -18,14 +18,8 @@ class ConversationQuery extends ActiveQuery
         $this->select([
                  'last_message_id' => new Expression('MAX([[c.id]])'),
                  'contact_id' => new Expression('IF([[c.sender_id]] = :userId, [[c.receiver_id]], [[c.sender_id]])'),
-//                 'new_count' => new Expression('COUNT(DISTINCT ch.id)')
             ])
-//            ->join('LEFT JOIN', 'chat_message ch',
-//                'ch.sender_id = c.sender_id AND ch.receiver_id = :userId AND ch.is_new = 1')
-//            ->andWhere(['or',
-//                ['receiver_id' => new Expression(':userId'), 'is_deleted_by_receiver' => false],
-//                ['sender_id' => new Expression(':userId'), 'is_deleted_by_sender' => false],
-//            ])
+            ->where(['or', ['c.sender_id' => new Expression(':userId')], ['c.receiver_id' => new Expression(':userId')]])
             ->groupBy(['contact_id']);
     }
 

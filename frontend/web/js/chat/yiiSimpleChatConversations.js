@@ -209,7 +209,6 @@
     };
 
     var tmpl = function (url, data){
-        // if(null == view){
             $.ajax({
                 url: data.settings.renderUrl,
                 type: 'POST',
@@ -223,8 +222,6 @@
                     view = data;
                 }
             });
-
-        // }
         return view;
     }
 

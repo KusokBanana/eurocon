@@ -348,6 +348,7 @@
                             if (_last_when) {
                                 when = _last_when.attr('data-when');
                             }
+                            var isReadCurrent = false;
                             // loop trough data.models object
                             for (index = data['models'].length - 1; index >= 0; index--) {
                                 // check whether to insert date block
@@ -356,19 +357,38 @@
                                     self.messenger.yiiSimpleChatMessages('append',
                                         '<p class="time">' + when + '</p>');
                                 }
+
+                                var senderId = data['models'][index]['sender_id'];
+
                                 // object to inject to the template
                                 msg = {
                                     model: data['models'][index],
                                     key: data['keys'][index],
                                     index: index,
                                     user: options.user,
-                                    sender: data['models'][index]['sender_id'] === options.user.id ? options.user :
+                                    sender: senderId === options.user.id ? options.user :
                                         options.contact,
                                     settings: options.settings
                                 };
+
+                                // check if current user send you a message
+                                if (senderId === options.contact.id) {
+                                    isReadCurrent = true;
+                                }
+
                                 // append the message
                                 self.messenger.yiiSimpleChatMessages('append', msg);
                             }
+
+                            // If we receive new message from current user then read it
+                            if (isReadCurrent) {
+                                var $conversation = self.conversations.yiiSimpleChatConversations('find',
+                                    options.contact.id, 'contact');
+                                if ($conversation.length) {
+                                    $conversation.find('.conversation-read').trigger('click');
+                                }
+                            }
+
                             // scroll down the messages container
                             if (data['models'].length > 0) {
                                 self.messenger.get(0).scrollTop = self.messenger.get(0).scrollHeight;
@@ -396,6 +416,13 @@
                     e.preventDefault();
                     // submit message form
                     $('#msg-form').trigger('submit');
+                });
+
+                $('#msg-input').on('keydown', function(e) {
+                    if (e.ctrlKey && e.keyCode === 13) {
+                        // submit message form
+                        $('#msg-form').trigger('submit');
+                    }
                 });
 
                 // load new messages every 10 seconds

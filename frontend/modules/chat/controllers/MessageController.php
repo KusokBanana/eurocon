@@ -51,6 +51,8 @@ class MessageController extends Controller
 
         if (isset($contactId)) {
             $current = new Conversation(['user_id' => $user->id, 'contact_id' => $contactId]);
+            if ($current)
+                $current->toArray();
         }
 
         if (!isset($current)) {

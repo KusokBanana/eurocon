@@ -137,21 +137,21 @@
                 type: loadTypes.up,
                 limit: widget.settings.limit
             };
-            if (typeof args == 'number'){
+            if (typeof args === 'number'){
                 data['limit'] = args;
-            } else if(typeof args == 'string'){
+            } else if(typeof args === 'string'){
                 data['type'] = args;
             } else {
                 data = $.extend({}, data, args || {});
             }
 
-            var elem = find($chat, data['type'] == loadTypes.up ?'first':'last');
+            var elem = find($chat, data['type'] === loadTypes.up ?'first':'last');
             if(elem){
                 data['key'] = elem.data('key');
             }
 
             var url = widget.settings.loadUrl;
-            if(widget.status == 0) {
+            if(widget.status === 0) {
                 $.ajax({
                     url: url,
                     type: widget.settings.loadMethod,
@@ -194,9 +194,16 @@
             var $chat = $(this);
             var widget = $chat.data('yiiSimpleChatMessages');
             var $container = $chat.find(widget.settings.container);
-            if(typeof data == 'object'){
-                $container.append(tmpl(widget.settings.templateUrl,data));
-            }else{
+            if(typeof data === 'object'){
+                data = tmpl(widget.settings.templateUrl,data);
+            }
+            var view = $(data),
+                lastMessage = find($chat, 'last'),
+                appendSender = view.attr('data-sender');
+            if (lastMessage && lastMessage.length && !lastMessage.closest('.msg').next().length &&
+                lastMessage.closest('.msg').attr('data-sender') === appendSender) {
+                lastMessage.after(view.find('.chat-content'))
+            } else {
                 $container.append(data);
             }
         },
@@ -234,7 +241,7 @@
             return this.each(function () {
                 var $chat = $(this);
                 var widget = $chat.data('yiiSimpleChatMessages');
-                var $form = $chat.find(widget.settings.form);
+                var $form = $(widget.settings.form);
                 $form.off('.yiiSimpleChatMessages');
                 $chat.removeData('yiiSimpleChatMessages');
             });

@@ -20,6 +20,20 @@ use yii\web\IdentityInterface;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $password write-only password
+ * @property string $birthday [date]
+ * @property string $phone [varchar(65)]
+ * @property string $image [varchar(65)]
+ * @property string $surname [varchar(65)]
+ * @property string $name [varchar(65)]
+ * @property int $gender_id [int(11)]
+ * @property string $position [varchar(126)]
+ * @property string $location [varchar(255)]
+ * @property string $language_ids [varchar(64)]
+ * @property string $site [varchar(126)]
+ * @property int $chat_me_able_id [int(11)]
+ * @property int $invite_project_able_id [int(11)]
+ * @property string $notice_ids [varchar(16)]
+ * @property string $background [varchar(126)]
  */
 class User extends ActiveRecord implements IdentityInterface
 {

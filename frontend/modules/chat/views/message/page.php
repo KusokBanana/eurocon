@@ -33,9 +33,9 @@ $this->registerJs("jQuery('#conversations').yiiSimpleChatConversations($userJs, 
 
 $contactJs = Json::htmlEncode($contact);
 $options = Json::htmlEncode([
-        'loadUrl' => $current->getLoadUrl(),
-        'sendUrl' => $current->getSendUrl(),
-        'renderUrl' => Url::to(['render-view'/*, 'view' => 'message'*/]),
+        'loadUrl' => $current['loadUrl'],
+        'sendUrl' => $current['sendUrl'],
+        'renderUrl' => Url::to(['render-view']),
 //        'baseUrl' : asset.baseUrl,
         'sendMethod' => 'post',
         'templateUrl' => '__one_message',
@@ -43,7 +43,7 @@ $options = Json::htmlEncode([
         'form' => '#msg-form',
         'itemCssClass' => 'msg',
     ]);
-$this->registerJs("jQuery('#messages').yiiSimpleChatMessages($userJs,$contactJs,$options);");
+$this->registerJs("jQuery('#messages').yiiSimpleChatMessages($userJs, $contactJs, $options);");
 
 ?>
 
@@ -70,7 +70,7 @@ $this->registerJs("jQuery('#messages').yiiSimpleChatMessages($userJs,$contactJs,
                             <?php if (!empty($conversationDataProvider['models'])): ?>
                                 <?php foreach ($conversationDataProvider['models'] as $dialog): ?>
                             <?= $this->render('_conversations', ['dialog' => $dialog,
-                                'isCurrent' => $dialog->contact_id == $current['contact_id']]) ?>
+                                'isCurrent' => $dialog['contact_id'] == $current['contact']['id']]) ?>
                                 <?php endforeach; ?>
                             <?php endif; ?>
                         </ul>
@@ -101,9 +101,10 @@ $this->registerJs("jQuery('#messages').yiiSimpleChatMessages($userJs,$contactJs,
         </div>
         <!-- End Chat Box -->
         <!-- Message Input-->
-        <form class="app-message-input" id="msg-form" method="post" action="<?= Url::to(['create-message']) ?>">
+
+        <form class="app-message-input" id="msg-form">
             <div class="message-input">
-                <textarea class="form-control" name="text" rows="1"></textarea>
+                <textarea class="form-control" id="msg-input" name="text" rows="1"></textarea>
 <!--                <div class="message-input-actions btn-group">--><!-- TODO add here smiles and images -->
 <!--                    <button class="btn btn-pure btn-icon btn-default" type="button">-->
 <!--                        <i class="icon wb-emoticon" aria-hidden="true"></i>-->

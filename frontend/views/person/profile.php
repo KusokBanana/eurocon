@@ -114,7 +114,8 @@ $this->title = 'Eurocon / profile';
                             <div class="row text-xs-center m-b-20">
                                 <div class="col-xs-6">
                                     <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Message',
-                                        ['/'], ['class' => 'btn btn-block btn-primary']) ?>
+                                        ['/chat/message/page', 'contactId' => $person->id],
+                                        ['class' => 'btn btn-block btn-primary']) ?>
                                 </div>
                                 <div class="col-xs-6">
                                     <?php if ($person->relation === Person::RELATION_FOLLOWING): ?>

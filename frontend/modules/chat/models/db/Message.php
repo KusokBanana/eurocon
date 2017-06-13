@@ -50,29 +50,6 @@ class Message extends ActiveRecord
         ];
     }
 
-    /**
-     * @inheritDoc
-     */
-//    public function fields()
-//    {
-//        return [
-//            'id',
-//            'sender_id',
-//            'receiver_id',
-//            'text',
-//            'created_at',
-//            'when' => function($model) {
-//                return [
-//                    'day' => date('d', strtotime($model->created_at)),
-//                    'full' => date('d M Y', strtotime($model->created_at))
-//                ];
-//            },
-//            'sender' => function ($model) {
-//                return $model['sender'];
-//            },
-//        ];
-//    }
-
 /**
  * @return \yii\db\ActiveQuery
  */

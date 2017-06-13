@@ -14,7 +14,8 @@ $closeEnd = isset($closeEnd) ? $closeEnd : true;
 ?>
 
 <?php if ($closeBegin): ?>
-    <div class="chat msg <?= !$isMe ? 'chat-left' : '' ?>">
+    <div class="chat msg <?= !$isMe ? 'chat-left' : '' ?> clearfix m-b-5 m-t-5"
+         data-sender="<?= $message['sender_id'] ?>">
     <div class="chat-avatar">
         <?= Html::a(Html::img(Person::getImage($message['sender']['image']), []), '#', [
             'class' => 'avatar',
