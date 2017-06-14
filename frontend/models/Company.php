@@ -298,4 +298,29 @@ class Company extends Community
 // TODO check if user can send message to company on company page
     }
 
+    public static function getData($user_id, $page = 1, $extraData = [])
+    {
+        $query = static::find();
+        $subQuery1 = BookUserCompany::find()->select('company_id')->where(['user_id' => $user_id]);
+        $subQuery2 = BookAdminCompany::find()->select('company_id')->where(['admin_id' => $user_id]);
+        $search = ArrayHelper::getValue($extraData, 'search', false);
+
+        $ajaxReload = new AjaxReload();
+        $ajaxReload->init($query, $extraData);
+
+        if ($user_id && !Person::isQuest($user_id) && !$search) {
+            $query->where(['or', ['IN', 'id', $subQuery1], ['IN', 'id', $subQuery2]]);
+        }
+        if ($search) {
+            $ajaxReload->search();
+            if ($user_id) {
+                // TODO order it here
+            }
+        }
+
+        $ajaxReload->setData($page, Company::$limit, 'companies');
+        return $ajaxReload;
+    }
+
+
 }

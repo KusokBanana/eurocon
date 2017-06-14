@@ -7,6 +7,7 @@ use frontend\models\books\BookAdminCommunity;
 use frontend\models\books\BookUserCommunity;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\helpers\ArrayHelper;
 use yii\imagine\Image;
 use yii\web\UploadedFile;
 
@@ -245,6 +246,30 @@ class Community extends ActiveRecord
         if ($user_id) {
             BookUserCommunity::remove($user_id, $this->id);
         }
+    }
+
+    public static function getData($user_id, $page = 1, $extraData = [])
+    {
+        $query = static::find();
+        $subQuery1 = BookUserCommunity::find()->select('community_id')->where(['user_id' => $user_id]);
+        $subQuery2 = BookAdminCommunity::find()->select('community_id')->where(['admin_id' => $user_id]);
+        $search = ArrayHelper::getValue($extraData, 'search', false);
+
+        $ajaxReload = new AjaxReload();
+        $ajaxReload->init($query, $extraData);
+
+        if ($user_id && !Person::isQuest($user_id) && !$search) {
+            $query->where(['or', ['IN', 'id', $subQuery1], ['IN', 'id', $subQuery2]]);
+        }
+        if ($search) {
+            $ajaxReload->search();
+            if ($user_id) {
+                // TODO order it here
+            }
+        }
+
+        $ajaxReload->setData($page, Community::$limit, 'communities');
+        return $ajaxReload;
     }
 
 }

@@ -10,6 +10,7 @@ use frontend\models\PostComment;
 use frontend\models\Tag;
 use frontend\widgets\Forum;
 use Yii;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -20,16 +21,9 @@ class CommunityController extends Controller
 
     public function actionIndex()
     {
-        $user = Yii::$app->user;
-        if (!$user->isGuest) {
-
-            $person = Person::getPerson(Yii::$app->user);
-            $communities = $person->getCommunitiesData(Community::ROLE_PARTICIPANT_TYPE);
-            return $this->render('index', compact('communities', 'person'));
-
-        } else {
-
-        }
+        $person = Person::getPerson();
+        $communities = Community::getData($person->id);
+        return $this->render('index', compact('communities', 'person'));
     }
 
 
@@ -40,7 +34,7 @@ class CommunityController extends Controller
             $type = Yii::$app->request->get('type');
             $data = Yii::$app->request->post('data');
             $data = Json::decode($data, true);
-            $action = isset($data['action']) ? $data['action'] : false;
+            $action = ArrayHelper::getValue($data, 'action', false);
 
             if ($action == 'search') {
                 $page = $data['page'] = 1;
@@ -48,9 +42,9 @@ class CommunityController extends Controller
 
             switch ($type) {
                 case 'communities':
-                    $person = Person::findOne($data['id']);
-                    $communities = $person->getCommunitiesData(Community::ROLE_PARTICIPANT_TYPE, $page, $data);
-                    return $this->renderAjax('/tabs/_communities',
+                    $person = Person::getPerson();
+                    $communities = Community::getData($person->id, $page, $data);
+                    return $this->renderAjax('_items',
                         [
                             'communities' => $communities,
                         ]);

@@ -19,16 +19,9 @@ class CompanyController extends CommunityController
 
     public function actionIndex()
     {
-        $user = Yii::$app->user;
-        if (!$user->isGuest) {
-
-            $person = Person::getPerson(Yii::$app->user);
-            $companies = $person->getCompaniesData();
-            return $this->render('index', compact('companies', 'person'));
-
-        } else {
-
-        }
+        $person = Person::getPerson();
+        $companies = Company::getData($person->id);
+        return $this->render('index', compact('companies', 'person'));
     }
 
 
@@ -39,7 +32,7 @@ class CompanyController extends CommunityController
             $type = Yii::$app->request->get('type');
             $data = Yii::$app->request->post('data');
             $data = Json::decode($data, true);
-            $action = isset($data['action']) ? $data['action'] : false;
+            $action = ArrayHelper::getValue($data, 'action', false);
 
             if ($action == 'search') {
                 $page = $data['page'] = 1;
@@ -47,9 +40,9 @@ class CompanyController extends CommunityController
 
             switch ($type) {
                 case 'companies':
-                    $person = Person::findOne($data['id']);
-                    $companies = $person->getCompaniesData($page, $data);
-                    return $this->renderAjax('/tabs/_companies',
+                    $person = Person::getPerson();
+                    $companies = Company::getData($person->id, $page, $data);
+                    return $this->renderAjax('_items',
                         [
                             'companies' => $companies,
                         ]);

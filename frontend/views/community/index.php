@@ -5,7 +5,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-//$this->registerJsFile('@web/js/Plugin/filterable.min.js', ['position' => yii\web\View::POS_READY]);
 ?>
 
 <div class="page">
@@ -44,11 +43,10 @@ use yii\helpers\Url;
                     <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
 
                         <div class="tab-content">
-                            <div class="tab-pane animation-fade active" id="my_contacts"
+                            <div class="tab-pane animation-fade active" id="communities"
                                  role="tabpanel" aria-expanded="true">
-                                    <?= $this->render('/tabs/_communities', [
-                                            'communities' => $communities,
-                                            'additionData' => ['id' => $person->id]
+                                    <?= $this->render('_items', [
+                                            'communities' => $communities
                                     ]) ?>
                             </div>
                         </div>

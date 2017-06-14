@@ -23,6 +23,7 @@ $(document).ready(function() {
                 // wrap = (wrapSelector) ? $(wrapSelector) : $(this).closest('.tab-pane');
 
             additionData = JSON.parse(additionData);
+            additionData = (additionData.length === 0) ? {} : additionData;
             additionData.action = 'search';
             additionData.search = $(this).val();
             additionData = JSON.stringify(additionData);

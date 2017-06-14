@@ -5,7 +5,6 @@
 use yii\helpers\Html;
 use yii\helpers\Url;
 
-//$this->registerJsFile('@web/js/Plugin/filterable.min.js', ['position' => yii\web\View::POS_READY]);
 ?>
 
 <div class="page">
@@ -22,7 +21,7 @@ use yii\helpers\Url;
                          background-size: cover;">
                 <div class="text-xs-center blue-grey-800 m-t-50 m-xs-0">
                     <div class="font-size-70 m-b-30 blue-grey-800" style="background-color: rgba(232, 241, 248, 0.7);">Companies</div>
-                    <?= Html::a('<span><i class="icon fa-group " aria-hidden="true"></i>Create a company</span>',
+                    <?= Html::a('<span><i class="icon wb-home" aria-hidden="true"></i>Create a company</span>',
                         ['create'], ['class' => 'btn btn-dark btn-animate btn-animate-side']); ?>
                 </div>
 
@@ -44,12 +43,11 @@ use yii\helpers\Url;
                     <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
 
                         <div class="tab-content">
-                            <div class="tab-pane animation-fade active" id="my_contacts"
+                            <div class="tab-pane animation-fade active" id="companies"
                                  role="tabpanel" aria-expanded="true">
-                                    <?= $this->render('/tabs/_companies', [
-                                            'companies' => $companies,
-                                            'additionData' => ['id' => $person->id]
-                                    ]) ?>
+                                <?= $this->render('_items', [
+                                    'companies' => $companies
+                                ]) ?>
                             </div>
                         </div>
                     </div>

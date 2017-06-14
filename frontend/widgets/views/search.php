@@ -13,7 +13,7 @@ use yii\helpers\Url;
 ?>
 <div class="input-search <?= ArrayHelper::getValue($extraData, 'search-wrapper-class', '') ?>">
     <i class="input-search-icon wb-search" aria-hidden="true"></i>
-    <?= Html::textInput('search_projects', $query, [
+    <?= Html::textInput('ajaxReloadSearch', $query, [
         'class' => 'form-control search-ajax-field',
         'data-href' => Url::to(['ajax-reload', 'page' => 1, 'type' => $type]),
         'data-addition' => Json::encode($extraData),

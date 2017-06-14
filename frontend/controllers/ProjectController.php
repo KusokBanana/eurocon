@@ -30,8 +30,7 @@ class ProjectController extends Controller
     public function actionIndex()
     {
             $person = Person::getPerson();
-            $userId = $person->id;
-            $projects = Project::getData($userId, 1, ['wrapSelector' => '#projectsWrap']);
+            $projects = Project::getData($person->id, 1, ['wrapSelector' => '#projectsWrap']);
 //            $tags = Tag::returnAllTags($projects);
             return $this->render('index', compact('projects', 'person'));
 
