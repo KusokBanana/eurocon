@@ -236,8 +236,11 @@ class Person extends User
             ->via($viaTable);
     }
 
-    public static function getPerson($user)
+    public static function getPerson($user = 'current')
     {
+
+        if ($user == 'current')
+            $user = Yii::$app->user;
 
         if ($user) {
             if (isset($user->isGuest) && $user->isGuest) {
@@ -406,6 +409,11 @@ class Person extends User
 
         }
 
+    }
+
+    public static function isQuest($userId)
+    {
+        return $userId === static::$quest_id;
     }
 
     public function getLastAccess($timestamp)

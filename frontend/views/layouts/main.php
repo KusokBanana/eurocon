@@ -31,16 +31,7 @@ $user = Person::getPerson(Yii::$app->user);
     <link rel="apple-touch-icon" href="../../web/img/layer_images/apple-touch-icon.png">
     <link rel="shortcut icon" href="../../web/favicon.ico">
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
-    <style>
-        /* TODO */
-        .no-underline, .no-underline * {
-            text-decoration: none !important;
-            color: inherit;
-        }
-        .no-underline:hover, .no-underline *:hover, .no-underline:focus, .no-underline *:focus {
-            color: inherit;
-        }
-    </style>
+
     <!--[if lt IE 9]>
     <script src="../../web/vendor/html5shiv/html5shiv.min.js"></script>
     <![endif]-->
@@ -83,11 +74,11 @@ $user = Person::getPerson(Yii::$app->user);
                 'class' => 'navbar-brand-logo navbar-brand-logo-normal',
                 'title' => 'Remark'
         ]), ['/'], ['class' => 'navbar-brand navbar-brand-center']); ?>
-        <button type="button" class="navbar-toggler collapsed" data-target="#site-navbar-search"
-                data-toggle="collapse">
-            <span class="sr-only">Toggle Search</span>
-            <i class="icon wb-search" aria-hidden="true"></i>
-        </button>
+<!--        <button type="button" class="navbar-toggler collapsed" data-target="#site-navbar-search"-->
+<!--                data-toggle="collapse">-->
+<!--            <span class="sr-only">Toggle Search</span>-->
+<!--            <i class="icon wb-search" aria-hidden="true"></i>-->
+<!--        </button>-->
     </div>
     <div class="navbar-container container-fluid">
         <!-- Navbar Collapse -->
@@ -103,12 +94,12 @@ $user = Person::getPerson(Yii::$app->user);
                     </a>
                 </li>
 
-                <li class="nav-item hidden-float">
-                    <a class="nav-link icon wb-search" data-toggle="collapse" href="#" data-target="#site-navbar-search"
-                       role="button">
-                        <span class="sr-only">Toggle Search</span>
-                    </a>
-                </li>
+<!--                <li class="nav-item hidden-float">-->
+<!--                    <a class="nav-link icon wb-search" data-toggle="collapse" href="#" data-target="#site-navbar-search"-->
+<!--                       role="button">-->
+<!--                        <span class="sr-only">Toggle Search</span>-->
+<!--                    </a>-->
+<!--                </li>-->
             </ul>
             <!-- End Navbar Toolbar -->
             <!-- Navbar Toolbar Right -->
@@ -307,6 +298,11 @@ $user = Person::getPerson(Yii::$app->user);
                                             <li class="site-menu-item has-sub">
                                                 <?= Html::a('<i class="icon fa-group" aria-hidden="true"></i>
                             <span class="site-menu-title">Communities</span>', ['/community/index'],
+                                                    ['class' => 'animsition-link']) ?>
+                                            </li>
+                                            <li class="site-menu-item has-sub">
+                                                <?= Html::a('<i class="icon fa-group" aria-hidden="true"></i>
+                            <span class="site-menu-title">Companies</span>', ['/company/index'],
                                                     ['class' => 'animsition-link']) ?>
                                             </li>
                                             <li class="site-menu-item">

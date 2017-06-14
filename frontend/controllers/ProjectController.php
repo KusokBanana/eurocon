@@ -29,17 +29,12 @@ class ProjectController extends Controller
 
     public function actionIndex()
     {
-        $user = Yii::$app->user;
-        if (!$user->isGuest) {
+            $person = Person::getPerson();
+            $userId = $person->id;
+            $projects = Project::getData($userId, 1, ['wrapSelector' => '#projectsWrap']);
+//            $tags = Tag::returnAllTags($projects);
+            return $this->render('index', compact('projects', 'person'));
 
-            $person = Person::getPerson(Yii::$app->user);
-            $projects = $person->projects;
-            $tags = Tag::returnAllTags($projects);
-            return $this->render('index', compact('projects', 'tags', 'person'));
-
-        } else {
-
-        }
     }
 
     public function actionView($id)
@@ -96,6 +91,10 @@ class ProjectController extends Controller
                     return Forum::widget([
                         'data' => $posts
                     ]);
+                case 'projects':
+                    $person = Person::getPerson();
+                    $projects = Project::getData($person->id, $page, $data);
+                    return $this->renderAjax('_items', ['projects' => $projects]);
             }
 
         }

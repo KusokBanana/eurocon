@@ -419,7 +419,7 @@
                 });
 
                 $('#msg-input').on('keydown', function(e) {
-                    if (e.ctrlKey && e.keyCode === 13) {
+                    if (/*e.ctrlKey && */e.keyCode === 13) {
                         // submit message form
                         $('#msg-form').trigger('submit');
                     }

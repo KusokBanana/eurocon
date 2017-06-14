@@ -9,7 +9,7 @@ $this->params['is_main'] = true;
 
 
 <div class="page bg-white">
-    <div class="page-content container-fluid">
+    <div class="page-content">
         <header class="business-header" style="
     height: 400px;
     background: url(<?= Url::to('@web/img/layer_images/main_page-background.jpg') ?>) center center no-repeat scroll;

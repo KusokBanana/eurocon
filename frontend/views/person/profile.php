@@ -91,26 +91,9 @@ $this->title = 'Eurocon / profile';
                         </div>
                     </div>
 
-                    <div class="card-block">
+                    <div class="card-block p-t-20">
 
-                        <!-- TODO here begin -->
-                        <?php if ($person->relation === Person::RELATION_SELF): ?>
-                            <div class="row text-xs-center">
-                                <div class="col-xs-12 ">
-                                    <?= Html::button('edit',
-                                        [
-                                            'class' => 'btn btn-block btn-primary btn-outline',
-                                            'data-target' => '#profile_edit',
-                                            'data-toggle' => 'modal',
-
-                                        ]) ?>
-                                    <?= CustomModal::widget([
-                                        'type' => 'profile_edit',
-                                        'model' => $person,
-                                    ]) ?>
-                                </div>
-                            </div>
-                        <?php else: ?>
+                        <?php if ($person->relation !== Person::RELATION_SELF): ?>
                             <div class="row text-xs-center m-b-20">
                                 <div class="col-xs-6">
                                     <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Message',
@@ -133,7 +116,7 @@ $this->title = 'Eurocon / profile';
 
                         <div  class="card card-shadow p-b-20">
 
-                            <div class="card-block p-r-0 p-l-0">
+                            <div class="card-block p-r-0 p-l-0 p-t-5">
                                     <table class="table table-sm"
                                            style="width: 100%; word-wrap: break-word;
                                            table-layout: fixed; min-width: 200px;">
@@ -179,6 +162,25 @@ $this->title = 'Eurocon / profile';
                                     </table>
                             </div>
                         </div>
+
+                        <?php if ($person->relation === Person::RELATION_SELF): ?>
+                            <div class="row text-xs-center">
+                                <div class="col-xs-12 ">
+                                    <?= Html::button('edit',
+                                        [
+                                            'class' => 'btn btn-block btn-primary btn-outline',
+                                            'data-target' => '#profile_edit',
+                                            'data-toggle' => 'modal',
+
+                                        ]) ?>
+                                    <?= CustomModal::widget([
+                                        'type' => 'profile_edit',
+                                        'model' => $person,
+                                    ]) ?>
+                                </div>
+                            </div>
+                        <?php endif; ?>
+
                     </div>
 
 

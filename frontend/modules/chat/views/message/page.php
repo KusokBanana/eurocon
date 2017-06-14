@@ -48,6 +48,11 @@ $this->registerJs("jQuery('#messages').yiiSimpleChatMessages($userJs, $contactJs
 ?>
 
 <div class="page">
+
+    <div style="">
+
+    </div>
+
     <!-- Message Sidebar -->
     <div class="page-aside">
         <div class="page-aside-switch">

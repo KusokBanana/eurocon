@@ -5,7 +5,6 @@
 /* @var $tags array */
 use yii\helpers\Html;
 
-//$this->registerJsFile('@web/js/Plugin/filterable.min.js', ['position' => yii\web\View::POS_READY]);
 ?>
 
 <div class="page">
@@ -31,59 +30,27 @@ use yii\helpers\Html;
 
         <!-- End Personal -->
         <!-- To Do List -->
-        <div class="col-xs-12 col-xxl-12  col-xl-12 col-lg-12">
-            <div class="page-header page-header-bordered page-header-tabs">
+        <div class="col-xs-12 col-xxl-12  col-xl-12 col-lg-12" id="projectsWrap">
 
-                <div class="form-group">
-                    <div class="input-search">
-                        <button class="input-search-btn" id="filter-search-btn">
-                            <i class="icon wb-search" aria-hidden="true"></i>
-                        </button>
-                        <input type="text" class="form-control" id="projects-search-filter" name="" placeholder="Search...">
-                    </div>
-                </div>
-                <div class="page-header-actions"></div>
-                <ul class="nav nav-tabs nav-tabs-line" role="tablist" id="projectsFilter">
-                    <li class="nav-item" role="presentation">
-                        <a class="active nav-link" href="#" aria-controls="exampleList" aria-expanded="true"
-                           role="tab" data-filter="*">All</a>
-                    </li>
-                    <?php
-                    if (!empty($tags['values'])):
-                        foreach ($tags['values'] as $key => $tag): ?>
-                    <li class="nav-item" role="presentation">
-                        <a class="nav-link" href="#" aria-expanded="false"
-                           role="tab" data-filter=".item_filter_<?= $key ?>"><?= $tag ?></a>
-                    </li>
-                    <?php
-                        endforeach;
-                    endif; ?>
-                </ul>
-            </div>
-            <div class="page-content">
-                <ul class="blocks blocks-100 blocks-xxl-10 blocks-lg-3 blocks-md-2" data-plugin="filterable"
-                    data-filters="#projectsFilter">
-                    <?php foreach ($projects as $project): ?>
-                        <li class="<?= $tags['classes'][$project->id] ?>" data-search="<?= $project->name ?>">
-                            <div class="card card-shadow">
-                                <figure class="card-img-top overlay-hover overlay">
-                                    <?= Html::img($project->imageShow, [
-                                            'class' => 'overlay-figure overlay-scale',
-                                            'alt' => '...'
-                                    ]) ?>
-                                    <figcaption class="overlay-panel overlay-background overlay-fade overlay-icon">
-                                        <a href="<?= $project->imageShow ?>" class="icon wb-search"></a>
-                                    </figcaption>
-                                </figure>
-                                <div class="card-block">
-                                    <?= Html::a('<h4 class="card-title">' . $project->name . '</h4>',
-                                        ['/project/view', 'id' => $project->id]) ?>
-                                </div>
-                            </div>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
-            </div>
+<!--                <div class="page-header-actions"></div>-->
+<!--                <ul class="nav nav-tabs nav-tabs-line" role="tablist" id="projectsFilter">-->
+<!--                    <li class="nav-item" role="presentation">-->
+<!--                        <a class="active nav-link" href="#" aria-controls="exampleList" aria-expanded="true"-->
+<!--                           role="tab" data-filter="*">All</a>-->
+<!--                    </li>-->
+<!--                    --><?php
+//                    if (!empty($tags['values'])):
+//                        foreach ($tags['values'] as $key => $tag): ?>
+<!--                    <li class="nav-item" role="presentation">-->
+<!--                        <a class="nav-link" href="#" aria-expanded="false"-->
+<!--                           role="tab" data-filter=".item_filter_--><?//= $key ?><!--">--><?//= $tag ?><!--</a>-->
+<!--                    </li>-->
+<!--                    --><?php
+//                        endforeach;
+//                    endif; ?>
+<!--                </ul>-->
+
+            <?= $this->render('_items', ['projects' => $projects]) ?>
 
         </div>
         <!-- End To Do List -->
