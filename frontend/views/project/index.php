@@ -18,7 +18,7 @@ use yii\helpers\Html;
             <div class="page-header h-250 m-b-30"
                  style="background-image: url(<?= \yii\helpers\Url::to('@web/img/layer_images/project-background.png') ?>);  background-size: cover;">
                 <div class="text-xs-center blue-grey-800 m-t-0 m-xs-0">
-                    <div class="font-size-70 m-b-30 blue-grey-800"><?= $person->name ?>'s Projects</div>
+                    <div class="font-size-70 m-b-30 blue-grey-800">Projects</div>
                     <?= Html::a('<span><i class="icon wb-hammer" aria-hidden="true"></i>Create a project</span>',
                         ['create'], ['class' => 'btn btn-dark btn-animate btn-animate-side']) ?>
                 </div>

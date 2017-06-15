@@ -252,15 +252,9 @@ class SiteController extends Controller
         $companies = Company::find()->where(['not', ['location' => null]])->all();
         $persons = Person::find()->where(['not', ['location' => null]])->all();
         $tags = Tag::getAllByTypes(true);
+        $person = Person::get();
 
-        return $this->render('locations', compact('projects', 'companies', 'persons', 'tags'));
-
-    }
-
-    public function actionFriends()
-    {
-
-        return $this->render('friends');
+        return $this->render('locations', compact('projects', 'companies', 'persons', 'tags', 'person'));
 
     }
 

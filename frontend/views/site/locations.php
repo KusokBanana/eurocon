@@ -17,6 +17,7 @@ use yii\helpers\Url;
 /* @var $companies array \frontend\models\Company */
 /* @var $persons array \frontend\models\Person */
 /* @var $tags array  */
+/* @var $person \frontend\models\Person  */
 
 LocationsAsset::register($this);
 
@@ -162,12 +163,26 @@ $this->params['body-class'] = 'app-travel';
                                 <?php /** @var Project $project */
                                         /* @var $project->location array */
                                 foreach ($projects as $key => $project): ?>
-                                    <div class="col-xs-12 col-xxl-6 col-lg-12 projects-info location-item"
+                                    <div class="col-xs-12 col-xxl-6 col-lg-6 projects-info location-item"
                                          data-location="<?= $project->location[Location::LAT] . ',' .
                                             $project->location[Location::LNG] ?>"
                                          data-filter_data='<?= Json::encode($project->getAttributes([
                                                  'type_id', 'status_id', 'budget_id', 'category_id', 'name'
                                          ])); ?>'
+                                         data-info-type="<?= $project->type ?>"
+                                         data-info-color="<?php
+                                            switch ($project->type_id) {
+                                                case 1:
+                                                    echo '#4caf50';
+                                                    break;
+                                                case 2:
+                                                    echo '#a2caee';
+                                                    break;
+                                                case 3:
+                                                    echo '#ff9800';
+                                                    break;
+                                            }
+                                            ?>"
                                          data-spot-id="<?= 's_'.$key ?>">
                                         <div class="card card-shadow">
                                             <div class="card-header cover overlay">
@@ -176,36 +191,20 @@ $this->params['body-class'] = 'app-travel';
                                                         'class' => 'cover-image',
                                                         'alt' => 'spot_photo',
                                                     ]),
-                                                    ['/company/view', 'id' => $project->id]) ?>
-                                                <div class="overlay-panel">
-                                                    <div class="card-actions pull-xs-right">
-                                                        <a href="javascript:void(0)">
-                                                            <i class="icon wb-heart-outline text" aria-hidden="true"></i>
-                                                            <i class="icon wb-heart text-active" aria-hidden="true"></i>
-                                                        </a>
-                                                    </div>
-                                                </div>
+                                                    ['/project/view', 'id' => $project->id], ['class' => 'item-link']) ?>
                                             </div>
                                             <div class="card-block">
-                                                <h3 class="card-title item-title">
+                                                <h3 class="card-title item-name">
                                                     <?= $project->name ?>
                                                 </h3>
-                                                <span class="item-name">exercitation</span>
-                                                <p class="card-text type-link">
+                                                <p class="card-text type-link item-by">
                                                     <small>
-                                                        Posted in
-                                                        <a href="javascript:void(0)">
-                                                            qui
-                                                        </a>
+                                                        Posted by <span><?= $project->creator(); ?></span>
                                                     </small>
                                                 </p>
                                                 <p class="card-text">
                                                     <?= $project->description ?>
                                                 </p>
-                                            </div>
-                                            <div class="card-block">
-                                                <div class="rating" data-score="4" data-nummber="5" data-plugin="rating">
-                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -227,16 +226,6 @@ $this->params['body-class'] = 'app-travel';
                                                             'class' => 'input-search-close icon wb-close',
                                                             'aria-label' => 'Close'
                                                         ]) ?>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="form-control-label col-xs-12 col-md-3">Type ??? :</label>
-                                                <div class="col-md-9 col-xs-12">
-                                                    <select class="form-control" disabled>
-                                                        <option>Design</option>
-                                                        <option>Building</option>
-                                                        <option>architecture</option>
-                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -278,11 +267,11 @@ $this->params['body-class'] = 'app-travel';
                                                 <div class="hotel-img">
                                                     <?= Html::img($company->imageShow) ?>
                                                 </div>
-                                                <h4 class="card-title item-name">
                                                     <?= Html::a(Html::img($company->imageShow),
                                                         ['/company/view', 'id' => $company->id],
-                                                        ['class' => 'avatar bg-white img-bordered person-avatar']) ?>
-                                                    <?= $company->name ?>
+                                                        ['class' => 'avatar bg-white img-bordered person-avatar item-link']) ?>
+                                                <h4 class="card-title item-name">
+                                                <?= $company->name ?>
                                                 </h4>
                                                 <p class="card-text item-title"><?= $company->description ?></p>
                                             </div>
@@ -311,16 +300,6 @@ $this->params['body-class'] = 'app-travel';
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="form-control-label col-xs-12 col-md-3">Type ??? :</label>
-                                                <div class="col-md-9 col-xs-12">
-                                                    <select class="form-control" disabled>
-                                                        <option>Design</option>
-                                                        <option>Building</option>
-                                                        <option>architecture</option>
-                                                    </select>
-                                                </div>
-                                            </div>
-                                            <div class="form-group row">
                                                 <label class="form-control-label col-xs-12 col-md-3">Add tags for search:</label>
                                                 <div class="col-md-9 col-xs-12">
                                                     <?= Select2::widget([
@@ -343,41 +322,36 @@ $this->params['body-class'] = 'app-travel';
                                         <?= Html::endForm() ?>
                                     </div>
                                 </div>
-                                <ul class="reviews-list">
-                                    <li>
-                                        <ul class="list-group list-group-dividered reviews-list">
+                                <ul class="list-group list-group-dividered reviews-list row">
 
-                                            <?php /** @var \frontend\models\Person $person */
-                                            foreach ($persons as $person):
-                                                $filterData = [
-                                                    'name' => $person->full_name,
-                                                    'tags[]' => ArrayHelper::getValue($tags[Tag::PERSON_TYPE], $person->id, [])
-                                                ];
-                                                ?>
-                                                <li class="list-group-item persons-info" data-review-id="r_1"
-                                                    data-location="<?= $person->location[Location::LAT] . ',' .
-                                                    $project->location[Location::LNG] ?>"
-                                                    data-filter_data='<?= Json::encode($filterData); ?>'>
-                                                    <div class="media">
-                                                        <div class="media-left">
-                                                            <?= Html::a(Html::img($person->imageShow, [
-                                                                'class' => 'img-responsive'
-                                                            ]), ['/person/profile', 'id' => $person->id],
-                                                                ['class' => 'avatar']); ?>
-                                                        </div>
-                                                        <div class="media-body content">
-                                                            <h4 class="media-heading item-name"><?= $person->full_name; ?></h4>
-                                                            <div class="rating" data-plugin="rating" data-score="4" data-number="5" data-read-only="true">
-                                                            </div>
-                                                        </div>
-                                                        <div class="media-right">
-                                                            <span class="item-title"><?= $person->position; ?></span>
-                                                        </div>
+                                    <?php /** @var \frontend\models\Person $person */
+                                    foreach ($persons as $person):
+                                        $filterData = [
+                                            'name' => $person->full_name,
+                                            'tags[]' => ArrayHelper::getValue($tags[Tag::PERSON_TYPE], $person->id, [])
+                                        ];
+                                        ?>
+                                        <li class="list-group-item persons-info col-xs-12 col-xxl-6 col-lg-6"
+                                            data-review-id="r_1"
+                                            data-location="<?= $person->location[Location::LAT] . ',' .
+                                            $project->location[Location::LNG] ?>"
+                                            data-filter_data='<?= Json::encode($filterData); ?>'>
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <?= Html::a(Html::img($person->imageShow, [
+                                                        'class' => 'img-responsive'
+                                                    ]), ['/person/profile', 'id' => $person->id],
+                                                        ['class' => 'avatar item-link']); ?>
+                                                </div>
+                                                <div class="media-body content">
+                                                    <h4 class="media-heading item-name"><?= $person->full_name; ?></h4>
+                                                    <div class="media-center">
+                                                        <span class="item-title"><?= $person->position; ?></span>
                                                     </div>
-                                                </li>
-                                            <?php endforeach; ?>
-                                        </ul>
-                                    </li>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    <?php endforeach; ?>
                                 </ul>
                             </div>
                         </div>
@@ -388,7 +362,9 @@ $this->params['body-class'] = 'app-travel';
     </div>
 
     <!-- End Travel Options Siderbar -->
-    <div class="page-main">
+    <div class="page-main"
+         data-current-lat="<?= $person->location[Location::LAT] ?>"
+         data-current-long="<?= $person->location[Location::LNG] ?>">
         <div id="map"></div>
     </div>
 </div>

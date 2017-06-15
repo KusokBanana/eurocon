@@ -44,12 +44,29 @@
         }, {
             key: 'getMap',
             value: function getMap() {
-                var mapLatlng = L.latLng(37.769, -122.446);
+
+                var currentLat = (this.$pageMain.attr('data-current-lat')) ?
+                        this.$pageMain.attr('data-current-lat') : 37.769,
+                    currentLong = (this.$pageMain.attr('data-current-long')) ?
+                        this.$pageMain.attr('data-current-long') : -122.446;
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(getPositionSuccess);
+                } else {
+                    console.warn('Geolocation is not supported by this browser');
+                }
+
+                function getPositionSuccess(position) {
+                    currentLat = position.coords.latitude;
+                    currentLong = position.coords.longitude;
+                }
+
+                var mapLatlng = L.latLng(currentLat, currentLong);
 
                 // this accessToken, you can get it to here ==> [ https://www.mapbox.com ]
                 L.mapbox.accessToken = 'pk.eyJ1IjoiYW1hemluZ3N1cmdlIiwiYSI6ImNpaDVubzBoOTAxZG11dGx4OW5hODl2b3YifQ.qudwERFDdMJhFA-B2uO6Rg';
 
-                return L.mapbox.map('map', 'mapbox.light').setView(mapLatlng, 18);
+                return L.mapbox.map('map', 'mapbox.light').setView(mapLatlng, 9);
             }
         }]);
         return Map;
@@ -117,13 +134,30 @@
                     });
 
                     /* create new marker and add to map */
-                    var itemName = $(items[i]).find('.item-name').html();
-                    var itemTitle = $(items[i]).find('.item-title').html();
-                    var popupInfo = '<div class=\'marker-popup-info\'>\n                        <div class=\'detail\'>info</div>\n                        <h3>' + itemName + '</h3>\n                        <p>' + itemTitle + '</p>\n                      </div>\n                      <i class=\'icon wb-chevron-right-mini\'>\n                      </i>';
-                    var marker = L.marker(markerLatlng, {
+                    var obj = {};
+                    var itemName = $(items[i]).find('.item-name').html(),
+                        itemTitle = $(items[i]).find('.item-title').html(),
+                        itemBy = $(items[i]).find('.item-by span').html(),
+                        infoType = $(items[i]).attr('data-info-type'),
+                        link = $(items[i]).find('.item-link').attr('href'),
+                        infoColor = $(items[i]).attr('data-info-color');
+                    var infoTab = (!!infoType) ?
+                        '<div style="background-color: ' + infoColor + '!important;" class=\'detail\'>'+
+                            infoType+
+                        '</div>' : '';
+                    itemBy = (!!itemBy) ? '<p>By ' + itemBy + '</p>' : '';
+
+                    var popupInfo = '<div class=\'marker-popup-info\'>'+ infoTab +
+                        '<h3>' + itemName + '</h3>' + itemBy +
+                        '</div><a href="'+link+'" target="_blank"><i class=\'icon wb-chevron-right-mini\'></i></a>';
+
+                    obj = {
                         title: itemName,
                         icon: itemImg
-                    }).bindPopup(popupInfo, {
+                    };
+
+                    var marker = L.marker(markerLatlng, obj);
+                    marker.bindPopup(popupInfo, {
                         closeButton: false
                     });
 

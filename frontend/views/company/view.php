@@ -169,7 +169,7 @@ use yii\helpers\Html;
 
                     </div>
 
-                    <div  class="card card-shadow p-b-20">
+                    <div  class="card p-b-20">
 
                         <div class="card-block p-r-0 p-l-0">
                             <table class="table table-sm">

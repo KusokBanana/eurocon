@@ -114,7 +114,7 @@ $this->title = 'Eurocon / profile';
                             </div>
                         <?php endif; ?>
 
-                        <div  class="card card-shadow p-b-20">
+                        <div  class="card p-b-20">
 
                             <div class="card-block p-r-0 p-l-0 p-t-5">
                                     <table class="table table-sm"

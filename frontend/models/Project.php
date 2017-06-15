@@ -10,6 +10,7 @@ use Imagine\Image\Box;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
+use yii\helpers\Html;
 use yii\web\UploadedFile;
 
 use yii\imagine\Image;
@@ -30,6 +31,7 @@ use yii\imagine\Image;
  * @property string $background [varchar(126)]
  * @property string $completion_date [date]
  * @property string $social_links
+ * @property integer $creator_id
  *
  * @property BookCompanyProject[] $bookCompanyProjects
  * @property BookUserProject[] $participants
@@ -49,6 +51,7 @@ class Project extends ActiveRecord
     public $imageShow;
     public $backgroundShow;
     public $statusData;
+    public $type;
 
     const RELATION_ADMIN = 1;
     const RELATION_PARTICIPANT = 2;
@@ -125,11 +128,12 @@ class Project extends ActiveRecord
             [['date', 'completion_date'], 'date', 'format' => 'yyyy-MM-dd'],
             ['date', 'default', 'value' => date('Y-m-d')],
             [['description'], 'string'],
-            [['type_id', 'status_id', 'budget_id', 'category_id', 'editability_id'], 'integer'],
+            [['type_id', 'status_id', 'budget_id', 'category_id', 'editability_id', 'creator_id'], 'integer'],
             [['name', 'image', 'background'], 'string', 'max' => 126],
             [['location', 'project_links'], 'string', 'max' => 255],
             [['participants', 'owners', 'tagValues', 'social_links'], 'safe'],
             [['imageFile', 'backgroundFile'], 'file', 'extensions' => 'png, jpg'],
+            ['creator_id', 'default', 'value' => Yii::$app->user->id],
         ];
     }
 
@@ -247,6 +251,9 @@ class Project extends ActiveRecord
         $this->setStatusData();
         $this->setImage('image');
         $this->setImage('background');
+
+        $this->type = ArrayHelper::getValue(static::$types, $this->type_id, '');
+
         $this->location = Location::get($this->location);
 
     }
@@ -433,5 +440,16 @@ class Project extends ActiveRecord
         return $potentialSubscribers;
     }
 
+    public function creator()
+    {
+
+        if ($this->creator_id) {
+            $creator = Person::findOne($this->creator_id);
+            return Html::a($creator->username,
+                ['/person/profile', 'id' => $this->creator_id]);
+        }
+        return '';
+
+    }
 
 }
