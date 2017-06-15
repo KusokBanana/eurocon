@@ -13,7 +13,9 @@ use frontend\models\books\BookUserCommunity;
 use frontend\models\books\BookUserCompany;
 use frontend\models\books\BookUserProject;
 use Yii;
+use yii\db\Expression;
 use yii\db\Query;
+use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 use yii\imagine\Image;
 use yii\web\UploadedFile;
@@ -236,7 +238,7 @@ class Person extends User
             ->via($viaTable);
     }
 
-    public static function getPerson($user = 'current')
+    public static function get($user = 'current')
     {
 
         if ($user == 'current')
@@ -289,6 +291,36 @@ class Person extends User
             ->setData($page, Community::$limit, 'communities');
 
         return $ajaxReload;
+    }
+
+    public static function getData($personId, $page = 1, $extraData = [])
+    {
+
+        $query = static::find();
+        $subQuery1 = BookFollowers::find()
+            ->select(new Expression('IF(following_id = ' . $personId . ', follower_id, following_id)'))
+            ->where(['or', ['following_id' => $personId], ['follower_id' => $personId]]);
+        $search = ArrayHelper::getValue($extraData, 'search', false);
+
+        $ajaxReload = new AjaxReload();
+        $ajaxReload->init($query, $extraData);
+
+        if ($personId && !Person::isQuest($personId) && !$search) {
+            $query->where(['IN', 'id', $subQuery1]);
+        }
+        if ($search) {
+            $query->where(['<>', 'id', $personId]);
+            $ajaxReload
+                ->setSearchString('CONCAT(IFNULL(surname, ""), " ", IFNULL(name, ""))')
+                ->search();
+            if ($personId) {
+                // TODO order it here
+            }
+        }
+
+        $ajaxReload->setData($page, static::$limit, 'people');
+        return $ajaxReload;
+
     }
 
     public function afterFind()

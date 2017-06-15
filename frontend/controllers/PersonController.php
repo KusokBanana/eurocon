@@ -27,12 +27,19 @@ use yii\web\NotFoundHttpException;
 class PersonController extends Controller
 {
 
+    public function actionIndex()
+    {
+        $person = Person::get();
+        $persons = Person::getData($person->id);
+        return $this->render('index', compact('persons'));
+    }
+
     public function actionProfile($id)
     {
 
         $pageUser = User::findOne($id);
         if ($pageUser) {
-            $person = Person::getPerson($pageUser);
+            $person = Person::get($pageUser);
         } else {
             throw new NotFoundHttpException();
         }
@@ -96,6 +103,13 @@ class PersonController extends Controller
                         [
                             'items' => $marketplace
                         ]);
+                case 'people':
+                    $person = Person::get();
+                    $persons = Person::getData($person->id, $page, $data);
+                    return $this->renderAjax('_items',
+                        [
+                            'persons' => $persons
+                        ]);
             }
 
         }
@@ -125,7 +139,7 @@ class PersonController extends Controller
     {
         $person = Person::findOne($id);
         if ($person) {
-            $requestPerson = Person::getPerson(Yii::$app->user);
+            $requestPerson = Person::get(Yii::$app->user);
             if ($requestPerson) {
                 $result = BookFollowers::follow($requestPerson->id, $id);;
                 if ($result)
@@ -139,7 +153,7 @@ class PersonController extends Controller
     {
         $person = Person::findOne($id);
         if ($person) {
-            $requestPerson = Person::getPerson(Yii::$app->user);
+            $requestPerson = Person::get(Yii::$app->user);
             if ($requestPerson) {
                 $result = BookFollowers::unFollow($requestPerson->id, $id);;
                 if ($result)

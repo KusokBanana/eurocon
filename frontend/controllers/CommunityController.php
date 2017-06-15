@@ -21,7 +21,7 @@ class CommunityController extends Controller
 
     public function actionIndex()
     {
-        $person = Person::getPerson();
+        $person = Person::get();
         $communities = Community::getData($person->id);
         return $this->render('index', compact('communities', 'person'));
     }
@@ -42,7 +42,7 @@ class CommunityController extends Controller
 
             switch ($type) {
                 case 'communities':
-                    $person = Person::getPerson();
+                    $person = Person::get();
                     $communities = Community::getData($person->id, $page, $data);
                     return $this->renderAjax('_items',
                         [
@@ -106,7 +106,7 @@ class CommunityController extends Controller
         $community = Community::findOne($id);
         if ($community) {
             $user = Yii::$app->user;
-            $person = Person::getPerson($user);
+            $person = Person::get($user);
             $result = $community->join($person->id);
             return $this->redirect(['view', 'id' => $community->id]);
         }
@@ -119,7 +119,7 @@ class CommunityController extends Controller
         $community = Community::findOne($id);
         if ($community) {
             $user = Yii::$app->user;
-            $person = Person::getPerson($user);
+            $person = Person::get($user);
             $community->leave($person->id);
             return $this->redirect(['view', 'id' => $community->id]);
         }

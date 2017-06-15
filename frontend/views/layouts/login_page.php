@@ -12,7 +12,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
-$user = Person::getPerson(Yii::$app->user);
+$user = Person::get(Yii::$app->user);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

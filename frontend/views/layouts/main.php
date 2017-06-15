@@ -15,7 +15,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
-$user = Person::getPerson(Yii::$app->user);
+$user = Person::get(Yii::$app->user);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -307,7 +307,7 @@ $user = Person::getPerson(Yii::$app->user);
                                             </li>
                                             <li class="site-menu-item">
                                                 <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>
-                            <span class="site-menu-title">People</span>', ['/site/friends'],
+                            <span class="site-menu-title">People</span>', ['/person/index'],
                                                     ['class' => 'animsition-link']) ?>
                                             </li>
                                             <li class="site-menu-item has-sub">

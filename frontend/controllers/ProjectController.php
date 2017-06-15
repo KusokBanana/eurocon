@@ -29,7 +29,7 @@ class ProjectController extends Controller
 
     public function actionIndex()
     {
-            $person = Person::getPerson();
+            $person = Person::get();
             $projects = Project::getData($person->id, 1, ['wrapSelector' => '#projectsWrap']);
 //            $tags = Tag::returnAllTags($projects);
             return $this->render('index', compact('projects', 'person'));
@@ -91,7 +91,7 @@ class ProjectController extends Controller
                         'data' => $posts
                     ]);
                 case 'projects':
-                    $person = Person::getPerson();
+                    $person = Person::get();
                     $projects = Project::getData($person->id, $page, $data);
                     return $this->renderAjax('_items', ['projects' => $projects]);
             }
@@ -151,7 +151,7 @@ class ProjectController extends Controller
     {
 
         $newProject = new Project();
-        $person = Person::getPerson(Yii::$app->user);
+        $person = Person::get(Yii::$app->user);
         $follows = BookFollowers::getFollows($person->id, 1, [], true)->data;
         $follows = ArrayHelper::map($follows, 'id', 'full_name');
         if ($newProject->load(Yii::$app->request->post())) {
@@ -260,7 +260,7 @@ class ProjectController extends Controller
         $project = Project::findOne($id);
         if ($project) {
             $user = Yii::$app->user;
-            $person = Person::getPerson($user);
+            $person = Person::get($user);
             $result = $project->join($person->id);
             return $this->redirect(['view', 'id' => $project->id]);
         }
@@ -273,7 +273,7 @@ class ProjectController extends Controller
         $project = Project::findOne($id);
         if ($project) {
             $user = Yii::$app->user;
-            $person = Person::getPerson($user);
+            $person = Person::get($user);
             $project->leave($person->id);
             return $this->redirect(['view', 'id' => $project->id]);
         }
