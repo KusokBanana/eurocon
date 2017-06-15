@@ -254,6 +254,11 @@ class Person extends User
 
     }
 
+    public function getIsAllowedLinkClass()
+    {
+        return ($this->id === static::$quest_id) ? 'link-disallow' : '';
+    }
+
     public function getProjectsData($page = 1, $type, $extraData = [])
     {
 

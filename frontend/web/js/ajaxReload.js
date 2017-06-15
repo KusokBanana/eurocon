@@ -84,13 +84,10 @@ $(document).ready(function() {
 
 
     // Another ajax function (for download preview images after change file input)
-
     function handleFileSelect(e) {
         var files = e.target.files; // FileList object
         var input = $(e.target),
             previewBlock = input.closest('.form-group').next('.image-input-preview-block').empty();
-
-        console.log(input, previewBlock, files);
 
         // Loop through the FileList and render image files as thumbnails.
         for (var i = 0, f; f = files[i]; i++) {
@@ -115,5 +112,82 @@ $(document).ready(function() {
         }
     }
     $('body').on('change', '.image-input-with-preview', handleFileSelect);
+
+
+    $('body').on('click', 'a.link-disallow', function(e) {
+        e.preventDefault();
+        var href = $(this).attr('href');
+
+        // $.ajax({
+        //     url: href,
+        //     success: function(data) {
+        //         console.log(data);
+        //     },
+        //     error: function (jqXhr, textStatus, errorThrown) {
+        //         console.log("Ошибка '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
+        //     },
+        // })
+
+        $.ajax({
+            url: '/site/ajax-sign?type=login',
+            success: function(data) {
+                if (data) {
+                    var $modal = $('#ajaxSignModal');
+                    $modal.remove();
+                    $('body').append(data);
+                    $('#ajaxSignModal').attr('data-href', href).modal();
+                }
+            },
+            error: function (jqXhr, textStatus, errorThrown) {
+                console.log("Ошибка '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
+            }
+        })
+
+    }).on('submit', '#ajaxSignModal form', function(e) {
+        e.preventDefault();
+        var form = $(this),
+            serialize = $(this).serialize(),
+            modal = form.closest('#ajaxSignModal'),
+            type = form.attr('data-type');
+
+        $.ajax({
+            url: '/site/ajax-sign?action=send&type='+type,
+            type: "POST",
+            data: serialize,
+            success: function (data) {
+                if (data) {
+                    data = JSON.parse(data);
+                    var content = data.content;
+                    if (data.success) {
+                        form.closest('.ajax-content-block').replaceWith(content);
+                        var href = modal.attr('data-href');
+                        if (!!href) {
+                            window.location.href = href;
+                        } else {
+                            modal.modal('hide');
+                            modal.remove();
+                        }
+                    } else {
+                        form.closest('.ajax-content-block').replaceWith(content);
+                    }
+                }
+            }
+        })
+    }).on('click', '#ajaxSignModal .ajax-sign-toggle', function(e) {
+        e.preventDefault();
+
+        var button = $(this),
+            type = button.attr('data-type');
+
+        $.ajax({
+            url: '/site/ajax-sign?action=toggle&type='+type,
+            success: function(data) {
+                if (data) {
+                    button.closest('.ajax-content-block').replaceWith(data);
+                }
+            }
+        })
+
+    })
 
 });

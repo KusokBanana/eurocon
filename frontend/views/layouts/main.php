@@ -2,6 +2,7 @@
 
 /* @var $this \yii\web\View */
 /* @var $content string */
+/* @var $user Person */
 
 use frontend\models\Person;
 use rmrevin\yii\fontawesome\FA;
@@ -15,7 +16,7 @@ use frontend\assets\AppAsset;
 use common\widgets\Alert;
 
 AppAsset::register($this);
-$user = Person::get(Yii::$app->user);
+$user = Person::get();
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -235,7 +236,7 @@ $user = Person::get(Yii::$app->user);
                 </li>
                 <li class="nav-item dropdown">
                     <?= Html::a(FA::icon('sign-out', ['class' => 'icon', 'aria-hidden' => 'true']),
-                        ['/site/logout'], [
+                        ['/site/' . (Yii::$app->user->isGuest ? 'login' : 'logout')], [
                             'class' => 'nav-link', 'role' => 'button']) ?>
                 </li>
             </ul>
@@ -267,7 +268,7 @@ $user = Person::get(Yii::$app->user);
 
                     <li class="site-menu-item">
                         <?= Html::a('<i class="icon wb-user" aria-hidden="true"></i>
-                            <span class="site-menu-title">Me</span>', ['/']) ?>
+                            <span class="site-menu-title">Me</span>', ['/'], ['class' => $user->getIsAllowedLinkClass()]) ?>
                     </li>
 
                     <li class="dropdown site-menu-item has-sub">
