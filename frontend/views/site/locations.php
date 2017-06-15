@@ -324,29 +324,29 @@ $this->params['body-class'] = 'app-travel';
                                 </div>
                                 <ul class="list-group list-group-dividered reviews-list row">
 
-                                    <?php /** @var \frontend\models\Person $person */
-                                    foreach ($persons as $person):
+                                    <?php /** @var \frontend\models\Person $onePerson */
+                                    foreach ($persons as $onePerson):
                                         $filterData = [
-                                            'name' => $person->full_name,
-                                            'tags[]' => ArrayHelper::getValue($tags[Tag::PERSON_TYPE], $person->id, [])
+                                            'name' => $onePerson->full_name,
+                                            'tags[]' => ArrayHelper::getValue($tags[Tag::PERSON_TYPE], $onePerson->id, [])
                                         ];
                                         ?>
                                         <li class="list-group-item persons-info col-xs-12 col-xxl-6 col-lg-6"
                                             data-review-id="r_1"
-                                            data-location="<?= $person->location[Location::LAT] . ',' .
+                                            data-location="<?= $onePerson->location[Location::LAT] . ',' .
                                             $project->location[Location::LNG] ?>"
                                             data-filter_data='<?= Json::encode($filterData); ?>'>
                                             <div class="media">
                                                 <div class="media-left">
-                                                    <?= Html::a(Html::img($person->imageShow, [
+                                                    <?= Html::a(Html::img($onePerson->imageShow, [
                                                         'class' => 'img-responsive'
-                                                    ]), ['/person/profile', 'id' => $person->id],
+                                                    ]), ['/person/profile', 'id' => $onePerson->id],
                                                         ['class' => 'avatar item-link']); ?>
                                                 </div>
                                                 <div class="media-body content">
-                                                    <h4 class="media-heading item-name"><?= $person->full_name; ?></h4>
+                                                    <h4 class="media-heading item-name"><?= $onePerson->full_name; ?></h4>
                                                     <div class="media-center">
-                                                        <span class="item-title"><?= $person->position; ?></span>
+                                                        <span class="item-title"><?= $onePerson->position; ?></span>
                                                     </div>
                                                 </div>
                                             </div>

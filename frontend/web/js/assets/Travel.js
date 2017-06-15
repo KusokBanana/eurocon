@@ -45,6 +45,10 @@
             key: 'getMap',
             value: function getMap() {
 
+                // this accessToken, you can get it to here ==> [ https://www.mapbox.com ]
+                L.mapbox.accessToken = 'pk.eyJ1IjoiYW1hemluZ3N1cmdlIiwiYSI6ImNpaDVubzBoOTAxZG11dGx4OW5hODl2b3YifQ.qudwERFDdMJhFA-B2uO6Rg';
+                var map = L.mapbox.map('map', 'mapbox.light');
+
                 var currentLat = (this.$pageMain.attr('data-current-lat')) ?
                         this.$pageMain.attr('data-current-lat') : 37.769,
                     currentLong = (this.$pageMain.attr('data-current-long')) ?
@@ -59,14 +63,12 @@
                 function getPositionSuccess(position) {
                     currentLat = position.coords.latitude;
                     currentLong = position.coords.longitude;
+                    map.setView(L.latLng(currentLat, currentLong), 9);
                 }
 
                 var mapLatlng = L.latLng(currentLat, currentLong);
 
-                // this accessToken, you can get it to here ==> [ https://www.mapbox.com ]
-                L.mapbox.accessToken = 'pk.eyJ1IjoiYW1hemluZ3N1cmdlIiwiYSI6ImNpaDVubzBoOTAxZG11dGx4OW5hODl2b3YifQ.qudwERFDdMJhFA-B2uO6Rg';
-
-                return L.mapbox.map('map', 'mapbox.light').setView(mapLatlng, 9);
+                return map.setView(mapLatlng, 9);
             }
         }]);
         return Map;
@@ -136,7 +138,7 @@
                     /* create new marker and add to map */
                     var obj = {};
                     var itemName = $(items[i]).find('.item-name').html(),
-                        itemTitle = $(items[i]).find('.item-title').html(),
+                        // itemTitle = $(items[i]).find('.item-title').html(),
                         itemBy = $(items[i]).find('.item-by span').html(),
                         infoType = $(items[i]).attr('data-info-type'),
                         link = $(items[i]).find('.item-link').attr('href'),
@@ -346,7 +348,6 @@
                 var optionString = option.substring(0, 1).toUpperCase() + option.substring(1);
 
                 var itemsInList = this.changeListItems(this['all' + optionString]);
-                console.log(itemsInList);
                 this['on' + optionString + 'ListChange'] ? this['on' + optionString + 'ListChange'](itemsInList) : '';
 
                 this.window.trigger('resize');
