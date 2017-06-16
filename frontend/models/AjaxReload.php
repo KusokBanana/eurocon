@@ -68,7 +68,6 @@ class AjaxReload
     public function setFilters($func = false)
     {
 
-
         if ($func) {
             $this->filter = $func;
         } else {
@@ -79,13 +78,12 @@ class AjaxReload
             /** @var ActiveRecord $obj */
             $obj = new $this->queryClass();
             if ($filter && !empty($filter)) {
-                foreach ($filter as $oneFilter)
-                {
+                foreach ($filter as $oneFilter) {
                     $name = ArrayHelper::getValue($oneFilter, 'name');
                     $value = ArrayHelper::getValue($oneFilter, 'value');
                     $isAttr = $obj->hasAttribute($name);
                     if ($name && $isAttr && $value) {
-                        $where[$this->queryTableName.'.'.$name] = $value;
+                        $where[$this->queryTableName . '.' . $name] = $value;
                         $newFilter[$name] = $value;
                     }
                 }
@@ -168,6 +166,12 @@ class AjaxReload
         $this->queryClass = $class;
         $this->queryTableName = $class::tableName();
         $this->query = $query;
+    }
+
+    public function setQueryValue($query)
+    {
+        $this->query = $query;
+        return $this;
     }
 
     public function getPagination()

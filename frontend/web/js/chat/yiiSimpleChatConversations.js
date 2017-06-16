@@ -64,6 +64,7 @@
                     status: 0  // load status, 0: pending load, 1: loading
                 });
                 $chat.trigger(events.init);
+                $('#msg-input').autoResize();
             });
         },
         load: function (args) {
@@ -84,6 +85,7 @@
             if($conversation){
                 data['key'] = $conversation.data('key');
             }
+
             if(widget.status === 0) {
                 $.ajax({
                     url: widget.settings.loadUrl,

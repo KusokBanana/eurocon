@@ -9,11 +9,12 @@ use yii\helpers\Url;
 /* @var $conversationDataProvider array */
 /* @var $messageDataProvider array */
 /* @var $current \frontend\modules\chat\models\Conversation */
-/* @var $contact array */
+/* @var $contact \frontend\models\Person */
 /* @var $user array */
 
 $this->params['body-class'] = 'app-message page-aside-scroll page-aside-left site-menubar-hide';
 
+$this->registerJsFile('@web/js/chat/autoresize.js', ['depends' => [AppAsset::className()]]);
 $this->registerJsFile('@web/js/chat/yiiSimpleChat.js', ['depends' => [AppAsset::className()]]);
 $this->registerJsFile('@web/js/chat/yiiSimpleChatConversations.js', ['depends' => [AppAsset::className()]]);
 $this->registerJsFile('@web/js/chat/yiiSimpleChatMessages.js', ['depends' => [AppAsset::className()]]);
@@ -48,11 +49,7 @@ $this->registerJs("jQuery('#messages').yiiSimpleChatMessages($userJs, $contactJs
 ?>
 
 <div class="page">
-
-    <div style="">
-
-    </div>
-
+    <div style=""></div>
     <!-- Message Sidebar -->
     <div class="page-aside">
         <div class="page-aside-switch">
@@ -90,6 +87,14 @@ $this->registerJs("jQuery('#messages').yiiSimpleChatMessages($userJs, $contactJs
     <!-- End Message Sidebar -->
     <div class="page-main">
         <!-- Chat Box -->
+        <div class="panel panel-bordered" style="margin:0">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Conversation with
+                    <span id="conversationContactName"><?= $contact->full_name ?></span>
+                </h3>
+            </div>
+        </div>
         <div class="app-message-chats" id="messages">
             <div class="chats" id="msg-container">
                 <?php $messagesArr = $messageDataProvider->toArray(); ?>

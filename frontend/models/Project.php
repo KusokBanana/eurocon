@@ -8,6 +8,7 @@ use frontend\models\books\BookOwnerProject;
 use frontend\models\books\BookUserProject;
 use Imagine\Image\Box;
 use Yii;
+use yii\db\ActiveQuery;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -227,25 +228,93 @@ class Project extends ActiveRecord
         $search = ArrayHelper::getValue($extraData, 'search', false);
 
         $ajaxReload = new AjaxReload();
-        $ajaxReload->init($query, $extraData);
 
         if ($user_id && !Person::isQuest($user_id) && !$search) {
             $query->where(['or', ['IN', 'id', $subQuery1], ['IN', 'id', $subQuery2]]);
         }
-        if ($search) {
-            $ajaxReload->search();
-            if ($user_id) {
-                $projectsList = join(',', ArrayHelper::merge(
-                    ArrayHelper::getColumn($subQuery1->asArray()->all(), 'project_id'),
-                    ArrayHelper::getColumn($subQuery2->asArray()->all(), 'project_id')));
+        if ($search && $user_id) {
+            $projectsList = join(',', ArrayHelper::merge(
+                ArrayHelper::getColumn($subQuery1->asArray()->all(), 'project_id'),
+                ArrayHelper::getColumn($subQuery2->asArray()->all(), 'project_id')));
 
-                $query->addSelect(['*', 'search_type_id' => 'IF(id IN ('.$projectsList.'), 0, 1)'])
-                    ->orderBy(['search_type_id' => SORT_ASC]);
-            }
+            $query->addSelect(['*', 'search_type_id' => 'IF(id IN ('.$projectsList.'), 0, 1)'])
+                ->orderBy(['search_type_id' => SORT_ASC]);
         }
+
+        $ajaxReload->init($query, $extraData)
+            ->setFilters(static::projectsFilterApply($extraData, $query))->setQueryValue($query);
+
+        if ($search)
+            $ajaxReload->search();
 
         $ajaxReload->setData($page, Project::$limit, 'projects');
         return $ajaxReload;
+    }
+
+    /**
+     * @param $data
+     * @param $query ActiveQuery
+     * @return array
+     */
+    public static function projectsFilterApply($data, &$query)
+    {
+
+        $where = [];
+        $orWhere = [];
+        $filter = ArrayHelper::getValue($data, 'filter', []);
+        $newFilter = [];
+        $globalOr = 0;
+        if ($filter && !empty($filter)) {
+            foreach ($filter as $oneFilter)
+            {
+                $name = ArrayHelper::getValue($oneFilter, 'name');
+                $value = ArrayHelper::getValue($oneFilter, 'value');
+
+                $or = false;
+                $temp = explode('-', $name);
+                if (isset($temp[1])) {
+                    $name = $temp[0];
+                    $or = true;
+                }
+
+                $obj = new static;
+                $isAttr = $obj->hasAttribute($name);
+
+                if ($name && $isAttr && $value) {
+                    if ($or) {
+                        $globalOr++;
+                        $orWhere[$name][] = [static::tableName().'.'.$name => $value];
+                        $name = implode('-', $temp);
+                    } else {
+                        $where[] = [static::tableName().'.'.$name => $value];
+                    }
+                    $newFilter[$name] = $value;
+                }
+            }
+
+            if (!empty($orWhere)) {
+                foreach ($orWhere as $oneOrWhere) {
+                    if (count($oneOrWhere) === 1) {
+                        $key = key($oneOrWhere[0]);
+                        $value = $oneOrWhere[0][$key];
+                        $where[$key] = $value;
+                    } else {
+                        array_unshift($oneOrWhere, 'OR');
+                        $where[] = $oneOrWhere;
+                    }
+                }
+            }
+
+            if (count($where) > 1) {
+                array_unshift($where, 'AND');
+            } elseif ((count($where) == 1 && $globalOr >= 2) || (count($where) == 1 && $globalOr === 0)) {
+                $where = $where[0];
+            }
+            $query->where($where);
+        }
+
+        return $newFilter;
+
     }
 
     public function afterFind()

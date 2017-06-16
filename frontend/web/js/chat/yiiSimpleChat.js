@@ -120,6 +120,7 @@
                             var url = location.href.replace(re, '/' + current.contact.id);
                             window.history.replaceState(null, document.title, url);
                             // remove itself as handler
+                            $('#conversationContactName').text(current.contact.surname + ' ' + current.contact.name);
                             self.messenger.off('success.load', tempHandler3);
                             messagesLoader.hide();
                         };
@@ -419,7 +420,7 @@
                 });
 
                 $('#msg-input').on('keydown', function(e) {
-                    if (/*e.ctrlKey && */e.keyCode === 13) {
+                    if (/*e.ctrlKey && */e.keyCode === 13 && !e.shiftKey) {
                         // submit message form
                         $('#msg-form').trigger('submit');
                     }

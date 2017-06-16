@@ -30,7 +30,6 @@ $user = Person::get();
     <?= Html::csrfMetaTags() ?>
     <title><?= Html::encode($this->title) ?></title>
     <link rel="apple-touch-icon" href="../../web/img/layer_images/apple-touch-icon.png">
-    <link rel="shortcut icon" href="../../web/favicon.ico">
     <link rel='stylesheet' href='http://fonts.googleapis.com/css?family=Roboto:300,400,500,300italic'>
 
     <!--[if lt IE 9]>
@@ -40,6 +39,13 @@ $user = Person::get();
     <script src="../../web/vendor/media-match/media.match.min.js"></script>
     <script src="../../web/vendor/respond/respond.min.js"></script>
     <![endif]-->
+
+    <?php $this->registerLinkTag([
+        'rel' => 'shortcut icon',
+        'type' => 'image/x-icon',
+        'href' => Url::to('@web/favicon.ico'),
+    ]);?>
+
 <!--    --><?php //$this->registerJs('Breakpoints();', yii\web\View::POS_READY);; ?>
     <?php $this->registerJs('(function(document, window, $) {
             \'use strict\';

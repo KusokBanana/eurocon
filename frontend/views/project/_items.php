@@ -2,10 +2,13 @@
 
 /* @var $projects \frontend\models\AjaxReload */
 
+use frontend\models\MarketplaceItem;
+use frontend\models\Project;
 use frontend\widgets\Pagination;
 use frontend\widgets\Search;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\helpers\Json;
 
 ?>
 <div class="panel">
@@ -16,6 +19,104 @@ use yii\helpers\Html;
             'data' => $projects->data,
             'type' => $projects->type
         ]) ?>
+
+        <br>
+
+        <?= Html::beginForm(['ajax-reload', 'type' => $projects->type, 'page' => $projects->page], 'post',
+            [
+                'class' => 'ajax-reload-filter',
+                'data-wrapSelector' => $projects->extraData['wrapSelector'],
+                'data-addition' => Json::encode($projects->extraData)
+            ]) ?>
+            <div class="col-md-6 col-xl-4 col-xs-12">
+                <!-- Example Basic -->
+                <div class="example-wrap m-lg-0">
+
+                    <div class="row m-t-5 m-b-5">
+                        <div class="col-xs-4">
+                            <?= Html::label(Project::$types[1], 'type_id-1',
+                                ['class' => 'p-t-3  m-l-25']) ?>
+                        </div>
+                        <div class="m-r-20 col-xs-6 ">
+                            <?= Html::checkbox('type_id-1', $projects->getFilterVal('type_id-1'),
+                                [
+                                    'class' => 'js-switch',
+                                    'value' => 1
+                                ]) ?>
+                        </div>
+                    </div>
+
+                    <div class="row m-t-5 m-b-5">
+                        <div class="col-xs-4">
+                            <?= Html::label(Project::$types[2], 'type_id-2',
+                                ['class' => 'p-t-3 m-l-25']) ?>
+                        </div>
+                        <div class="m-r-20 col-xs-6">
+                            <?= Html::checkbox('type_id-2', $projects->getFilterVal('type_id-2'),
+                                [
+                                    'class' => 'js-switch',
+                                    'value' => 2
+                                ]) ?>
+                        </div>
+                    </div>
+
+                    <div class="row m-t-5 m-b-5">
+                        <div class="col-xs-4">
+                            <?= Html::label(Project::$types[3], 'type_id-3',
+                                ['class' => 'p-t-3 m-l-25']) ?>
+                        </div>
+                        <div class="m-r-20 col-xs-6">
+                            <?= Html::checkbox('type_id-3', $projects->getFilterVal('type_id-3'), [
+                                'class' => 'js-switch',
+                                'value' => 3
+                            ]) ?>
+                        </div>
+                    </div>
+
+
+                </div>
+                <!-- End Example Basic -->
+            </div>
+            <div class="col-md-6 col-xl-4 col-xs-12">
+
+                <div class="form-group row">
+                    <?= Html::label('Status', 'status_id',
+                        ['class' => 'form-control-label col-xs-12 col-md-2']) ?>
+                    <div class="col-md-9 col-xs-12">
+                        <?= Html::dropDownList('status_id', $projects->getFilterVal('status_id'),
+                            Project::$statuses,
+                            ['class' => 'form-control', 'prompt' => '-']) ?>
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-md-6 col-xl-4 col-xs-12">
+
+                <div class="form-group row">
+                    <?= Html::label('Budget', 'budget_id',
+                        ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
+                    <div class="col-md-9 col-xs-12">
+                        <?= Html::dropDownList('budget_id', $projects->getFilterVal('budget_id'),
+                            Project::$budgets,
+                            ['class' => 'form-control', 'prompt' => '-']) ?>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <?= Html::label('Category', 'category_id',
+                        ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
+                    <div class="col-md-9 col-xs-12">
+                        <?= Html::dropDownList('category_id', $projects->getFilterVal('category_id'),
+                            Project::$categories,
+                            ['class' => 'form-control', 'prompt' => '-']) ?>
+                    </div>
+                </div>
+
+            </div>
+
+        <?= Html::endForm() ?>
+
+
     </div>
 </div>
 <div class="page-content panel-bordered panel">
@@ -69,10 +170,10 @@ use yii\helpers\Html;
             <?= Pagination::widget($projects->pagination) ?>
 
         <?php elseif (!$projects->getSearch()): ?>
-            <p>You don't have communities in the moment. <?= Html::a('Create community', ['create']) ?>
+            <p>You don't have projects in the moment. <?= Html::a('Create project', ['create']) ?>
                 or subscribe to one of the existing</p>
         <?php elseif ($projects->getSearch()): ?>
-            <p>You don't have communities for this search</p>
+            <p>You don't have projects for this search</p>
         <?php endif; ?>
     </div>
 </div>

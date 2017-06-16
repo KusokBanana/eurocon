@@ -77,6 +77,10 @@ $(document).ready(function() {
                     wrap = (wrap) ? wrap : element.closest('.tab-pane');
                     wrap.empty().append(data);
 
+                    if (typeof initSwitcheries === 'function') {
+                        initSwitcheries();
+                    }
+
                 }
             }
         })

@@ -5,6 +5,11 @@
 /* @var $tags array */
 use yii\helpers\Html;
 
+$this->registerJsFile('@web/vendor/switchery-master/dist/switchery.js',
+    ['depends' => \frontend\assets\AppAsset::className()]);
+$this->registerJsFile('@web/vendor/switchery-master/start.js',
+    ['depends' => \frontend\assets\AppAsset::className()]);
+$this->registerCssFile('@web/vendor/switchery-master/dist/switchery.min.css');
 ?>
 
 <div class="page">
