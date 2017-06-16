@@ -22,7 +22,7 @@ class CommunityController extends Controller
     public function actionIndex()
     {
         $person = Person::get();
-        $communities = Community::getData($person->id);
+        $communities = Community::getData($person->id, 1, ['wrapSelector' => '#communitiesWrap']);
         return $this->render('index', compact('communities', 'person'));
     }
 

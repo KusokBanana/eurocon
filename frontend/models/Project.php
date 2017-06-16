@@ -52,6 +52,7 @@ class Project extends ActiveRecord
     public $backgroundShow;
     public $statusData;
     public $type;
+    public $search_type_id;
 
     const RELATION_ADMIN = 1;
     const RELATION_PARTICIPANT = 2;
@@ -234,7 +235,12 @@ class Project extends ActiveRecord
         if ($search) {
             $ajaxReload->search();
             if ($user_id) {
-                // TODO order it here
+                $projectsList = join(',', ArrayHelper::merge(
+                    ArrayHelper::getColumn($subQuery1->asArray()->all(), 'project_id'),
+                    ArrayHelper::getColumn($subQuery2->asArray()->all(), 'project_id')));
+
+                $query->addSelect(['*', 'search_type_id' => 'IF(id IN ('.$projectsList.'), 0, 1)'])
+                    ->orderBy(['search_type_id' => SORT_ASC]);
             }
         }
 
@@ -445,7 +451,7 @@ class Project extends ActiveRecord
 
         if ($this->creator_id) {
             $creator = Person::findOne($this->creator_id);
-            return Html::a($creator->username,
+            return Html::a($creator->full_name,
                 ['/person/profile', 'id' => $this->creator_id]);
         }
         return '';

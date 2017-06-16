@@ -11,6 +11,7 @@ use Imagine\Image\BoxInterface;
 use Imagine\Image\ImageInterface;
 use Yii;
 use yii\db\ActiveRecord;
+use yii\db\Expression;
 use yii\helpers\ArrayHelper;
 use yii\helpers\VarDumper;
 use yii\web\UploadedFile;
@@ -49,6 +50,8 @@ class Company extends Community
     const COMMUNITY_TYPE_TEAM = 2;
     const COMMUNITY_TYPE_PUBLIC_PAGE = 3;
     const COMMUNITY_TYPE_ANOTHER = 4;
+
+    public $search_type_id;
 
     /**
      * @inheritdoc
@@ -314,7 +317,12 @@ class Company extends Community
         if ($search) {
             $ajaxReload->search();
             if ($user_id) {
-                // TODO order it here
+                $companiesList = join(',', ArrayHelper::merge(
+                    ArrayHelper::getColumn($subQuery1->asArray()->all(), 'company_id'),
+                    ArrayHelper::getColumn($subQuery2->asArray()->all(), 'company_id')));
+
+                $query->addSelect(['*', 'search_type_id' => 'IF(id IN ('.$companiesList.'), 0, 1)'])
+                    ->orderBy(['search_type_id' => SORT_ASC]);
             }
         }
 

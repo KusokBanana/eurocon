@@ -36,23 +36,10 @@ use yii\helpers\Url;
 
         <!-- To Do List -->
         <div class="col-xs-12 col-xxl-12  col-xl-12 col-lg-12">
-
-            <!-- Panel -->
-            <div class="panel">
-                <div class="panel-body">
-                    <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
-
-                        <div class="tab-content">
-                            <div class="tab-pane animation-fade active" id="communities"
-                                 role="tabpanel" aria-expanded="true">
-                                    <?= $this->render('_items', [
-                                            'communities' => $communities
-                                    ]) ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- End Panel -->
+            <div id="communitiesWrap">
+                    <?= $this->render('_items', [
+                            'communities' => $communities
+                    ]) ?>
             </div>
         </div>
         <!-- End To Do List -->

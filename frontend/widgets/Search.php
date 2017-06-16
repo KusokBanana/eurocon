@@ -3,6 +3,7 @@ namespace frontend\widgets;
 
 
 use yii\base\Widget;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 
 class Search extends Widget
@@ -21,6 +22,8 @@ class Search extends Widget
         parent::init();
 
         $this->isEmpty = empty($this->data);
+        $this->wrapSelector = (!$this->wrapSelector) ? ArrayHelper::getValue($this->extraData, 'wrapSelector', '') :
+            $this->wrapSelector;
     }
 
     public function run()

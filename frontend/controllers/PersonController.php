@@ -30,7 +30,7 @@ class PersonController extends Controller
     public function actionIndex()
     {
         $person = Person::get();
-        $persons = Person::getData($person->id);
+        $persons = Person::getData($person->id, 1, ['wrapSelector' => '#personsWrap']);
         return $this->render('index', compact('persons'));
     }
 

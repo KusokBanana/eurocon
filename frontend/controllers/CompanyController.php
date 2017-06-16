@@ -20,7 +20,7 @@ class CompanyController extends CommunityController
     public function actionIndex()
     {
         $person = Person::get();
-        $companies = Company::getData($person->id);
+        $companies = Company::getData($person->id, 1, ['wrapSelector' => '#companiesWrap']);
         return $this->render('index', compact('companies', 'person'));
     }
 

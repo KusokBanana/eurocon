@@ -50,10 +50,11 @@
                 var map = L.mapbox.map('map', 'mapbox.light');
 
                 var currentLat = (this.$pageMain.attr('data-current-lat')) ?
-                        this.$pageMain.attr('data-current-lat') : 37.769,
+                        this.$pageMain.attr('data-current-lat') : 51,
                     currentLong = (this.$pageMain.attr('data-current-long')) ?
-                        this.$pageMain.attr('data-current-long') : -122.446;
-
+                        this.$pageMain.attr('data-current-long') : 30,
+                    zoom = (this.$pageMain.attr('data-current-lat') && this.$pageMain.attr('data-current-long')) ?
+                            9 : 3;
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(getPositionSuccess);
                 } else {
@@ -68,7 +69,7 @@
 
                 var mapLatlng = L.latLng(currentLat, currentLong);
 
-                return map.setView(mapLatlng, 9);
+                return map.setView(mapLatlng, zoom);
             }
         }]);
         return Map;
@@ -131,7 +132,7 @@
 
                     var itemImg = L.divIcon({
                         html: divContent,
-                        iconAnchor: [0, 0],
+                        iconAnchor: [34, 68],
                         className: ''
                     });
 
@@ -160,7 +161,8 @@
 
                     var marker = L.marker(markerLatlng, obj);
                     marker.bindPopup(popupInfo, {
-                        closeButton: false
+                        closeButton: false,
+                        offset: [-34, -68]
                     });
 
                     markers.addLayer(marker);

@@ -97,18 +97,13 @@ class SiteController extends Controller
         $user = Yii::$app->user;
 
         if ($user->isGuest) {
-
-            return $this->render('index', []);
+            $person = Person::get();
+            return $this->render('index', ['person' => $person]);
 
         } else {
             return $this->redirect(['/person/profile', 'id' => $user->id]);
         }
 
-    }
-
-    public function actionMain()
-    {
-        return $this->render('index', []);
     }
 
     /**

@@ -18,18 +18,17 @@ use yii\helpers\Url;
             <div class="page-header h-300 m-b-30" style="background-image:
             url(<?= Url::to('@web/img/layer_images/friends-background.png') ?>);  background-size: cover;">
                 <div class="text-xs-center blue-grey-800 m-t-50 m-xs-0">
-                    <div class="font-size-70 m-b-30 blue-grey-800" style="background-color: rgba(232, 241, 248, 0.7);">Friends</div>
+                    <div class="font-size-70 m-b-30 blue-grey-800" style="background-color: rgba(232, 241, 248, 0.7);">People</div>
 
                 </div>
             </div>
 
             <div class="col-xxl-2 col-xl-2 col-lg-2"></div>
-            <div class="col-xs-12 col-xxl-8 col-xl-8 col-lg-8">
+            <div class="col-xs-12 col-xxl-8 col-xl-8 col-lg-8" id="personsWrap">
 
-                <div class="panel">
-                    <div class="panel-body">
 
-                        <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
+
+<!--                        <div class="nav-tabs-horizontal nav-tabs-animate">
 
                             <ul class="nav nav-tabs nav-tabs-line" role="tablist">
                                 <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#my_contacts" aria-controls="my_contacts" role="tab" aria-expanded="false">My Contacts</a></li>
@@ -37,8 +36,8 @@ use yii\helpers\Url;
                                 <li class="nav-item" role="presentation"><a class="nav-link" data-toggle="tab" href="#requests" aria-controls="requests" role="tab" aria-expanded="false">Requests</a></li>
                                 <li class="nav-item" role="presentation"><a class="nav-link active" data-toggle="tab" href="#all" aria-controls="requests" role="tab" aria-expanded="false">All</a></li>
                             </ul>
-                            <div class="tab-content">
-                                <div class="tab-pane animation-fade" id="my_contacts" role="tabpanel" aria-expanded="false">
+                            <div class="tab-content">-->
+                                <!--<div class="tab-pane animation-fade" id="my_contacts" role="tabpanel" aria-expanded="false">
                                     <ul class="list-group">
                                         <li class="list-group-item">
                                             <div class="media">
@@ -1340,22 +1339,17 @@ use yii\helpers\Url;
                                             </div>
                                         </li>
                                     </ul>
-                                    <nav>
-                                        <ul data-plugin="paginator" data-total="50" data-skin="pagination-no-border" class="pagination pagination-no-border"><li class="pagination-prev page-item disabled"><a class="page-link" href="javascript:void(0)" aria-label="Prev"><span class="icon wb-chevron-left-mini"></span></a></li><li class="pagination-items page-item active" data-value="1"><a class="page-link" href="javascript:void(0)">1</a></li><li class="pagination-items page-item" data-value="2"><a class="page-link" href="javascript:void(0)">2</a></li><li class="pagination-items page-item" data-value="3"><a class="page-link" href="javascript:void(0)">3</a></li><li class="pagination-items page-item" data-value="4"><a class="page-link" href="javascript:void(0)">4</a></li><li class="pagination-items page-item" data-value="5"><a class="page-link" href="javascript:void(0)">5</a></li><li class="pagination-next page-item"><a class="page-link" href="javascript:void(0)" aria-label="Next"><span class="icon wb-chevron-right-mini"></span></a></li></ul>
-                                    </nav>
-                                </div>
-                                <div class="tab-pane animation-fade active" id="all" role="tabpanel" aria-expanded="false">
+                                </div>-->
+<!--                                <div class="tab-pane animation-fade active" id="all" role="tabpanel" aria-expanded="false">-->
                                     <?= $this->render('_items', ['persons' => $persons]) ?>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
 
             </div>
             <!-- End Personal -->
             <!-- To Do List -->
-            <div class="col-xxl-2 col-xl-2 col-lg-2"></div>
+<!--            <div class="col-xxl-2 col-xl-2 col-lg-2"></div>-->
         </div>
         <!-- End To Do List -->
 

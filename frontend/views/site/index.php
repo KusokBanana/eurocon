@@ -1,6 +1,9 @@
 <?php
 
 /* @var $this \yii\web\View */
+/* @var $person \frontend\models\Person */
+
+
 use yii\helpers\Html;
 use yii\helpers\Url;
 
@@ -26,7 +29,9 @@ $this->params['is_main'] = true;
                         <h2>Join to the community</h2>
                         <p>Create your team, start your new project, engage participants! Everyone will see your job and you will see jobs of everyone. Join to Eurocon.</p>
                         <?= Html::a('<span><i class="icon wb-hammer" aria-hidden="true"></i>Create a project</span>',
-                            ['/project/create'], ['class' => 'btn btn-dark btn-animate btn-animate-side m-t-20']); ?>
+                            ['/project/create'],
+                            ['class' => 'btn btn-dark btn-animate btn-animate-side m-t-20 ' .
+                                $person->getIsAllowedLinkClass()]); ?>
                     </div>
                 </div>
             </div>

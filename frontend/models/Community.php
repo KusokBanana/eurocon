@@ -54,6 +54,8 @@ class Community extends ActiveRecord
     public $backgroundFile;
     public $backgroundShow;
 
+    public $search_type_id;
+
     public static $post_abilities = [
         1 => 'only participants',
         2 => 'participants and friends of participants',
@@ -264,7 +266,12 @@ class Community extends ActiveRecord
         if ($search) {
             $ajaxReload->search();
             if ($user_id) {
-                // TODO order it here
+                $communitiesList = join(',', ArrayHelper::merge(
+                    ArrayHelper::getColumn($subQuery1->asArray()->all(), 'community_id'),
+                    ArrayHelper::getColumn($subQuery2->asArray()->all(), 'community_id')));
+
+                $query->addSelect(['*', 'search_type_id' => 'IF(id IN ('.$communitiesList.'), 0, 1)'])
+                    ->orderBy(['search_type_id' => SORT_ASC]);
             }
         }
 

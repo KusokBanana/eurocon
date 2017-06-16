@@ -67,6 +67,7 @@ class Person extends User
     public $imageShow;
     public $backgroundShow;
     public $tagValues;
+    public $search_type_id;
 
     public static $genders = [
         1 => 'Male',
@@ -303,7 +304,7 @@ class Person extends User
 
         $query = static::find();
         $subQuery1 = BookFollowers::find()
-            ->select(new Expression('IF(following_id = ' . $personId . ', follower_id, following_id)'))
+            ->select(new Expression('IF(following_id = ' . $personId . ', follower_id, following_id) as person'))
             ->where(['or', ['following_id' => $personId], ['follower_id' => $personId]]);
         $search = ArrayHelper::getValue($extraData, 'search', false);
 
@@ -319,7 +320,10 @@ class Person extends User
                 ->setSearchString('CONCAT(IFNULL(surname, ""), " ", IFNULL(name, ""))')
                 ->search();
             if ($personId) {
-                // TODO order it here
+                $personsList = join(',', ArrayHelper::getColumn($subQuery1->asArray()->all(), 'person'));
+
+                $query->addSelect(['*', 'search_type_id' => 'IF(id IN ('.$personsList.'), 0, 1)'])
+                    ->orderBy(['search_type_id' => SORT_ASC]);
             }
         }
 

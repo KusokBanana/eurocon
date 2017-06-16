@@ -5,23 +5,49 @@
 use frontend\models\Person;
 use frontend\widgets\Pagination;
 use frontend\widgets\Search;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 ?>
-<br>
+<div class="panel">
+    <div class="panel-body">
 <?= Search::widget([
     'extraData' => $persons->extraData,
     'query' => $persons->getSearch(),
     'data' => $persons->data,
     'type' => $persons->type
 ]) ?>
+    </div>
+</div>
+<div class="panel-bordered panel">
+    <div class="panel-heading"><h3 class="panel-title">My people</h3></div>
+    <div class="panel-body">
 
+        <?php if (!empty($persons->data)): ?>
+            <ul class="list-group">
+                <?php /** @var \frontend\models\Person $person */
+                foreach ($persons->data as $key => $person): ?>
+
+
+                    <?php
+                    if (!$key && $person->search_type_id == 1){
+                        echo "<p>You don't have communities for this search</p>";
+                    }
+
+                    $prevItemSearchId = 0;
+                    if (isset($persons->data[$key-1]))
+                        $prevItemSearchId = ArrayHelper::getValue($persons->data[$key-1], 'search_type_id');
+
+                    if ($prevItemSearchId == 0 && $person->search_type_id == 1): ?>
+            </ul>
+    </div>
+</div>
 <br>
-
-<?php if (!empty($persons->data)): ?>
-    <ul class="list-group">
-        <?php /** @var \frontend\models\Person $person */
-        foreach ($persons->data as $person): ?>
+<div class="panel panel-bordered">
+    <div class="panel-heading"><h3 class="panel-title">All Communities</h3></div>
+    <div class="panel-body">
+        <ul class="list-group">
+            <?php endif; ?>
             <li class="list-group-item">
                 <div class="media">
                     <div class="media-left">
@@ -31,7 +57,7 @@ use yii\helpers\Html;
                                 ['alt' => '...']) .
                             "<i></i>".
                             "</div>",
-                            ['/person/profile', 'id' => $person->id]) ?>
+                            ['profile', 'id' => $person->id]) ?>
                     </div>
                     <div class="media-body">
                         <h4 class="media-heading">
@@ -42,23 +68,23 @@ use yii\helpers\Html;
                             <i class="icon icon-color wb-map" aria-hidden="true"></i>
                             <?= $person->location['name'] ?>
                         </p>
-                        <div>
-                            <a class="text-action" href="javascript:void(0)">
-                                <i class="icon icon-color wb-envelope" aria-hidden="true"></i>
-                            </a>
-                            <a class="text-action" href="javascript:void(0)">
-                                <i class="icon icon-color wb-mobile" aria-hidden="true"></i>
-                            </a>
-                            <a class="text-action" href="javascript:void(0)">
-                                <i class="icon icon-color bd-twitter" aria-hidden="true"></i>
-                            </a>
-                            <a class="text-action" href="javascript:void(0)">
-                                <i class="icon icon-color bd-facebook" aria-hidden="true"></i>
-                            </a>
-                            <a class="text-action" href="javascript:void(0)">
-                                <i class="icon icon-color bd-dribbble" aria-hidden="true"></i>
-                            </a>
-                        </div>
+<!--                        <div>-->
+<!--                            <a class="text-action" href="javascript:void(0)">-->
+<!--                                <i class="icon icon-color wb-envelope" aria-hidden="true"></i>-->
+<!--                            </a>-->
+<!--                            <a class="text-action" href="javascript:void(0)">-->
+<!--                                <i class="icon icon-color wb-mobile" aria-hidden="true"></i>-->
+<!--                            </a>-->
+<!--                            <a class="text-action" href="javascript:void(0)">-->
+<!--                                <i class="icon icon-color bd-twitter" aria-hidden="true"></i>-->
+<!--                            </a>-->
+<!--                            <a class="text-action" href="javascript:void(0)">-->
+<!--                                <i class="icon icon-color bd-facebook" aria-hidden="true"></i>-->
+<!--                            </a>-->
+<!--                            <a class="text-action" href="javascript:void(0)">-->
+<!--                                <i class="icon icon-color bd-dribbble" aria-hidden="true"></i>-->
+<!--                            </a>-->
+<!--                        </div>-->
                     </div>
                     <?php if ($person->relation == Person::RELATION_FOLLOWING): ?>
                         <div class="media-right p-t-10">
@@ -78,4 +104,11 @@ use yii\helpers\Html;
 
     <?= Pagination::widget($persons->pagination) ?>
 
-<?php endif; ?>
+        <?php elseif (!$persons->getSearch()): ?>
+            <p>You don't have communities in the moment. <?= Html::a('Create community', ['create']) ?>
+                or subscribe to one of the existing</p>
+        <?php elseif ($persons->getSearch()): ?>
+            <p>You don't have communities for this search</p>
+        <?php endif; ?>
+    </div>
+</div>
