@@ -386,7 +386,18 @@
                                 var $conversation = self.conversations.yiiSimpleChatConversations('find',
                                     options.contact.id, 'contact');
                                 if ($conversation.length) {
-                                    $conversation.find('.conversation-read').trigger('click');
+                                    var $conversationRead = $conversation.find('.conversation-read');
+                                    self.conversations.yiiSimpleChatConversations('read', {
+                                        url: $conversation.data('readurl'),
+                                        success: function (data) {
+                                            if (data['count'] && $conversation.length) {
+                                                // empty the unread messages counter
+                                                if ($conversationRead.length) {
+                                                    $conversationRead.remove();
+                                                }
+                                            }
+                                        }
+                                    });
                                 }
                             }
 

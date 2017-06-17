@@ -13,6 +13,9 @@ class SignupForm extends Model
     public $email;
     public $password;
     public $confirm_password;
+    public $name;
+    public $surname;
+    public $phone;
 
 
     /**
@@ -35,8 +38,10 @@ class SignupForm extends Model
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
             ['confirm_password', 'required'],
-            ['confirm_password', 'compare', 'compareAttribute'=>'password', 'message'=>"Passwords don't match" ]
-        ];
+            ['confirm_password', 'compare', 'compareAttribute'=>'password', 'message'=>"Passwords don't match" ],
+
+            [['name', 'surname', 'phone'], 'string'],
+ ];
     }
 
     /**
@@ -53,6 +58,9 @@ class SignupForm extends Model
         $user = new User();
         $user->username = $this->email;
         $user->email = $this->email;
+        $user->name = $this->name;
+        $user->surname = $this->surname;
+        $user->phone = $this->phone;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         

@@ -36,6 +36,18 @@ $this->registerCssFile('@web/css/register.min.css')
     ->passwordInput(['autofocus' => true, 'placeholder' => 'Confirm Password'])->label(null, [
         'class' => 'sr-only'
     ]) ?>
+    <?= $form->field($model, 'name')
+        ->textInput(['autofocus' => true, 'placeholder' => 'Name'])->label(null, [
+            'class' => 'sr-only'
+        ]) ?>
+    <?= $form->field($model, 'surname')
+        ->textInput(['autofocus' => true, 'placeholder' => 'Last Name'])->label(null, [
+            'class' => 'sr-only'
+        ]) ?>
+    <?= $form->field($model, 'phone')
+        ->textInput(['autofocus' => true, 'placeholder' => 'Phone'])->label(null, [
+            'class' => 'sr-only'
+        ]) ?>
     <?= Html::submitButton('Register', ['class' => 'btn btn-primary btn-block']) ?>
 <?php ActiveForm::end(); ?>
 

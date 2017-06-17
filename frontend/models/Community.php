@@ -270,7 +270,8 @@ class Community extends ActiveRecord
                     ArrayHelper::getColumn($subQuery1->asArray()->all(), 'community_id'),
                     ArrayHelper::getColumn($subQuery2->asArray()->all(), 'community_id')));
 
-                $query->addSelect(['*', 'search_type_id' => 'IF(id IN ('.$communitiesList.'), 0, 1)'])
+                $select = ($communitiesList) ? 'IF(id IN ('.$communitiesList.'), 0, 1)' : 'IF(1, 1, 0)';
+                $query->addSelect(['*', 'search_type_id' => $select])
                     ->orderBy(['search_type_id' => SORT_ASC]);
             }
         }

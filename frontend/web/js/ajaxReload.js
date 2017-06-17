@@ -192,6 +192,11 @@ $(document).ready(function() {
             }
         })
 
+    }).on('click', '.input-search button.input-search-close.icon.wb-close', function() {
+        var $prevInput = $(this).prev('input');
+        if ($prevInput.length) {
+            $prevInput.val('').trigger('focusout');
+        }
     })
 
 });

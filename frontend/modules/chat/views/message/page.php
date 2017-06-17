@@ -2,6 +2,7 @@
 
 /* @var $this \yii\web\View */
 use frontend\assets\AppAsset;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 use yii\helpers\Url;
@@ -91,7 +92,7 @@ $this->registerJs("jQuery('#messages').yiiSimpleChatMessages($userJs, $contactJs
             <div class="panel-heading">
                 <h3 class="panel-title">
                     Conversation with
-                    <span id="conversationContactName"><?= $contact->full_name ?></span>
+                    <span id="conversationContactName"><?= ArrayHelper::getValue($contact, 'full_name', '') ?></span>
                 </h3>
             </div>
         </div>

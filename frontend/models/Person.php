@@ -322,7 +322,8 @@ class Person extends User
             if ($personId) {
                 $personsList = join(',', ArrayHelper::getColumn($subQuery1->asArray()->all(), 'person'));
 
-                $query->addSelect(['*', 'search_type_id' => 'IF(id IN ('.$personsList.'), 0, 1)'])
+                $select = ($personsList) ? 'IF(id IN ('.$personsList.'), 0, 1)' : 'IF(1, 1, 0)';
+                $query->addSelect(['*', 'search_type_id' => $select])
                     ->orderBy(['search_type_id' => SORT_ASC]);
             }
         }

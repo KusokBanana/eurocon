@@ -53,6 +53,8 @@
                 })(),
                 lastScrollTop = null,
                 updateSize = function(e) {
+                    if (e.keyCode === 13 && !e.shiftKey)
+                        return false;
                     // Prepare the clone:
                     clone.height(0).val($(this).val()).scrollTop(10000);
 

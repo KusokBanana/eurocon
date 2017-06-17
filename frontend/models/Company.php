@@ -321,7 +321,8 @@ class Company extends Community
                     ArrayHelper::getColumn($subQuery1->asArray()->all(), 'company_id'),
                     ArrayHelper::getColumn($subQuery2->asArray()->all(), 'company_id')));
 
-                $query->addSelect(['*', 'search_type_id' => 'IF(id IN ('.$companiesList.'), 0, 1)'])
+                $select = ($companiesList) ? 'IF(id IN ('.$companiesList.'), 0, 1)' : 'IF(1, 1, 0)';
+                $query->addSelect(['*', 'search_type_id' => $select])
                     ->orderBy(['search_type_id' => SORT_ASC]);
             }
         }

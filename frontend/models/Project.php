@@ -237,7 +237,8 @@ class Project extends ActiveRecord
                 ArrayHelper::getColumn($subQuery1->asArray()->all(), 'project_id'),
                 ArrayHelper::getColumn($subQuery2->asArray()->all(), 'project_id')));
 
-            $query->addSelect(['*', 'search_type_id' => 'IF(id IN ('.$projectsList.'), 0, 1)'])
+            $select = ($projectsList) ? 'IF(id IN ('.$projectsList.'), 0, 1)' : 'IF(1, 1, 0)';
+            $query->addSelect(['*', 'search_type_id' => $select])
                 ->orderBy(['search_type_id' => SORT_ASC]);
         }
 
