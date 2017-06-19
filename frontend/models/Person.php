@@ -53,7 +53,7 @@ class Person extends User
 
     public static $quest_id = 5;
     private static $avatar_path = '/upload/person/';
-    private static $default_avatar = '@web/img/portraits/5.jpg';
+    private static $default_avatar = '@web/img/layer_images/avatar_user.png';
     private static $minutes_ago_online = 5;
 
     const RELATION_SELF = 1;

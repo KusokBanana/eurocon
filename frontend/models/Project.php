@@ -42,7 +42,7 @@ class Project extends ActiveRecord
 {
 
     private static $image_path = '/upload/project/';
-    private static $default_image_path = 'http://cdn.homedsgn.com/wp-content/uploads/2014/01/A-Country-Home-in-Brazil-17.jpg';
+    private static $default_avatar = '@web/img/layer_images/avatar_project.png';
 
     public $participants;
     public $tagValues;
@@ -344,7 +344,7 @@ class Project extends ActiveRecord
         if ($image && $isImageExist) {
             $this->$showAttr = Yii::getAlias('@web') . $dir . $image;
         } else {
-            $this->$showAttr = static::$default_image_path;
+            $this->$showAttr = static::$default_avatar;
         }
 
     }

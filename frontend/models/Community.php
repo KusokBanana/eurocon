@@ -31,7 +31,7 @@ class Community extends ActiveRecord
         return 'community';
     }
 
-    public static $default_image = 'https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcSUQhqwznhnuV08YHOcoGczFwGDMHJ5k2nYxQ6DHTAhmr4JWbJssw';
+    public static $default_image = '@web/img/layer_images/avatar_community.png';
 
     private static $image_path = '/upload/community/';
     public static $limit = 12;

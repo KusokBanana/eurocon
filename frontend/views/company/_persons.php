@@ -24,7 +24,7 @@ use frontend\widgets\Pagination;
                                 <?= Html::a(Html::img($person->imageShow, [
                                     'alt' => '...',
                                     'width' => '128px'
-                                ]), ['/site/profile', 'id' => $person->id]) ?>
+                                ]), ['/person/profile', 'id' => $person->id]) ?>
                                 <h4 class="font-size-16 m-b-5"><?= $person->full_name ?></h4>
                                 <span>
                                     <span><?= $person->position ?></span>
