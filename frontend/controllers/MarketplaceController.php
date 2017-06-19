@@ -4,6 +4,7 @@ namespace frontend\controllers;
 
 use frontend\models\books\BookMarketplace;
 use frontend\models\MarketplaceItem;
+use frontend\models\Person;
 use frontend\models\Post;
 use frontend\models\PostComment;
 use frontend\widgets\Forum;
@@ -19,8 +20,6 @@ class MarketplaceController extends Controller
 
     public function actionIndex()
     {
-        $user = Yii::$app->user;
-
         $marketplaceItems = MarketplaceItem::getAll();
 
         return $this->render('index', compact('marketplaceItems'));
@@ -34,13 +33,12 @@ class MarketplaceController extends Controller
             throw new NotFoundHttpException();
         }
 
-        $user = Yii::$app->user;
-
         $posts = Post::getPostsData(Post::TYPE_MARKETPLACE, $id);
         $newPost = new Post();
         $newPost->field_id = $id;
+        $projects = $item->getProjectsData(1, ['id' => $item->id]);
 
-        return $this->render('view', compact('posts', 'newPost', 'item'));
+        return $this->render('view', compact('posts', 'newPost', 'item', 'projects'));
 
     }
 
@@ -69,6 +67,13 @@ class MarketplaceController extends Controller
                     $posts = Post::getPostsData(Post::TYPE_MARKETPLACE, $data['id'], $page, $data);
                     return Forum::widget([
                         'data' => $posts,
+                    ]);
+                case 'projects':
+                    $item = MarketplaceItem::findOne($data['id']);
+                    $projects = $item->getProjectsData($page, $data);
+                    return $this->renderAjax('/tabs/_projects',
+                        [
+                            'projects' => $projects
                     ]);
             }
 
@@ -104,6 +109,7 @@ class MarketplaceController extends Controller
                     $post = new Post();
                     if ($post->load(Yii::$app->request->post())) {
                         $post->type_for = Post::TYPE_MARKETPLACE;
+                        $post->author_id = Yii::$app->user->id;
                         $post->saveImages();
                         $post->save();
 
@@ -120,6 +126,30 @@ class MarketplaceController extends Controller
             }
 
         }
+    }
+
+    public function actionFollow($id)
+    {
+
+        $item = MarketplaceItem::findOne($id);
+        if ($item) {
+            $person = Person::get();
+            $result = $item->follow($person->id);
+            return $this->redirect(['view', 'id' => $item->id]);
+        }
+
+    }
+
+    public function actionLeave($id)
+    {
+
+        $item = MarketplaceItem::findOne($id);
+        if ($item) {
+            $person = Person::get();
+            $item->leave($person->id);
+            return $this->redirect(['view', 'id' => $item->id]);
+        }
+
     }
 
 

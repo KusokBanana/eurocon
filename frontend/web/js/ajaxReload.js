@@ -118,19 +118,18 @@ $(document).ready(function() {
     $('body').on('change', '.image-input-with-preview', handleFileSelect);
 
 
-    $('body').on('click', 'a.link-disallow', function(e) {
+    $('body').on('click', 'a.link-disallow, button.link-disallow', function(e) {
         e.preventDefault();
+        e.stopPropagation();
         var href = $(this).attr('href');
 
-        // $.ajax({
-        //     url: href,
-        //     success: function(data) {
-        //         console.log(data);
-        //     },
-        //     error: function (jqXhr, textStatus, errorThrown) {
-        //         console.log("Ошибка '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
-        //     },
-        // })
+        var isModal = ($(this).attr('data-toggle') === 'modal');
+        if (isModal) {
+            var removingModal = $($(this).attr('data-target'));
+            if (removingModal.length) {
+                $($(this).attr('data-target')).remove();
+            }
+        }
 
         $.ajax({
             url: '/site/ajax-sign?type=login',
@@ -145,7 +144,9 @@ $(document).ready(function() {
             error: function (jqXhr, textStatus, errorThrown) {
                 console.log("Ошибка '" + jqXhr.status + "' (textStatus: '" + textStatus + "', errorThrown: '" + errorThrown + "')");
             }
-        })
+        });
+
+        return false;
 
     }).on('submit', '#ajaxSignModal form', function(e) {
         e.preventDefault();

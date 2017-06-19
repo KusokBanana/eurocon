@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 
 /** @var \yii\web\View $this */
+/** @var \frontend\models\Person $user */
 /** @var \frontend\models\AjaxReload $posts */
 
 ?>
@@ -29,7 +30,7 @@ use yii\helpers\Url;
         <div class="col-lg-3 col-xl-3 col-xxl-3 m-t-20 m-l-20 text-xs-center">
             <?= Html::button('Add post',
                 [
-                    'class' => 'btn btn-outline btn-primary',
+                    'class' => 'btn btn-outline btn-primary ' . $user->getIsAllowedLinkClass(),
                     'data-target' => '#'.Forum::$FORUM_MODAL_ADD_POST_ID,
                     'data-toggle' => 'modal',
 
@@ -98,6 +99,12 @@ use yii\helpers\Url;
                             <div class="col-xs-9 col-lg-9 col-sm-9">
                                 <div class="card-block">
                                     <h3 class="card-title"><?= $post->title ?></h3>
+                                    <p class="card-text type-link m-t-0">
+                                        <small>
+                                            Posted by <?= Html::a($post->author->full_name,
+                                                ['/person/profile', 'id' => $post->author->id]) ?>
+                                        </small>
+                                    </p>
                                     <p class="card-text">
                                         <small><?= date('M d, Y', strtotime($post->date)) ?></small>
                                     </p>
@@ -119,7 +126,8 @@ use yii\helpers\Url;
                                 'data-target' => "comments-block-" . $post->id
                             ]) ?>
                             <?= Html::a('Add comment', '#', [
-                                'class' => 'btn btn-outline btn-default card-link forum-post-reply pull-right',
+                                'class' => 'btn btn-outline btn-default card-link forum-post-reply pull-right  ' .
+                                    $user->getIsAllowedLinkClass(),
                                 'role' => 'button',
                                 'data-target' => 'forumReply_post_' . $post->id
                             ]) ?>

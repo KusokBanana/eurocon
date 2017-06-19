@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    $('body').on('submit', '#forum_add_post_form', function(e) {
+    $('body').on('submit', '#forum_add_post_form:not(.link-disallow)', function(e) {
         e.preventDefault();
 
         var form = $(this),
@@ -27,7 +27,7 @@ $(document).ready(function() {
     });
 
     $('#forum')
-        .on('click', '.forum-post-reply', function(e) {
+        .on('click', '.forum-post-reply:not(.link-disallow)', function(e) {
             e.preventDefault();
 
             var target = $('#'+$(this).attr('data-target'));
@@ -74,7 +74,7 @@ $(document).ready(function() {
             })
 
         })
-        .on('click', '.forum-get-replies', function(e) {
+        .on('click', '.forum-get-replies:not(.link-disallow)', function(e) {
             e.preventDefault();
 
             var href = $(this).attr('href'),

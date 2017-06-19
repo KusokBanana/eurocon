@@ -18,6 +18,7 @@ use common\widgets\Alert;
 
 AppAsset::register($this);
 $user = Person::get();
+$this->registerJsFile('@web/js/ajaxReload.js', ['depends' => [AppAsset::className()]])
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>

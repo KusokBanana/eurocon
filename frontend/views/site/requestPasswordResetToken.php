@@ -10,6 +10,7 @@ use yii\bootstrap\ActiveForm;
 $this->title = 'Request password reset';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['body-class'] = 'page-forgot-password';
+$this->params['footer_icons_remove'] = true;
 $this->registerCssFile('@web/css/forgot-password.css')
 ?>
 

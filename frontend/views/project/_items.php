@@ -28,48 +28,76 @@ use yii\helpers\Json;
                 'data-wrapSelector' => $projects->extraData['wrapSelector'],
                 'data-addition' => Json::encode($projects->extraData)
             ]) ?>
-            <div class="col-md-6 col-xl-4 col-xs-12">
+            <div class="col-md-12">
                 <!-- Example Basic -->
                 <div class="example-wrap m-lg-0">
 
                     <div class="row m-t-5 m-b-5">
-                        <div class="col-xs-4">
+                        <div class="col-xs-1">
                             <?= Html::label(Project::$types[1], 'type_id-1',
-                                ['class' => 'p-t-3  m-l-25']) ?>
+                                ['class' => 'p-t-3']) ?>
                         </div>
-                        <div class="m-r-20 col-xs-6 ">
+                        <div class="m-r-20 col-xs-1 p-t-3">
                             <?= Html::checkbox('type_id-1', $projects->getFilterVal('type_id-1'),
                                 [
                                     'class' => 'js-switch',
                                     'value' => 1
                                 ]) ?>
                         </div>
-                    </div>
 
-                    <div class="row m-t-5 m-b-5">
-                        <div class="col-xs-4">
+                        <div class="col-xs-1">
                             <?= Html::label(Project::$types[2], 'type_id-2',
                                 ['class' => 'p-t-3 m-l-25']) ?>
                         </div>
-                        <div class="m-r-20 col-xs-6">
+                        <div class="m-r-20 col-xs-1 p-t-3">
                             <?= Html::checkbox('type_id-2', $projects->getFilterVal('type_id-2'),
                                 [
                                     'class' => 'js-switch',
                                     'value' => 2
                                 ]) ?>
                         </div>
-                    </div>
 
-                    <div class="row m-t-5 m-b-5">
-                        <div class="col-xs-4">
+                        <div class="col-xs-1">
                             <?= Html::label(Project::$types[3], 'type_id-3',
                                 ['class' => 'p-t-3 m-l-25']) ?>
                         </div>
-                        <div class="m-r-20 col-xs-6">
+                        <div class="m-r-20 col-xs-1 p-t-3">
                             <?= Html::checkbox('type_id-3', $projects->getFilterVal('type_id-3'), [
                                 'class' => 'js-switch',
                                 'value' => 3
                             ]) ?>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row m-t-5 m-b-5">
+                        <div class="form-group col-xs-4">
+                            <?= Html::label('Status', 'status_id',
+                                ['class' => 'form-control-label col-xs-12 col-md-2']) ?>
+                            <div class="col-md-9 col-xs-12">
+                                <?= Html::dropDownList('status_id', $projects->getFilterVal('status_id'),
+                                    Project::$statuses,
+                                    ['class' => 'form-control', 'prompt' => '-']) ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group  col-xs-4">
+                            <?= Html::label('Budget', 'budget_id',
+                                ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
+                            <div class="col-md-9 col-xs-12">
+                                <?= Html::dropDownList('budget_id', $projects->getFilterVal('budget_id'),
+                                    Project::$budgets,
+                                    ['class' => 'form-control', 'prompt' => '-']) ?>
+                            </div>
+                        </div>
+
+                        <div class="form-group  col-xs-4">
+                            <?= Html::label('Category', 'category_id',
+                                ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
+                            <div class="col-md-9 col-xs-12">
+                                <?= Html::dropDownList('category_id', $projects->getFilterVal('category_id'),
+                                    Project::$categories,
+                                    ['class' => 'form-control', 'prompt' => '-']) ?>
+                            </div>
                         </div>
                     </div>
 
@@ -77,42 +105,7 @@ use yii\helpers\Json;
                 </div>
                 <!-- End Example Basic -->
             </div>
-            <div class="col-md-6 col-xl-4 col-xs-12">
 
-                <div class="form-group row">
-                    <?= Html::label('Status', 'status_id',
-                        ['class' => 'form-control-label col-xs-12 col-md-2']) ?>
-                    <div class="col-md-9 col-xs-12">
-                        <?= Html::dropDownList('status_id', $projects->getFilterVal('status_id'),
-                            Project::$statuses,
-                            ['class' => 'form-control', 'prompt' => '-']) ?>
-                    </div>
-                </div>
-
-            </div>
-            <div class="col-md-6 col-xl-4 col-xs-12">
-
-                <div class="form-group row">
-                    <?= Html::label('Budget', 'budget_id',
-                        ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
-                    <div class="col-md-9 col-xs-12">
-                        <?= Html::dropDownList('budget_id', $projects->getFilterVal('budget_id'),
-                            Project::$budgets,
-                            ['class' => 'form-control', 'prompt' => '-']) ?>
-                    </div>
-                </div>
-
-                <div class="form-group row">
-                    <?= Html::label('Category', 'category_id',
-                        ['class' => 'form-control-label col-xs-12 col-md-3']) ?>
-                    <div class="col-md-9 col-xs-12">
-                        <?= Html::dropDownList('category_id', $projects->getFilterVal('category_id'),
-                            Project::$categories,
-                            ['class' => 'form-control', 'prompt' => '-']) ?>
-                    </div>
-                </div>
-
-            </div>
 
         <?= Html::endForm() ?>
 

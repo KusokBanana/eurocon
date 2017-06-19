@@ -7,9 +7,11 @@ use frontend\widgets\CustomModal;
 use frontend\widgets\Forum;
 use yii\helpers\Html;
 
+/* @var $this \yii\web\View */
 /* @var $item MarketplaceItem */
 /* @var $newPost Post */
 /* @var $posts \frontend\models\AjaxReload*/
+/* @var $projects \frontend\models\AjaxReload*/
 
 $this->registerJsFile('@web/js/forum.js',  ['depends' => [AppAsset::className()]]);
 $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [AppAsset::className()]]);
@@ -46,9 +48,9 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                        aria-controls="test" role="tab">Product Description</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <a class="nav-link" data-toggle="tab" href="#project_related"
-                                       aria-controls="project_related" role="tab"
-                                       aria-expanded="false">Related Project</a>
+                                    <a class="nav-link" data-toggle="tab" href="#projects_related"
+                                       aria-controls="projects_related" role="tab"
+                                       aria-expanded="false">Related Projects</a>
                                 </li>
                                 <li class="nav-item" role="presentation">
                                     <a class="nav-link" data-toggle="tab" href="#forum" aria-controls="forum"
@@ -78,78 +80,8 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                         </div>
                                     </div>
                                 </div>
-
-                                <div class="tab-pane animation-fade" id="project_related" role="tabpanel" aria-expanded="false">
-                                    <ul class="list-group m-t-20">
-                                        <li class="list-group-item">
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <a href="#"><div class="avatar avatar-online">
-                                                            <img src="../add-images/company-avatar.png" alt="...">
-                                                        </div></a>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4 class="media-heading">
-                                                        Company 1
-                                                    </h4>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel nisl sodales, ullamcorper nunc id, congue tellus.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <a href="#"><div class="avatar avatar-online">
-                                                            <img src="../add-images/company-avatar.png" alt="...">
-                                                        </div></a>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4 class="media-heading">
-                                                        Company 2
-                                                    </h4>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel nisl sodales, ullamcorper nunc id, congue tellus.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <a href="#"><div class="avatar avatar-online">
-                                                            <img src="../add-images/company-avatar.png" alt="...">
-                                                        </div></a>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4 class="media-heading">
-                                                        Company 3
-                                                    </h4>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel nisl sodales, ullamcorper nunc id, congue tellus.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="list-group-item">
-                                            <div class="media">
-                                                <div class="media-left">
-                                                    <a href="#"><div class="avatar avatar-online">
-                                                            <img src="../add-images/company-avatar.png" alt="...">
-                                                        </div></a>
-                                                </div>
-                                                <div class="media-body">
-                                                    <h4 class="media-heading">
-                                                        Company 4
-                                                    </h4>
-                                                    <p>
-                                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum vel nisl sodales, ullamcorper nunc id, congue tellus.
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                <div class="tab-pane animation-fade" id="projects_related" role="tabpanel" aria-expanded="false">
+                                    <?= $this->render('/tabs/_projects', ['projects' => $projects]) ?>
                                 </div>
                                 <div class="tab-pane animation-fade" id="forum" role="tabpanel" aria-expanded="false">
 
@@ -217,10 +149,31 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                             </table>
                             <div class="row text-xs-center">
                                 <div class="col-xs-12 ">
-                                    <button type="button" class="btn btn-block btn-primary btn-outline btn-primary"
-                                            data-target="#exampleTabs" data-toggle="modal">edit</button>
 
-                                    <div class="modal fade" id="exampleTabs" aria-hidden="true"
+                                    <?php if ($item->relation === MarketplaceItem::RELATION_ADMIN): ?>
+                                        <?= Html::button('edit',
+                                            [
+                                                'class' => 'btn btn-block btn-primary btn-outline btn-primary',
+                                                'data-target' => '#product_edit',
+                                                'data-toggle' => 'modal',
+
+                                            ]) ?>
+<!--                                        --><?//= CustomModal::widget([
+//                                            'type' => 'project_edit',
+//                                            'model' => $project,
+//                                            'additionalData' => [
+//                                                'subscribers' => $potentialSubscribers['admins']
+//                                            ]
+//                                        ]) ?>
+                                    <?php elseif ($item->relation !== MarketplaceItem::RELATION_PARTICIPANT): ?>
+                                        <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Follow this product',
+                                            ['follow', 'id' => $item->id], ['class' => 'btn btn-block btn-primary']) ?>
+                                    <?php elseif ($item->relation === MarketplaceItem::RELATION_PARTICIPANT): ?>
+                                        <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Unsubscribe this product',
+                                            ['leave', 'id' => $item->id], ['class' => 'btn btn-block btn-primary']) ?>
+                                    <?php endif; ?>
+
+                                    <div class="modal fade" id="product_edit" aria-hidden="true"
                                          aria-labelledby="exampleModalTabs" role="dialog" tabindex="-1">
                                         <div class="modal-dialog">
                                             <div class="modal-content">

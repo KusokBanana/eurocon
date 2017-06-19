@@ -20,6 +20,7 @@ use yii\web\UploadedFile;
  * @property integer $type_for
  * @property integer $field_id
  * @property string $images
+ * @property int $author_id [int(11)]
  */
 class Post extends ActiveRecord
 {
@@ -62,7 +63,8 @@ class Post extends ActiveRecord
             [['text'], 'string'],
             ['image_files', 'file', 'extensions' => 'png, jpg', 'maxFiles' => 3],
             ['image_file', 'file', 'extensions' => 'png, jpg'],
-            [['type_for', 'field_id'], 'integer'],
+            [['type_for', 'field_id', 'author_id'], 'integer'],
+            ['author_id', 'default', 'value' => Person::$quest_id],
             [['title', 'images'], 'string', 'max' => 255],
         ];
     }
@@ -82,6 +84,14 @@ class Post extends ActiveRecord
             'image_files' => 'Image Files',
             'images' => 'Images',
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getAuthor()
+    {
+        return $this->hasOne(Person::className(), ['id' => 'author_id']);
     }
 
     public function getComments()
@@ -120,7 +130,7 @@ class Post extends ActiveRecord
     {
 
         $query = static::find()->where(['type_for' => $type, 'field_id' => $field_id])
-            ->orderBy(['date' => SORT_DESC]);
+            ->orderBy(['date' => SORT_DESC])->joinWith('author');
 
         if ($isWithComments)
             $query->joinWith('comments');

@@ -89,4 +89,20 @@ class BookMarketplace extends ActiveRecord
         return false;
     }
 
+    public static function add($field_id, $item_id, $type_id)
+    {
+        $newBook = new static();
+        $newBook->field_id = $field_id;
+        $newBook->item_id = $item_id;
+        $newBook->type_id = $type_id;
+        return $newBook->save();
+    }
+
+    public static function remove($field_id, $item_id, $type_id)
+    {
+        $book = self::findOne(['type_id' => $type_id, 'field_id' => $field_id, 'item_id' => $item_id]);
+        if ($book)
+            $book->delete();
+    }
+
 }

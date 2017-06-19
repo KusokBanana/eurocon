@@ -5,6 +5,7 @@ use yii\helpers\Url;
 
 /** @var \frontend\models\Post $post */
 /** @var string $index */
+/** @var \frontend\models\Person $user */
 
 $comments = $post->commentaries;
 ?>
@@ -40,7 +41,8 @@ if (!empty($comments) && isset($comments[$index])): ?>
                                         'data-target' => 'forumReply_'.$comment->id
                                 ]) ?>
                         </div>
-                        <form class="comment-form" id="forumReply_<?= $comment->id ?>"
+                        <form class="comment-form <?= $user->getIsAllowedLinkClass() ?>"
+                              id="forumReply_<?= $comment->id ?>"
                               data-target="comments-block-<?= $post->id ?>"
                               data-comments_count="<?= $post->commentsCount ?>"
                               action="<?= Url::to([

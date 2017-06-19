@@ -176,6 +176,7 @@ class CommunityController extends Controller
                     $post = new Post();
                     if ($post->load(Yii::$app->request->post())) {
                         $post->type_for = Post::TYPE_COMMUNITY;
+                        $post->author_id = Yii::$app->user->id;
                         $post->saveImages();
                         $post->save();
 

@@ -2,6 +2,7 @@
 namespace frontend\widgets;
 
 
+use frontend\models\Person;
 use yii\base\Widget;
 use yii\helpers\Json;
 
@@ -36,6 +37,8 @@ class Forum extends Widget
                     'index' => $this->index
                 ];
         }
+
+        $this->viewData['user'] = Person::get();
 
 
     }
