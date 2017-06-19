@@ -197,6 +197,59 @@ $(document).ready(function() {
         if ($prevInput.length) {
             $prevInput.val('').trigger('focusout');
         }
-    })
+    });
+
+    renderMiniChat();
+
+    function renderMiniChat() {
+
+        var $miniChat = $('#miniChat'),
+            $liChat = $miniChat.closest('li.nav-item'),
+            $contentBlock = $miniChat.find('.mini-chat-content'),
+            $countNew = $liChat.find('.mini-chat-count'),
+            isNeedUpdate = 1;
+
+        function updateContent(open) {
+            if (!isNeedUpdate)
+                return false;
+
+            var isOpen = (open !== undefined) ? open : $liChat.is('.open');
+
+            $.ajax({
+                url: '/chat/mini/render?isOnlyCount=' + (!isOpen),
+                success: function(data) {
+                    if (data) {
+                        if (data === 'quest') {
+                            isNeedUpdate = 0;
+                        } else {
+                            data = JSON.parse(data);
+                            var count = data.count;
+                            if (+count) {
+                                $countNew.text(count).parent().show();
+                            } else {
+                                $countNew.text('').parent().hide();
+                            }
+                            if (isOpen) {
+                                var content = data.content;
+                                $contentBlock.empty();
+                                if (content) {
+                                    $contentBlock.append(content);
+                                }
+                                $contentBlock.closest('[data-role="container"]').css('height', 'auto');
+                            }
+
+                        }
+                    }
+                }
+            });
+        }
+
+        $('body').on('click', '#miniChatLink', function() {
+            updateContent(true);
+        });
+
+        setInterval(updateContent, 4000);
+
+    }
 
 });

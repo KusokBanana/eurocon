@@ -17,9 +17,12 @@ class ConversationQuery extends ActiveQuery
         $this->alias('c');
         $this->select([
                  'last_message_id' => new Expression('MAX([[c.id]])'),
-                 'contact_id' => new Expression('IF([[c.sender_id]] = :userId, [[c.receiver_id]], [[c.sender_id]])'),
+                 'contact_id' => new Expression('IF([[c.sender_id]] = :userId, [[c.receiver_id]], [[c.sender_id]])')
             ])
-            ->where(['or', ['c.sender_id' => new Expression(':userId')], ['c.receiver_id' => new Expression(':userId')]])
+            ->where(['or',
+                ['c.sender_id' => new Expression(':userId')],
+                ['c.receiver_id' => new Expression(':userId')]
+            ])
             ->groupBy(['contact_id']);
     }
 

@@ -85,6 +85,7 @@ class Module extends \yii\base\Module implements BootstrapInterface
                 'chat/post/message/<contactId:\d+>' => $this->id . '/message/create-message',
                 'chat/unread/conversation/<contactId:\d+>' => $this->id . '/message/mark-conversation-as-unread',
                 'chat/read/conversation/<contactId:\d+>' => $this->id . '/message/mark-conversation-as-read',
+                'chat/mini/render' => $this->id . '/message/render-mini-chat',
             ], false);
 //            if (!isset($app->getView()->renderers['twig'])) {
 //                $app->getView()->renderers['twig'] = [

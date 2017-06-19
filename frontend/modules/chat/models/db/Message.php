@@ -33,6 +33,8 @@ class Message extends ActiveRecord
         return 'chat_message';
     }
 
+    public $isUnread;
+
     /**
      * @inheritDoc
      */
@@ -50,9 +52,32 @@ class Message extends ActiveRecord
         ];
     }
 
-/**
- * @return \yii\db\ActiveQuery
- */
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getLastMessage()
+    {
+        return $this->hasOne(Message::className(), ['id' => 'last_message_id']);
+    }
+
+    public static function getMiniChatData($user_id)
+    {
+
+        $conversations = static::find()
+            ->where(['or',
+                ['chat_message.sender_id' => $user_id],
+                ['chat_message.receiver_id' => $user_id]
+            ])
+            ->addSelect(['*', 'chat_message.isUnread'])
+            ->orderBy(['id' => SORT_DESC])
+            ->joinWith('lastMessage')
+            ->groupBy(['chat_message.contact_id']);
+
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getSender()
     {
         return $this->hasOne(Person::className(), ['id' => 'sender_id']);
@@ -91,7 +116,7 @@ class Message extends ActiveRecord
         return static::find()
             ->between($userId, $contactId)
             ->with('sender')
-            ->orderBy(['id' => SORT_DESC]); // TODO changed from DESC
+            ->orderBy(['id' => SORT_DESC]);
     }
 
 

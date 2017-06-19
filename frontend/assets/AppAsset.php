@@ -98,8 +98,8 @@ class AppAsset extends AssetBundle
         '/js/Plugin/jquery-wizard.min.js',
         '/vendor/forms/wizard.js',
         '/vendor/sliptree-bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js',
-//        '/js/Message.js',
-//        '/js/Plugin/message.js',
+        '/js/Message.js',
+        '/js/Plugin/message.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

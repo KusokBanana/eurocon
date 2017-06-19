@@ -118,11 +118,11 @@
       value: function steupMessage() {
         var _this4 = this;
 
-        this.$sendBtn.on('click', function () {
-          var num = _this4.getState('chatListsLength');
-          _this4.newChatLists.push(_this4.getMsg());
-          _this4.setState('chatListsLength', ++num);
-        });
+        // this.$sendBtn.on('click', function () {
+        //   var num = _this4.getState('chatListsLength');
+        //   _this4.newChatLists.push(_this4.getMsg());
+        //   _this4.setState('chatListsLength', ++num);
+        // });
       }
     }, {
       key: 'getMsg',

@@ -5,6 +5,7 @@
 /* @var $user Person */
 
 use frontend\models\Person;
+use frontend\widgets\Chat;
 use rmrevin\yii\fontawesome\FA;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
@@ -230,16 +231,8 @@ $user = Person::get();
                             </div>
                         </div>
                     </li>
-                    <li class="nav-item" id="toggleChat">
-                        <?= Html::a('<i class="icon wb-chat" aria-hidden="true"></i>
-                            <span class="tag tag-pill tag-info up">3</span>', 'javascript:void(0)',
-                            [
-                                'class' => 'nav-link',
-                                'data-url' => Url::to(['/message/get-chat']),
-    //                                'data-direction' => "right",
-                                'data-toggle' => "site-sidebar",
-                                'title' => 'Chat',
-                            ]) ?>
+                    <li class="nav-item dropdown">
+                        <?= Chat::widget(['isFull' => true, 'isAjax' => false]) ?>
                     </li>
                 <?php endif ?>
                 <li class="nav-item dropdown">

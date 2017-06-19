@@ -7,6 +7,7 @@ use frontend\models\Person;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\db\Expression;
+use yii\helpers\ArrayHelper;
 
 /**
  * Class Conversation
@@ -15,7 +16,7 @@ use yii\db\Expression;
  * @property int $user_id
  * @property int contact_id
  * @property int last_message_id
-// * @property int new_count
+ * @property int new
  *
  * @property-read Message $lastMessage
  * @property-read Message[] $newMessages
@@ -61,6 +62,32 @@ class Conversation extends ActiveRecord
                 'pageSize' => $limit
             ]
         ]);
+    }
+
+    public static function getDataForMiniChat($userId, $isOnlyCount = false)
+    {
+        $return = [];
+        if (!$isOnlyCount) {
+            $conversations = static::find()
+                ->forUser($userId)
+                ->addSelect([
+                    'user_id' => new Expression(':userId'),
+                    'new' => new Expression('IF(c.sender_id != :userId AND c.is_new = 1, 1, 0)')
+                ])
+                ->orderBy(['new' => SORT_DESC, 'last_message_id' => SORT_DESC])
+                ->with('lastMessage')
+                ->with('contact')
+                ->limit(4)
+                ->all();
+            $return['conversations'] = $conversations;
+        }
+
+        $countNewConversations = Message::find()
+            ->where(['is_new' => 1, 'receiver_id' => $userId])
+            ->groupBy(['sender_id'])
+            ->count();
+
+        return ArrayHelper::merge($return, ['countNew' => $countNewConversations]);
     }
 
     /**
@@ -180,7 +207,7 @@ class Conversation extends ActiveRecord
      */
     public function attributes()
     {
-        return ['user_id', 'contact_id', 'last_message_id'];
+        return ['user_id', 'contact_id', 'last_message_id', 'new'];
     }
 
     /**

@@ -4,11 +4,14 @@ namespace frontend\modules\chat\controllers;
 
 //...
 use bubasuma\simplechat\controllers\DefaultController;
+use frontend\models\Person;
 use frontend\modules\chat\models\Conversation;
 use frontend\modules\chat\models\DataProvider;
 use frontend\modules\chat\models\Message;
 use frontend\widgets\Chat;
 use yii\filters\ContentNegotiator;
+use yii\helpers\Json;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use bubasuma\simplechat\controllers\ControllerTrait;
 use yii\web\ForbiddenHttpException;
@@ -70,22 +73,11 @@ class MessageController extends Controller
 
         $messageDataProvider = Message::get($user->id, $contact['id'], 10);
 
-//        $users = $this->getUsers([$user->id, $contact['id']]);
-
-//        DataProvider::transformToArray($messageDataProvider);
         DataProvider::transformToArray($conversationDataProvider);
 
         return $this->render('page', compact('conversationDataProvider', 'current', 'contact',
             'user', 'messageDataProvider'));
     }
-
-    public function actionGetChat()
-    {
-        $chat = Chat::widget();
-        return $chat;
-//        return $this->renderAjax('list');
-    }
-
 
     public function actionMessages($contactId)
     {
@@ -172,11 +164,32 @@ class MessageController extends Controller
 
         $render = [];
         if ($id == 'conversation')
-            $render = ['dialog' => $data['model'], 'isCurrent' => ($data['isCurrent']) === 'true'];
+            $render = ['dialog' => $data['model'], 'isCurrent' => ($data['isCurrent'] && $data['isCurrent'] === 'true')];
         elseif ($id == 'message')
             $render = ['message' => $data['model'], 'user' => $data['user']];
 
         return $this->renderAjax($href, $render);
+
+    }
+
+    public function actionRenderMiniChat($isOnlyCount = false)
+    {
+
+        if (\Yii::$app->request->isAjax) {
+            $person = Person::get();
+            if (!Person::isQuest($person->id)) {
+                $isOnlyCount = ($isOnlyCount && $isOnlyCount == 'true') ? true : false;
+                $data = Conversation::getDataForMiniChat($person->id, $isOnlyCount);
+                $chatContent = '';
+                if (!$isOnlyCount) {
+                    $chatContent = Chat::widget(['conversations' => $data['conversations']]);
+                }
+                return Json::encode(['content' => $chatContent, 'count' => $data['countNew']]);
+            }  else {
+                return 'quest';
+            }
+        }
+        return false;
 
     }
 
