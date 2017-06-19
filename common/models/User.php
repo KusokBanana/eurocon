@@ -34,6 +34,7 @@ use yii\web\IdentityInterface;
  * @property int $invite_project_able_id [int(11)]
  * @property string $notice_ids [varchar(16)]
  * @property string $background [varchar(126)]
+ * @property int $last_seen
  */
 class User extends ActiveRecord implements IdentityInterface
 {

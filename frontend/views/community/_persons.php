@@ -39,7 +39,8 @@ use frontend\widgets\Search;
                                 <div class="media-left">
                                     <?= Html::a(Html::img($person->imageShow) . '<i></i>',
                                         ['/person/profile', 'id' => $person->id],
-                                        ['class' => 'avatar avatar-online']) ?>
+                                        ['class' => 'avatar ' . ($person->is_online ?
+                                                'avatar-online' : 'avatar-away')]) ?>
                                 </div>
                                 <div class="media-body">
                                     <div>

@@ -18,7 +18,7 @@ class CustomDbSession extends \yii\web\DbSession {
 
         try
         {
-            $uid = (\Yii::$app->user->getIdentity(false) == null)?null:\Yii::$app->user->getIdentity(false)->id;
+            $uid = (\Yii::$app->user->getIdentity(false) == null) ? null : \Yii::$app->user->getIdentity(false)->id;
             return [ 'user_id' => $uid, 'ip' => $_SERVER['REMOTE_ADDR'] ];
         }
         catch(Exception $excp)

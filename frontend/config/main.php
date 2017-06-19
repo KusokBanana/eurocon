@@ -94,10 +94,12 @@ return [
             ],
         ],
     ],
+    'on beforeAction' => function(){
+        if(!Yii::$app->user->isGuest){
+            \common\models\User::updateAll(['last_seen'=>time()],['id'=>Yii::$app->user->id]);
+        }
+    },
     'modules' => [
-        'simplechat' => [
-            'class' => 'bubasuma\simplechat\Module',
-        ],
         'chat' => [
             'class' => 'frontend\modules\chat\Module',
         ]

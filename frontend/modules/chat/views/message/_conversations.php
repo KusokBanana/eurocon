@@ -20,7 +20,8 @@ $date = isset($dialog['lastMessage']['created_at']) ? $dialog['lastMessage']['cr
     data-url="<?= $dialog['loadUrl']; ?>">
     <div class="media">
         <div class="media-left">
-            <a class="avatar avatar-online" href="javascript:void(0)">
+            <a class="avatar <?= (Person::getIsOnline($dialog['contact']['last_seen']) ? 'avatar-online' :
+                'avatar-away') ?>" href="javascript:void(0)">
                 <?= \yii\helpers\Html::img(Person::getImage($dialog['contact']['image']), [
                     'class' => 'img-fluid', 'alt' => '...'
                 ]) ?>

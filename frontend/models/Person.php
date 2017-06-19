@@ -46,6 +46,7 @@ use yii\web\UploadedFile;
  * @property integer $invite_project_able_id
  * @property string $notice_ids
  * @property string $background [varchar(126)]
+ * @property int $last_seen
  */
 class Person extends User
 {
@@ -336,22 +337,28 @@ class Person extends User
     public function afterFind()
     {
         parent::afterFind();
-
-        $lastAccess = SessionFrontendUser::find()->where(['user_id' => $this->id])->one();
-        if ($lastAccess) {
-            $this->last_access = $this->getLastAccess($lastAccess->expire);
-            $this->is_online = (self::$minutes_ago_online - (time() - $lastAccess->expire + 3600)  > 0) ? true : false;
-            // TODO remove 3600 cause of local server time +3
-        }
+//        $lastAccess = SessionFrontendUser::find()->where(['user_id' => $this->id])->one();
+//        if ($lastAccess) {
+            $lastAccess = (is_null($this->last_seen)) ? false : +$this->last_seen;
+            if ($lastAccess) {
+                $this->last_access = $this->getLastAccess($lastAccess);
+                $this->is_online = static::getIsOnline($lastAccess);
+            }
+//            $this->last_access = $this->getLastAccess($lastAccess->expire);
+//        }
 
         $this->location = Location::get($this->location);
-
         $this->full_name = $this->surname . ($this->surname ? ' ' : '') . $this->name;
 
         $this->setImage('image');
         $this->setImage('background');
         $this->setAsArray('notice_ids');
         $this->setRelation(Yii::$app->user);
+    }
+
+    public static function getIsOnline($lastAccess)
+    {
+        return (self::$minutes_ago_online - (time() - $lastAccess)  > 0) ? true : false;
     }
 
     public function setRelation($user)
@@ -470,8 +477,6 @@ class Person extends User
                 // Count minutes ago
                 $diff = time() - $timestamp;
 
-                $diff += 3600; // TODO remove this row because of local server +3 hours
-
                 $minutes = $diff / 60;
 
                 return intval($minutes) . " minutes ago";
@@ -480,8 +485,6 @@ class Person extends User
 
                 $diff = time() - $timestamp;
 
-                $diff += 3600; // TODO remove this row because of local server +3 hours
-
                 $hours = $diff / 3600;
 
                 return intval($hours) . " hours ago";
@@ -489,7 +492,7 @@ class Person extends User
             }
 
         } else {
-            return "at" . date("x-y-z", $timestamp);
+            return "at " . date("d-m-Y", $timestamp);
         }
 
     }

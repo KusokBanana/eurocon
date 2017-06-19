@@ -24,7 +24,7 @@ $this->registerJsFile('@web/js/ajaxReload.js', ['depends' => [AppAsset::classNam
 <!DOCTYPE html>
 <html class="no-js css-menubar" lang="<?= Yii::$app->language ?>">
     <head>
-        <?= $this->render('/layouts/head') ?>
+        <?= $this->render('head') ?>
     </head>
     <body class="animsition site-navbar-small <?= isset($this->params['body-class']) ? $this->params['body-class'] : 'dashboard' ?>">
     <?php $this->beginBody() ?>
