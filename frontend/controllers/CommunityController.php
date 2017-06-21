@@ -74,8 +74,8 @@ class CommunityController extends Controller
         if (!$community) {
             throw new NotFoundHttpException();
         }
-        $user = Yii::$app->user;
-        $community->setRelation($user);
+        $person = Person::get();
+        $community->setRelation($person);
 
         $followers = $community->getPersonsData(Company::ROLE_PARTICIPANT_TYPE);
         $admins = $community->getPersonsData(Company::ROLE_ADMIN_TYPE);
@@ -84,7 +84,7 @@ class CommunityController extends Controller
         $newPost = new Post();
         $newPost->field_id = $id;
 
-        return $this->render('view', compact('community', 'followers', 'admins', 'posts', 'newPost'));
+        return $this->render('view', compact('community', 'followers', 'admins', 'posts', 'newPost', 'person'));
     }
 
     public function actionCreate()

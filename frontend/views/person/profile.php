@@ -2,6 +2,7 @@
 
 /* @var $this yii\web\View */
 /* @var $person Person */
+/* @var $currentPerson Person */
 /* @var $projects \frontend\models\AjaxReload */
 /* @var $follows \frontend\models\AjaxReload */
 /* @var $companies \frontend\models\AjaxReload */
@@ -98,7 +99,8 @@ $this->title = 'Eurocon / profile';
                                 <div class="col-xs-6">
                                     <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Message',
                                         ['/chat/message/page', 'contactId' => $person->id],
-                                        ['class' => 'btn btn-block btn-primary']) ?>
+                                        ['class' => 'btn btn-block btn-primary ' .
+                                            $currentPerson->getIsAllowedLinkClass()]) ?>
                                 </div>
                                 <div class="col-xs-6">
                                     <?php if ($person->relation === Person::RELATION_FOLLOWING): ?>
@@ -108,7 +110,8 @@ $this->title = 'Eurocon / profile';
                                     <?php else: ?>
                                         <?= Html::a('<i class="icon wb-users" aria-hidden="true"></i>Follow',
                                             ['/person/follow', 'id' => $person->id],
-                                            ['class' => 'btn btn-block btn-primary']) ?>
+                                            ['class' => 'btn btn-block btn-primary ' .
+                                                $currentPerson->getIsAllowedLinkClass()]) ?>
                                     <?php endif; ?>
                                 </div>
                             </div>

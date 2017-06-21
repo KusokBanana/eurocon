@@ -47,6 +47,8 @@ use yii\web\UploadedFile;
  * @property string $notice_ids
  * @property string $background [varchar(126)]
  * @property int $last_seen
+ * @property string $country
+ * @property string $city
  */
 class Person extends User
 {
@@ -104,7 +106,7 @@ class Person extends User
     {
         return [
             [['gender_id', 'chat_me_able_id', 'invite_project_able_id'], 'integer'],
-            [['username', 'name'], 'required'],
+            [['username', 'name', 'country', 'city'], 'required'],
             [['birthday'], 'safe'],
             [['username', 'email'], 'string', 'max' => 255],
             [['phone', 'image', 'surname', 'name'], 'string', 'max' => 65],
@@ -113,6 +115,7 @@ class Person extends User
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
             ['language_ids', 'string'],
+            [['country', 'city'], 'string', 'max' => 165],
             [['position', 'location', 'site', 'background'], 'string', 'max' => 126],
             [['language_ids', 'notice_ids', 'tagValues'], 'safe'],
             [['imageFile', 'backgroundFile'], 'file', 'extensions' => 'png, jpg'],
@@ -144,6 +147,8 @@ class Person extends User
             'imageFile' => 'My Photo',
             'backgroundFile' => 'Background image',
             'tagValues' => 'Competence',
+            'country' => 'Country',
+            'city' => 'City',
         ];
     }
 

@@ -31,19 +31,20 @@ class PersonController extends Controller
     {
         $person = Person::get();
         $persons = Person::getData($person->id, 1, ['wrapSelector' => '#personsWrap']);
-        return $this->render('index', compact('persons'));
+        return $this->render('index', compact('persons', 'person'));
     }
 
     public function actionProfile($id)
     {
 
-        $pageUser = User::findOne($id);
+        $pageUser = Person::findOne($id);
         if ($pageUser) {
-            $person = Person::get($pageUser);
+            $person = $pageUser;
         } else {
             throw new NotFoundHttpException();
         }
 
+        $currentPerson = Person::get();
         $projects = $person->getProjectsData(1, Project::RELATION_ADMIN);
         $follows = BookFollowers::getFollows($person->id);
         $companies = $person->getCompaniesData(Company::ROLE_ADMIN_TYPE, 1);
@@ -51,7 +52,7 @@ class PersonController extends Controller
         $marketplace = MarketplaceItem::getData($id, BookMarketplace::TYPE_FOR_PERSON);
 
         return $this->render('profile',
-            compact('person', 'projects', 'follows', 'companies', 'communities', 'marketplace'));
+            compact('person', 'projects', 'follows', 'companies', 'communities', 'marketplace', 'currentPerson'));
 
     }
 
@@ -108,7 +109,8 @@ class PersonController extends Controller
                     $persons = Person::getData($person->id, $page, $data);
                     return $this->renderAjax('_items',
                         [
-                            'persons' => $persons
+                            'persons' => $persons,
+                            'person' => $person
                         ]);
             }
 

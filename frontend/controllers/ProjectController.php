@@ -3,9 +3,14 @@
 namespace frontend\controllers;
 
 
+use frontend\models\books\BookAdminCommunity;
+use frontend\models\books\BookAdminCompany;
 use frontend\models\books\BookFollowers;
 use frontend\models\books\BookMarketplace;
 use frontend\models\books\BookOwnerProject;
+use frontend\models\books\BookUserCommunity;
+use frontend\models\books\BookUserCompany;
+use frontend\models\books\BookUserProject;
 use frontend\models\Company;
 use frontend\models\MarketplaceItem;
 use frontend\models\Person;
@@ -42,12 +47,19 @@ class ProjectController extends Controller
         $project = Project::findOne($id);
         if ($project) {
 
-            $user = Yii::$app->user;
+//            BookOwnerProject::deleteAll(['user_id' => 5]);
+//            BookUserProject::deleteAll(['user_id' => 5]);
+//            BookUserCompany::deleteAll(['user_id' => 5]);
+//            BookUserCommunity::deleteAll(['user_id' => 5]);
+//            BookAdminCompany::deleteAll(['admin_id' => 5]);
+//            BookAdminCommunity::deleteAll(['admin_id' => 5]);
+//            BookFollowers::deleteAll(['or', ['following_id' => 5], ['follower_id' => 5]]);
+            $person = Person::get();
             $participants = $project->getParticipantsData();
             $admins = BookOwnerProject::getAdmins($project->id);
-            $project->setRelation($user);
+            $project->setRelation($person);
 
-            $potentialSubscribers = $project->getPotentialSubscribers();
+            $potentialSubscribers = $project->getPotentialSubscribers($person);
             $posts = Post::getPostsData(Post::TYPE_PROJECT, $id);
             $newPost = new Post();
             $newPost->field_id = $id;
@@ -57,7 +69,7 @@ class ProjectController extends Controller
 
             return $this->render('view',
                 compact('project', 'participants', 'potentialSubscribers',
-                    'projectTimeline', 'admins', 'posts', 'newPost', 'marketplaceItems'));
+                    'projectTimeline', 'admins', 'posts', 'newPost', 'marketplaceItems', 'person'));
 
         }
 

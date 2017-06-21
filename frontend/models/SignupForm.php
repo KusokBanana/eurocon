@@ -16,6 +16,8 @@ class SignupForm extends Model
     public $name;
     public $surname;
     public $phone;
+    public $country;
+    public $city;
 
 
     /**
@@ -41,6 +43,8 @@ class SignupForm extends Model
             ['confirm_password', 'compare', 'compareAttribute'=>'password', 'message'=>"Passwords don't match" ],
 
             [['name', 'surname', 'phone'], 'string'],
+            [['country', 'city'], 'required'],
+            [['country', 'city'], 'string', 'max' => 165],
  ];
     }
 

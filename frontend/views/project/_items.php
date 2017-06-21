@@ -10,6 +10,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Json;
 
+$isGuest = Yii::$app->user->isGuest;
 ?>
 <div class="panel">
     <div class="panel-body">
@@ -106,22 +107,21 @@ use yii\helpers\Json;
                 <!-- End Example Basic -->
             </div>
 
-
         <?= Html::endForm() ?>
-
 
     </div>
 </div>
+
 <div class="page-content panel-bordered panel">
-    <div class="panel-heading"><h3 class="panel-title">My projects</h3></div>
+    <div class="panel-heading"><h3 class="panel-title"><?= $isGuest ? 'All' : 'My' ?> projects</h3></div>
     <div class="panel-body">
 
         <?php if (!empty($projects->data)): ?>
-            <ul class="blocks blocks-100 blocks-xxl-10 blocks-lg-3 blocks-md-2">
+            <ul class="blocks blocks-100 blocks-xxl-10 blocks-lg-3 blocks-md-2 m-b-0">
                 <?php foreach ($projects->data as $key => $project): ?>
 
                 <?php
-                if (!$key && $project->search_type_id == 1){
+                if (!$key && $project->search_type_id == 1 && !$isGuest){
                     echo "<p>You don't have communities for this search</p>";
                 }
 
@@ -131,12 +131,14 @@ use yii\helpers\Json;
 
                 if ($prevItemSearchId == 0 && $project['search_type_id'] == 1): ?>
             </ul>
+        <?php if (!$isGuest): ?>
     </div>
 </div>
 <br>
 <div class="page-content panel panel-bordered">
     <div class="panel-heading"><h3 class="panel-title">All projects</h3></div>
     <div class="panel-body">
+        <?php endif; ?>
         <ul class="blocks blocks-100 blocks-xxl-10 blocks-lg-3 blocks-md-2">
             <?php endif; ?>
                 <li class="clearfix">

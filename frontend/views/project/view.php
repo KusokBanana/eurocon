@@ -1,5 +1,6 @@
 <?php
 /* @var $this yii\web\View */
+/* @var $person \frontend\models\Person */
 /* @var $project Project */
 /* @var $participants \frontend\models\AjaxReload */
 /* @var $potentialSubscribers array */
@@ -45,6 +46,17 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                 <!-- Panel -->
                 <div class="panel">
                     <div class="panel-body">
+
+                        <div class="media">
+                            <div class="media-body">
+                                <?= ($project->imageShow !== Project::getDefaultAvatar()) ?
+                                    Html::img($project->imageShow, ['class' => 'm-t-30 m-b-20']) : ''; ?>
+<!--                                <h4  class="media-heading">Getting Started</h4>-->
+                                <?= ($project->description) ? '<p class="m-b-30">' .
+                                    $project->description . '</p>' : ''; ?>
+                            </div>
+                        </div>
+
                         <div class="nav-tabs-horizontal nav-tabs-animate" data-plugin="tabs">
 
                             <ul class="nav nav-tabs nav-tabs-line" role="tablist">
@@ -147,7 +159,8 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                         ]) ?>
                                     <?php elseif ($project->relation !== Project::RELATION_PARTICIPANT): ?>
                                         <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Follow this project',
-                                            ['join', 'id' => $project->id], ['class' => 'btn btn-block btn-primary']) ?>
+                                            ['join', 'id' => $project->id],
+                                            ['class' => 'btn btn-block btn-primary ' . $person->getIsAllowedLinkClass()]) ?>
                                     <?php elseif ($project->relation === Project::RELATION_PARTICIPANT): ?>
                                         <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Unsubscribe this project',
                                             ['leave', 'id' => $project->id], ['class' => 'btn btn-block btn-primary']) ?>

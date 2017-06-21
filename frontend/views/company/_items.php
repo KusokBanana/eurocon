@@ -7,6 +7,7 @@ use frontend\widgets\Search;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
+$isGuest = Yii::$app->user->isGuest;
 ?>
 <div class="panel">
     <div class="panel-body">
@@ -19,15 +20,15 @@ use yii\helpers\Html;
     </div>
 </div>
 <div class="panel-bordered panel">
-    <div class="panel-heading"><h3 class="panel-title">My companies</h3></div>
+    <div class="panel-heading"><h3 class="panel-title"><?= $isGuest ? 'All' : 'My' ?> companies</h3></div>
     <div class="panel-body">
 
         <?php if (!empty($companies->data)): ?>
-            <ul class="list-group">
+            <ul class="list-group m-b-0">
                 <?php foreach ($companies->data as $key => $company): ?>
 
                     <?php
-                    if (!$key && $company->search_type_id == 1){
+                    if (!$key && $company->search_type_id == 1 && !$isGuest){
                         echo "<p>You don't have companies for this search</p>";
                     }
 
@@ -37,12 +38,14 @@ use yii\helpers\Html;
 
                     if ($prevItemSearchId == 0 && $company['search_type_id'] == 1): ?>
             </ul>
+        <?php if (!$isGuest): ?>
     </div>
 </div>
 <br>
 <div class="panel panel-bordered">
-    <div class="panel-heading"><h3 class="panel-title">All Companies</h3></div>
+    <div class="panel-heading"><h3 class="panel-title"><?= $isGuest ? 'All' : 'My' ?> Companies</h3></div>
     <div class="panel-body">
+        <?php endif; ?>
         <ul class="list-group">
                     <?php endif; ?>
                     <li class="list-group-item">

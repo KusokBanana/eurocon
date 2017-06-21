@@ -48,8 +48,11 @@ class MessageController extends Controller
     public function actionPage($contactId = null)
     {
 
-        $user = $this->user;
+        if (\Yii::$app->user->isGuest) {
+            return $this->redirect('/site/login');
+        }
 
+        $user = $this->user;
         $conversationDataProvider = Conversation::get($user->id, 8);
 
         if (isset($contactId)) {
@@ -81,6 +84,9 @@ class MessageController extends Controller
 
     public function actionMessages($contactId)
     {
+        if (!\Yii::$app->request->isAjax) {
+            return false;
+        }
         $user = $this->user;
         $request = \Yii::$app->request;
         $limit = $request->get('limit', $request->post('limit'));
@@ -104,6 +110,9 @@ class MessageController extends Controller
 
     public function actionConversations()
     {
+        if (!\Yii::$app->request->isAjax) {
+            return false;
+        }
         $userId = $this->user->getId();
         $request = \Yii::$app->request;
         $limit = $request->get('limit', $request->post('limit'));
@@ -117,6 +126,9 @@ class MessageController extends Controller
 
     public function actionCreateMessage($contactId)
     {
+        if (!\Yii::$app->request->isAjax) {
+            return false;
+        }
         $userId = $this->user->getId();
         if ($userId == $contactId) {
             throw new ForbiddenHttpException('You cannot send a message in this conversation');
@@ -127,6 +139,9 @@ class MessageController extends Controller
 
     public function actionMarkConversationAsRead($contactId)
     {
+        if (!\Yii::$app->request->isAjax) {
+            return false;
+        }
         $userId = $this->user->getId();
         return \frontend\modules\chat\models\db\Conversation::read($userId, $contactId);
     }
@@ -139,25 +154,11 @@ class MessageController extends Controller
         return \Yii::$app->user->identity;
     }
 
-    /**
-     * @inheritdoc
-     */
-//    public function afterAction($action, $result)
-//    {
-//
-//        $result = parent::afterAction($action, $result);
-//        if ($result instanceof DataProvider) {
-//            $query = $result->query;
-//            $array = $result->toArray();
-//            $array['models'] = $query->all();
-//            return $array;
-//        }
-//        return $result;
-//    }
-
     public function actionRenderView()
     {
-
+        if (!\Yii::$app->request->isAjax) {
+            return false;
+        }
         $id = \Yii::$app->request->post('id');
         $data = \Yii::$app->request->post('data');
         $href = \Yii::$app->request->post('href');
@@ -174,22 +175,21 @@ class MessageController extends Controller
 
     public function actionRenderMiniChat($isOnlyCount = false)
     {
-
-        if (\Yii::$app->request->isAjax) {
-            $person = Person::get();
-            if (!Person::isQuest($person->id)) {
-                $isOnlyCount = ($isOnlyCount && $isOnlyCount == 'true') ? true : false;
-                $data = Conversation::getDataForMiniChat($person->id, $isOnlyCount);
-                $chatContent = '';
-                if (!$isOnlyCount) {
-                    $chatContent = Chat::widget(['conversations' => $data['conversations']]);
-                }
-                return Json::encode(['content' => $chatContent, 'count' => $data['countNew']]);
-            }  else {
-                return 'quest';
-            }
+        if (!\Yii::$app->request->isAjax) {
+            return false;
         }
-        return false;
+        $person = Person::get();
+        if (!Person::isQuest($person->id)) {
+            $isOnlyCount = ($isOnlyCount && $isOnlyCount == 'true') ? true : false;
+            $data = Conversation::getDataForMiniChat($person->id, $isOnlyCount);
+            $chatContent = '';
+            if (!$isOnlyCount) {
+                $chatContent = Chat::widget(['conversations' => $data['conversations']]);
+            }
+            return Json::encode(['content' => $chatContent, 'count' => $data['countNew']]);
+        }  else {
+            return 'quest';
+        }
 
     }
 

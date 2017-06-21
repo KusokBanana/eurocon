@@ -121,6 +121,14 @@ class Project extends ActiveRecord
     }
 
     /**
+     * @return string
+     */
+    public static function getDefaultAvatar()
+    {
+        return self::$default_avatar;
+    }
+
+    /**
      * @inheritdoc
      */
     public function rules()
@@ -488,12 +496,12 @@ class Project extends ActiveRecord
         }
     }
 
-    public function getPotentialSubscribers()
+    public function getPotentialSubscribers($person)
     {
-        $user = Yii::$app->user;
         $potentialSubscribers = ['admins' => [], 'cooperation' => []];
+
         if ($this->relation == Company::ROLE_ADMIN_TYPE) {
-            $follows = BookFollowers::getFollows($user->id, 1, [], true)->data;
+            $follows = BookFollowers::getFollows($person->id, 1, [], true)->data;
 
             $participants = BookUserProject::find()->where(['project_id' => $this->id])
                 ->select('user_id')->column();

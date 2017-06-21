@@ -7,6 +7,7 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
 /* @var $company Company */
+/* @var $person \frontend\models\Person */
 /* @var $cooperation array \frontend\models\Person */
 /* @var $admins array \frontend\models\Person */
 /* @var $potentialSubscribers array \frontend\models\Person */
@@ -146,18 +147,19 @@ use yii\helpers\Html;
                             <?php elseif ($company->relation !== Company::ROLE_PARTICIPANT_TYPE): ?>
                                 <div class="col-xs-6">
                                     <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Message', ['/'],
-                                        ['class' => 'btn btn-block btn-primary']);
+                                        ['class' => 'btn btn-block btn-primary ' . $person->getIsAllowedLinkClass()]);
                                     ?>
                                 </div>
                                 <div class="col-xs-6">
                                     <?= Html::a('<i class="icon wb-user-add" aria-hidden="true"></i>Join',
                                         ['join', 'id' => $company->id],
-                                        ['class' => 'btn btn-block btn-primary']); ?>
+                                        ['class' => 'btn btn-block btn-primary ' .
+                                            $person->getIsAllowedLinkClass()]); ?>
                                 </div>
                             <?php elseif ($company->relation === Company::ROLE_PARTICIPANT_TYPE): ?>
                                 <div class="col-xs-6">
                                     <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Message', ['/'],
-                                        ['class' => 'btn btn-block btn-primary']);
+                                        ['class' => 'btn btn-block btn-primary ' . $person->getIsAllowedLinkClass()]);
                                     ?>
                                 </div>
                                 <div class="col-xs-6">

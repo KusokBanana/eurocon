@@ -44,6 +44,19 @@ $this->registerCssFile('@web/css/register.min.css')
         ->textInput(['autofocus' => true, 'placeholder' => 'Last Name'])->label(null, [
             'class' => 'sr-only'
         ]) ?>
+<!--    --><?//= $form->field($model, 'country')
+//        ->textInput([
+//                'autofocus' => true,
+//                'placeholder' => 'Country',
+//                'onFocus' => 'geolocate()',
+//                'id' => 'geoAutocomplete',
+//            ])->label(null, [
+//            'class' => 'sr-only'
+//        ]) ?>
+<!--    --><?//= $form->field($model, 'city')
+//        ->textInput(['autofocus' => true, 'placeholder' => 'City'])->label(null, [
+//            'class' => 'sr-only'
+//        ]) ?>
     <?= $form->field($model, 'phone')
         ->textInput(['autofocus' => true, 'placeholder' => 'Phone'])->label(null, [
             'class' => 'sr-only'

@@ -42,7 +42,7 @@ class AjaxReload
     {
         $count = $this->query->count();
 
-        $maxPages = ($limit) ? (floor($count / $limit) ? floor($count / $limit) : 1) : 1;
+        $maxPages = ($limit) ? (ceil($count / $limit) ? ceil($count / $limit) : 1) : 1;
         $page = $page > 0 ? $page : 1;
         $page = ($page <= $maxPages) ? $page : $maxPages;
 

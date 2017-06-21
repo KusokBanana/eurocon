@@ -8,6 +8,7 @@ use frontend\widgets\Forum;
 use yii\helpers\Html;
 use yii\helpers\Url;
 
+/* @var $person \frontend\models\Person */
 /* @var $community Company */
 /* @var $followers \frontend\models\AjaxReload */
 /* @var $admins \frontend\models\AjaxReload */
@@ -39,7 +40,7 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                     <div class="vertical-align-middle">
                             <?= Html::a(Html::img($community->imageShow, [
                                 'title' => 'Remark'
-                            ]), ["javascript:void(0)"], ['class' => 'avatar']); ?>
+                            ]), 'javascript:void(0)', ['class' => 'avatar']); ?>
                         <div class="font-size-20 m-t-10"><?= $community->name ?></div>
                         <div class="font-size-14">About Construction</div>
                     </div>
@@ -72,7 +73,8 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                                 ['leave', 'id' => $community->id], ['class' => 'btn btn-block btn-primary']) ?>
                         <?php elseif (!$community->relation): ?>
                             <?= Html::a('<i class="icon wb-chat-group" aria-hidden="true"></i>Follow this community',
-                                ['join', 'id' => $community->id], ['class' => 'btn btn-block btn-primary']) ?>
+                                ['join', 'id' => $community->id],
+                                ['class' => 'btn btn-block btn-primary ' . $person->getIsAllowedLinkClass()]) ?>
                         <?php endif; ?>
 
                         <!-- Modal body -->

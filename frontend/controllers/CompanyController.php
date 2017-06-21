@@ -84,8 +84,8 @@ class CompanyController extends CommunityController
             throw new NotFoundHttpException();
         }
 
-        $user = Yii::$app->user;
-        $company->setRelation($user);
+        $person = Person::get();
+        $company->setRelation($person);
         $cooperation = $company->getPersonsData(Company::ROLE_PARTICIPANT_TYPE);
         $admins = $company->getPersonsData(Company::ROLE_ADMIN_TYPE);
         $potentialSubscribers = $company->getPotentialSubscribers();
@@ -94,7 +94,7 @@ class CompanyController extends CommunityController
         $newMarketplaceItem = new MarketplaceItem();
 
         return $this->render('view', compact('company', 'cooperation', 'admins',
-            'potentialSubscribers', 'projects', 'marketplace', 'newMarketplaceItem'));
+            'potentialSubscribers', 'projects', 'marketplace', 'newMarketplaceItem', 'person'));
     }
 
     public function actionCreate()

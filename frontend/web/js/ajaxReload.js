@@ -80,7 +80,6 @@ $(document).ready(function() {
                     if (typeof initSwitcheries === 'function') {
                         initSwitcheries();
                     }
-
                 }
             }
         })

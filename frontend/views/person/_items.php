@@ -1,6 +1,7 @@
 <?php
 
 /* @var $persons \frontend\models\AjaxReload */
+/* @var $person Person */
 
 use frontend\models\Person;
 use frontend\widgets\Pagination;
@@ -8,6 +9,7 @@ use frontend\widgets\Search;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 
+$isGuest = Yii::$app->user->isGuest;
 ?>
 <div class="panel">
     <div class="panel-body">
@@ -20,18 +22,17 @@ use yii\helpers\Html;
     </div>
 </div>
 <div class="panel-bordered panel">
-    <div class="panel-heading"><h3 class="panel-title">My people</h3></div>
+    <div class="panel-heading"><h3 class="panel-title"><?= $isGuest ? 'All' : 'My' ?> people</h3></div>
     <div class="panel-body">
 
         <?php if (!empty($persons->data)): ?>
-            <ul class="list-group">
+            <ul class="list-group m-b-0">
                 <?php /** @var \frontend\models\Person $person */
                 foreach ($persons->data as $key => $person): ?>
 
-
                     <?php
-                    if (!$key && $person->search_type_id == 1){
-                        echo "<p>You don't have communities for this search</p>";
+                    if (!$key && $person->search_type_id == 1 && !$isGuest){
+                        echo "<p>You don't have people for this search</p>";
                     }
 
                     $prevItemSearchId = 0;
@@ -40,12 +41,14 @@ use yii\helpers\Html;
 
                     if ($prevItemSearchId == 0 && $person->search_type_id == 1): ?>
             </ul>
+        <?php if (!$isGuest): ?>
     </div>
 </div>
 <br>
 <div class="panel panel-bordered">
-    <div class="panel-heading"><h3 class="panel-title">All Communities</h3></div>
+    <div class="panel-heading"><h3 class="panel-title">All people</h3></div>
     <div class="panel-body">
+        <?php endif; ?>
         <ul class="list-group">
             <?php endif; ?>
             <li class="list-group-item">
@@ -68,23 +71,6 @@ use yii\helpers\Html;
                             <i class="icon icon-color wb-map" aria-hidden="true"></i>
                             <?= $person->location['name'] ?>
                         </p>
-<!--                        <div>-->
-<!--                            <a class="text-action" href="javascript:void(0)">-->
-<!--                                <i class="icon icon-color wb-envelope" aria-hidden="true"></i>-->
-<!--                            </a>-->
-<!--                            <a class="text-action" href="javascript:void(0)">-->
-<!--                                <i class="icon icon-color wb-mobile" aria-hidden="true"></i>-->
-<!--                            </a>-->
-<!--                            <a class="text-action" href="javascript:void(0)">-->
-<!--                                <i class="icon icon-color bd-twitter" aria-hidden="true"></i>-->
-<!--                            </a>-->
-<!--                            <a class="text-action" href="javascript:void(0)">-->
-<!--                                <i class="icon icon-color bd-facebook" aria-hidden="true"></i>-->
-<!--                            </a>-->
-<!--                            <a class="text-action" href="javascript:void(0)">-->
-<!--                                <i class="icon icon-color bd-dribbble" aria-hidden="true"></i>-->
-<!--                            </a>-->
-<!--                        </div>-->
                     </div>
                     <?php if ($person->relation == Person::RELATION_FOLLOWING): ?>
                         <div class="media-right p-t-10">
@@ -94,7 +80,8 @@ use yii\helpers\Html;
                     <?php elseif ($person->relation != Person::RELATION_SELF): ?>
                         <div class="media-right p-t-10">
                             <?= Html::a('follow', ['/person/follow', 'id' => $person->id],
-                                ['class' => 'btn btn-outline btn-primary btn-sm']) ?>
+                                ['class' => 'btn btn-outline btn-primary btn-sm ' .
+                                    $person->getIsAllowedLinkClass()]) ?>
                         </div>
                     <?php endif; ?>
                 </div>
@@ -105,10 +92,9 @@ use yii\helpers\Html;
     <?= Pagination::widget($persons->pagination) ?>
 
         <?php elseif (!$persons->getSearch()): ?>
-            <p>You don't have communities in the moment. <?= Html::a('Create community', ['create']) ?>
-                or subscribe to one of the existing</p>
+            <p>You don't have people in the moment</p>
         <?php elseif ($persons->getSearch()): ?>
-            <p>You don't have communities for this search</p>
+            <p>You don't have people for this search</p>
         <?php endif; ?>
     </div>
 </div>
