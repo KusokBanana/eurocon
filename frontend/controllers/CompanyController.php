@@ -104,7 +104,9 @@ class CompanyController extends CommunityController
 
         if ($company->load(Yii::$app->request->post())) {
             $companyId = $company->createNew();
-            return $this->redirect(['view', 'id' => $companyId]);
+            if ($companyId) {
+                return $this->redirect(['view', 'id' => $companyId]);
+            }
         }
 
         return $this->render('create', compact('company'));

@@ -71,7 +71,10 @@ class Company extends Community
             [['name', 'email'], 'string', 'max' => 126],
             [['phone'], 'string', 'max' => 65],
             ['imageFile', 'image', 'maxSize' => self::IMAGE_SIZE, 'extensions' => 'png, jpg, gif'],
-            [['name', 'type', 'chat_me_able_id', 'invite_project_able_id'], 'required'],
+            [['name'], 'required'],
+            ['type', 'default', 'value' => 1],
+            ['invite_project_able_id', 'default', 'value' => 1],
+            ['chat_me_able_id', 'default', 'value' => 1],
             [['type', 'chat_me_able_id', 'invite_project_able_id'], 'integer'],
             [['birthday', 'tagValues', 'participants', 'admins'], 'safe'],
             [['name', 'email', 'specialty', 'site', 'background'], 'string', 'max' => 126],
@@ -166,16 +169,11 @@ class Company extends Community
     public function createNew()
     {
 
+        $this->saveImage('image');
+        $this->validate();
         if ($this->save()) {
-            $newAdmin = new BookAdminCompany();
-            $newAdmin->admin_id = Yii::$app->user->id;
-            $newAdmin->company_id = $this->id;
-
-            $this->saveImage('image');
-
-            if ($newAdmin->validate() && $newAdmin->save()) {
-                return $this->id;
-            }
+            BookAdminCompany::addNew(Person::get()->id, $this->id);
+            return $this->id;
         }
 
     }
