@@ -1,5 +1,6 @@
 <?php
 use frontend\models\Community;
+use frontend\models\MarketplaceItem;
 use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -50,6 +51,25 @@ $id = \yii\helpers\ArrayHelper::getValue($data, 'id');
                         ])->label(null, [
                         'class' => 'col-xs-12 col-xl-12 col-md-3 form-control-label'
                     ]) ?>
+                    <?= $form->field($model, 'item_type_id', ['template' => $templateInput])
+                        ->radioList(
+                            [
+                                MarketplaceItem::ITEM_TYPE_OFFER => 'Offer',
+                                MarketplaceItem::ITEM_TYPE_REQUEST => 'Request'
+                            ],
+                            ['class' => 'col-md-9 col-xs-9 col-xl-9 col-lg-9 p-l-0',
+                                'style' => 'text-align:left;',
+                                'item' => function($index, $label, $name, $checked, $value) {
+                                    $return = '<div class="radio-custom radio-default radio-inline m-l-10">';
+                                    $return .= '<input type="radio" ' .
+                                        ' name="' . $name . '" id="'.$name.'-'.$index.'" '.
+                                        'value="' . $value . '">';
+                                    $return .= '<label for="'.$name.'-'.$index.'" '.'">'.$label.'</label>';
+                                    $return .= '</div>';
+
+                                    return $return;
+                                }])
+                        ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']); ?>
                 <?php ActiveForm::end(); ?>
             </div>
             <div class="modal-footer">
