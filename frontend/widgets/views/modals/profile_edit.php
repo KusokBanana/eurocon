@@ -57,13 +57,14 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9
                                         ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
 
                                     <?= $form->field($model, 'surname', ['template' => $templateInput])
-                                        ->textInput(['class' => 'form-control', 'placeholder' => 'Name',
+                                        ->textInput(['class' => 'form-control', 'placeholder' => 'Last Name',
                                             'autocomplete' => 'off'])
                                         ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
 
                                     <?= $form->field($model, 'gender_id', ['template' => $templateInput])
                                         ->radioList(Person::$genders,
-                                            ['class' => 'col-md-9 col-xs-9 col-xl-9 col-lg-9',
+                                            ['class' => 'col-md-9 col-xs-9 col-xl-9 col-lg-9 p-l-0',
+                                            'style' => 'text-align:left;',
                                             'item' => function($index, $label, $name, $checked, $value) {
                                                 $checked = $checked ? ' checked ' : '';
                                                 $return = '<div class="radio-custom radio-default radio-inline m-l-10">';

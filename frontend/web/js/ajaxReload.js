@@ -86,6 +86,12 @@ $(document).ready(function() {
     }
 
 
+    $('.modal').on('shown.bs.modal', function () {
+        if (typeof initialize === 'function') {
+            initialize();
+        }
+    })
+
     // Another ajax function (for download preview images after change file input)
     function handleFileSelect(e) {
         var files = e.target.files; // FileList object
