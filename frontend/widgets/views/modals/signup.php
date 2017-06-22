@@ -9,7 +9,7 @@ $isAjax = \yii\helpers\ArrayHelper::getValue($data, 'isAjax', false);
 ?>
 <?php if (!$isAjax): ?>
 <div class="modal fade" id="ajaxSignModal" aria-labelledby="exampleGrid" role="dialog"
-     tabindex="-1" aria-hidden="true" style="display: none;">
+     aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="page vertical-align text-xs-center" data-animsition-in="fade-in" data-animsition-out="fade-out">
@@ -44,6 +44,21 @@ $isAjax = \yii\helpers\ArrayHelper::getValue($data, 'isAjax', false);
                             ]) ?>
                         <?= $form->field($model, 'surname')
                             ->textInput(['autofocus' => true, 'placeholder' => 'Last Name'])->label(null, [
+                                'class' => 'sr-only'
+                            ]) ?>
+                        <?= $form->field($model, 'country')
+                            ->dropDownList([], [
+                                'autofocus' => true,
+                                'id' => 'geoCountry',
+                            ])->label(null, [
+                                'class' => 'sr-only'
+                            ]) ?>
+                        <?= $form->field($model, 'city')
+                            ->dropDownList([], [
+                                'autofocus' => true,
+                                'placeholder' => 'Select a city ...',
+                                'id' => 'geoCity'
+                            ])->label(null, [
                                 'class' => 'sr-only'
                             ]) ?>
                         <?= $form->field($model, 'phone')

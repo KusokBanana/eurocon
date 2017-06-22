@@ -836,6 +836,12 @@ ul.site-menu {
   position: relative;
   z-index: 0;
 }
+.select2-results {
+  color: black;
+}
+.select2-container.select2-container--default.select2-container--open {
+  z-index: 9990;
+}
 
 .page-dark.layout-full::before {
   position: fixed;

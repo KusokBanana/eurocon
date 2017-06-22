@@ -35,6 +35,8 @@ use yii\web\IdentityInterface;
  * @property string $notice_ids [varchar(16)]
  * @property string $background [varchar(126)]
  * @property int $last_seen
+ * @property string $country
+ * @property string $city
  */
 class User extends ActiveRecord implements IdentityInterface
 {

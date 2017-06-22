@@ -138,6 +138,7 @@ $(document).ready(function() {
                     $modal.remove();
                     $('body').append(data);
                     $('#ajaxSignModal').attr('data-href', href).modal();
+                    initGeoSignupSelects();
                 }
             },
             error: function (jqXhr, textStatus, errorThrown) {
@@ -164,6 +165,7 @@ $(document).ready(function() {
                     var content = data.content;
                     if (data.success) {
                         form.closest('.ajax-content-block').replaceWith(content);
+                        initGeoSignupSelects();
                         var href = modal.attr('data-href');
                         if (!!href) {
                             window.location.href = href;
@@ -188,6 +190,7 @@ $(document).ready(function() {
             success: function(data) {
                 if (data) {
                     button.closest('.ajax-content-block').replaceWith(data);
+                    initGeoSignupSelects();
                 }
             }
         })
@@ -251,5 +254,44 @@ $(document).ready(function() {
         setInterval(updateContent, 4000);
 
     }
+
+    function initGeoSignupSelects() {
+        var geoCountrySelect = $('#geoCountry');
+        var geoCitySelect = $('#geoCity');
+        if (geoCountrySelect.length) {
+
+            var select2Data = [];
+            $.ajax({
+                url: '/site/get-countries',
+                dataType: 'json',
+                async: false,
+                success: function(data) {
+                    select2Data = data;
+                }
+            });
+
+            geoCountrySelect.select2({
+                data: select2Data,
+                placeholder: 'Select a country ...'
+            });
+            geoCitySelect.select2();
+
+            $('body').on('change', '#geoCountry', function(e) {
+                var value = $(this).val();
+                if (value) {
+                    geoCitySelect.select2().val(null).select2({
+                        ajax: {
+                            url: '/site/get-countries?country='+value,
+                            dataType: 'json',
+                            delay: 250,
+                            cache: true
+                        }
+                    });
+                }
+            })
+
+        }
+    }
+
 
 });

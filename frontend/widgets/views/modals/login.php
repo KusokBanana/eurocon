@@ -9,7 +9,7 @@ $isAjax = \yii\helpers\ArrayHelper::getValue($data, 'isAjax', false);
 ?>
 <?php if (!$isAjax): ?>
 <div class="modal fade" id="ajaxSignModal" aria-labelledby="exampleGrid"
-     role="dialog" tabindex="-1" data-href=""
+     role="dialog" data-href=""
      aria-hidden="true" style="display: none;">
     <div class="modal-dialog">
         <div class="modal-content">

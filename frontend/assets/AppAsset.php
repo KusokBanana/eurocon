@@ -31,6 +31,7 @@ class AppAsset extends AssetBundle
         '/css/message.min.css',
         '/vendor/sliptree-bootstrap-tokenfield/dist/css/bootstrap-tokenfield.min.css',
         '/vendor/sliptree-bootstrap-tokenfield/dist/css/tokenfield-typeahead.min.css',
+        '/vendor/plugin_select2/dist/css/select2.min.css',
         // fonts
         '/fonts/web-icons/web-icons.min.css',
         '/fonts/brand-icons/brand-icons.min.css',
@@ -99,6 +100,7 @@ class AppAsset extends AssetBundle
         '/vendor/sliptree-bootstrap-tokenfield/dist/bootstrap-tokenfield.min.js',
         '/js/Message.js',
         '/js/Plugin/message.js',
+        '/vendor/plugin_select2/dist/js/select2.min.js',
     ];
     public $depends = [
         'yii\web\YiiAsset',

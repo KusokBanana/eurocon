@@ -4,6 +4,7 @@
 /* @var $form yii\bootstrap\ActiveForm */
 /* @var $model \frontend\models\SignupForm */
 
+use kartik\select2\Select2;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
@@ -44,19 +45,17 @@ $this->registerCssFile('@web/css/register.min.css')
         ->textInput(['autofocus' => true, 'placeholder' => 'Last Name'])->label(null, [
             'class' => 'sr-only'
         ]) ?>
-<!--    --><?//= $form->field($model, 'country')
-//        ->textInput([
-//                'autofocus' => true,
-//                'placeholder' => 'Country',
-//                'onFocus' => 'geolocate()',
-//                'id' => 'geoAutocomplete',
-//            ])->label(null, [
-//            'class' => 'sr-only'
-//        ]) ?>
-<!--    --><?//= $form->field($model, 'city')
-//        ->textInput(['autofocus' => true, 'placeholder' => 'City'])->label(null, [
-//            'class' => 'sr-only'
-//        ]) ?>
+    <?= $form->field($model, 'country')
+        ->dropDownList([], [
+            'autofocus' => true,
+            'id' => 'geoCountry',
+        ])->label(null, [
+        'class' => 'sr-only'
+        ]) ?>
+    <?= $form->field($model, 'city')
+        ->dropDownList([], ['autofocus' => true, 'placeholder' => 'Select a city ...', 'id' => 'geoCity',])->label(null, [
+            'class' => 'sr-only'
+        ]) ?>
     <?= $form->field($model, 'phone')
         ->textInput(['autofocus' => true, 'placeholder' => 'Phone'])->label(null, [
             'class' => 'sr-only'

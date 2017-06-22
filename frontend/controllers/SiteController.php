@@ -14,6 +14,7 @@ use UploadHandler;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\bootstrap\Modal;
+use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
 use yii\helpers\VarDumper;
 use yii\web\BadRequestHttpException;
@@ -340,5 +341,37 @@ class SiteController extends Controller
         }
 
     }
+
+    public function actionGetCountries($country = false)
+    {
+
+        $filename = Yii::getAlias('@frontend/web/includes/countries.json');
+        $countries = file_get_contents($filename);
+        $countries = Json::decode($countries, true);
+        $q = Yii::$app->request->get('q');
+        if (!$country) {
+            $data = array_keys($countries);
+            $result = ArrayHelper::getColumn($data, function ($element) {
+                return ['id' => $element, 'text' => $element];
+            });
+            $result[0] = '';
+        } else {
+            $data = ArrayHelper::getValue($countries, $country, []);
+            $result = [];
+            foreach ($data as $value) {
+                if ($q && mb_strstr(mb_strtolower($value), mb_strtolower($q)))
+                    $result[] = ['id' => $value, 'text' => $value];
+            }
+        }
+
+
+        if ($country) {
+            $result = ['results' => $result];
+        }
+
+        return Json::encode($result);
+
+    }
+
 
 }

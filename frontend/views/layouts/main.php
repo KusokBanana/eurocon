@@ -18,7 +18,7 @@ use common\widgets\Alert;
 
 AppAsset::register($this);
 $user = Person::get();
-$this->registerJsFile('@web/js/ajaxReload.js', ['depends' => [AppAsset::className()]])
+$this->registerJsFile('@web/js/ajaxReload.js', ['depends' => AppAsset::className()]);
 ?>
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
@@ -381,8 +381,5 @@ $this->registerJsFile('@web/js/ajaxReload.js', ['depends' => [AppAsset::classNam
                 });
             }
         }
-    </script>
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAQOPXYob7TnbxAsrMsOhlBeBDJRfT7bYE&libraries=places&callback=initAutocomplete"
-            async defer></script>
 </html>
 <?php $this->endPage() ?>
