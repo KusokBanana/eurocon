@@ -11,6 +11,7 @@ use frontend\models\Tag;
 use Yii;
 use yii\helpers\ArrayHelper;
 use yii\helpers\Json;
+use yii\helpers\VarDumper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 
@@ -110,6 +111,21 @@ class CompanyController extends CommunityController
         }
 
         return $this->render('create', compact('company'));
+    }
+
+    public function actionCreateMarketplaceItem($id)
+    {
+
+        $item = new MarketplaceItem();
+
+        if ($item->load(Yii::$app->request->post())) {
+            $item->owner_id = Person::get()->id;
+            if ($item->save()) {
+                BookMarketplace::add($id, $item->id, BookMarketplace::TYPE_FOR_COMPANY);
+            }
+        }
+
+        return $this->redirect(['view', 'id' => $id]);
     }
 
     public function actionJoin($id)

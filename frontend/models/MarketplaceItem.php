@@ -112,8 +112,9 @@ class MarketplaceItem extends ActiveRecord
     public function rules()
     {
         return [
-            [['item_type_id', 'name'], 'required'],
+            [['name'], 'required'],
             [['item_type_id', 'type_id', 'status_id', 'budget_id', 'category_id'], 'integer'],
+            ['item_type_id', 'default', 'value' => 1], // TODO is this attr need??
             [['description'], 'string'],
             [['owner_id'], 'safe'],
             [['name'], 'string', 'max' => 255],

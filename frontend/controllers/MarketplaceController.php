@@ -152,5 +152,4 @@ class MarketplaceController extends Controller
 
     }
 
-
 }

@@ -233,7 +233,7 @@ use yii\helpers\Html;
                             </div>
                             <div class="tab-pane active" id="marketplace" role="tabpanel" aria-expanded="true">
                                 <?= $this->render('/tabs/_marketplace', [
-                                    'items' => $marketplace->joinExtraData(['isWithFilters' => false])
+                                    'items' => $marketplace->joinExtraData(['isWithFilters' => true])
                                 ]) ?>
                             </div>
                         </div>
@@ -254,7 +254,7 @@ use yii\helpers\Html;
 <?= CustomModal::widget([
     'type' => 'add_marketplace_item',
     'model' => $newMarketplaceItem,
-    'additionalData' => []
+    'additionalData' => ['id' => $company->id]
 ]) ?>
 <?php endif; ?>
 
