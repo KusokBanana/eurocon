@@ -26,7 +26,9 @@ $this->params['is_main'] = true;
                     </div>
                     <div class="col-xs-12	col-sm-6 col-md-6 col-lg-6 p-t-20 m-t-70">
                         <h1 class="black"><b>Join to the community</b></h1>
-                        <p><h4 class="black"><b>Create your team, start your new project, engage participants! Everyone will see your job and you will see jobs of everyone. Join to Eurocon.<b></h4></p>
+                        <p><h4 class="black"><b>Create your team, start your new project, engage participants!
+                                Everyone will see your job and you will see jobs of everyone. Join to Eurocon.</b>
+                        </h4></p>
                         <?= Html::a('<span><i class="icon wb-hammer" aria-hidden="true"></i>Create a project</span>',
                             ['/project/create'],
                             ['class' => 'btn btn-dark btn-animate btn-animate-side m-t-20 ' .

@@ -90,7 +90,7 @@ $(document).ready(function() {
         if (typeof initialize === 'function') {
             initialize();
         }
-    })
+    });
 
     // Another ajax function (for download preview images after change file input)
     function handleFileSelect(e) {
@@ -261,6 +261,8 @@ $(document).ready(function() {
 
     }
 
+
+    initGeoSignupSelects();
     function initGeoSignupSelects() {
         var geoCountrySelect = $('#geoCountry');
         var geoCitySelect = $('#geoCity');
@@ -278,9 +280,16 @@ $(document).ready(function() {
 
             geoCountrySelect.select2({
                 data: select2Data,
-                placeholder: 'Select a country ...'
+                placeholder: {
+                    id: 0,
+                    text: 'Select a country ...'
+                }
             });
-            geoCitySelect.select2();
+            geoCitySelect.select2({
+                placeholder: {
+                    id: 0,
+                    text: 'Select a city ...'
+                }});
 
             $('body').on('change', '#geoCountry', function(e) {
                 var value = $(this).val();
