@@ -10,12 +10,11 @@ use yii\helpers\Url;
 $this->params['is_main'] = true;
 ?>
 
-
 <div class="page bg-white">
     <div class="page-content">
         <header class="business-header" style="
     height: 400px;
-    background: url(<?= Url::to('@web/img/layer_images/main_page-background.jpg') ?>) center center no-repeat scroll;
+    background: url(<?= Url::to('@web/img/layer_images/ver.jpg') ?>) center center no-repeat scroll;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     background-size: cover;
@@ -26,8 +25,8 @@ $this->params['is_main'] = true;
 
                     </div>
                     <div class="col-xs-12	col-sm-6 col-md-6 col-lg-6 p-t-20 m-t-70">
-                        <h2>Join to the community</h2>
-                        <p>Create your team, start your new project, engage participants! Everyone will see your job and you will see jobs of everyone. Join to Eurocon.</p>
+                        <h1 class="black"><b>Join to the community</b></h1>
+                        <p><h4 class="black"><b>Create your team, start your new project, engage participants! Everyone will see your job and you will see jobs of everyone. Join to Eurocon.<b></h4></p>
                         <?= Html::a('<span><i class="icon wb-hammer" aria-hidden="true"></i>Create a project</span>',
                             ['/project/create'],
                             ['class' => 'btn btn-dark btn-animate btn-animate-side m-t-20 ' .
