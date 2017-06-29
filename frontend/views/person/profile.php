@@ -125,20 +125,26 @@ $this->title = 'Eurocon / profile';
                                            table-layout: fixed; min-width: 200px;">
                                         <tbody>
                                         <tr>
-                                            <td>Birthday</td>
-                                            <td><?= date('d.m.Y', strtotime($person->birthday)) ?></td>
+                                            <td colspan="2">
+                                                <p class="table-label">Birthday</p>
+                                                <?= date('d.m.Y', strtotime($person->birthday)) ?>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Email</td>
-                                            <td><?= $person->email ?></td>
+                                            <td colspan="2">
+                                                <p class="table-label">Email</p>
+                                                <?= $person->email ?>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Phone</td>
-                                            <td><?= $person->phone ?></td>
+                                            <td colspan="2">
+                                                <p class="table-label">Phone</p>
+                                                <?= $person->phone ?>
+                                            </td>
                                         </tr>
                                         <tr>
-                                            <td>Languages</td>
-                                            <td>
+                                            <td colspan="2">
+                                                <p class="table-label">Languages</p>
                                                 <?= Html::img('@web/img/examples/country/germany-icon.png', [
                                                     'title' => 'Germany',
                                                     'alt' => 'GermanyGermany',
@@ -150,8 +156,9 @@ $this->title = 'Eurocon / profile';
                                             </td>
                                         </tr>
                                         <tr>
-                                            <td>Competence</td>
-                                            <td><?php
+                                            <td colspan="2">
+                                                <p class="table-label">Competence</p>
+                                                <?php
                                                 if (!empty($person->ownTags)) {
                                                     foreach ($person->ownTags as $tag) {
                                                         echo '<span class="tag tag-round tag-primary">'.

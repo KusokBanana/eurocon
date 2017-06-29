@@ -177,28 +177,38 @@ use yii\helpers\Html;
                             <table class="table table-sm">
                                 <tbody>
                                 <tr>
-                                    <td>Location</td>
-                                    <td><?= ArrayHelper::getValue($company->location, 'name'); ?></td>
+                                    <td colspan="2">
+                                        <p class="table-label">Location</p>
+                                        <?= ArrayHelper::getValue($company->location, 'name'); ?>
+                                    </td>
                                 </tr>
 <!--                                        <tr>-->
 <!--                                            <td>Countries</td>-->
 <!--                                            <td>Austria, Germany, Poland</td>-->
 <!--                                        </tr>-->
                                 <tr>
-                                    <td>Types of jobs</td>
-                                    <td><?= join(',', ArrayHelper::getColumn($company->tags, 'tag')); ?></td>
+                                    <td colspan="2">
+                                        <p class="table-label">Types of jobs</p>
+                                        <?= join(',', ArrayHelper::getColumn($company->tags, 'tag')); ?>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Email</td>
-                                    <td><?= $company->email ?></td>
+                                    <td colspan="2">
+                                        <p class="table-label">Email</p>
+                                        <?= $company->email ?>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Phone</td>
-                                    <td><?= $company->phone ?></td>
+                                    <td colspan="2">
+                                        <p class="table-label">Phone</p>
+                                        <?= $company->phone ?>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td>Company Foundation</td>
-                                    <td><?= date('d.m.Y', strtotime($company->birthday)) ?></td>
+                                    <td colspan="2">
+                                        <p class="table-label">Company Foundation</p>
+                                        <?= date('d.m.Y', strtotime($company->birthday)) ?>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
