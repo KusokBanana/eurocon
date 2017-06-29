@@ -15,6 +15,7 @@ use frontend\assets\AppAsset;
 use frontend\models\Project;
 use frontend\widgets\CustomModal;
 use frontend\widgets\Forum;
+use voime\GoogleMaps\Map;
 use yii\helpers\Html;
 
 $this->registerJsFile('@web/js/project.js',  ['depends' => [AppAsset::className()]]);
@@ -48,11 +49,40 @@ $this->registerJsFile('@web/js/Plugin/input-group-file.min.js',  ['depends' => [
                     <div class="panel-body">
 
                         <div class="media">
-                            <div class="media-body">
-                                <?= ($project->imageShow !== Project::getDefaultAvatar()) ?
-                                    Html::img($project->imageShow, ['class' => 'm-t-30 m-b-20']) : ''; ?>
+                            <div class="media-body row">
+                                <?php $isMap = !is_null($project->location); ?>
+                                <?php $isImage = ($project->imageShow !== Project::getDefaultAvatar()); ?>
+                                <?php $imageHeight = $isImage ?
+                                    getimagesize(Yii::getAlias('@frontend') . '/web'.$project->imageShow)[1] :
+                                    '300'; ?>
+                                <div class="col-xs-<?= $isMap ? '6' : '12'; ?>">
+                                    <?= $isImage ?
+                                        Html::img($project->imageShow,
+                                            ['class' => 'm-t-30 m-b-20', 'style' => 'max-width:100%']) : ''; ?>
+                                    <?php if ($isMap): ?>
+                                </div>
+                                <div class="col-xs-<?= $isImage ? '6' : '12'; ?> p-t-30 p-b-20">
+                                    <?= Map::widget([
+                                        'height' => $imageHeight.'px',
+                                        'zoom' => '10',
+                                        'center' => $project->location['name'],
+                                        'markers' => [
+                                            [
+                                                'position' => $project->location['name'],
+                                                'title' => 'marker title',
+                                                'content' => 'InfoWindow content',
+                                                'options' => ["icon" => "'" .
+                                                    Yii::getAlias('@web/vendor/mapbox-js/marker-icon.png') . "'"]
+                                            ]
+                                        ],
+                                        'mapOptions' => [
+                                            'maxZoom' => '15'
+                                        ],
+                                    ]) ?>
+                                    <?php endif; ?>
+                                </div>
 <!--                                <h4  class="media-heading">Getting Started</h4>-->
-                                <?= ($project->description) ? '<p class="m-b-30">' .
+                                <?= ($project->description) ? '<p class="col-xs-12 m-b-30">' .
                                     $project->description . '</p>' : ''; ?>
                             </div>
                         </div>

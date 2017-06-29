@@ -359,6 +359,7 @@ class Project extends ActiveRecord
 
     public function createNew()
     {
+        Location::setAttribute($this);
         if ($this->validate() && $this->save()) {
 
             if ($this->id) {

@@ -8,6 +8,8 @@ use dosamigos\selectize\SelectizeTextInput;
 use frontend\models\Project;
 use justinvoelker\tagging\TaggingWidget;
 use pudinglabs\tagsinput\TagsinputWidget;
+use voime\GoogleMaps\MapInput;
+use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 use kartik\select2\Select2;
 use dosamigos\taggable\Taggable;
@@ -72,31 +74,34 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-12">{input
                                         'autocomplete' => 'off'])
                                     ->label(null, ['class' => 'col-xs-12 col-md-3 form-control-label']) ?>
 
-                                <?= $form->field($newProject, 'participants', ['template' => $templateInput])
-                                    ->widget(Select2::classname(),
-                                        [
-                                            'data' => $follows,
-                                            'options' => ['placeholder' => 'Search Participants..', 'multiple' => true],
-                                            'class' => 'form-control',
-                                            'maintainOrder' => true,
-                                            'pluginOptions' => [
-                                                'tokenSeparators' => [',', ' '],
-                                                'maximumInputLength' => 10
-                                            ],
-                                        ])->label(null, ['class' => 'col-xs-12 col-md-3 form-control-label']); ?>
+                                <?= $form->field($newProject, 'location[name]', ['template' => $templateInput])
+                                    ->textInput(['class' => 'form-control', 'placeholder' => 'Saltsburg, Austria',
+                                        'id'=>'address-input'])
+                                    ->label(null, ['class' => 'col-xs-12 col-md-3 form-control-label']) ?>
 
-                                <?= $form->field($newProject, 'owners', ['template' => $templateInput])
-                                    ->widget(Select2::classname(),
-                                        [
-                                            'data' => $follows,
-                                            'options' => ['placeholder' => 'John Smith and ..', 'multiple' => true],
-                                            'class' => 'form-control',
-                                            'maintainOrder' => true,
-                                            'pluginOptions' => [
-                                                'tokenSeparators' => [',', ' '],
-                                                'maximumInputLength' => 10
-                                            ],
-                                        ])->label(null, ['class' => 'col-xs-12 col-md-3 form-control-label']); ?>
+                                <div class="col-xs-12 col-md-3 form-control-label"></div>
+                                <div class="col-md-9 col-xs-12 m-b-15">
+                                    <?php echo MapInput::widget([
+                                        'height' => '200px',
+                                        'width' => '50%',
+//                                    'zoom' => 3,
+//                                    'center' => [51, 30],
+                                        'countryInput' => 'country-input',
+                                        'mapOptions' => [
+                                            'maxZoom' => '15',
+                                        ],
+                                        'markerOptions' => [
+                                            'icon'=>"'" . Yii::getAlias('@web/vendor/mapbox-js/marker-icon.png') . "'",
+                                        ],
+                                    ]); ?>
+                                </div>
+
+
+                                <?= $form->field($newProject, 'location[latitude]')
+                                    ->hiddenInput(['id' => 'lat-input'])->label(false) ?>
+                                <?= $form->field($newProject, 'location[longitude]')
+                                    ->hiddenInput(['id' => 'lng-input'])->label(false) ?>
+                                <?=Html::hiddenInput('country', null, ['id'=>'country-input']); ?>
 
                                 <?= $form->field($newProject, 'description', ['template' => $templateInput])
                                     ->textarea(
@@ -105,6 +110,34 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-12">{input
                                         'placeholder' => 'Briefly Describe Your Project',
                                     ])
                                     ->label(null, ['class' => 'col-xs-12 col-md-3 form-control-label']) ?>
+
+                                <?php $templateFileInput =
+                                    '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">'.
+                                    '<div class="input-group input-group-file" data-plugin="inputGroupFile">'.
+                                    Html::textInput('', null, ['class' => 'form-control', 'readonly' => '']).
+                                    '<span class="input-group-btn">'.
+                                    '<span class="btn btn-outline btn-file">'.
+                                    '<i class="icon wb-upload" aria-hidden="true"></i>{input}</span></span></div>'.
+                                    '<small class="text-danger">{error}</small></div></div>'; ?>
+
+                                <?= $form->field($newProject, 'imageFile', ['template' => $templateFileInput])
+                                    ->fileInput(['class' => 'image-input-with-preview'])
+                                    ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+                                <div class="row image-input-preview-block"></div>
+
+                                <?php $templateFileInput =
+                                    '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">'.
+                                    '<div class="input-group input-group-file" data-plugin="inputGroupFile">'.
+                                    Html::textInput('', null, ['class' => 'form-control', 'readonly' => '']).
+                                    '<span class="input-group-btn">'.
+                                    '<span class="btn btn-outline btn-file">'.
+                                    '<i class="icon wb-upload" aria-hidden="true"></i>{input}</span></span></div>'.
+                                    '<small class="text-danger">{error}</small></div></div>'; ?>
+
+                                <?= $form->field($newProject, 'backgroundFile', ['template' => $templateFileInput])
+                                    ->fileInput(['class' => 'image-input-with-preview'])
+                                    ->label(null, ['class' => 'col-xs-3 col-md-3 col-xl-3 col-lg-3 form-control-label']) ?>
+                                <div class="row image-input-preview-block"></div>
 
                             </div>
 
@@ -133,6 +166,32 @@ $templateInput = '<div class="row">{label}<div class="col-md-9 col-xs-12">{input
                                 <?= $form->field($newProject, 'editability_id', ['template' => $templateInput])
                                     ->dropDownList(Project::$editability, ['class' => 'form-control'])
                                     ->label(null, ['class' => 'col-xs-12 col-md-3 form-control-label']) ?>
+
+                                <?= $form->field($newProject, 'participants', ['template' => $templateInput])
+                                    ->widget(Select2::classname(),
+                                        [
+                                            'data' => $follows,
+                                            'options' => ['placeholder' => 'Search Participants..', 'multiple' => true],
+                                            'class' => 'form-control',
+                                            'maintainOrder' => true,
+                                            'pluginOptions' => [
+                                                'tokenSeparators' => [',', ' '],
+                                                'maximumInputLength' => 10
+                                            ],
+                                        ])->label(null, ['class' => 'col-xs-12 col-md-3 form-control-label']); ?>
+
+                                <?= $form->field($newProject, 'owners', ['template' => $templateInput])
+                                    ->widget(Select2::classname(),
+                                        [
+                                            'data' => $follows,
+                                            'options' => ['placeholder' => 'John Smith and ..', 'multiple' => true],
+                                            'class' => 'form-control',
+                                            'maintainOrder' => true,
+                                            'pluginOptions' => [
+                                                'tokenSeparators' => [',', ' '],
+                                                'maximumInputLength' => 10
+                                            ],
+                                        ])->label(null, ['class' => 'col-xs-12 col-md-3 form-control-label']); ?>
 
                                 <?= $form->field($newProject, 'tagValues', ['template' => $templateInput])
                                     ->textInput([
