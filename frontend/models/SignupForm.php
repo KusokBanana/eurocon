@@ -3,6 +3,7 @@ namespace frontend\models;
 
 use yii\base\Model;
 use common\models\User;
+use yii\helpers\VarDumper;
 
 /**
  * Signup form
@@ -16,8 +17,9 @@ class SignupForm extends Model
     public $name;
     public $surname;
     public $phone;
-    public $country;
-    public $city;
+//    public $country;
+//    public $city;
+    public $location;
 
 
     /**
@@ -35,7 +37,7 @@ class SignupForm extends Model
             ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
-            ['email', 'unique', 'targetClass' => '\common\models\User', 'message' => 'This email address has already been taken.'],
+            ['email', 'unique', 'targetClass' => '\frontend\models\Person', 'message' => 'This email address has already been taken.'],
 
             ['password', 'required'],
             ['password', 'string', 'min' => 6],
@@ -43,8 +45,10 @@ class SignupForm extends Model
             ['confirm_password', 'compare', 'compareAttribute'=>'password', 'message'=>"Passwords don't match" ],
 
             [['name', 'surname', 'phone'], 'string'],
-            [['country', 'city'], 'required'],
-            [['country', 'city'], 'string', 'max' => 165],
+//            [['country', 'city'], 'required'],
+            ['location', 'safe'],
+            ['location', 'required'],
+//            [['country', 'city'], 'string', 'max' => 165],
  ];
     }
 
@@ -65,8 +69,10 @@ class SignupForm extends Model
         $user->name = $this->name;
         $user->surname = $this->surname;
         $user->phone = $this->phone;
-        $user->country = $this->country;
-        $user->city = $this->city;
+        Location::setAttribute($this);
+        $user->location = $this->location;
+//        $user->country = $this->country;
+//        $user->city = $this->city;
         $user->setPassword($this->password);
         $user->generateAuthKey();
         

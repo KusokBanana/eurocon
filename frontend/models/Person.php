@@ -106,7 +106,7 @@ class Person extends User
     {
         return [
             [['gender_id', 'chat_me_able_id', 'invite_project_able_id'], 'integer'],
-            [['username', 'name', 'country', 'city'], 'required'],
+            [['username', 'name'/*, 'country', 'city'*/], 'required'],
             [['birthday'], 'safe'],
             [['username', 'email'], 'string', 'max' => 255],
             [['phone', 'image', 'surname', 'name'], 'string', 'max' => 65],
@@ -114,9 +114,9 @@ class Person extends User
             [['password_reset_token'], 'unique'],
             ['status', 'default', 'value' => self::STATUS_ACTIVE],
             ['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_DELETED]],
-            ['language_ids', 'string'],
+            [['location', 'language_ids'], 'string'],
             [['country', 'city'], 'string', 'max' => 165],
-            [['position', 'location', 'site', 'background'], 'string', 'max' => 126],
+            [['position', 'site', 'background'], 'string', 'max' => 126],
             [['language_ids', 'notice_ids', 'tagValues'], 'safe'],
             [['imageFile', 'backgroundFile'], 'file', 'extensions' => 'png, jpg'],
         ];

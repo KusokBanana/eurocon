@@ -5,13 +5,13 @@
 /* @var $model \frontend\models\SignupForm */
 
 use kartik\select2\Select2;
+use voime\GoogleMaps\MapInput;
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
 $this->title = 'Signup';
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['body-class'] = 'page-register page-dark';
-
 $this->registerCssFile('@web/css/register.min.css')
 ?>
 
@@ -45,17 +45,34 @@ $this->registerCssFile('@web/css/register.min.css')
         ->textInput(['autofocus' => true, 'placeholder' => 'Last Name'])->label(null, [
             'class' => 'sr-only'
         ]) ?>
-    <?= $form->field($model, 'country')
-        ->dropDownList([], [
-            'autofocus' => true,
-            'id' => 'geoCountry',
-        ])->label(null, [
-        'class' => 'sr-only'
-        ]) ?>
-    <?= $form->field($model, 'city')
-        ->dropDownList([], ['autofocus' => true, 'placeholder' => 'Select a city ...', 'id' => 'geoCity',])->label(null, [
-            'class' => 'sr-only'
-        ]) ?>
+<!--    --><?//= $form->field($model, 'country')
+//        ->dropDownList([], [
+//            'autofocus' => true,
+//            'id' => 'geoCountry',
+//        ])->label(null, [
+//        'class' => 'sr-only'
+//        ]) ?>
+<!--    --><?//= $form->field($model, 'city')
+//        ->dropDownList([], ['autofocus' => true, 'placeholder' => 'Select a city ...', 'id' => 'geoCity',])->label(null, [
+//            'class' => 'sr-only'
+//        ]) ?>
+
+    <?= $form->field($model, 'location[name]')
+        ->textInput(['placeholder' => 'Saltsburg, Austria',
+            'id'=>'address-input', 'required' => ''])
+        ->label(null, ['class' => 'sr-only']) ?>
+
+    <?php echo MapInput::widget([
+        'height' => '0',
+        'countryInput' => 'country-input'
+    ]); ?>
+
+    <?= $form->field($model, 'location[latitude]', ['template' => '{input}', 'options' => ['class' => 'hidden']])
+        ->hiddenInput(['id' => 'lat-input'])->label(false) ?>
+    <?= $form->field($model, 'location[longitude]', ['template' => '{input}', 'options' => ['class' => 'hidden']])
+        ->hiddenInput(['id' => 'lng-input'])->label(false) ?>
+    <?=Html::hiddenInput('country', null, ['id'=>'country-input']); ?>
+
     <?= $form->field($model, 'phone')
         ->textInput(['autofocus' => true, 'placeholder' => 'Phone'])->label(null, [
             'class' => 'sr-only'

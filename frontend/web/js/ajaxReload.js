@@ -144,7 +144,7 @@ $(document).ready(function() {
                     $modal.remove();
                     $('body').append(data);
                     $('#ajaxSignModal').attr('data-href', href).modal();
-                    initGeoSignupSelects();
+                    // initGeoSignupSelects();
                 }
             },
             error: function (jqXhr, textStatus, errorThrown) {
@@ -171,7 +171,7 @@ $(document).ready(function() {
                     var content = data.content;
                     if (data.success) {
                         form.closest('.ajax-content-block').replaceWith(content);
-                        initGeoSignupSelects();
+                        // initGeoSignupSelects();
                         var href = modal.attr('data-href');
                         if (!!href) {
                             window.location.href = href;
@@ -195,8 +195,11 @@ $(document).ready(function() {
             url: '/site/ajax-sign?action=toggle&type='+type,
             success: function(data) {
                 if (data) {
-                    button.closest('.ajax-content-block').replaceWith(data);
-                    initGeoSignupSelects();
+                    try {
+                        button.closest('.ajax-content-block').replaceWith(data);
+                    } catch(e) {
+                        loadScript();
+                    }
                 }
             }
         })
@@ -262,51 +265,51 @@ $(document).ready(function() {
     }
 
 
-    initGeoSignupSelects();
-    function initGeoSignupSelects() {
-        var geoCountrySelect = $('#geoCountry');
-        var geoCitySelect = $('#geoCity');
-        if (geoCountrySelect.length) {
-
-            var select2Data = [];
-            $.ajax({
-                url: '/site/get-countries',
-                dataType: 'json',
-                async: false,
-                success: function(data) {
-                    select2Data = data;
-                }
-            });
-
-            geoCountrySelect.select2({
-                data: select2Data,
-                placeholder: {
-                    id: 0,
-                    text: 'Select a country ...'
-                }
-            });
-            geoCitySelect.select2({
-                placeholder: {
-                    id: 0,
-                    text: 'Select a city ...'
-                }});
-
-            $('body').on('change', '#geoCountry', function(e) {
-                var value = $(this).val();
-                if (value) {
-                    geoCitySelect.select2().val(null).select2({
-                        ajax: {
-                            url: '/site/get-countries?country='+value,
-                            dataType: 'json',
-                            delay: 250,
-                            cache: true
-                        }
-                    });
-                }
-            })
-
-        }
-    }
+    // initGeoSignupSelects();
+    // function initGeoSignupSelects() {
+    //     var geoCountrySelect = $('#geoCountry');
+    //     var geoCitySelect = $('#geoCity');
+    //     if (geoCountrySelect.length) {
+    //
+    //         var select2Data = [];
+    //         $.ajax({
+    //             url: '/site/get-countries',
+    //             dataType: 'json',
+    //             async: false,
+    //             success: function(data) {
+    //                 select2Data = data;
+    //             }
+    //         });
+    //
+    //         geoCountrySelect.select2({
+    //             data: select2Data,
+    //             placeholder: {
+    //                 id: 0,
+    //                 text: 'Select a country ...'
+    //             }
+    //         });
+    //         geoCitySelect.select2({
+    //             placeholder: {
+    //                 id: 0,
+    //                 text: 'Select a city ...'
+    //             }});
+    //
+    //         $('body').on('change', '#geoCountry', function(e) {
+    //             var value = $(this).val();
+    //             if (value) {
+    //                 geoCitySelect.select2().val(null).select2({
+    //                     ajax: {
+    //                         url: '/site/get-countries?country='+value,
+    //                         dataType: 'json',
+    //                         delay: 250,
+    //                         cache: true
+    //                     }
+    //                 });
+    //             }
+    //         })
+    //
+    //     }
+    // }
 
 
 });
