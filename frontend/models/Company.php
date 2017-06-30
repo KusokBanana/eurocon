@@ -169,6 +169,7 @@ class Company extends Community
     public function createNew()
     {
 
+        Location::setAttribute($this);
         $this->saveImage('image');
         $this->validate();
         if ($this->save()) {

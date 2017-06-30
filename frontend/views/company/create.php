@@ -1,5 +1,6 @@
 <?php
 use frontend\models\Company;
+use voime\GoogleMaps\MapInput;
 use yii\bootstrap\ActiveForm;
 use yii\helpers\Html;
 use yii\helpers\Url;
@@ -49,23 +50,23 @@ $template = '{label}<div class="col-md-9 col-xs-12">{input}<small class="text-he
                             <button type="submit" class="fv-hidden-submit" style="display: none; width: 0; height: 0;"></button>
                             <div class="row row-lg">
                                 <div class="col-xs-12 col-xl-12 form-horizontal">
-                                    <div class="form-group row">
-                                        <?= $form->field($company, 'type', [
-                                            'template' => $template
-                                        ])->dropDownList(
-                                                [
-                                                    Company::COMMUNITY_TYPE_COMPANY => 'Company',
-                                                    Company::COMMUNITY_TYPE_TEAM => 'Team',
-                                                    Company::COMMUNITY_TYPE_PUBLIC_PAGE => 'Public Page',
-                                                    Company::COMMUNITY_TYPE_ANOTHER => 'Another',
-                                                ],
-                                                [
-                                                    'autofocus' => true,
-                                                    'prompt' => 'Choose a type',
-                                                ])->label(null, [
-                                                'class' => 'col-xs-12 col-xl-12 col-md-3 form-control-label'
-                                                ]) ?>
-                                    </div>
+<!--                                    <div class="form-group row">-->
+<!--                                        --><?//= $form->field($company, 'type', [
+//                                            'template' => $template
+//                                        ])->dropDownList(
+//                                                [
+//                                                    Company::COMMUNITY_TYPE_COMPANY => 'Company',
+//                                                    Company::COMMUNITY_TYPE_TEAM => 'Team',
+//                                                    Company::COMMUNITY_TYPE_PUBLIC_PAGE => 'Public Page',
+//                                                    Company::COMMUNITY_TYPE_ANOTHER => 'Another',
+//                                                ],
+//                                                [
+//                                                    'autofocus' => true,
+//                                                    'prompt' => 'Choose a type',
+//                                                ])->label(null, [
+//                                                'class' => 'col-xs-12 col-xl-12 col-md-3 form-control-label'
+//                                                ]) ?>
+<!--                                    </div>-->
                                     <div class="form-group row">
                                         <?= $form->field($company, 'name', [
                                             'template' => $template
@@ -77,6 +78,37 @@ $template = '{label}<div class="col-md-9 col-xs-12">{input}<small class="text-he
                                             'class' => 'col-xs-12 col-xl-12 col-md-3 form-control-label'
                                         ]) ?>
                                     </div>
+
+
+                                    <?= $form->field($company, 'location[name]', ['template' => $template])
+                                        ->textInput(['class' => 'form-control', 'placeholder' => 'Saltsburg, Austria',
+                                            'id'=>'address-input'])
+                                        ->label(null, ['class' => 'col-xs-12 col-xl-12 col-md-3 form-control-label']) ?>
+
+                                    <div class="col-xs-12 col-md-3 form-control-label"></div>
+                                    <div class="col-md-9 col-xs-12 m-b-15">
+                                        <?php echo MapInput::widget([
+                                            'height' => '200px',
+//                                    'zoom' => 3,
+//                                    'center' => [51, 30],
+                                            'countryInput' => 'country-input',
+                                            'mapOptions' => [
+                                                'maxZoom' => '15',
+                                            ],
+                                            'markerOptions' => [
+                                                'icon'=>"'" . Yii::getAlias('@web/vendor/mapbox-js/marker-icon.png') . "'",
+                                            ],
+                                        ]); ?>
+                                    </div>
+
+
+                                    <?= $form->field($company, 'location[latitude]')
+                                        ->hiddenInput(['id' => 'lat-input'])->label(false) ?>
+                                    <?= $form->field($company, 'location[longitude]')
+                                        ->hiddenInput(['id' => 'lng-input'])->label(false) ?>
+                                    <?=Html::hiddenInput('country', null, ['id'=>'country-input']); ?>
+
+
                                     <div class="form-group row">
                                         <?php $templateWithAddon = '{label}<div class="col-xl-12 col-md-9 col-xs-12"><div class="input-group">'.
                                         '<span class="input-group-addon"><i class="icon wb-envelope" aria-hidden="true"></i></span>'.
@@ -105,30 +137,45 @@ $template = '{label}<div class="col-md-9 col-xs-12">{input}<small class="text-he
                                             'class' => 'col-xs-12 col-xl-12 col-md-3 form-control-label'
                                         ]) ?>
                                     </div>
-                                    <div class="form-group row">
-                                        <?= $form->field($company, 'description', [
-                                            'template' => $template
-                                        ])->textarea(
-                                            [
-                                                'class' => 'form-control',
-                                                'placeholder' => 'We build...',
-                                                'rows' => '3',
-                                            ])->label(null, [
-                                            'class' => 'col-xs-12 col-xl-12 col-md-3 form-control-label'
-                                        ]) ?>
-                                    </div>
-                                    <div class="example-wrap">
-                                        <h5 class="example-title">Choose image for your company</h5>
-                                        <?php
-                                        $template = '<div class="example">{input}</div>'
-                                        ?>
-                                        <?= $form->field($company, 'image', [
-                                            'template' => $template
-                                        ])->fileInput(
-                                            [
-                                                'class' => 'dropify-event',
-                                            ])->label(false) ?>
-                                    </div>
+
+                                    <?php $templateFileInput =
+                                        '<div class="row">{label}<div class="col-md-9 col-xs-9 col-xl-9 col-lg-9">'.
+                                        '<div class="input-group input-group-file" data-plugin="inputGroupFile">'.
+                                        Html::textInput('', null, ['class' => 'form-control', 'readonly' => '']).
+                                        '<span class="input-group-btn">'.
+                                        '<span class="btn btn-outline btn-file">'.
+                                        '<i class="icon wb-upload" aria-hidden="true"></i>{input}</span></span></div>'.
+                                        '<small class="text-danger">{error}</small></div></div>'; ?>
+
+                                    <?= $form->field($company, 'imageFile', ['template' => $templateFileInput])
+                                    ->fileInput(['class' => 'image-input-with-preview'])
+                                    ->label(null, ['class' => 'col-xs-12 col-xl-12 col-md-3 form-control-label']) ?>
+                                    <div class="row image-input-preview-block"></div>
+
+<!--                                    <div class="form-group row">-->
+<!--                                        --><?//= $form->field($company, 'description', [
+//                                            'template' => $template
+//                                        ])->textarea(
+//                                            [
+//                                                'class' => 'form-control',
+//                                                'placeholder' => 'We build...',
+//                                                'rows' => '3',
+//                                            ])->label(null, [
+//                                            'class' => 'col-xs-12 col-xl-12 col-md-3 form-control-label'
+//                                        ]) ?>
+<!--                                    </div>-->
+
+                                    <?= $form->field($company, 'birthday', ['template' => $template])
+                                        ->textInput([
+                                            'class' => 'form-control',
+                                            'placeholder' => '01-01-1980',
+                                            'data-plugin' => 'datepicker',
+                                            'autocomplete' => 'off',
+                                            'mode'=>'date',
+                                            'data-format' => 'yyyy-mm-dd',
+                                        ])
+                                        ->label(null, ['class' => 'col-xs-12 col-xl-12 col-md-3 form-control-label']) ?>
+
                                 </div>
                                 <div class="form-group col-xs-12 col-xl-12 text-xs-center padding-top-m">
                                     <?= Html::submitButton('Create', ['class' => 'btn btn-primary']) ?>
